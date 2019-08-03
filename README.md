@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby 2.6.2
 
-Things you may want to cover:
+Rails 5.2
 
-* Ruby version
 
-* System dependencies
 
-* Configuration
 
-* Database creation
+# Outstanding Questions
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* how do I validate/edit params on user creation (edit the devise controller)
+* getting user's location from their browser
+* repurpose the search bar to change locations
+* how/where is session data stored (e.g. if user changes locations, where does that get saved)
