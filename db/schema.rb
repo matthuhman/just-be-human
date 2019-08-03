@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_02_194143) do
+ActiveRecord::Schema.define(version: 2019_08_03_150748) do
 
   create_table "counties", force: :cascade do |t|
     t.integer "state_id"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2019_08_02_194143) do
     t.string "state", default: "", null: false
     t.string "country", default: "United States", null: false
     t.index ["user_id"], name: "index_problems_on_user_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.integer "role_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "problem_id"
+    t.index ["problem_id"], name: "index_roles_on_problem_id"
+    t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
   create_table "states", force: :cascade do |t|
