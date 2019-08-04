@@ -25,5 +25,36 @@
   <%= @problem.user.email %>
 </p>
 
+
+<h3> COMMENTS </h3>
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>User</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @problem.comments.each do |comment| %>
+      <tr>
+        <td><%= comment.content %></td>
+        <td><%= comment.user.username %></td>
+        <% if current_user == comment.user %>
+        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+        <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if current_user %>
+<%= link_to 'Add A Comment', new_comment_path(@problem) %>
+<% end %>
+
+<% if current_user == @problem.user %>
 <%= link_to 'Edit', edit_problem_path(@problem) %> |
+<% end %>
 <%= link_to 'Back', problems_path %>

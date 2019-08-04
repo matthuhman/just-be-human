@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_03_150748) do
+ActiveRecord::Schema.define(version: 2019_08_04_222413) do
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id"
+    t.string "commentable_type"
+    t.integer "commentable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "counties", force: :cascade do |t|
     t.integer "state_id"
@@ -21,6 +32,17 @@ ActiveRecord::Schema.define(version: 2019_08_03_150748) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_counties_on_name"
     t.index ["state_id"], name: "index_counties_on_state_id"
+  end
+
+  create_table "milestones", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.boolean "complete"
+    t.string "current_status"
+    t.integer "problem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["problem_id"], name: "index_milestones_on_problem_id"
   end
 
   create_table "problems", force: :cascade do |t|
@@ -72,7 +94,9 @@ ActiveRecord::Schema.define(version: 2019_08_03_150748) do
     t.string "zip", default: "", null: false
     t.string "state", default: "", null: false
     t.string "country", default: "United States", null: false
+    t.integer "followed_problems_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["followed_problems_id"], name: "index_users_on_followed_problems_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
