@@ -53,10 +53,21 @@
 
 <% if current_user %>
 <%= link_to 'Add A Comment', new_comment_path(:problem => {:problem_id => @problem.id}) %>
-<%= link_to 'Follow Problem', 'problems#follow' %>
 <% end %>
 
+<br>
+<br>
+<br>
+<h4>Problem Administration Links</h4>
 <% if current_user == @problem.user %>
 <%= link_to 'Edit', edit_problem_path(@problem) %> |
 <% end %>
-<%= link_to 'Back', problems_path %>
+<% if !@role %>
+<%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id, role_level: 4 %>
+<% elsif @role.role_level == 4 %>
+<%= link_to 'Unfollow Problem', controller: "problems", action: "unfollow", problem_id: @problem.id %>
+<% end %>
+
+<br>
+<br>
+<%= link_to 'Back to problems list', problems_path %>

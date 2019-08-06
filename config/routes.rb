@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   get 'registrations/account_update_params'
 
   get '/my_problems' => 'pages#my_problems'
+
+  get '/problems/follow' => 'problems#follow'
+  get '/problems/unfollow' => 'problems#unfollow'
   
 
   resources :problems, :comments

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_04_222413) do
+ActiveRecord::Schema.define(version: 2019_08_06_144115) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_08_04_222413) do
     t.integer "user_id"
     t.integer "problem_id"
     t.index ["problem_id"], name: "index_roles_on_problem_id"
+    t.index ["user_id", "problem_id"], name: "index_roles_on_user_id_and_problem_id", unique: true
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 

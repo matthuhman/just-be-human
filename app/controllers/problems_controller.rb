@@ -11,6 +11,9 @@ class ProblemsController < ApplicationController
   # GET /problems/1
   # GET /problems/1.json
   def show
+    if (current_user)
+      @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
+    end
   end
 
   # GET /problems/new
@@ -22,10 +25,38 @@ class ProblemsController < ApplicationController
   def edit
   end
 
-  # def follow
-  #   # @problem = 
-  # 
-  # end
+  def follow
+    @problem = Problem.find(params[:problem_id])
+
+    @role = Role.create(follow_params)
+    @role.user_id = current_user.id
+    respond_to do |format|
+      if @role.save
+        format.html { redirect_to @problem, notice: 'You have successfully followed this problem.' }
+        format.json { render :show, status: :created, location: @problem }
+      else
+        format.html { redirect_to @problem, notice: 'You have not followed this problem successfully' }
+        format.json { render :show, status: :unprocessable_entity, location: @problem }
+      end
+    end
+  end
+
+  def unfollow
+    @problem = Problem.find(params[:problem_id])
+
+    @role = Role.find_by(user_id: current_user.id, problem_id: params[:problem_id])
+    respond_to do |format|
+      if (@role)
+        @role.destroy
+        format.html { redirect_to @problem, notice: "You have unfollowed this problem" }
+        format.json { render :show, status: :ok, location: @problem}
+      else
+        format.html { redirect_to @problem, alert: "You cannot unfollow a problem without a role."}
+        format.json { render :show, status: :unprocessable_entity, location: @problem}
+      end
+    end
+  end
+
 
   # POST /problems
   # POST /problems.json
@@ -35,7 +66,6 @@ class ProblemsController < ApplicationController
     @role = Role.create
     @role.user_id = current_user.id
     @role.role_level = 1
-    print "role problem "
     respond_to do |format|
       if @problem.save
         @role.problem_id = @problem.id
@@ -86,5 +116,9 @@ class ProblemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
       params.require(:problem).permit(:title, :description, :location, :target_completion_date, :city, :state, :zip, :country)
+    end
+
+    def follow_params
+      params.permit(:problem_id, :role_level)
     end
 end
