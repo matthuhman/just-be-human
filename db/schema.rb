@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_213749) do
+ActiveRecord::Schema.define(version: 2019_08_06_220902) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_08_06_213749) do
     t.integer "time_zone"
     t.boolean "dst_flag"
     t.string "coordinates"
+    t.index ["zip"], name: "index_geopoints_on_zip", unique: true
   end
 
   create_table "milestones", force: :cascade do |t|

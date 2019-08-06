@@ -34,7 +34,6 @@ class ProblemsController < ApplicationController
 
   def follow
     @problem = Problem.find(params[:problem_id])
-
     @role = Role.create(follow_params)
     @role.title = "Follower"
     @role.level = 4
@@ -78,20 +77,25 @@ class ProblemsController < ApplicationController
 
   def demote_user
     @problem = Problem.find(promotion_params[:problem_id])
+    @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
     respond_to do |format|
-      if (current_user == @problem.user)
-        @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
+      if (current_user == @problem.user || current_user == @role.user)
         if @role
           ## @TODO - when milestones are implemented, we need to make sure to demote the user to a "Participant"
           ## if they belong to the participant list of any of the problem's milestones 
           @role.level = 4
           @role.title = "Follower"
           if @role.save
-            format.html { redirect_to @problem, notice: "You have demoted #{@role.user.username} to Follower." }
-            format.json { render :show, status: :ok, location: @problem}
+            if (@role.user != current_user)
+              format.html { redirect_to @problem, notice: "You have demoted #{@role.user.username} to Follower." }
+              format.json { render :show, status: :ok, location: @problem}
+            else
+              format.html { redirect_to @problem, notice: "You have stepped down as a Supervisor." }
+              format.json { render :show, status: :ok, location: @problem}
+            end
           else
             format.html { redirect_to @problem, notice: "#{@role.user.username} was not successfully demoted due to an internal error." }
-            format.json { render :show, status: :unprocessable_entity, location: @problem}
+            format.json { render :show, status: :unprocessable_entity, location: @problem }
           end
         else
           format.html { redirect_to @problem, alert: "A role does not exist for the desired user/problem ID combo" }

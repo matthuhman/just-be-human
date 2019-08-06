@@ -43,7 +43,6 @@ gem 'simple_form'
 gem 'popper_js'
 gem 'tether-rails'
 gem 'country_select'
-gem 'my_zipcode_gem'
 
 gem 'devise'
 

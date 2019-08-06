@@ -31,9 +31,10 @@ class CommentsController < ApplicationController
     
     @comment.user_id = current_user.id
 
+    problem = Problem.find(problem_id)
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to comment.problem, notice: 'Comment was successfully created.' }
+        format.html { redirect_to problem, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }
@@ -45,10 +46,15 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
+    if @comment.commentable_type == "Problem"
+      @parent = Problem.find(@comment.commentable_id)
+    else
+      @parent = Milestone.find(@comment.commentable_id)
+    end
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comment }
+        format.html { redirect_to @parent, notice: 'Comment was successfully updated.' }
+        format.json { render :show, status: :ok, location: @parent }
       else
         format.html { render :edit }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -59,9 +65,14 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
+    if @comment.commentable_type == "Problem"
+      @parent = Problem.find(@comment.commentable_id)
+    else
+      @parent = Milestone.find(@comment.commentable_id)
+    end
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
+      format.html { redirect_to @parent, notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
