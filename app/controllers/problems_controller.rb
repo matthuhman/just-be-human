@@ -22,15 +22,30 @@ class ProblemsController < ApplicationController
   def edit
   end
 
+  # def follow
+  #   # @problem = 
+  # 
+  # end
+
   # POST /problems
   # POST /problems.json
   def create
     @problem = Problem.new(problem_params)
     @problem.user = current_user
+    @role = Role.create
+    @role.user_id = current_user.id
+    @role.role_level = 1
+    print "role problem "
     respond_to do |format|
       if @problem.save
-        format.html { redirect_to @problem, notice: 'Problem was successfully created.' }
-        format.json { render :show, status: :created, location: @problem }
+        @role.problem_id = @problem.id
+        if @role.save
+          format.html { redirect_to @problem, notice: 'Problem and role was successfully created.' }
+          format.json { render :show, status: :created, location: @problem }
+        else
+          format.html {render :new}
+          format.json { render json: @role.errors, status: :unprocessable_entity}
+        end
       else
         format.html { render :new }
         format.json { render json: @problem.errors, status: :unprocessable_entity }

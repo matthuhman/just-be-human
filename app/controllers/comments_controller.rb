@@ -24,9 +24,24 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
+    problem_id = params[:comment][:problem_id]
+    milestone_id = params[:comment][:milestone_id]
+    
+    
+
+    if problem_id != nil
+      params[:comment] = params[:comment].merge(:commentable_type => "Problem", :commentable_id => problem_id)
+      params[:comment] = params[:comment].except(:problem_id)
+    elsif milestone_id != nil
+      params[:comment] = params[:comment].merge(:commentable_type => "Milestone", :commentable_id => milestone_id)
+      params[:comment] = params[:comment].except(:milestone_id)
+    end
+
     @comment = Comment.new(comment_params)
+    
+    @comment.user_id = current_user.id
+    
     binding.pry
-    @problem = @comment.problem
 
     respond_to do |format|
       if @comment.save

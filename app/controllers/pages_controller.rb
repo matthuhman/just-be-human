@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_action :authenticate_user!, except: [:home]
+
   def home
     @zipcode = ""
     if current_user
@@ -9,4 +11,10 @@ class PagesController < ApplicationController
       @roles = nil
     end
   end
+
+
+  def my_problems
+    @roles = current_user.roles
+  end
+
 end

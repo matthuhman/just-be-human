@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
+
+  get '/my_problems' => 'pages#my_problems'
   
 
   resources :problems, :comments

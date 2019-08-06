@@ -40,8 +40,9 @@
     <% @problem.comments.each do |comment| %>
       <tr>
         <td><%= comment.content %></td>
-        <td><%= comment.user.username %></td>
-        <% if current_user == comment.user %>
+            <% comment_user = User.find(comment.user_id) %>
+        <td><%= comment_user.username %></td>
+        <% if current_user == comment_user %>
         <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
         <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -51,7 +52,8 @@
 </table>
 
 <% if current_user %>
-<%= link_to 'Add A Comment', new_comment_path(@problem) %>
+<%= link_to 'Add A Comment', new_comment_path(:problem => {:problem_id => @problem.id}) %>
+<%= link_to 'Follow Problem', 'problems#follow' %>
 <% end %>
 
 <% if current_user == @problem.user %>
