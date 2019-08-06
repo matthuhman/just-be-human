@@ -4,8 +4,7 @@ class CreateMilestones < ActiveRecord::Migration[5.2]
       t.string :title
       t.text :description
       t.boolean :complete
-      t.string :current_status
-
+      t.string :current_status     
       t.belongs_to :problem, index: true
       t.timestamps
     end
