@@ -1,9 +1,11 @@
 
 
+
 <br/>
 
 
 <h4>Problems Near Me</h4>
+
 <h5>Currently active zip code:  <%= current_user.zip %> </h5>
 <table>
   <thead>
@@ -22,7 +24,6 @@
       <tr>
         <td><%= problem.title %></td>
         <td><%= problem.description %></td>
-        <td><%= problem.location %></td>
         <td><%= problem.target_completion_date %></td>
         <td><%= problem.user.username %></td>
         <td><%= link_to 'Show', problem %></td>
@@ -41,7 +42,7 @@
   <h4>My Problems</h4>
     <% @roles.each do |role| %>
       <p>Problem Name: <%= role.problem.title %></p>
-      <p>Problem Role: <%= role.role_level %></p>
+      <p>Problem Role: <%= role.title %></p>
     <% end %>
   </div>
 <% end %>

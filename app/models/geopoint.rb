@@ -1,0 +1,2 @@
+class Geopoint < ApplicationRecord
+end

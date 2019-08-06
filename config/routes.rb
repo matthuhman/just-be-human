@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get '/problems/follow' => 'problems#follow'
   get '/problems/unfollow' => 'problems#unfollow'
+  get '/problems/promote_user' => 'problems#promote_user'
+  get '/problems/demote_user' => 'problems#demote_user'
   
 
   resources :problems, :comments

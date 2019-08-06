@@ -13,6 +13,13 @@ class ProblemsController < ApplicationController
   def show
     if (current_user)
       @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
+      if (@role.level == 1)
+        @is_admin = true
+      elsif (@role.level == 2)
+        @is_supervisor = true
+      elsif (@role.level == 3)
+        @is_participant = true
+      end
     end
   end
 
@@ -29,6 +36,8 @@ class ProblemsController < ApplicationController
     @problem = Problem.find(params[:problem_id])
 
     @role = Role.create(follow_params)
+    @role.title = "Follower"
+    @role.level = 4
     @role.user_id = current_user.id
     respond_to do |format|
       if @role.save
@@ -40,6 +49,62 @@ class ProblemsController < ApplicationController
       end
     end
   end
+
+  def promote_user
+    @problem = Problem.find(promotion_params[:problem_id])
+    respond_to do |format|
+      if (current_user == @problem.user)
+        @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
+        if @role
+          @role.level = 2
+          @role.title = "Supervisor"
+          if @role.save
+            format.html { redirect_to @problem, notice: "You have promoted #{@role.user.username} to Supervisor." }
+            format.json { render :show, status: :ok, location: @problem}
+          else
+            format.html { redirect_to @problem, notice: "#{@role.user.username} was not successfully promoted due to an internal error." }
+            format.json { render :show, status: :unprocessable_entity, location: @problem}
+          end
+        else
+          format.html { redirect_to @problem, alert: "A role does not exist for the desired user/problem ID combo" }
+          format.json { render :show, status: :unprocessable_entity, location: @problem }
+        end
+      else
+        format.html { redirect_to @problem, alert: "You do not have administrative permissions for this problem."}
+        format.json { render :show, status: :forbidden, location: @problem }
+      end
+    end
+  end
+
+  def demote_user
+    @problem = Problem.find(promotion_params[:problem_id])
+    respond_to do |format|
+      if (current_user == @problem.user)
+        @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
+        if @role
+          ## @TODO - when milestones are implemented, we need to make sure to demote the user to a "Participant"
+          ## if they belong to the participant list of any of the problem's milestones 
+          @role.level = 4
+          @role.title = "Follower"
+          if @role.save
+            format.html { redirect_to @problem, notice: "You have demoted #{@role.user.username} to Follower." }
+            format.json { render :show, status: :ok, location: @problem}
+          else
+            format.html { redirect_to @problem, notice: "#{@role.user.username} was not successfully demoted due to an internal error." }
+            format.json { render :show, status: :unprocessable_entity, location: @problem}
+          end
+        else
+          format.html { redirect_to @problem, alert: "A role does not exist for the desired user/problem ID combo" }
+          format.json { render :show, status: :unprocessable_entity, location: @problem }
+        end
+      else
+        format.html { redirect_to @problem, alert: "You do not have administrative permissions for this problem."}
+        format.json { render :show, status: :forbidden, location: @problem }
+      end
+    end
+  end
+
+
 
   def unfollow
     @problem = Problem.find(params[:problem_id])
@@ -65,7 +130,8 @@ class ProblemsController < ApplicationController
     @problem.user = current_user
     @role = Role.create
     @role.user_id = current_user.id
-    @role.role_level = 1
+    @role.level = 1
+    @role.title = "Leader"
     respond_to do |format|
       if @problem.save
         @role.problem_id = @problem.id
@@ -119,6 +185,20 @@ class ProblemsController < ApplicationController
     end
 
     def follow_params
-      params.permit(:problem_id, :role_level)
+      params.permit(:problem_id)
     end
+
+    def unfollow_params
+      params.permit(:problem_id)
+    end
+
+    def promotion_params
+      params.permit(:problem_id, :target_user_id)
+    end
+
+    def add_follower_role
+      role = Role.new
+      return role
+    end
+
 end

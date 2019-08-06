@@ -9,7 +9,7 @@ class CreateProblems < ActiveRecord::Migration[5.2]
       t.string :country, null: false, default: "United States"
       t.decimal :latitude, precision: 18, scale: 15
       t.decimal :longitude, precision: 18, scale: 15
-      t.datetime :target_completion_date, presence: true
+      t.date :target_completion_date, presence: true
       t.references :user, foreign_key: true
       t.integer :participants_required, default: 1
       t.integer :current_participant_count, default: 1

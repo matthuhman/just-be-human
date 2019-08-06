@@ -4,7 +4,7 @@
   <div class="my-problems">
     <% @roles.each do |role| %>
       <p>Problem Name: <%= role.problem.title %></p>
-      <p>Problem Role: <%= role.role_level %></p>
+      <p>Problem Role: <%= role.title %></p>
       <p><%= link_to "Show Problem", role.problem %></p>
     <% end %>
   </div>

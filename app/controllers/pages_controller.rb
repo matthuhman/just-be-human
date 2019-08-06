@@ -2,13 +2,11 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:home]
 
   def home
-    @zipcode = ""
     if current_user
       @problems = Problem.where(zip: current_user.zip)
       @roles = current_user.roles
     else
-      @problems = Problem.all
-      @roles = nil
+      redirect_to problems_path
     end
   end
 

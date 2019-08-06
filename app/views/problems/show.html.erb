@@ -1,5 +1,5 @@
 
-
+<h2>Problem Information</h2>
 <p>
   <strong>Title:</strong>
   <%= @problem.title %>
@@ -11,21 +11,19 @@
 </p>
 
 <p>
-  <strong>Location:</strong>
-  <%= @problem.location %>
-</p>
-
-<p>
   <strong>Target completion date:</strong>
   <%= @problem.target_completion_date %>
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong>Admin:</strong>
   <%= @problem.user.email %>
 </p>
-
-
+<p>----------------------------------------</p>
+<br>
+<br>
+<br>
+<p>----------------------------------------</p>
 <h3> COMMENTS </h3>
 <table>
   <thead>
@@ -42,7 +40,7 @@
         <td><%= comment.content %></td>
             <% comment_user = User.find(comment.user_id) %>
         <td><%= comment_user.username %></td>
-        <% if current_user == comment_user %>
+        <% if current_user == comment_user || current_user == @problem.user %>
         <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
         <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -54,20 +52,40 @@
 <% if current_user %>
 <%= link_to 'Add A Comment', new_comment_path(:problem => {:problem_id => @problem.id}) %>
 <% end %>
-
+<p>----------------------------------------</p>
 <br>
 <br>
 <br>
+<p>----------------------------------------</p>
 <h4>Problem Administration Links</h4>
 <% if current_user == @problem.user %>
-<%= link_to 'Edit', edit_problem_path(@problem) %> |
+<%= link_to 'Edit', edit_problem_path(@problem) %> | <%= link_to 'Delete', @problem, method: :delete %>
 <% end %>
 <% if !@role %>
-<%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id, role_level: 4 %>
-<% elsif @role.role_level == 4 %>
+<%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id %>
+<% elsif @role.level == 4 %>
 <%= link_to 'Unfollow Problem', controller: "problems", action: "unfollow", problem_id: @problem.id %>
+<% end %>
+<p>----------------------------------------</p>
+<br>
+<br>
+<br>
+<p>----------------------------------------</p>
+<
+<h5>Followers</h5>
+<% @problem.roles.each do |role| %>
+<p>Username: <%= role.user.username %></p>
+<p>Title: <%= role.title %> |
+<% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %> 
+<%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+<% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 4 %>
+<%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+<% end %>
+</p>
+  --------------------------
 <% end %>
 
 <br>
 <br>
+<p>----------------------------------------</p>
 <%= link_to 'Back to problems list', problems_path %>

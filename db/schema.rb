@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_03_165452) do
+ActiveRecord::Schema.define(version: 2019_08_06_213749) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 2019_08_03_165452) do
     t.index ["state_id"], name: "index_counties_on_state_id"
   end
 
+  create_table "geopoints", force: :cascade do |t|
+    t.string "zip"
+    t.string "city"
+    t.string "state"
+    t.decimal "latitude", precision: 7, scale: 5
+    t.decimal "longitude", precision: 7, scale: 5
+    t.integer "time_zone"
+    t.boolean "dst_flag"
+    t.string "coordinates"
+  end
+
   create_table "milestones", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -54,7 +65,7 @@ ActiveRecord::Schema.define(version: 2019_08_03_165452) do
     t.string "country", default: "United States", null: false
     t.decimal "latitude", precision: 18, scale: 15
     t.decimal "longitude", precision: 18, scale: 15
-    t.datetime "target_completion_date"
+    t.date "target_completion_date"
     t.integer "user_id"
     t.integer "participants_required", default: 1
     t.integer "current_participant_count", default: 1
