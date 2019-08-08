@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:home]
 
   def home
+    # binding.pry
     if current_user
       @problems = Problem.where(zip: current_user.zip)
       @roles = current_user.roles

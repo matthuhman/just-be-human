@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_220902) do
+ActiveRecord::Schema.define(version: 2019_08_08_190222) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(version: 2019_08_06_220902) do
     t.index ["zip"], name: "index_geopoints_on_zip", unique: true
   end
 
+  create_table "milestone_roles", force: :cascade do |t|
+    t.integer "level"
+    t.string "title"
+    t.integer "milestone_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["milestone_id", "user_id"], name: "index_milestone_roles_on_milestone_id_and_user_id", unique: true
+    t.index ["milestone_id"], name: "index_milestone_roles_on_milestone_id"
+    t.index ["user_id"], name: "index_milestone_roles_on_user_id"
+  end
+
   create_table "milestones", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -54,7 +66,12 @@ ActiveRecord::Schema.define(version: 2019_08_06_220902) do
     t.integer "problem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
+    t.integer "user_id"
+    t.integer "participants_required", default: 1
+    t.integer "participant_count", default: 1
     t.index ["problem_id"], name: "index_milestones_on_problem_id"
+    t.index ["user_id"], name: "index_milestones_on_user_id"
   end
 
   create_table "problems", force: :cascade do |t|
@@ -69,10 +86,14 @@ ActiveRecord::Schema.define(version: 2019_08_06_220902) do
     t.date "target_completion_date"
     t.integer "user_id"
     t.integer "participants_required", default: 1
-    t.integer "current_participant_count", default: 1
+    t.integer "participant_count", default: 1
     t.boolean "completed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
+    t.string "category"
+    t.string "subcategory"
+    t.integer "follower_count", default: 1
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 

@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   has_many :problems
   has_many :roles
+  has_many :milestone_roles
 
 end

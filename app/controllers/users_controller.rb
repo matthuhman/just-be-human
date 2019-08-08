@@ -28,13 +28,13 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    zipcode = Zipcode.find_by_code @user.zip
     
-    binding.pry
-    if zipcode.blank?
-      format.html { render :new }
-      format.json { render json: @user, status: :unprocessable_entity }
-    end
+    # zipcode = Zipcode.find_by_code @user.zip
+
+    # if zipcode.blank?
+    #   format.html { render :new }
+    #   format.json { render json: @user, status: :unprocessable_entity }
+    # end
 
     respond_to do |format|
       if @user.save

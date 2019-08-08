@@ -1,12 +1,19 @@
-
 <%= simple_form_for(@milestone) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :current_status %>
+    <%= f.input :address %>
+    <%= f.input :complete %>
+    <%= f.hidden_field :problem_id, :value => params[:milestone][:problem_id] %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
 <% end %>
+

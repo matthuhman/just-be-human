@@ -1,5 +1,5 @@
 
-<h2>Problem Information</h2>
+<h1>Problem Information</h2>
 <p>
   <strong>Title:</strong>
   <%= @problem.title %>
@@ -19,6 +19,42 @@
   <strong>Admin:</strong>
   <%= @problem.user.email %>
 </p>
+
+
+<p>
+  <strong>Follower count:</strong>
+  <%= @problem.follower_count %>
+</p>
+
+<p>
+  <strong>Current Participant Count / Target Participant Count:</strong>
+  <%= @problem.participant_count %> / <%= @problem.participants_required %>
+</p>
+
+<p>----------------------------------------</p>
+<br>
+<br>
+<br>
+<p>----------------------------------------</p>
+<h2>Milestones</h2>
+
+<% @problem.milestones.each do |milestone| %>
+<p>
+    Title: <%= milestone.title %> <br>
+    Current Status: <%= milestone.current_status %> <br>
+    Complete: <%= milestone.complete %> <br>
+    <% if @role && @role.level <= 2 %>
+        <%= link_to 'Edit', edit_milestone_path(milestone) %> ||
+        <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %> <br>
+    --------------------------
+</p>
+<%end%>
+
+<% if @role && @role.level <= 2 %>
+<%= link_to 'Create a Milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}) %>
+<% end %>
+
 <p>----------------------------------------</p>
 <br>
 <br>
@@ -40,7 +76,7 @@
         <td><%= comment.content %></td>
             <% comment_user = User.find(comment.user_id) %>
         <td><%= comment_user.username %></td>
-        <% if current_user == comment_user || current_user == @problem.user || @role.level <= 2%>
+        <% if current_user == comment_user || current_user == @problem.user || (@role && @role.level <= 2)%>
         <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
         <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -49,7 +85,7 @@
   </tbody>
 </table>
 
-<% if current_user %>
+<% if current_user && @role %>
 <%= link_to 'Add A Comment', new_comment_path(:problem => {:problem_id => @problem.id}) %>
 <% end %>
 <p>----------------------------------------</p>

@@ -13,14 +13,16 @@ class ProblemsController < ApplicationController
   def show
     if (current_user)
       @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
-      if (@role.level == 1)
-        @is_admin = true
-      elsif (@role.level == 2)
-        @is_supervisor = true
-      elsif (@role.level == 3)
-        @is_participant = true
-      end
+      # if (@role && @role.level == 1)
+      #   @is_admin = true
+      # elsif (@role && @role.level == 2)
+      #   @is_supervisor = true
+      # elsif (@role && @role.level == 3)
+      #   @is_participant = true
+      # end
     end
+
+    @milestones = @problem.milestones
   end
 
   # GET /problems/new
@@ -40,6 +42,7 @@ class ProblemsController < ApplicationController
     @role.user_id = current_user.id
     respond_to do |format|
       if @role.save
+        Problem.increment_counter(:follower_count, @problem.id)
         format.html { redirect_to @problem, notice: 'You have successfully followed this problem.' }
         format.json { render :show, status: :created, location: @problem }
       else
@@ -55,9 +58,15 @@ class ProblemsController < ApplicationController
       if (current_user == @problem.user)
         @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
         if @role
+          if (@role.level == 4)
+            increment_participant_count = true
+          end
           @role.level = 2
           @role.title = "Supervisor"
           if @role.save
+            if increment_participant_count
+              Problem.increment_counter(:participant_count, @problem.id)
+            end
             format.html { redirect_to @problem, notice: "You have promoted #{@role.user.username} to Supervisor." }
             format.json { render :show, status: :ok, location: @problem}
           else
@@ -77,15 +86,24 @@ class ProblemsController < ApplicationController
 
   def demote_user
     @problem = Problem.find(promotion_params[:problem_id])
+    target_user = User.find(promotion_params[:target_user_id])
     @role = Role.find_by(user_id: promotion_params[:target_user_id], problem_id: @problem.id)
     respond_to do |format|
       if (current_user == @problem.user || current_user == @role.user)
         if @role
-          ## @TODO - when milestones are implemented, we need to make sure to demote the user to a "Participant"
-          ## if they belong to the participant list of any of the problem's milestones 
-          @role.level = 4
-          @role.title = "Follower"
+          target_user.milestone_roles do |ms_role|
+            if ms_role.problem_id == @problem.id
+              @role.level = 3
+              @role.title = "Participant"
+            else
+              @role.level = 4
+              @role.title = "Follower"
+            end
+          
           if @role.save
+            if (@role.level == 4)
+              Problem.decrement_counter(:participant_count, @problem.id)
+            end
             if (@role.user != current_user)
               format.html { redirect_to @problem, notice: "You have demoted #{@role.user.username} to Follower." }
               format.json { render :show, status: :ok, location: @problem}
@@ -111,12 +129,13 @@ class ProblemsController < ApplicationController
 
 
   def unfollow
-    @problem = Problem.find(params[:problem_id])
+    @problem = Problem.find(unfollow_params[:problem_id])
 
     @role = Role.find_by(user_id: current_user.id, problem_id: params[:problem_id])
     respond_to do |format|
       if (@role)
         @role.destroy
+        Problem.decrement_counter(:follower_count, @problem.id)
         format.html { redirect_to @problem, notice: "You have unfollowed this problem" }
         format.json { render :show, status: :ok, location: @problem}
       else
@@ -132,6 +151,13 @@ class ProblemsController < ApplicationController
   def create
     @problem = Problem.new(problem_params)
     @problem.user = current_user
+
+    if (@problem.zip)
+      geopoint = Geopoint.find_by(zip: @problem.zip)
+      @problem.latitude = geopoint.latitude
+      @problem.longitude = geopoint.longitude
+    end
+
     @role = Role.create
     @role.user_id = current_user.id
     @role.level = 1
@@ -185,7 +211,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :location, :target_completion_date, :city, :state, :zip, :country)
+      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :city, :state, :zip, :country)
     end
 
     def follow_params
