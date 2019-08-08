@@ -19,4 +19,5 @@ Rails 5.2
 
 # Architectural/Design Questions
 
-* should a problem have its own columns for number of people participating/number of people still needed, or should it be dynamically calculated based on the number of roles with a level > 3?
+
+* I don't want to automatically delete a user's problems when that user deletes their account - what do I want to do to make sure we don't end up with orphaned problems that have no leader? And *how* do I do this?
