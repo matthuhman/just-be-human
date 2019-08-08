@@ -16,16 +16,6 @@ class CommentsController < ApplicationController
   def create
     problem_id = params[:comment][:problem_id]
     milestone_id = params[:comment][:milestone_id]
-    
-    
-
-    if problem_id != nil
-      params[:comment] = params[:comment].merge(:commentable_type => "Problem", :commentable_id => problem_id)
-      params[:comment] = params[:comment].except(:problem_id)
-    elsif milestone_id != nil
-      params[:comment] = params[:comment].merge(:commentable_type => "Milestone", :commentable_id => milestone_id)
-      params[:comment] = params[:comment].except(:milestone_id)
-    end
 
     @comment = Comment.new(comment_params)
     
@@ -65,11 +55,8 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    if @comment.commentable_type == "Problem"
-      @parent = Problem.find(@comment.commentable_id)
-    else
-      @parent = Milestone.find(@comment.commentable_id)
-    end
+    post_role = 
+
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to @parent, notice: 'Comment was successfully destroyed.' }

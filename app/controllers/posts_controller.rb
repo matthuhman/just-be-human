@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /posts
   # GET /posts.json
@@ -25,6 +26,19 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
+
+    problem_id = params[:post][:problem_id]
+    milestone_id = params[:post][:milestone_id]
+
+    if problem_id
+      @post.postable_type = "Problem"
+      @post.postable_id = problem_id
+    else
+      @post.postable_type = "Milestone"
+      @post.postable_id = milestone_id
+    end
+
+    @post.user_id = current_user.id
 
     respond_to do |format|
       if @post.save
@@ -54,6 +68,8 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    ## TODO: figure out permissions for post/comment editing and deleting
+    if (current_user.id = @post.user_id || 
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
@@ -69,6 +85,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.fetch(:post, {})
+      params.require(:post).permit(:title, :content, :milestone_id, :problem_id)
     end
 end
