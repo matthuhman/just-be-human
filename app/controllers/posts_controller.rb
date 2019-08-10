@@ -55,25 +55,38 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
+      if @post.is_user_admin(current_user.id) 
+        if @post.update(post_params)
+          format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+          format.json { render :show, status: :ok, location: @post }
+        else
+          format.html { render :edit }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+        format.html { redirect_to @post, alert: 'You do not have permissions to delete this post' }
+        format.json { render json: @post, status: :forbidden }
     end
   end
 
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    ## TODO: figure out permissions for post/comment editing and deleting
-    if (current_user.id = @post.user_id || 
-    @post.destroy
+    if @post.postable_type == "Problem"
+      @parent = Problem.find(@post.postable_id)
+    else
+      @parent = Milestone.find(@post.postable_id)
+    end
+    
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
+      if @post.is_user_admin(current_user.id)
+        @post.destroy
+        format.html { redirect_to @parent, notice: 'Post was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @parent, alert: 'You do not have permissions to delete this post' }
+        format.json { render json: @post, status: :forbidden }
+      end
     end
   end
 
