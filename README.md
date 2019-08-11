@@ -29,7 +29,15 @@ Rails 5.2
 # Big TO-DO list
 
 * Get comments fully functioning
+ * added: 20190811
+ * completed: 
 * Get google maps integration functioning on the back end
-  * user creation, what else?
+ * still need to fully define use cases
+ * added: 20190811
+ * completed: 
 * Get the service deployed into Elastic Beanstalk
+ * added: 20190811
+ * copmleted:
 * Get the domain host changed from gandi to AWS
+ * added: 20190811
+ * completed: 
