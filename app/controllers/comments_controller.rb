@@ -9,26 +9,28 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
+    @post = Post.find(@comment.post_id)
   end
 
   # POST /comments
   # POST /comments.json
   def create
-    problem_id = params[:comment][:problem_id]
-    milestone_id = params[:comment][:milestone_id]
-
     @comment = Comment.new(comment_params)
-    
     @comment.user_id = current_user.id
+    @post = @comment.post_id
 
-    problem = Problem.find(problem_id)
     respond_to do |format|
-      if @comment.save
-        format.html { redirect_to problem, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
+      if @post.user_can_comment(current_user.id)
+        if @comment.save
+          format.html { redirect_to @post, notice: 'Comment was successfully created.' }
+          format.json { render :show, status: :created, location: @post }
+        else
+          format.html { render :new }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+        format.html { redirect_to @post, alert: 'You do not have permission to comment on this post. You must follow the problem first!' }
+        format.json { render :show, status: :forbidden, location: @post }
       end
     end
   end
@@ -36,18 +38,19 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
-    if @comment.commentable_type == "Problem"
-      @parent = Problem.find(@comment.commentable_id)
-    else
-      @parent = Milestone.find(@comment.commentable_id)
-    end
+    @post = Post.find(@comment.post_id)
     respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @parent, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @parent }
+      if (current_user.id == @comment.user_id || @post.user_has_permissions(current_user.id))
+        if @comment.update(comment_params)
+          format.html { redirect_to @post, notice: 'Comment was successfully updated.' }
+          format.json { render :show, status: :ok, location: @post }
+        else
+          format.html { render :edit }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+        format.html { redirect_to @post, alert: 'You do not have permissions to edit this comment.' }
+        format.json { render :show, status: :forbidden, location: @post }
       end
     end
   end
@@ -55,8 +58,7 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    post_role = 
-
+    @post = Post.find(@comment.post_id)
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to @parent, notice: 'Comment was successfully destroyed.' }
@@ -72,6 +74,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:content, :commentable_type, :commentable_id)
+      params.require(:comment).permit(:content, :post_id)
     end
 end

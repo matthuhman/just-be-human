@@ -6,22 +6,29 @@ class Post < ApplicationRecord
 
 
   def user_has_permissions(user_id)
-    parent_id = self.postable_id
     if (self.postable_type == "Milestone")
-      ms_role = MilestoneRole.find_by(user_id: user_id, milestone_id: parent_id)
-      if ms_role && ms_role.level <= 2
-        binding.pry
+      return Milestone.find(self.postable_id).user_has_mod_permissions(user_id)
+    else
+      return Problem.find(self.postable_id).user_has_mod_permissions(user_id)
+    end
+  end
+
+
+
+  def user_can_comment(user_id)
+    if (self.postable_type == 'Problem')
+      role = Role.find_by(user_id: user_id, problem_id: self.postable_id)
+      if role
         return true
       end
     else
-      prob_role = Role.find_by(user_id: user_id, problem_id: parent_id)
-      if prob_role && prob_role.level <= 2
-        binding.pry
-        return true
+      problem_id = Milestone.find(self.postable_id).problem_id
+      role = Role.find_by(user_id: user_id, problem_id: problem_id)
+      if role
+        return true;
       end
     end
-    binding.pry
+
     return false
   end
-
 end

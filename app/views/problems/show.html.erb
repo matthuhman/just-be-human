@@ -76,8 +76,9 @@
         <td><%= post.title %></td>
             <% post_user = User.find(post.user_id) %>
         <td><%= post_user.username %></td>
+        <td><%= link_to 'Show', post %></td>
         <% if current_user == post_user || current_user == @problem.user || (@role && @role.level <= 2)%>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td>  |  <%= link_to 'Edit', edit_post_path(post) %>  |  </td>
         <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
@@ -95,7 +96,7 @@
 <p>----------------------------------------</p>
 <h4>Problem Administration Links</h4>
 <% if current_user == @problem.user %>
-<%= link_to 'Edit', edit_problem_path(@problem) %> | <%= link_to 'Delete', @problem, method: :delete %>
+<%= link_to 'Edit', edit_problem_path(@problem) %> | <%= link_to 'Delete', @problem, method: :delete, data: {:confirm => "Are you sure?"} %>
 <% end %>
 <% if !@role %>
 <%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id %>
