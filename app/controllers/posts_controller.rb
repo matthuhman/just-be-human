@@ -16,6 +16,8 @@ class PostsController < ApplicationController
     else
       @parent = Milestone.find(@post.postable_id)
     end
+
+    # binding.pry
   end
 
   # GET /posts/new

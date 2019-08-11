@@ -1,11 +1,34 @@
 <p id="notice"><%= notice %></p>
 
-<h2><%= @post.title %></h2>
-<h5><%= @post.content %></h5>
+<h2>Discussion topic: "<%= @post.title %>"</h2>
+<br>
+<p> <%= @post.content %> </p>
+<br>
+<p>Discussion started by: <%= User.find(@post.user_id).username %> at <%= @post.created_at %></p>
 
+<br>
+<% if @post.comments.size == 0 %>
+<h4>There are no comments on this post. Add a comment?</h4>
+<% else %>
+<h4>Comments on this post:</h4>
+  <% i = 1 %>
+  <% @post.comments.each do |comment| %>
+  <h6>Comment number: <%= i %></h6>
+  <p>Content: <%= comment.content %></p>
+  <p>Left by: <%= comment.user.username %>  |  At: <%= comment.created_at %></p>
+    
+  <% end %>
+<% end %>
 
+<h4><%= link_to 'Add a comment', new_comment_path(:post => {:post_id => @post.id}) %></h4>
+
+<br>
+<br>
 <% if @post.user_has_permissions(current_user.id) %>
 <%= link_to 'Edit', edit_post_path(@post) %>  |  
-<%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>  |  
+<%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %> 
 <% end %>
-<%= link_to 'Back', @parent %>
+
+<br>
+<br>
+<%= link_to 'Back to parent problem/milestone', @parent %>

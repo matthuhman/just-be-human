@@ -76,6 +76,7 @@
         <td><%= post.title %></td>
             <% post_user = User.find(post.user_id) %>
         <td><%= post_user.username %></td>
+        <td><%= post.comment_count %></td>
         <td><%= link_to 'Show', post %></td>
         <% if current_user == post_user || current_user == @problem.user || (@role && @role.level <= 2)%>
         <td>  |  <%= link_to 'Edit', edit_post_path(post) %>  |  </td>

@@ -17,11 +17,12 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
-    @post = @comment.post_id
+    @post = Post.find(@comment.post_id)
 
     respond_to do |format|
       if @post.user_can_comment(current_user.id)
         if @comment.save
+          Post.increment_counter(:comment_count, @post.id)
           format.html { redirect_to @post, notice: 'Comment was successfully created.' }
           format.json { render :show, status: :created, location: @post }
         else
@@ -60,6 +61,7 @@ class CommentsController < ApplicationController
   def destroy
     @post = Post.find(@comment.post_id)
     @comment.destroy
+    Post.decrement_counter(:comment_count, @post.id)
     respond_to do |format|
       format.html { redirect_to @parent, notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
