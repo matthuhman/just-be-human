@@ -29,16 +29,41 @@ Rails 5.2
 
 # Big TO-DO list
 
-* Get comments fully functioning
+~~* get comments fully functioning
   * added: 20190811
-  * completed: 
-* Get google maps integration functioning on the back end
+  * completed: 20190811~~
+* get google maps integration functioning on the back end
   * still need to fully define use cases
+  * creds have been acquired!
   * added: 20190811
   * completed: 
-* Get the service deployed into Elastic Beanstalk
+* get the service deployed into Elastic Beanstalk
   * added: 20190811
-  * copmleted:
-* Get the domain host changed from gandi to AWS
+  * copmleted: 20190811
+  * NOTE: NOT USING EBS- HARD-DEPLOYED TO EC2
+  * recommend using an AMI for now
+~~* get the domain host changed from gandi to AWS
+  * added: 20190811
+  * completed: 20190811~~
+* get a web server running on port 80
+  * added: 20190811
+  * completed:
+* set up a permanent postgres db
   * added: 20190811
   * completed: 
+* identify and test all permissions requirements
+  * added: 20190811
+  * completed: 
+* create final AMI (not final code, but final environment config)
+  * added: 20190811
+  * completed: 
+
+
+
+# Known bugs and changes needed (big and small)
+* not logged in, directs to /problems, then throws error
+  * 20190811
+* comments#new back button redirects to comments#index instead of parent post
+  * 20190811
+* remove all public references to email address on application, also restrict API access to emails
+  * 20190811
