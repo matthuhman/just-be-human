@@ -23,6 +23,7 @@ Rails 5.2
 * I don't want to automatically delete a user's problems when that user deletes their account - what do I want to do to make sure we don't end up with orphaned problems that have no leader? And *how* do I do this?
 * What is the best way to efficiently limit db calls while still maintaining permissions for edit/delete of posts and comments?
 * User.edit_delete_permissions that accepts the comment/post ID and a type identifier?
+* what logging/metric framework do I want to use? What's the process to get set up with grafana in ruby/rails?
 
 
 
