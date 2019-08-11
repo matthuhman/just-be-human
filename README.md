@@ -29,22 +29,22 @@ Rails 5.2
 
 # Big TO-DO list
 
-~~* get comments fully functioning
+* ~~get comments fully functioning~~
   * added: 20190811
-  * completed: 20190811~~
+  * completed: 20190811
 * get google maps integration functioning on the back end
   * still need to fully define use cases
   * creds have been acquired!
   * added: 20190811
   * completed: 
-* get the service deployed into Elastic Beanstalk
+* ~~get the service deployed into Elastic Beanstalk~~
   * added: 20190811
-  * copmleted: 20190811
+  * completed: 20190811
   * NOTE: NOT USING EBS- HARD-DEPLOYED TO EC2
   * recommend using an AMI for now
-~~* get the domain host changed from gandi to AWS
+* ~~get the domain host changed from gandi to AWS~~
   * added: 20190811
-  * completed: 20190811~~
+  * completed: 20190811
 * get a web server running on port 80
   * added: 20190811
   * completed:
