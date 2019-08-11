@@ -5,7 +5,7 @@ class Post < ApplicationRecord
 
 
 
-  def is_user_admin(user_id)
+  def user_has_permissions(user_id)
     parent_id = self.postable_id
     if (self.postable_type == "Milestone")
       ms_role = MilestoneRole.find_by(user_id: user_id, milestone_id: parent_id)

@@ -11,7 +11,7 @@ class ProblemsController < ApplicationController
   # GET /problems/1
   # GET /problems/1.json
   def show
-    if (current_user)
+    if current_user
       @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
       # if (@role && @role.level == 1)
       #   @is_admin = true
@@ -99,7 +99,7 @@ class ProblemsController < ApplicationController
               @role.level = 4
               @role.title = "Follower"
             end
-          
+          end
           if @role.save
             if (@role.level == 4)
               Problem.decrement_counter(:participant_count, @problem.id)
@@ -226,9 +226,9 @@ class ProblemsController < ApplicationController
       params.permit(:problem_id, :target_user_id)
     end
 
-    def add_follower_role
-      role = Role.new
-      return role
-    end
+    # def add_follower_role
+    #   role = Role.new
+    #   return role
+    # end
 
 end

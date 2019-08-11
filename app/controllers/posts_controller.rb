@@ -11,6 +11,11 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    if @post.postable_type == 'Problem'
+      @parent = Problem.find(@post.postable_id)
+    else
+      @parent = Milestone.find(@post.postable_id)
+    end
   end
 
   # GET /posts/new
@@ -27,26 +32,28 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    problem_id = params[:post][:problem_id]
-    milestone_id = params[:post][:milestone_id]
-
-    if problem_id
-      @post.postable_type = "Problem"
-      @post.postable_id = problem_id
+    if @post.postable_type == 'Problem'
+      @parent = Problem.find(@post.postable_id)
+      @role = Role.find_by(user_id: current_user.id, problem_id: @post.postable_id)
     else
-      @post.postable_type = "Milestone"
-      @post.postable_id = milestone_id
+      @parent = Milestone.find(@post.postable_id)
+      @role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: @post.postable_id)
     end
 
     @post.user_id = current_user.id
 
     respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+      if @role
+        if @post.save
+          format.html { redirect_to @parent, notice: 'Post was successfully created.' }
+          format.json { render :show, status: :created, location: @parent }
+        else
+          format.html { render :new }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.html { redirect_to @parent, alert: 'You do not have permission to make a post on this problem/milestone' }
+        format.json { render :show, status: :forbidden, location: @parent }
       end
     end
   end
@@ -55,7 +62,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
-      if @post.is_user_admin(current_user.id) 
+      if @post.user_has_permissions(current_user.id) 
         if @post.update(post_params)
           format.html { redirect_to @post, notice: 'Post was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }
@@ -65,7 +72,8 @@ class PostsController < ApplicationController
         end
       else
         format.html { redirect_to @post, alert: 'You do not have permissions to delete this post' }
-        format.json { render json: @post, status: :forbidden }
+        format.json { render :show, status: :forbidden, location: @parent }
+      end
     end
   end
 
@@ -79,13 +87,13 @@ class PostsController < ApplicationController
     end
     
     respond_to do |format|
-      if @post.is_user_admin(current_user.id)
+      if @post.user_has_permissions(current_user.id)
         @post.destroy
         format.html { redirect_to @parent, notice: 'Post was successfully destroyed.' }
         format.json { head :no_content }
       else
         format.html { redirect_to @parent, alert: 'You do not have permissions to delete this post' }
-        format.json { render json: @post, status: :forbidden }
+        format.json { render :show, status: :forbidden, location: @post }
       end
     end
   end
@@ -98,6 +106,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :content, :milestone_id, :problem_id)
+      params.require(:post).permit(:title, :content, :postable_id, :postable_type)
     end
 end

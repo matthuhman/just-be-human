@@ -60,7 +60,7 @@
 <br>
 <br>
 <p>----------------------------------------</p>
-<h3> COMMENTS </h3>
+<h3> POSTS </h3>
 <table>
   <thead>
     <tr>
@@ -71,14 +71,14 @@
   </thead>
 
   <tbody>
-    <% @problem.comments.each do |comment| %>
+    <% @problem.posts.each do |post| %>
       <tr>
-        <td><%= comment.content %></td>
-            <% comment_user = User.find(comment.user_id) %>
-        <td><%= comment_user.username %></td>
-        <% if current_user == comment_user || current_user == @problem.user || (@role && @role.level <= 2)%>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= post.title %></td>
+            <% post_user = User.find(post.user_id) %>
+        <td><%= post_user.username %></td>
+        <% if current_user == post_user || current_user == @problem.user || (@role && @role.level <= 2)%>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>
@@ -86,7 +86,7 @@
 </table>
 
 <% if current_user && @role %>
-<%= link_to 'Add A Comment', new_comment_path(:problem => {:problem_id => @problem.id}) %>
+<%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}) %>
 <% end %>
 <p>----------------------------------------</p>
 <br>
