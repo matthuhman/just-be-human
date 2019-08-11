@@ -67,3 +67,7 @@ Rails 5.2
   * 20190811
 * remove all public references to email address on application, also restrict API access to emails
   * 20190811
+* milestones as a model need to be dramatically improved
+  * probably need to add a /show page back in
+  * need participant count, due date (which must be <= problem due date)
+  * 20190811
