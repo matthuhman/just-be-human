@@ -12,25 +12,17 @@
 
 ActiveRecord::Schema.define(version: 2019_08_12_055625) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
     t.text "content"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "post_id"
+    t.bigint "post_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "counties", force: :cascade do |t|
-    t.integer "state_id"
-    t.string "abbr"
-    t.string "name"
-    t.string "county_seat"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_counties_on_name"
-    t.index ["state_id"], name: "index_counties_on_state_id"
   end
 
   create_table "geopoints", force: :cascade do |t|
@@ -48,8 +40,8 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
   create_table "milestone_roles", force: :cascade do |t|
     t.integer "level"
     t.string "title"
-    t.integer "milestone_id"
-    t.integer "user_id"
+    t.bigint "milestone_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["milestone_id", "user_id"], name: "index_milestone_roles_on_milestone_id_and_user_id", unique: true
@@ -62,11 +54,11 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
     t.text "description"
     t.boolean "complete"
     t.string "current_status"
-    t.integer "problem_id"
+    t.bigint "problem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "address"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "participants_required", default: 1
     t.integer "participant_count", default: 1
     t.index ["problem_id"], name: "index_milestones_on_problem_id"
@@ -76,9 +68,9 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
   create_table "posts", force: :cascade do |t|
     t.string "title", default: "Change me!", null: false
     t.text "content", default: "Add content!", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "postable_type"
-    t.integer "postable_id"
+    t.bigint "postable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "comment_count", default: 0
@@ -96,7 +88,7 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
     t.decimal "latitude", precision: 18, scale: 15
     t.decimal "longitude", precision: 18, scale: 15
     t.date "target_completion_date"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "participants_required", default: 1
     t.integer "participant_count", default: 1
     t.boolean "completed", default: false
@@ -112,21 +104,13 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
   create_table "roles", force: :cascade do |t|
     t.integer "level"
     t.string "title"
-    t.integer "user_id"
-    t.integer "problem_id"
+    t.bigint "user_id"
+    t.bigint "problem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["problem_id"], name: "index_roles_on_problem_id"
     t.index ["user_id", "problem_id"], name: "index_roles_on_user_id_and_problem_id", unique: true
     t.index ["user_id"], name: "index_roles_on_user_id"
-  end
-
-  create_table "states", force: :cascade do |t|
-    t.string "abbr", limit: 2
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["abbr"], name: "index_states_on_abbr"
   end
 
   create_table "users", force: :cascade do |t|
@@ -163,20 +147,5 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "zipcodes", force: :cascade do |t|
-    t.string "code"
-    t.string "city"
-    t.integer "state_id"
-    t.integer "county_id"
-    t.string "area_code"
-    t.decimal "lat", precision: 15, scale: 10
-    t.decimal "lon", precision: 15, scale: 10
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["code"], name: "index_zipcodes_on_code"
-    t.index ["county_id"], name: "index_zipcodes_on_county_id"
-    t.index ["lat", "lon"], name: "index_zipcodes_on_lat_and_lon"
-    t.index ["state_id"], name: "index_zipcodes_on_state_id"
-  end
-
+  add_foreign_key "problems", "users"
 end
