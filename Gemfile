@@ -45,6 +45,7 @@ gem 'tether-rails'
 gem 'country_select'
 gem 'responders', '3.0.0'
 gem 'pg'
+gem 'activerecord-postgresql-adapter', '~> 0.0.1'
 
 gem 'react-rails'
 
