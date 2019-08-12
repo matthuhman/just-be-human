@@ -1,35 +1,36 @@
+<div class='problem-metadata'>
+  <h1>Problem Information</h1>
+  <p>
+    <strong>Title:</strong>
+    <%= @problem.title %>
+  </p>
 
-<h1>Problem Information</h2>
-<p>
-  <strong>Title:</strong>
-  <%= @problem.title %>
-</p>
+  <p>
+    <strong>Description:</strong>
+    <%= @problem.description %>
+  </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @problem.description %>
-</p>
+  <p>
+    <strong>Target completion date:</strong>
+    <%= @problem.target_completion_date %>
+  </p>
 
-<p>
-  <strong>Target completion date:</strong>
-  <%= @problem.target_completion_date %>
-</p>
-
-<p>
-  <strong>Admin:</strong>
-  <%= @problem.user.username %>
-</p>
+  <p>
+    <strong>Admin:</strong>
+    <%= @problem.user.username %>
+  </p>
 
 
-<p>
-  <strong>Follower count:</strong>
-  <%= @problem.follower_count %>
-</p>
+  <p>
+    <strong>Follower count:</strong>
+    <%= @problem.follower_count %>
+  </p>
 
-<p>
-  <strong>Current Participant Count / Target Participant Count:</strong>
-  <%= @problem.participant_count %> / <%= @problem.participants_required %>
-</p>
+  <p>
+    <strong>Current Participant Count / Target Participant Count:</strong>
+    <%= @problem.participant_count %> / <%= @problem.participants_required %>
+  </p>
+</div>
 
 <p>----------------------------------------</p>
 <br>
@@ -40,21 +41,25 @@
 
 <% @problem.milestones.each do |milestone| %>
 <p>
-    Title: <%= milestone.title %>  |  Show milestone: <%= link_to 'Milestone', milestone %> <br>
-    Current Status: <%= milestone.current_status %> <br>
-    Complete: <%= milestone.complete %> <br>
-    Current/Needed Participants: <%= milestone.participants_required %> <br>
-    <% if @role && @role.level <= 2 %>
-        <%= link_to 'Edit', edit_milestone_path(milestone) %> ||
-        <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' } %>
-    <% end %> <br>
-    --------------------------
+    <Strong>Title:</Strong> <%= milestone.title %><br>
+    <Strong>Current Status:</Strong> <%= milestone.current_status %><br>
+    <Strong>Complete:</Strong> <%= milestone.complete %> <br>
+    <Strong>Current/Needed Participants:</Strong> <%= milestone.participants_required %> <br>
+    
+      <div class="btn-group" role="group" aria-label="Admin Controls">
+        <%= link_to 'Show', milestone, class: 'btn btn-outline-success my-2 my-sm-0' %>
+        <% if @role && @role.level <= 2 %>
+        <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
+        <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
+        <% end %>
+      </div>
+    
 </p>
 <%end%>
 
 <% if @role && @role.level <= 2 %>
 
-<%= link_to 'Create a milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-outline-success my-2 my-sm-0', data: { modal: true } %>
+<%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-outline-success my-1 my-lg-0', data: { modal: true } %>
 
 <% end %>
 
@@ -83,7 +88,7 @@
         <td><%= link_to 'Show', post %></td>
         <% if current_user == post_user || current_user == @problem.user || (@role && @role.level <= 2)%>
         <td>  |  <%= link_to 'Edit', edit_post_path(post) %>  |  </td>
-        <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-failure my-2 my-sm-0' %></td>
         <% end %>
       </tr>
     <% end %>

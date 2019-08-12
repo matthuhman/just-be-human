@@ -16,10 +16,12 @@ class MilestonesController < ApplicationController
     @problem = Problem.find(@milestone.problem_id)
     @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
     @ms_role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: @milestone.id)
+    respond_modal_with @milestone
   end
 
   # GET /milestones/1/edit
   def edit
+    respond_modal_with @milestone
   end
 
   # POST /milestones
