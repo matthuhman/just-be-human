@@ -46,7 +46,6 @@ gem 'country_select'
 gem 'responders', '3.0.0'
 
 
-gem 'webpacker'
 gem 'react-rails'
 
 

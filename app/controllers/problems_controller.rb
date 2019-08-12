@@ -18,7 +18,7 @@ class ProblemsController < ApplicationController
       # end
     end
 
-    binding.pry
+    # binding.pry
   end
 
   # GET /problems/new
