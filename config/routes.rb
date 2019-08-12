@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root to: 'pages#home'
 
+  get '/landing' => 'pages#landing'
+
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
 
