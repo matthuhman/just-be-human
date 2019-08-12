@@ -49,19 +49,22 @@ Rails 5.2
 * ~~get the domain host changed from gandi to AWS~~
   * added: 20190811
   * completed: 20190811
-* get a web server running on port 80
+* ~~get a web server running on port 80~~
   * added: 20190811
-  * completed:
-* set up a permanent postgres db
+  * completed: 20190811
+* ~~set up a permanent postgres db~~
   * added: 20190811
-  * completed: 
+  * completed: 20190811
 * identify and test all permissions requirements
   * added: 20190811
   * completed: 
 * create final AMI (not final code, but final environment config)
   * added: 20190811
   * completed: 
-
+* milestones as a model need to be dramatically improved
+  * probably need to add a /show page back in
+  * need participant count, due date (which must be <= problem due date)
+  * 20190811
 
 
 # Known bugs and changes needed (big and small)
@@ -70,8 +73,6 @@ Rails 5.2
 * comments#new back button redirects to comments#index instead of parent post
   * DONE
 * remove all public references to email address on application, also restrict API access to emails
-  * 20190811
-* milestones as a model need to be dramatically improved
-  * probably need to add a /show page back in
-  * need participant count, due date (which must be <= problem due date)
-  * 20190811
+  * DONE
+* saving a new problem with a zip code is causing problems b/c I can't get geopoints into the postgres db
+  * 20190812
