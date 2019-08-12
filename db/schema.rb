@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_154547) do
+ActiveRecord::Schema.define(version: 2019_08_12_055625) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 2019_08_11_154547) do
     t.string "zip"
     t.string "city"
     t.string "state"
-    t.decimal "latitude", precision: 7, scale: 5
-    t.decimal "longitude", precision: 7, scale: 5
+    t.decimal "latitude", precision: 9, scale: 6
+    t.decimal "longitude", precision: 9, scale: 6
     t.integer "time_zone"
     t.boolean "dst_flag"
     t.string "coordinates"
