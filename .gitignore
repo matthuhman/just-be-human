@@ -31,8 +31,6 @@
 /config/master.key
 
 
-/Gemfile.lock
-
 /public/packs
 /public/packs-test
 /node_modules
