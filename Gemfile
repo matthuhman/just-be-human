@@ -44,7 +44,7 @@ gem 'popper_js'
 gem 'tether-rails'
 gem 'country_select'
 gem 'responders', '3.0.0'
-
+gem 'pg'
 
 gem 'react-rails'
 
