@@ -7,7 +7,7 @@ class PagesController < ApplicationController
       @problems = Problem.where(zip: current_user.zip)
       @roles = current_user.roles
     else
-      redirect_to problems_path
+      redirect_to '/users/sign_in'
     end
   end
 

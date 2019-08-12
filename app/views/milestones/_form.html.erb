@@ -8,7 +8,10 @@
     <%= f.input :current_status %>
     <%= f.input :address %>
     <%= f.input :complete %>
+    <%= f.input :participants_required %>
+    <% if params[:milestone] %>
     <%= f.hidden_field :problem_id, :value => params[:milestone][:problem_id] %>
+    <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
 

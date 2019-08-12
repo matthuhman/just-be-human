@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts
-  resources :milestones
-  resources :comments
+
   root to: 'pages#home'
 
   get 'registrations/sign_up_params'
@@ -13,9 +11,12 @@ Rails.application.routes.draw do
   get '/problems/unfollow' => 'problems#unfollow'
   get '/problems/promote_user' => 'problems#promote_user'
   get '/problems/demote_user' => 'problems#demote_user'
+
+  get '/milestones/participate' => 'milestones#participate'
+  get '/milestones/cancel' => 'milestones#cancel_participation'
   
 
-  resources :problems, :comments
+  resources :problems, :comments, :posts, :milestones
   
   devise_for :users, :controllers => { registrations: 'registrations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

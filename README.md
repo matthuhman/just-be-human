@@ -4,7 +4,11 @@ Ruby 2.6.2
 
 Rails 5.2
 
-
+# CURRENT DEPLOYMENT STATUS
+* deployed to EC2 t2.micro instance with postgres db
+  * Ruby 2.6.3
+  * Rails 5.2
+  * brew and rbenv used for install
 
 
 # Technical Questions
@@ -62,9 +66,9 @@ Rails 5.2
 
 # Known bugs and changes needed (big and small)
 * not logged in, directs to /problems, then throws error
-  * 20190811
+  * DONE
 * comments#new back button redirects to comments#index instead of parent post
-  * 20190811
+  * DONE
 * remove all public references to email address on application, also restrict API access to emails
   * 20190811
 * milestones as a model need to be dramatically improved

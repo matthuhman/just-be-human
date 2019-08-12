@@ -1,16 +1,12 @@
 class ProblemsController < ApplicationController
   before_action :set_problem, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:show]
 
-  # GET /problems
-  # GET /problems.json
-  def index
-    @problems = Problem.all
-  end
 
   # GET /problems/1
   # GET /problems/1.json
   def show
+
     if current_user
       @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
       # if (@role && @role.level == 1)
@@ -22,7 +18,7 @@ class ProblemsController < ApplicationController
       # end
     end
 
-    @milestones = @problem.milestones
+    binding.pry
   end
 
   # GET /problems/new
@@ -34,6 +30,7 @@ class ProblemsController < ApplicationController
   def edit
   end
 
+  # GET /problems/follow
   def follow
     @problem = Problem.find(params[:problem_id])
     @role = Role.create(follow_params)
@@ -211,7 +208,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :city, :state, :zip, :country)
+      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :city, :state, :zip, :country, :participants_required)
     end
 
     def follow_params
