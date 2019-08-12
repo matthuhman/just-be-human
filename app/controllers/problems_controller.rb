@@ -149,11 +149,11 @@ class ProblemsController < ApplicationController
     @problem = Problem.new(problem_params)
     @problem.user = current_user
 
-    # if (@problem.zip)
-    #   geopoint = Geopoint.find_by(zip: @problem.zip)
-    #   @problem.latitude = geopoint.latitude
-    #   @problem.longitude = geopoint.longitude
-    # end
+    if (@problem.zip)
+      geopoint = Geopoint.find_by(zip: @problem.zip)
+      @problem.latitude = geopoint.latitude
+      @problem.longitude = geopoint.longitude
+    end
 
     @role = Role.create
     @role.user_id = current_user.id
