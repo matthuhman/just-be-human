@@ -1,10 +1,14 @@
 class MilestonesController < ApplicationController
+  respond_to :html, :xml, :json
+
+
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /milestones/new
   def new
     @milestone = Milestone.new
+    respond_modal_with @milestone
   end
 
   # GET /milestones/1
@@ -29,6 +33,7 @@ class MilestonesController < ApplicationController
       problem.save
     end
 
+    #respond_modal_with @milestone, location: @problem
     respond_to do |format|
       if problem.user_has_mod_permissions(current_user.id)
         if @milestone.save

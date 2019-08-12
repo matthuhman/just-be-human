@@ -17,4 +17,6 @@
 //= require bootstrap
 //= require activestorage
 //= require turbolinks
+//= require introjs
 //= require_tree .
+
