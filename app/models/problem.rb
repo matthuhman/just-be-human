@@ -4,6 +4,9 @@ class Problem < ApplicationRecord
   has_many :milestones, :dependent => :destroy
   has_many :posts, as: :postable, :dependent => :destroy
 
+  geocoded_by :address
+  after_validation :geocode
+
 
   def user_has_mod_permissions(user_id)
     if user_id == self.user_id
@@ -18,5 +21,10 @@ class Problem < ApplicationRecord
       return false
     end
   end
-  
+
+
+  def coordinates
+    return [self.latitude, self.longitude]
+  end
+
 end

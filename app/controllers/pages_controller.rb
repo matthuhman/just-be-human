@@ -12,6 +12,7 @@ class PagesController < ApplicationController
     if current_user
       @problems = Problem.where(zip: current_user.zip)
       @roles = current_user.roles
+      @geopoint = Geopoint.find_by(zip: current_user.zip)
     else
       redirect_to :action => 'landing'
     end
@@ -27,14 +28,14 @@ class PagesController < ApplicationController
 
 
   def costs
-    
-    
+
+
   end
 
 
   def help
-    
-    
+
+
   end
 
 

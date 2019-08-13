@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_12_055625) do
+ActiveRecord::Schema.define(version: 2019_08_13_171325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,12 +81,8 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
   create_table "problems", force: :cascade do |t|
     t.string "title", default: "Default Title. Change me!", null: false
     t.text "description", default: "This is the default description. Please change me!", null: false
-    t.string "city", default: "", null: false
-    t.string "zip", default: "", null: false
-    t.string "state", default: "", null: false
-    t.string "country", default: "United States", null: false
-    t.decimal "latitude", precision: 18, scale: 15
-    t.decimal "longitude", precision: 18, scale: 15
+    t.float "latitude"
+    t.float "longitude"
     t.date "target_completion_date"
     t.bigint "user_id"
     t.integer "participants_required", default: 1
@@ -98,6 +94,8 @@ ActiveRecord::Schema.define(version: 2019_08_12_055625) do
     t.string "category"
     t.string "subcategory"
     t.integer "follower_count", default: 1
+    t.string "postal_code"
+    t.string "country", default: "United States"
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 

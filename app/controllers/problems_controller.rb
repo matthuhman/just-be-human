@@ -30,6 +30,69 @@ class ProblemsController < ApplicationController
   def edit
   end
 
+  # POST /problems
+  # POST /problems.json
+  def create
+    @problem = Problem.new(problem_params)
+    @problem.user = current_user
+
+    if !@problem.postal_code.empty?
+      geopoint = Geopoint.find_by(zip: @problem.postal_code)
+      if geopoint
+        @problem.latitude = geopoint.latitude
+        @problem.longitude = geopoint.longitude
+      else
+        puts "GEOPOINT NOT FOUND FOR POSTCODE: #{@problem.postal_code}"
+      end
+    else
+      geocode = Geocoder.
+
+    @role = Role.create
+    @role.user_id = current_user.id
+    @role.level = 1
+    @role.title = "Leader"
+    respond_to do |format|
+      if @problem.save
+        @role.problem_id = @problem.id
+        if @role.save
+          format.html { redirect_to @problem, notice: 'Problem and role was successfully created.' }
+          format.json { render :show, status: :created, location: @problem }
+        else
+          format.html {render :new}
+          format.json { render json: @role.errors, status: :unprocessable_entity}
+        end
+      else
+        format.html { render :new }
+        format.json { render json: @problem.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /problems/1
+  # PATCH/PUT /problems/1.json
+  def update
+    respond_to do |format|
+      if @problem.update(problem_params)
+        format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }
+        format.json { render :show, status: :ok, location: @problem }
+      else
+        format.html { render :edit }
+        format.json { render json: @problem.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /problems/1
+  # DELETE /problems/1.json
+  def destroy
+    @problem.destroy
+    respond_to do |format|
+      format.html { redirect_to problems_url, notice: 'Problem was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  
   # GET /problems/follow
   def follow
     @problem = Problem.find(params[:problem_id])
@@ -142,64 +205,6 @@ class ProblemsController < ApplicationController
     end
   end
 
-
-  # POST /problems
-  # POST /problems.json
-  def create
-    @problem = Problem.new(problem_params)
-    @problem.user = current_user
-
-    if (@problem.zip)
-      geopoint = Geopoint.find_by(zip: @problem.zip)
-      @problem.latitude = geopoint.latitude
-      @problem.longitude = geopoint.longitude
-    end
-
-    @role = Role.create
-    @role.user_id = current_user.id
-    @role.level = 1
-    @role.title = "Leader"
-    respond_to do |format|
-      if @problem.save
-        @role.problem_id = @problem.id
-        if @role.save
-          format.html { redirect_to @problem, notice: 'Problem and role was successfully created.' }
-          format.json { render :show, status: :created, location: @problem }
-        else
-          format.html {render :new}
-          format.json { render json: @role.errors, status: :unprocessable_entity}
-        end
-      else
-        format.html { render :new }
-        format.json { render json: @problem.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /problems/1
-  # PATCH/PUT /problems/1.json
-  def update
-    respond_to do |format|
-      if @problem.update(problem_params)
-        format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }
-        format.json { render :show, status: :ok, location: @problem }
-      else
-        format.html { render :edit }
-        format.json { render json: @problem.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /problems/1
-  # DELETE /problems/1.json
-  def destroy
-    @problem.destroy
-    respond_to do |format|
-      format.html { redirect_to problems_url, notice: 'Problem was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_problem
@@ -208,7 +213,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :city, :state, :zip, :country, :participants_required)
+      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :postal_code, :country, :participants_required)
     end
 
     def follow_params
