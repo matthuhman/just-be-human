@@ -22,4 +22,31 @@ class PagesController < ApplicationController
     @roles = current_user.roles
   end
 
+
+
+
+
+  def costs
+    
+    
+  end
+
+
+  def help
+    
+    
+  end
+
+
+  def about_us
+
+
+  end
+
+
+  def donate
+
+
+  end
+
 end

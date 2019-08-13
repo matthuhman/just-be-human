@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
+  
+  get '/costs' => 'pages#costs'
+  get '/aboutus' => 'pages#about_us'
+  get '/donate' => 'pages#donate'
+  get '/help' => 'pages#help'
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
