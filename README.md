@@ -8,7 +8,7 @@ Rails 5.2
 * deployed to EC2 t2.micro instance with postgres db
   * Ruby 2.6.3
   * Rails 5.2
-  * brew and rbenv used for install
+  * rvm used for install
 
 
 # Technical Questions
