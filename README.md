@@ -64,7 +64,7 @@ Rails 5.2
 * milestones as a model need to be dramatically improved
   * probably need to add a /show page back in
   * need participant count, due date (which must be <= problem due date)
-  * 20190811
+  * added: 20190811
 
 
 # Known bugs and changes needed (big and small)
@@ -75,4 +75,7 @@ Rails 5.2
 * remove all public references to email address on application, also restrict API access to emails
   * DONE
 * saving a new problem with a zip code is causing problems b/c I can't get geopoints into the postgres db
+  * DONE
+* devise user registration handlers redirect to /users and need to be overridden somehow
   * 20190812
+
