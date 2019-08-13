@@ -4,7 +4,7 @@
 <br/>
 
 
-<h4>Problems Near Me</h4>
+<h4>Problems Near Me - Currently active zip code: <%= current_user.zip %></h4>
   <head>
     <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
@@ -13,7 +13,9 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 80%;
+        width: 80%;
+        margin: auto;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -28,21 +30,57 @@
     <div id="map"></div>
     <script>
       var map;
-      function initMap() {
+      var assignListener = function(markerObj, infoWindowObj){
+        return function() {
+               infoWindowObj.open(map, markerObj);
+                };
+      };
+      function initMap() 
+      {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: <%= current_geopoint.latitude %>, lng: <%= current_geopoint.longitude %>},
-          zoom: 14
+          zoom: 14,
+          streetViewControl: false,
+          mapTypeControl: false
         });
+
+        var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
+
+        for (var i = 0, length = json.length; i < length; i++) 
+        {
+          var data = json[i],
+            LatLng = {lat: data.latitude, lng: data.longitude};
+
+          var contentString = 
+            '<div id="content">' +
+              '<div id="siteNotice"></div>' +
+              '<h2 id="marker_title" class="marker_title">' + data.title + '</h2>' +
+              '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.participant_count + "/" + data.participants_required + "</h4>" + 
+              '<h5 id="marker_followers" class="marker_followers">Followers: ' + data.follower_count + "</h5>" +
+              '<h5 id="marker_category" class="marker_category">Category: ' + data.category + ' -- Subcategory: ' + data.subcategory + '</h5>' +
+              '<h6 id="marker_link" class="marker_link"><a href="/problems/' + data.id + '">See Problem Details</a>' +
+            '</div>';
+
+          console.log(contentString);
+
+          var infoWindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+
+          var marker = new google.maps.Marker({
+            position: LatLng,
+            map: map,
+            animation: google.maps.Animation.DROP
+          });
+
+          marker.addListener('click', assignListener(marker, infoWindow));
+        }
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap"
     async defer></script>
   </body>
 
-
-
-
-<h5>Currently active zip code:  <%= current_user.zip %> </h5>
 <table>
   <thead>
     <tr>

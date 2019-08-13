@@ -44,8 +44,7 @@ class ProblemsController < ApplicationController
       else
         puts "GEOPOINT NOT FOUND FOR POSTCODE: #{@problem.postal_code}"
       end
-    else
-      geocode = Geocoder.
+    end
 
     @role = Role.create
     @role.user_id = current_user.id
@@ -92,7 +91,7 @@ class ProblemsController < ApplicationController
     end
   end
 
-  
+
   # GET /problems/follow
   def follow
     @problem = Problem.find(params[:problem_id])

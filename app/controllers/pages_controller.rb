@@ -10,9 +10,9 @@ class PagesController < ApplicationController
 
   def home
     if current_user
-      @problems = Problem.where(zip: current_user.zip)
+      geopoint = Geopoint.find_by(zip: current_user.zip)
+      @problems = Problem.near([geopoint.latitude, geopoint.longitude], 5)
       @roles = current_user.roles
-      @geopoint = Geopoint.find_by(zip: current_user.zip)
     else
       redirect_to :action => 'landing'
     end
