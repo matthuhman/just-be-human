@@ -10,8 +10,13 @@ class PagesController < ApplicationController
 
   def home
     if current_user
-      geopoint = Geopoint.find_by(zip: current_user.zip)
-      @problems = Problem.near([geopoint.latitude, geopoint.longitude], 5)
+      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.zip 
+      @geopoint = Geopoint.find_by(zip: @zip)
+      if !@geopoint
+        @geopoint = Geopoint.find_by(zip: current_user.zip)
+        flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
+      end
+      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5)
       @roles = current_user.roles
     else
       redirect_to :action => 'landing'
@@ -21,13 +26,6 @@ class PagesController < ApplicationController
 
   def my_problems
     @roles = current_user.roles
-  end
-
-
-  def location
-    binding.pry
-
-    redirect_to :home
   end
 
 

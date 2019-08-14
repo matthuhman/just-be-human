@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   get '/donate' => 'pages#donate'
   get '/help' => 'pages#help'
 
-  get '/location' => 'pages#location'
-
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
 
