@@ -18,18 +18,13 @@ class Cost < ApplicationRecord
         granularity: "MONTHLY",
         metrics: ["AmortizedCost"]
       })
-      
 
-
-
-
-      @new_cost = Cost.new
-
-      binding.pry
+      cost = Cost.new
+      cost.fetch_date = Date.today
 
       monthly_cost = resp.results_by_time.first.total["AmortizedCost"].amount.to_f
 
-      @new_cost.mtd_cost = monthly_cost.round(2)
+      cost.mtd_cost = monthly_cost.round(2)
 
       if most_recent_cost && Date.today != Date.today.at_beginning_of_month
         daily_cost = monthly_cost - most_recent_cost.mtd_cost
@@ -37,12 +32,12 @@ class Cost < ApplicationRecord
         daily_cost = monthly_cost
       end
 
-      @new_cost.daily_cost = daily_cost.round(2)
+      cost.daily_cost = daily_cost.round(2)
 
       
 
-      if @new_cost.save
-        return @new_cost
+      if cost.save
+        return cost
       else
         puts 'COST DID NOT SAVE SUCCESSFULLY, RETURNING LAST GOOD COST OBJECT'
         return most_recent_cost
