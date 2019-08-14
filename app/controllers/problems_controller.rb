@@ -9,13 +9,8 @@ class ProblemsController < ApplicationController
 
     if current_user
       @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
-      # if (@role && @role.level == 1)
-      #   @is_admin = true
-      # elsif (@role && @role.level == 2)
-      #   @is_supervisor = true
-      # elsif (@role && @role.level == 3)
-      #   @is_participant = true
-      # end
+      @is_mod = @problem.user_has_mod_permissions(current_user.id)
+      @is_admin = @problem.user_is_admin(current_user.id)
     end
 
     # binding.pry

@@ -8,6 +8,11 @@ class Problem < ApplicationRecord
   after_validation :geocode
 
 
+  def user_is_admin(user_id)
+    return user_id == self.user_id
+  end
+
+
   def user_has_mod_permissions(user_id)
     if user_id == self.user_id
       return true

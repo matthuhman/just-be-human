@@ -51,7 +51,12 @@
     <div class="tab">
       <button class="tablinks" onclick="openTab(event, 'problem-info-tab')" id="defaultOpen">General Problem Info</button>
       <button class="tablinks" onclick="openTab(event, 'problem-milestones-tab')">Milestones and Progress</button>
-      <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Volunteers and Followers</button>
+      <% if @is_admin %>
+        <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Manage Volunteers and Followers</button>
+      <% elsif @role %>
+        <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Volunteers and Followers</button>
+      <% end %>
+
     </div>
 
     <script>
@@ -60,7 +65,7 @@
     </script>
     <!-- Tab content -->
     <div id="problem-info-tab" class="tabcontent">
-      <div class="tabTitle"><h2>Problem Information</h2></div>
+      <div class="tab-title"><h2>Problem Information</h2></div>
       <h5>
         <strong>Title:</strong>
         <%= @problem.title %>
@@ -99,14 +104,30 @@
               
               <ul>
                 <div class="post-container">
-                  <p>Topic: <%= link_to "#{post.title}", post, class: 'btn btn-outline-info btn-lg' %></p>
-                  <% post_user = User.find(post.user_id) %>
-                  <p>Started By: <%= post_user.username %> at <%= post.created_at.strftime('%m/%d/%Y') %></p>
-                  <p># of responses: <%= post.comment_count %></p>
-                  <% if current_user == post_user || @problem.user_has_mod_permissions(current_user.id)%>
-                  <td>  |  <%= link_to 'Edit', edit_post_path(post) %>  |  </td>
-                  <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-failure my-2 my-sm-0' %></td>
-                  <% end %>
+                  <div class="post-title">
+                    <p>Topic: <%= link_to "#{post.title}", post, class: 'btn btn-info btn-lg' %></p>
+                  </div>
+                  <div class="post-user">
+                    <% post_user = User.find(post.user_id) %>
+                    <p>Started By: <%= post_user.username %> at <%= post.created_at.strftime('%m/%d/%Y') %></p>
+                  </div>
+                  <div class="post-response-count">
+                    <p>
+                      # of responses: <%= post.comment_count %>
+                      <% if current_user == post_user || @mod_permissions%>
+                        <div class="post-admin-links">
+                          <div class="btn-group" role="group" aria-label="Admin Controls">
+                            <%= link_to 'Show', post, class: 'btn btn-outline-success btn-lg' %>
+                            <% if @mod_permissions %>
+                              <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-outline-info btn-lg', data: { modal: true } %>
+                              <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-lg' %>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% end %>
+                    </p>
+                  </div>
+
                 </div> 
               </ul>
 
@@ -114,37 +135,44 @@
           </tbody>
         </table>
 
-        <% if current_user && @role %>
-        <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}) %>
-        <% end %>
+        <div class="add-post">
+          <% if current_user && @role %>
+            <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn-outline-success btn-lg" %>
+          <% end %>
+        </div>
 
 
     </div>
 
     <div id="problem-milestones-tab" class="tabcontent">
-      <h2>Milestones</h2>
+      <div class="tab-title"><h2>Milestones</h2></div>
 
       <% @problem.milestones.each do |milestone| %>
       <p>
+        <div class="milestone-title">
           <Strong>Title:</Strong> <%= milestone.title %><br>
+        </div>
+        <div class="milestone-status">
           <Strong>Current Status:</Strong> <%= milestone.current_status %><br>
+        </div>
+        <div class="milestone-info">
           <Strong>Complete:</Strong> <%= milestone.complete %> <br>
           <Strong>Current/Needed Participants:</Strong> <%= milestone.participants_required %> <br>
-          
-            <div class="btn-group" role="group" aria-label="Admin Controls">
-              <%= link_to 'Show', milestone, class: 'btn btn-outline-success my-2 my-sm-0' %>
-              <% if @role && @role.level <= 2 %>
-              <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
-              <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
-              <% end %>
-            </div>
+        </div>
+        <div class="milestone-button-group">
+          <div class="btn-group" role="group" aria-label="Admin Controls">
+            <% if @mod_permissions %>
+            <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
+            <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
+            <% end %>
+          </div>
+        </div>
           
       </p>
       <%end%>
 
-      <% if @role && @role.level <= 2 %>
-
-      <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-outline-success my-1 my-lg-0', data: { modal: true } %>
+      <% if @mod_permissions %>
+        <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg btn-block', data: { modal: true } %>
 
       <% end %>
     </div>

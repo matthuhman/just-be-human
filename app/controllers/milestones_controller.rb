@@ -61,7 +61,7 @@ class MilestonesController < ApplicationController
     respond_to do |format|
       if @role.save
         Milestone.increment_counter(:participant_count, @milestone.id)
-        format.html { redirect_to @milestone, notice: 'You are now a participant in #{@milestone.title}' }
+        format.html { redirect_to @milestone, notice: "You are now a participant in #{@milestone.title}" }
         format.json { render :show, status: :created, location: @milestone }
       else
         format.html { redirect_to @milestone, notice: 'There was a problem when volunteering to participate in this milestone.' }
