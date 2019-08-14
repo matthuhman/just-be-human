@@ -28,7 +28,7 @@ class PagesController < ApplicationController
 
 
   def costs
-
+    
 
   end
 

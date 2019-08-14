@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Sticky Footer Way</title>
+    <link rel='stylesheet' href='style.css'>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
+  </head>
+  <body>
+    <main class='wrapper'>
+      <div id="modal-holder"></div>
+
+
+      <body>
+        <%= render 'layouts/navbar' %>
+        <%= render 'layouts/alerts' %>
+
+        <%= yield %>
+      </body>
+      <div class='push'></div>
+    </main>
+    <footer class='footer'><%= render 'layouts/footer' %></footer>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Just Be Human</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
+  </head>
+
+  <div id="modal-holder"></div>
+
+
+  <body>
+    <%= render 'layouts/navbar' %>
+    <%= render 'layouts/alerts' %>
+
+    <%= yield %>
+  </body>
+
+  <%= render 'layouts/footer' %>
+</html>
+

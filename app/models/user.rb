@@ -7,6 +7,24 @@ class User < ApplicationRecord
 
   has_many :problems
   has_many :roles
-  has_many :milestone_roles
+  has_many :milestone_roles, :dependent => :destroy
+  has_many :posts, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+
+
+  after_destroy :fill_admin_roles
+
+
+
+
+
+
+
+  private
+
+    def fill_admin_roles
+
+    end
+
 
 end

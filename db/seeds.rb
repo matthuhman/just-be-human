@@ -16,6 +16,7 @@ csv.each do |row|
   t.city = row['city']
   t.zip = row['zip']
   t.state = row['state']
+  
   t.latitude = row['latitude']
   t.longitude = row['longitude']
   t.time_zone = row['time_zone']
