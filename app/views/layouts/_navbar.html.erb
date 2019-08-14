@@ -50,9 +50,9 @@
 
 
     <!-- QUESTION FOR @arren - what I want to do here is for the submit action to reload "/" while also adding the contents of the form as a "set_location=" query param- what do I need to do to make that happen? Sorry if this is a dumb/basic question, I'm embarrassingly new to the front end side of things. I've been out of the loop too long, time to fix that haha -->
-<!--     <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
-      <input class="form-control mr-sm-2" type="search" id="location_term" placeholder="Enter a location" aria-label="Change Location">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/">NOT WORKING</button>
-    </form> -->
+    <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/location" method="get">
+      <input class="form-control mr-sm-2" type="search" id="location_term" placeholder="Enter a location" aria-label="Change Location" name="location_term">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/location" value="location_term">NOT WORKING</button>
+    </form>
   </div>
 </nav>

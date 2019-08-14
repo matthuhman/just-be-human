@@ -24,7 +24,11 @@ class PagesController < ApplicationController
   end
 
 
+  def location
+    binding.pry
 
+    redirect_to :home
+  end
 
 
   def costs
@@ -49,5 +53,16 @@ class PagesController < ApplicationController
 
 
   end
+
+
+
+
+
+
+  private
+
+    def location_params
+      params.permit(:location_term)
+    end
 
 end
