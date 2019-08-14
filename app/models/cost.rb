@@ -31,13 +31,13 @@ class Cost < ApplicationRecord
 
       @new_cost.mtd_cost = monthly_cost.round(2)
 
-      if most_recent_cost
-        daily_cost = most_recent_cost.mtd_cost - monthly_cost
+      if most_recent_cost && Date.today != Date.today.at_beginning_of_month
+        daily_cost = monthly_cost - most_recent_cost.mtd_cost
       else
         daily_cost = monthly_cost
       end
 
-      @new_cost.daily_cost = daily_cost
+      @new_cost.daily_cost = daily_cost.round(2)
 
       
 
