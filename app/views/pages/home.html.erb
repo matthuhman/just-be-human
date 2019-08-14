@@ -1,29 +1,12 @@
+<div class="d-flex flex-column justify-content-between align-items-center homepage-header">
+  <h4>Problems Near Me - Currently active zip code: <%= @geopoint.zip %></h4>
+  <%= link_to 'New Problem', new_problem_path, class: 'btn btn-outline-primary' %>
+</div>
 
-
-
-<br/>
-
-
-<h4>Problems Near Me - Currently active zip code: <%= @geopoint.zip %></h4>
   <head>
     <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 80%;
-        width: 80%;
-        margin: auto;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
   </head>
   <body>
     <div id="map"></div>
@@ -35,7 +18,7 @@
                infoWindowObj.open(map, markerObj);
                 };
       };
-      function initMap() 
+      function initMap()
       {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
@@ -46,16 +29,16 @@
 
         var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
 
-        for (var i = 0, length = json.length; i < length; i++) 
+        for (var i = 0, length = json.length; i < length; i++)
         {
           var data = json[i],
             LatLng = {lat: data.latitude, lng: data.longitude};
 
-          var contentString = 
+          var contentString =
             '<div id="content">' +
               '<div id="siteNotice"></div>' +
               '<h2 id="marker_title" class="marker_title">' + data.title + '</h2>' +
-              '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.participant_count + "/" + data.participants_required + "</h4>" + 
+              '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.participant_count + "/" + data.participants_required + "</h4>" +
               '<h5 id="marker_followers" class="marker_followers">Followers: ' + data.follower_count + "</h5>" +
               '<h5 id="marker_category" class="marker_category">Category: ' + data.category + ' -- Subcategory: ' + data.subcategory + '</h5>' +
               '<h6 id="marker_link" class="marker_link"><a href="/problems/' + data.id + '">See Problem Details</a>' +
@@ -119,22 +102,3 @@
     <% end %>
   </div>
 <% end %>
-
-<br>
-<br>
-<h4> Links </h4>
-<br>
-
-<%= link_to 'New Problem', new_problem_path %>
-
-<% if current_user %>
-<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
-<% else %>
-<%= link_to 'Sign Up', new_user_registration_path %>
-<%= link_to 'Sign In', new_user_session_path %>
-<% end %>
-
-
-<%= link_to 'Problems', problems_path %>
-
-

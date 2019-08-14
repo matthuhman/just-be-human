@@ -9,16 +9,16 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
-
-  <div id="modal-holder"></div>
-
-
   <body>
     <%= render 'layouts/navbar' %>
-    <%= render 'layouts/alerts' %>
-
-    <%= yield %>
+    <main class='wrapper'>
+      <div id="modal-holder"></div>
+      <%= render 'layouts/alerts' %>
+        <%= yield %>
+    </main>
+    <%= render 'layouts/footer' %>
   </body>
-
-  <%= render 'layouts/footer' %>
 </html>
+
+
+<!-- <div class='push'></div> -->
