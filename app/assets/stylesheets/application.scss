@@ -6,25 +6,20 @@
 
 
 
-
-
 html, body {
   height: 100%;
   margin: 0;
+/* Trivial style make the text large */
+  font-size: 48px; 
 }
-
 .wrapper {
   min-height: 100%;
-  postiion: absolute;
+  
   /* This is the same as the height of the footer */
-  margin-bottom: -15rem; 
+  margin-bottom: -100px; 
 }
-
-
-
 /* The height of the footer and push must be the same */
 .footer,
 .push {
-  height: 15rem;
-  position: relative;
+  height: 100px;
 }
