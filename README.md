@@ -83,3 +83,7 @@ Rails 5.2
  * Action Mailer Design
  * sticky foooter -- DONE
  * open specific problem tab on load and after modal submit
+ * get rid of my problems page
+ * move new problem to navbar
+ * add problem filters on homepage
+ * add tabs for homepage my problems vs problems near me
