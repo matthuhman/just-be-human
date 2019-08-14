@@ -46,7 +46,9 @@ gem 'country_select'
 gem 'responders', '3.0.0'
 gem 'pg'
 gem 'geocoder'
-gem 'activerecord-postgresql-adapter', '~> 0.0.1'
+# gem 'activerecord-postgresql-adapter', '~> 0.0.1'
+
+gem 'aws-sdk-costexplorer', '1.29.0'
 
 gem 'react-rails'
 gem 'introjs-rails'
