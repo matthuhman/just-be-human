@@ -99,47 +99,44 @@
       <br>
       <br>
 
-      <h2> Posts </h2>
-            <% @problem.posts.each do |post| %>
-              
-              <ul>
-                <div class="post-container">
-                  <div class="post-title">
-                    <p>Topic: <%= link_to "#{post.title}", post, class: 'btn btn-info btn-lg' %></p>
-                  </div>
-                  <div class="post-user">
-                    <% post_user = User.find(post.user_id) %>
-                    <p>Started By: <%= post_user.username %> at <%= post.created_at.strftime('%m/%d/%Y') %></p>
-                  </div>
-                  <div class="post-response-count">
-                    <p>
-                      # of responses: <%= post.comment_count %>
-                      <% if current_user == post_user || @mod_permissions%>
-                        <div class="post-admin-links">
-                          <div class="btn-group" role="group" aria-label="Admin Controls">
-                            <%= link_to 'Show', post, class: 'btn btn-outline-success btn-lg' %>
-                            <% if @mod_permissions %>
-                              <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-outline-info btn-lg', data: { modal: true } %>
-                              <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-lg' %>
-                            <% end %>
-                          </div>
-                        </div>
-                      <% end %>
-                    </p>
-                  </div>
+      <div class="posts-container">
+        <h2> Posts </h2>
+        <% @problem.posts.each do |post| %>
+          <ol>
+            <div class="post-container">
+              <div class="post-title">
+                <p>Topic: <%= link_to "#{post.title}", post, class: 'btn btn-info btn-lg' %></p>
+              </div>
+              <div class="post-user">
+                <% post_user = User.find(post.user_id) %>
+                <p>Started By: <%= post_user.username %> at <%= post.created_at.strftime('%m/%d/%Y') %></p>
+              </div>
+              <div class="post-miscellaneous">
+                <p>
+                  # of responses: <%= post.comment_count %>
+                  <% if current_user == post_user || @is_mod%>
+                    <div class="post-admin-links">
+                      <div class="btn-group" role="group" aria-label="Admin Controls">
+                        <% if @is_mod %>
+                          <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-outline-info btn-lg', data: { modal: true } %>
+                          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-lg' %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </p>
+              </div>
 
-                </div> 
-              </ul>
+            </div> 
+          </ol>
 
-            <% end %>
-          </tbody>
-        </table>
-
+        <% end %>
         <div class="add-post">
           <% if current_user && @role %>
-            <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn-outline-success btn-lg" %>
+            <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn-success btn-lg btn-block" %>
           <% end %>
         </div>
+      </div>
 
 
     </div>
@@ -148,32 +145,35 @@
       <div class="tab-title"><h2>Milestones</h2></div>
 
       <% @problem.milestones.each do |milestone| %>
-      <p>
-        <div class="milestone-title">
-          <Strong>Title:</Strong> <%= milestone.title %><br>
+        <div class="milestone-container">
+          <p>
+            <div class="milestone-title">
+              <Strong>Title:</Strong> <%= milestone.title %><br>
+            </div>
+            <div class="milestone-status">
+              <Strong>Current Status:</Strong> <%= milestone.current_status %><br>
+            </div>
+            <div class="milestone-info">
+              <Strong>Complete:</Strong> <%= milestone.complete %> <br>
+              <Strong>Current/Needed Participants:</Strong> <%= milestone.participants_required %> <br>
+            </div>
+            <div class="milestone-button-group">
+              <div class="btn-group" role="group" aria-label="Admin Controls">
+                <% if @is_mod %>
+                <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
+                <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
+                <% end %>
+              </div>
+            </div>
+          </p>
         </div>
-        <div class="milestone-status">
-          <Strong>Current Status:</Strong> <%= milestone.current_status %><br>
-        </div>
-        <div class="milestone-info">
-          <Strong>Complete:</Strong> <%= milestone.complete %> <br>
-          <Strong>Current/Needed Participants:</Strong> <%= milestone.participants_required %> <br>
-        </div>
-        <div class="milestone-button-group">
-          <div class="btn-group" role="group" aria-label="Admin Controls">
-            <% if @mod_permissions %>
-            <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
-            <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
-            <% end %>
-          </div>
-        </div>
-          
-      </p>
       <%end%>
 
-      <% if @mod_permissions %>
-        <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg btn-block', data: { modal: true } %>
 
+      <% if @is_mod %>
+        <div class="add-milestone-button">
+          <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg btn-block', data: { modal: true } %>
+        </div>
       <% end %>
     </div>
 
