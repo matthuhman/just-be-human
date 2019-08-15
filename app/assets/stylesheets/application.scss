@@ -4,5 +4,27 @@
 
 //*= require introjs
 
+html, body {
+  height: 100vh;
+  margin: 0;
+}
 
+.wrapper {
+  min-height: 75vh;
+}
+
+.navbar {
+  height: 10vh;
+  font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+}
+
+.navbar-brand {
+  font-size: 2.2em;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
 

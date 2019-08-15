@@ -1,10 +1,14 @@
-<h2>My Mofuggin Problems</h2>
-
-
+<h2>My Problems</h2>
   <div class="my-problems">
     <% @roles.each do |role| %>
-      <p>Problem Name: <%= role.problem.title %></p>
-      <p>Problem Role: <%= role.title %></p>
-      <p><%= link_to "Show Problem", role.problem %></p>
+      <div class="problem card">
+        <div class='card-header'>Problem Name: <%= role.problem.title %></div>
+        <div class="card-body">
+          <p><strong> Role: </strong><%= role.title %></p>
+          <p><strong> Description: </strong><%= role.problem.description %></p>
+          <p><strong> Target Due Date: </strong><%= role.problem.target_completion_date %></p>
+          <p><%= link_to "More Info", role.problem %></p>
+        </div>
+      </div>
     <% end %>
   </div>

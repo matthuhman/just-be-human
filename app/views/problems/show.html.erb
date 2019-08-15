@@ -1,19 +1,4 @@
   <head>
-    <!-- This page is copyright Elated Communications Ltd. (www.elated.com) -->
-
-    <title>JavaScript tabs example</title>
-
-<!--     <style type="text/css">
-      body { font-size: 80%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-      ul#tabs { list-style-type: none; margin: 30px 0 0 0; padding: 0 0 0.3em 0; }
-      ul#tabs li { display: inline; }
-      ul#tabs li a { color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; }
-      ul#tabs li a:hover { background-color: #f1f0ee; }
-      ul#tabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bold; padding: 0.7em 0.3em 0.38em 0.3em; }
-      div.tabContent { border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
-      div.tabContent.hide { display: none; }
-    </style> -->
-
     <script type="text/javascript">
     //<![CDATA[
 
@@ -42,11 +27,13 @@
       function init() {
         document.getElementById("defaultOpen").click();
       }
+
+      document.addEventListener('DOMContentLoaded', init)
     //]]>
     </script>
   </head>
 
-  <body onload="init()">
+  <body>
     <h1> <%= @problem.title %> </h1>
     <div class="tab">
       <button class="tablinks" onclick="openTab(event, 'problem-info-tab')" id="defaultOpen">General Problem Info</button>
@@ -58,11 +45,6 @@
       <% end %>
 
     </div>
-
-    <script>
-      // Get the element with id="defaultOpen" and click on it
-      
-    </script>
     <!-- Tab content -->
     <div id="problem-info-tab" class="tabcontent">
       <div class="tab-title"><h2>Problem Information</h2></div>
@@ -86,7 +68,6 @@
         <%= @problem.user.username %>
       </h5>
 
-
       <h5>
         <strong>Follower count:</strong>
         <%= @problem.follower_count %>
@@ -98,6 +79,7 @@
       </h5>
       <br>
       <br>
+
 
       <div class="posts-container">
         <h2> Posts </h2>
@@ -137,8 +119,6 @@
           <% end %>
         </div>
       </div>
-
-
     </div>
 
     <div id="problem-milestones-tab" class="tabcontent">
@@ -180,8 +160,8 @@
     <div id="problem-people-tab" class="tabcontent">
       <h2>Followers</h2>
       <% @problem.roles.each do |role| %>
-        <p>Username: <%= role.user.username %>  |  Role: <%= role.title %> 
-        <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %> 
+        <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
+        <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
         | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
         <% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 4 %>
         | <%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
@@ -191,8 +171,5 @@
     </div>
 
 
-    <p>
-      <%= link_to 'Back', :back, class: "btn btn-warning btn-lg" %>
-    </p>
-
-  </body>  
+    <p><%= link_to 'Back', :back, class: "btn btn-warning btn-lg" %></p>
+  </body>

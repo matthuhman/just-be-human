@@ -37,6 +37,7 @@ class MilestonesController < ApplicationController
 
     #respond_modal_with @milestone, location: @problem
     respond_to do |format|
+      @tab = 'problem-milestones-tab'
       if problem.user_has_mod_permissions(current_user.id)
         if @milestone.save
           format.html { redirect_to problem, notice: 'Milestone was successfully created.' }
@@ -72,7 +73,7 @@ class MilestonesController < ApplicationController
 
   def cancel_participation
     @milestone = Milestone.find(cancel_params[:milestone_id])
-    @problem = 
+    @problem =
     @role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: params[:milestone_id])
     respond_to do |format|
       if (@role)
@@ -112,7 +113,7 @@ class MilestonesController < ApplicationController
   # DELETE /milestones/1.json
   def destroy
     @problem = Problem.find(@milestone.problem_id)
-    
+
     respond_to do |format|
       if current_user.id == @milestone.user_id || @problem.user_has_mod_permissions(current_user.id) || @milestone.user_has_mod_permissions(current_user.id)
         @milestone.destroy
