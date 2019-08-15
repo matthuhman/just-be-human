@@ -7,7 +7,6 @@
 
 </head>
 
-
 <body>
 
   <% data = {} %>
@@ -33,30 +32,8 @@
 <p>
   <%= monthly_cost %>
 </p>
-  <div>
-    <canvas id="myChart"></canvas>
-  </div>
-  <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    console.log('script is executing')
-    var chart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: 'line',
 
-      // The data for our dataset
-      data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [{
-              label: 'My First dataset',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: [0, 10, 5, 2, 20, 30, 45]
-          }]
-      },
+<%= bar_chart Cost.group(:fetch_date).sum(:daily_cost) %>
 
-      // Configuration options go here
-      options: {}
-    });
-  </script>
 
 </body>
