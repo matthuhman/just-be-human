@@ -1,1 +1,1 @@
-Chartjs.no_conflict!
+# Chartjs.no_conflict!
