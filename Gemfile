@@ -47,6 +47,7 @@ gem 'responders', '3.0.0'
 gem 'pg'
 gem 'geocoder'
 gem 'chartjs-ror'
+# gem 'webpacker'
 # gem 'activerecord-postgresql-adapter', '~> 0.0.1'
 
 gem 'aws-sdk-costexplorer', '1.29.0'
