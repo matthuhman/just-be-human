@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Just Be Human</a>
+  <a class="navbar-brand" href="#">Just Be Human<sup class="navbar-beta-tag">beta</sup></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -29,17 +29,9 @@
         <a class="nav-link" href="/users/sign_in">Sign In/Register</a>
       </li>
       <% end %>
-<!--       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li> -->
     </ul>
 
 
-
-
-
-
-    <!-- QUESTION FOR @arren - what I want to do here is for the submit action to reload "/" while also adding the contents of the form as a "set_location=" query param- what do I need to do to make that happen? Sorry if this is a dumb/basic question, I'm embarrassingly new to the front end side of things. I've been out of the loop too long, time to fix that haha -->
     <% if current_user %>
       <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
         <input class="form-control mr-sm-2" type="search" id="location_term" placeholder="Enter a postal code" aria-label="Change Location" name="location_term">
