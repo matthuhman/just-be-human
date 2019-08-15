@@ -29,12 +29,6 @@ class PagesController < ApplicationController
   end
 
 
-  def costs
-    
-
-  end
-
-
   def help
 
 
@@ -48,14 +42,24 @@ class PagesController < ApplicationController
 
 
   def donate
-
-
+    @donation = Donation.new
   end
 
 
   def donation_signup
+    @donation = Donation.create(donation_params)
 
+    respond_to do |format|
+      if @donation.save
+        format.html { redirect_to :home, notice: "Thank you for submitting your info! We'll be getting back to you soon with how you can help!" }
+        format.json { render json: @donation, status: :created }
+      else
+        binding.pry
+        format.html { render :donate }
+        format.json { render json: @donation.errors, status: :unprocessable_entity }
 
+      end
+    end
   end
 
 
@@ -66,8 +70,8 @@ class PagesController < ApplicationController
       params.permit(:location_term)
     end
 
-    def signup_params
-      params.permit(:email)
+    def donation_params
+      params.require(:donation).permit(:email, :donate, :marketing, :volunteer)
     end
 
 end

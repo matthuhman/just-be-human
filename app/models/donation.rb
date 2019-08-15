@@ -1,0 +1,5 @@
+class Donation < ApplicationRecord
+
+
+
+end

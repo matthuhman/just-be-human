@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
   post '/donate' => 'pages#donation_signup'
-  get '/help' => 'pages#help'
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
