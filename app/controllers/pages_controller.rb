@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:home, :landing]
+  before_action :authenticate_user!, except: [:home, :landing, :costs, :help, :about_us, :donate, :donation_signup]
 
   def landing
     if current_user
@@ -53,7 +53,10 @@ class PagesController < ApplicationController
   end
 
 
+  def donation_signup
 
+
+  end
 
 
 
@@ -61,6 +64,10 @@ class PagesController < ApplicationController
 
     def location_params
       params.permit(:location_term)
+    end
+
+    def signup_params
+      params.permit(:email)
     end
 
 end

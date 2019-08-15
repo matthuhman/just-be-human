@@ -1,13 +1,24 @@
 class Cost < ApplicationRecord
 
 
-  def self.get_costs
+  def self.get_monthly_costs
     most_recent_cost = Cost.last
 
-    if most_recent_cost && most_recent_cost.fetch_date == Date.today
-      return most_recent_cost
-    else
-      
+    if !most_recent_cost || most_recent_cost.fetch_date != Date.today
+      get_todays_cost(most_recent_cost)
+    end
+
+    
+    return Cost.where('fetch_date >= ?', Date.today.at_beginning_of_month).sort_by &:fetch_date
+  end
+
+
+
+
+  private
+
+
+    def self.get_todays_cost(most_recent_cost)
       ce = Aws::CostExplorer::Client.new
 
       resp = ce.get_cost_and_usage({
@@ -34,19 +45,11 @@ class Cost < ApplicationRecord
 
       cost.daily_cost = daily_cost.round(2)
 
-      
-
-      if cost.save
-        return cost
-      else
-        puts 'COST DID NOT SAVE SUCCESSFULLY, RETURNING LAST GOOD COST OBJECT'
-        return most_recent_cost
+      if !cost.save
+        puts 'DID NOT SUCCESSFULLY SAVE COSTS'
+        puts cost.errors
       end
-
-      
     end
 
-    return nil
 
-  end
 end
