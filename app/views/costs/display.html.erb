@@ -1,7 +1,62 @@
 
 
+<head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
 
 
 
-Daily cost: <%= @cost.daily_cost %>
-MTD cost: <%= @cost.mtd_cost %>
+</head>
+
+
+<body>
+
+  <% data = {} %>
+
+  <% dates = [] %>
+  <% daily_costs = [] %>
+  <% monthly_cost = 0.0 %>
+
+  <% @costs.each do |day| %>
+    <p>
+      <% dates << day.fetch_date %>
+      <% daily_costs << day.daily_cost %>
+      <% monthly_cost = day.mtd_cost %>
+    </p>
+  <% end %>
+
+<p>
+  <%= dates %>
+</p>
+<p>
+  <%= daily_costs %>
+</p>
+<p>
+  <%= monthly_cost %>
+</p>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    console.log('script is executing')
+    var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'line',
+
+      // The data for our dataset
+      data: {
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          datasets: [{
+              label: 'My First dataset',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: [0, 10, 5, 2, 20, 30, 45]
+          }]
+      },
+
+      // Configuration options go here
+      options: {}
+    });
+  </script>
+
+</body>

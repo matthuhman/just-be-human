@@ -159,15 +159,17 @@
 
     <div id="problem-people-tab" class="tabcontent">
       <h2>Followers</h2>
-      <% @problem.roles.each do |role| %>
-        <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
-        <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-        | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
-        <% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 4 %>
-        | <%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+        <% @problem.roles.each do |role| %>
+          <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
+            <% if @is_admin %>
+              <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
+              | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+              <% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 3 %>
+              | <%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+              <% end %>
+            <% end %>
+          </p>
         <% end %>
-        </p>
-      <% end %>
     </div>
 
 

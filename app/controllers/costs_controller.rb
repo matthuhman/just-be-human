@@ -1,7 +1,7 @@
 class CostsController < ApplicationController
 
   def display
-    @cost = Cost.get_costs
+    @costs = Cost.get_monthly_costs
   end
 
 

@@ -19,4 +19,3 @@
 //= require turbolinks
 //= require introjs
 //= require_tree .
-

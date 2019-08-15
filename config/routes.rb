@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
+  post '/donate' => 'pages#donation_signup'
   get '/help' => 'pages#help'
 
   get 'registrations/sign_up_params'
@@ -26,6 +27,5 @@ Rails.application.routes.draw do
   resources :problems, :comments, :posts, :milestones
   
   devise_for :users, :controllers => { registrations: 'registrations' }
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
   
