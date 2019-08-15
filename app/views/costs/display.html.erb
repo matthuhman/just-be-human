@@ -3,37 +3,30 @@
 <head>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
 
-
+      <%= javascript_include_tag 'application' %>
 
 </head>
 
 <body>
+  <div class="costs-title">
+    <h1>Daily and Monthly Costs</h1>
+  </div>
+  <div class="chart-container">
+    <%= column_chart @cost_data, width: "80vw", height: "30vh", xtitle: "Day", ytitle: "Cost ($USD)" %>
+  </div>
 
-  <% data = {} %>
+  <div class="costs-monthly-container">
+    <h3> Monthly cost to date: $<%= @monthly_cost %></h3>
+  </div>
 
-  <% dates = [] %>
-  <% daily_costs = [] %>
-  <% monthly_cost = 0.0 %>
-
-  <% @costs.each do |day| %>
+  <div class="costs-info-container">
     <p>
-      <% dates << day.fetch_date %>
-      <% daily_costs << day.daily_cost %>
-      <% monthly_cost = day.mtd_cost %>
+      Note about costs: This code was last updated on 8/15/2019 and only includes costs of hosting the web infrastructure for this platform.
     </p>
-  <% end %>
 
-<p>
-  <%= dates %>
-</p>
-<p>
-  <%= daily_costs %>
-</p>
-<p>
-  <%= monthly_cost %>
-</p>
-
-<%= bar_chart Cost.group(:fetch_date).sum(:daily_cost) %>
-
+    <p>
+      This chart does not include one-time costs such as domain purchases and other one-time or recurring business expenses.
+    </p>
+  </div>
 
 </body>

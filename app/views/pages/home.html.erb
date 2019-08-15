@@ -29,12 +29,12 @@
     </div>
   <script>
     var map;
-    var assignListener = function(markerObj, infoWindowObj){
-      console.log('Clicked on a marker')
-      return function() {
-             infoWindowObj.open(map, markerObj);
-              };
-    };
+    // var assignListener = function(markerObj, infoWindowObj){
+    //   console.log('Clicked on a marker')
+    //   return function() {
+    //          infoWindowObj.open(map, markerObj);
+    //           };
+    // };
     function initMap()
     {
       map = new google.maps.Map(document.getElementById('map'), {
@@ -46,12 +46,14 @@
 
       var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
 
+      var infoWindow = new google.maps.InfoWindow();
+
       for (var i = 0, length = json.length; i < length; i++)
       {
         var data = json[i],
           LatLng = {lat: data.latitude, lng: data.longitude};
 
-        var contentString =
+        data.contentString =
           '<div id="content">' +
             '<div id="siteNotice"></div>' +
             '<h2 id="marker_title" class="marker_title">' + data.title + '</h2>' +
@@ -61,19 +63,20 @@
             '<h6 id="marker_link" class="marker_link"><a href="/problems/' + data.id + '">See Problem Details</a>' +
           '</div>';
 
-        console.log(contentString);
-
-        var infoWindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
         var marker = new google.maps.Marker({
           position: LatLng,
           map: map,
           animation: google.maps.Animation.DROP
         });
 
-        marker.addListener('click', assignListener(marker, infoWindow));
+        (function (marker, data) {
+          google.maps.event.addListener(marker, "click", function (e) {
+            infoWindow.setContent(data.contentString);
+            infoWindow.open(map, marker);
+          });
+        }) (marker, data);
+
+        //marker.addListener('click', assignListener(marker, infoWindow));
       }
     }
   </script>
