@@ -9,6 +9,45 @@ Rails 5.2
   * Ruby 2.6.3
   * Rails 5.2
   * rvm used for install
+  
+  
+# ERB Breakdown
+```
+* User (self-explanatory)
+  * has_many problems
+  * has_many roles
+  * has_many milestone_roles
+  * has_many posts
+  * has_many comments
+* Problem (the basic construct for the platform)
+  * belongs_to user
+  * has_many roles (link table)
+  * has_many milestones
+  * has_many posts, as `postable`
+* Milestone (essentially sub-problems)
+  * belongs_to problem
+  * has_many posts
+  * has_many milestone_roles (link table w/ users)
+* Role (link table b/t problems and users, has `level` integer for permissions)
+  * belongs_to user
+  * belongs_to problem
+* MilestoneRole (link table b/t milestones and users, also has `level`)
+  * belongs_to user
+  * belongs_to problem
+* Post
+  * belongs_to user
+  * belongs_to postable (
+  * has_many comments
+* Comment
+  * belongs_to user
+```
+## Standalone models
+```
+* Cost (unrelated to other models)
+  * used for storing daily/monthly cost data for display on /costs page
+* Geopoint (unrelated to other models)
+  * used for looking up the Lat/Lng of a given zip code (basically a cache)
+```  
 
 
 # Technical Questions
