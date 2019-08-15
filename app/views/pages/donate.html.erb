@@ -1,1 +1,44 @@
-<% render 'donationform', donation: @donation %>
+
+
+<div class="donation-signup-info">
+  <div class="donation-info-title">
+    <h3>Some notes:</h3>
+  </div>
+
+  <ul>
+    <li>
+      <div class="donation-note-listitem">
+        <p>
+          If you select that you are interested in donating, we will contact you no more than once per month about donating once we have an option for donation configured.
+        </p>
+      </div>
+    </li>
+    <li>
+      <div class="donation-note-listitem">
+        <p>
+          If you select that you are interested in using this platform as a volunteer (either creating or volunteering for problems) you will be entered into an email list that will update you no more than once per week with general platform information such as news, recent releases, and plans going forward!
+        </p>
+      </div>
+    </li>
+    <li>
+      <div class="donation-note-listitem">
+        <p>
+          If you select that you'd like to help get the word out, you will be entered into an email list of people who are willing to go out into their community and spread the good word! We will not contact you more than once per week.
+        </p>
+      </div>
+    </li>
+    <li>
+      <div class="donation-note-listitem">
+        <p>
+          Each of these email lists will allow you to subscribe/unsubscribe individually. We don't want to annoy you! 
+        </p>
+      </div>
+    </li>
+  </ul>
+
+<%= render 'donationform', donation: @donation %>
+
+
+        <p>
+          <i>Just Be Human will <Strong>never</Strong> sell your information or use it for any purpose other than to contact you about the work we're doing.</i>
+        </p>

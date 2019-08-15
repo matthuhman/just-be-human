@@ -2,14 +2,42 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
+  <ul>
+    <% @donation.errors.full_messages.each do |message| %>
+      <div class="donation-signup-error">
+        <% if message.include? "invalid" %>
+          <div class="invalid-email-error">
+            <p>
+              The email address that you entered is invalid.
+            </p>
+          </div>
+        <% elsif message.include? "taken" %>
+          <div class="taken-email-error">
+            <p>
+              That email address is already in our system!
+            </p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+  </ul>
+
   <div class="form-inputs">
-    <%= f.input :email %>
-    <%= f.input :donate %>
-    <%= f.input :volunteer %>
-    <%= f.input :marketing %>
+    <div class="donation-email-input">
+      What's your preferred email? <br>
+      <%= f.email_field :email, :required => true, placeholder: "my@email.com" %>
+    </div>
+    <div class="donation-booleans">
+      <%= f.input :donate, label: "I'm interested in donating!", checked: true %>
+      <%= f.input :volunteer, label: "I'm excited to use this as a volunteer." %>
+      <%= f.input :marketing, label: "I'd like to help with getting the word out." %>
+    </div>
   </div>
 
+
+
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Keep me posted!", class: "btn-success btn-block btn-lg" %>
   </div>
 <% end %>

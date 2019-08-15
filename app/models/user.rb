@@ -22,6 +22,8 @@ class User < ApplicationRecord
 
   private
 
+    # TODO: if a user has any admin roles of problems that have > 1 follower, we want to take the highest-ranked other person
+    # in the problem and promote them to leader so that 
     def fill_admin_roles
 
     end
