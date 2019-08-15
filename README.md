@@ -23,10 +23,10 @@ Rails 5.2
   * belongs_to user
   * has_many roles (link table)
   * has_many milestones
-  * has_many posts, as `postable`
+  * has_many posts, as postable
 * Milestone (essentially sub-problems)
   * belongs_to problem
-  * has_many posts
+  * has_many posts, as postable
   * has_many milestone_roles (link table w/ users)
 * Role (link table b/t problems and users, has `level` integer for permissions)
   * belongs_to user
