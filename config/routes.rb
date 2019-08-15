@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get '/landing' => 'pages#landing'
   
-  get '/costs' => 'pages#costs'
+  get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
   get '/help' => 'pages#help'

@@ -40,7 +40,7 @@ Rails 5.2
   * still need to fully define use cases
   * creds have been acquired!
   * added: 20190811
-  * completed: 
+  * completed:
 * ~~get the service deployed into Elastic Beanstalk~~
   * added: 20190811
   * completed: 20190811
@@ -57,10 +57,10 @@ Rails 5.2
   * completed: 20190811
 * identify and test all permissions requirements
   * added: 20190811
-  * completed: 
+  * completed:
 * create final AMI (not final code, but final environment config)
   * added: 20190811
-  * completed: 
+  * completed:
 * milestones as a model need to be dramatically improved
   * probably need to add a /show page back in
   * need participant count, due date (which must be <= problem due date)
@@ -79,3 +79,11 @@ Rails 5.2
 * devise user registration handlers redirect to /users and need to be overridden somehow
   * 20190812
 
+# Arren todo:
+ * Action Mailer Design
+ * sticky foooter -- DONE
+ * open specific problem tab on load and after modal submit
+ * get rid of my problems page
+ * move new problem to navbar
+ * add problem filters on homepage
+ * add tabs for homepage my problems vs problems near me

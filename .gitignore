@@ -39,3 +39,6 @@ yarn-debug.log*
 .yarn-integrity
 
 /deployment-*.zip
+
+
+*DS_Store
