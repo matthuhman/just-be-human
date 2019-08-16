@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_164827) do
+ActiveRecord::Schema.define(version: 2019_08_16_040828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,21 +36,21 @@ ActiveRecord::Schema.define(version: 2019_08_15_164827) do
 
   create_table "donations", force: :cascade do |t|
     t.string "email"
-    t.boolean "donate"
-    t.boolean "marketing"
-    t.boolean "volunteer"
+    t.boolean "marketing", default: true
+    t.boolean "donate", default: true
+    t.index ["email"], name: "index_donations_on_email"
   end
 
   create_table "geopoints", force: :cascade do |t|
     t.string "zip"
     t.string "city"
     t.string "state"
-    t.decimal "latitude", precision: 9, scale: 6
-    t.decimal "longitude", precision: 9, scale: 6
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.integer "time_zone"
     t.boolean "dst_flag"
     t.string "coordinates"
-    t.index ["zip"], name: "index_geopoints_on_zip", unique: true
+    t.index ["zip"], name: "index_geopoints_on_zip"
   end
 
   create_table "milestone_roles", force: :cascade do |t|
@@ -68,51 +68,66 @@ ActiveRecord::Schema.define(version: 2019_08_15_164827) do
   create_table "milestones", force: :cascade do |t|
     t.string "title"
     t.text "description"
+    t.string "address"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.integer "volunteers_required", default: 1
+    t.integer "volunteer_count", default: 1
+    t.integer "category"
+    t.integer "subcategory"
     t.boolean "complete"
     t.string "current_status"
     t.bigint "problem_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "address"
-    t.bigint "user_id"
-    t.integer "participants_required", default: 1
-    t.integer "participant_count", default: 1
+    t.index ["category", "subcategory"], name: "index_milestones_on_category_and_subcategory"
+    t.index ["latitude", "longitude"], name: "index_milestones_on_latitude_and_longitude"
     t.index ["problem_id"], name: "index_milestones_on_problem_id"
     t.index ["user_id"], name: "index_milestones_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title", default: "Change me!", null: false
-    t.text "content", default: "Add content!", null: false
+    t.string "title", default: "CHANGEME", null: false
+    t.text "content", default: "CHANGEME", null: false
+    t.integer "comment_count", default: 0
     t.bigint "user_id"
     t.string "postable_type"
     t.bigint "postable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "comment_count", default: 0
     t.index ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "problems", force: :cascade do |t|
-    t.string "title", default: "Default Title. Change me!", null: false
-    t.text "description", default: "This is the default description. Please change me!", null: false
-    t.float "latitude"
-    t.float "longitude"
+    t.string "title"
+    t.text "description"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.date "target_completion_date"
     t.bigint "user_id"
-    t.integer "participants_required", default: 1
-    t.integer "participant_count", default: 1
+    t.integer "volunteers_required", default: 1
+    t.integer "volunteer_count", default: 1
     t.boolean "completed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "address"
+    t.string "postal_code"
     t.string "category"
     t.string "subcategory"
     t.integer "follower_count", default: 1
-    t.string "postal_code"
-    t.string "country", default: "United States"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category", "subcategory"], name: "index_problems_on_category_and_subcategory"
+    t.index ["latitude", "longitude"], name: "index_problems_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_problems_on_user_id"
+  end
+
+  create_table "reported_errors", force: :cascade do |t|
+    t.string "source"
+    t.text "errors"
+    t.integer "priority"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -131,10 +146,10 @@ ActiveRecord::Schema.define(version: 2019_08_15_164827) do
     t.string "username"
     t.string "first_name"
     t.string "last_name"
-    t.string "city", default: "", null: false
-    t.string "zip", default: "", null: false
-    t.string "state", default: "", null: false
-    t.string "country", default: "United States", null: false
+    t.string "city"
+    t.string "postal_code"
+    t.string "region"
+    t.string "country", default: "United States"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -158,8 +173,7 @@ ActiveRecord::Schema.define(version: 2019_08_15_164827) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["username"], name: "index_users_on_username"
   end
 
-  add_foreign_key "problems", "users"
 end

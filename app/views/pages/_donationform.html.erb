@@ -8,13 +8,13 @@
         <% if message.include? "invalid" %>
           <div class="invalid-email-error">
             <p>
-              The email address that you entered is invalid.
+              That email is invalid.
             </p>
           </div>
         <% elsif message.include? "taken" %>
           <div class="taken-email-error">
             <p>
-              That email address is already in our system!
+              That email is already in our system!
             </p>
           </div>
         <% end %>
@@ -25,12 +25,13 @@
 
   <div class="form-inputs">
     <div class="donation-email-input">
-      What's your preferred email? <br>
+      <div class="donation-email-label">
+        What's your preferred email?
+      </div>
       <%= f.email_field :email, :required => true, placeholder: "my@email.com" %>
     </div>
     <div class="donation-booleans">
       <%= f.input :donate, label: "I'm interested in donating!", checked: true %>
-      <%= f.input :volunteer, label: "I'm excited to use this as a volunteer." %>
       <%= f.input :marketing, label: "I'd like to help with getting the word out." %>
     </div>
   </div>

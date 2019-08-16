@@ -5,7 +5,7 @@ class Problem < ApplicationRecord
   has_many :posts, as: :postable, :dependent => :destroy
 
   geocoded_by :address
-  after_validation :geocode
+  after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
 
   def user_is_admin(user_id)

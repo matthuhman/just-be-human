@@ -12,7 +12,7 @@ default: &default
 development:
   adapter: postgresql
   encoding: unicode
-  database: justbehuman-dev
+  database: justbehumandev
   username: justbehuman
   password: <%= ENV['JBH_DEV_PASSWORD'] %>
 
@@ -21,7 +21,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: justbehumantest
 
 production:
   adapter: postgresql
