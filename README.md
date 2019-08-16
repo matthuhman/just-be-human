@@ -70,53 +70,23 @@ Rails 5.2
 
 
 
-# Big TO-DO list
+# BIG TASKS STILL OUTSTANDING
 
-* ~~get comments fully functioning~~
-  * added: 20190811
-  * completed: 20190811
-* get google maps integration functioning on the back end
-  * still need to fully define use cases
-  * creds have been acquired!
-  * added: 20190811
-  * completed:
-* ~~get the service deployed into Elastic Beanstalk~~
-  * added: 20190811
-  * completed: 20190811
-  * NOTE: NOT USING EBS- HARD-DEPLOYED TO EC2
-  * recommend using an AMI for now
-* ~~get the domain host changed from gandi to AWS~~
-  * added: 20190811
-  * completed: 20190811
-* ~~get a web server running on port 80~~
-  * added: 20190811
-  * completed: 20190811
-* ~~set up a permanent postgres db~~
-  * added: 20190811
-  * completed: 20190811
 * identify and test all permissions requirements
   * added: 20190811
   * completed:
-* create final AMI (not final code, but final environment config)
-  * added: 20190811
-  * completed:
+
 * milestones as a model need to be dramatically improved
   * probably need to add a /show page back in
   * need participant count, due date (which must be <= problem due date)
   * added: 20190811
+  * completed: 
 
-
-# Known bugs and changes needed (big and small)
-* not logged in, directs to /problems, then throws error
-  * DONE
-* comments#new back button redirects to comments#index instead of parent post
-  * DONE
-* remove all public references to email address on application, also restrict API access to emails
-  * DONE
-* saving a new problem with a zip code is causing problems b/c I can't get geopoints into the postgres db
-  * DONE
+# Known small bugs/changes needed
 * devise user registration handlers redirect to /users and need to be overridden somehow
   * 20190812
+* nginx does not start on system startup for current AMI
+  * 20190815
 
 # Arren todo:
  * Action Mailer Design
