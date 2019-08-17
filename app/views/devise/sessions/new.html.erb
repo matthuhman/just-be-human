@@ -11,29 +11,31 @@
                             <h3 class="mb-0">Sign In</h3>
                         </div>
                         <div class="card-body">
-                            <form class="form" role="form" autocomplete="off" id="new_user" novalidate="" method="POST" action="/users/sign_in">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="user[email]" autofocus="autofocus" autocomplete="email" class="form-control form-control-lg rounded-0" name="email" id="email" required="">
-                                    <div class="invalid-feedback">Oops, you missed this one.</div>
-                                </div>
-                                <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control form-control-lg rounded-0" id="password" required="" autocomplete="current-password" name="user[password]">
-                                    <div class="invalid-feedback">Enter your password too!</div>
-                                </div>
+                          <form class="form" role="form" autocomplete="off" id="new_user" novalidate="" method="POST" action="/users/sign_in">
+                              <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="email" name="user[email]" autofocus="autofocus" autocomplete="email" class="form-control form-control-lg rounded-0" name="email" id="email" required="">
+                                  <div class="invalid-feedback">Oops, you missed this one.</div>
+                              </div>
+                              <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>>
+                              <div class="form-group">
+                                  <label>Password</label>
+                                  <input type="password" class="form-control form-control-lg rounded-0" id="password" required="" autocomplete="current-password" name="user[password]">
+                                  <div class="invalid-feedback">Enter your password too!</div>
+                              </div>
 <!--                                 <div>
-                                    <label class="custom-control custom-checkbox">
-                                      <input type="checkbox" class="custom-control-input">
-                                      <span class="custom-control-indicator"></span>
-                                      <span class="custom-control-description small text-dark">Remember me on this computer</span>
-                                    </label>
-                                </div> -->
-                                
-                                <button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Sign In</button>
-                                  <%= link_to 'Register', new_user_registration_path, class: "btn btn-primary btn-lg float-left" %>
-                            </form>
+                                  <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description small text-dark">Remember me on this computer</span>
+                                  </label>
+                              </div> -->
+                              <div class="d-flex justify-content-between">
+                                <%= link_to 'Register', new_user_registration_path, class: "btn btn-primary btn-lg" %>
+                                <button type="submit" class="btn btn-success btn-lg" id="btnLogin">Sign In</button>
+                              </div>
+                              <%= render "devise/shared/links" %>
+                          </form>
                         </div>
                         <!--/card-block-->
                     </div>
@@ -51,6 +53,3 @@
     <!--/row-->
 </div>
 <!--/container-->
-
-
-

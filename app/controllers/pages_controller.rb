@@ -15,10 +15,10 @@ class PagesController < ApplicationController
   # If there is no user, it redirects to the landing screen
   def home
     if current_user
-      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.zip 
+      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.postal_code
       @geopoint = Geopoint.find_by(zip: @zip)
       if !@geopoint
-        @geopoint = Geopoint.find_by(zip: current_user.zip)
+        @geopoint = Geopoint.find_by(zip: current_user.postal_code)
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
       @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5)

@@ -1,4 +1,3 @@
-
 <%= simple_form_for(@problem) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -6,13 +5,12 @@
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Keep your title short and simple!" %>
     <%= f.input :description, placeholder: "A good description will go a long way." %>
-    <%= f.input :category, placeholder: "Examples: 'Trash Cleanup', 'Personal Outreach'" %>
+    <%= f.select :category, MilestoneCategory.categories.map {|cat| cat.title} %>
     <%= f.input :subcategory %>
-    <%= f.input :participants_required %>
-    <%= f.input :target_completion_date, as: :date %>
+    <%= f.input :volunteers_required %>
+    <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
     <%= f.input :address, placeholder: "If possible, please enter an address" %>
     <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
-    <%= f.input :country, placeholder: "Will default to United States if left blank" %>
   </div>
 
   <div class="form-actions">

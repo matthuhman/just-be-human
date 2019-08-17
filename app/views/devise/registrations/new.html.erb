@@ -1,6 +1,9 @@
 <div class="main container">
-  <h1>Welcome</h1>
-  <h4>to our community! We're excited to have you join Just Be Human</h4>
+  <div class="">
+    <h1>Welcome to Just Be Human</h1>
+    <h4>We're excited for you to join our community!</h4>
+  </div>
+
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
@@ -51,10 +54,7 @@
                   input_html: { autocomplete: "new-password" } %>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
-    </div>
+    <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
   <% end %>
 
-  <%= render "devise/shared/links" %>
 </div>
