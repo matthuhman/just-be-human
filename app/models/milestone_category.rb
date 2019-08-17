@@ -38,10 +38,6 @@ class MilestoneCategory
   end
 
 
-
-
-  private
-
   
     # map of integer ID's to categories
     categories = 
@@ -62,18 +58,18 @@ class MilestoneCategory
     {
       1 => {:title => "Light labor", :desc => "This should be well within the physical capabilities of an average person."},
       2 => {:title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs"},
-      3 => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
-      4 => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
+      3 => {:title => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
+      4 => {:title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
     }
 
     equipment_subcats = 
     {
-      1 => {:title => "Household items", :desc => "If you need "
-      2 => "Lawn and garden",
-      3 => "Hand tools",
-      4 => {:title => "Specialized tools", :desc => ""
+      1 => {:title => "Household items", :desc => "If you need "},
+      2 => {:title => "Lawn and garden", :desc => "asdf"},
+      3 => {:title => "Hand tools", :desc => "asdf2"}
+      4 => {:title => "Specialized tools", :desc => ""},
       5 => {:title => "Custom built/ordered", :desc => "Are you going to need something custom-made? Define it here."},
-      6 => {:title => "Heavy equipment", :desc => "Examples: a stump grinder, jackhammer, backhoe, etc"
+      6 => {:title => "Heavy equipment", :desc => "Examples: a stump grinder, jackhammer, backhoe, etc"},
       8 => {:title => "Food", :desc => ""}
     }
 

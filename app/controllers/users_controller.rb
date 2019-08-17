@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to '/', alert: 'Your account was successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -77,10 +77,19 @@ class UsersController < ApplicationController
     requesting_user = User.find(contact_params[:requesting_user_id])
     requested_id = contact_params[:requested_user_id]
     respond_to do |format|
-      if (current_user == requesting_user && Problem.users_are_volunteers(requesting_id, requested_id) && requesting_user.over_16 && requested_user.over_16)
+      if (current_user == requesting_user && Problem.users_are_volunteers(requesting_id, requested_id) && requesting_user.over_16? && requested_user.over_16?)
         @request = ContactRequest.new(contact_params)
         if @request.save
           format.html { redirect_to requested_user, notice: "You have requested #{requested_id.username}'s contact information. You will be notified via email if they accept" }
+          format.json { render :show, status: :created, location: requested_user }
+        else
+          ReportedError.report("User.request_contact_info", @request.errors, 1000)
+          format.html { redirect_to requested_user, alert: "An unexpected error occurred when issuing this contact request. The error has been logged and we will investigate it." }
+          format.json { render :show, status: :unprocessable_entity, location: requested_user }
+        end
+      else
+        if (requesting_user.over_16?)
+        format.html { redirect_to requested_user, alert: "You cannot request this user's "}
     
 
 

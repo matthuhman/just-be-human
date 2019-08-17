@@ -15,7 +15,14 @@ class User < ApplicationRecord
 
   # before_save :validate
 
+  def over_16?
+    if self.over_16.nil?
+      self.over_16 = self.birth_date < 18.year.ago
+      self.save
+    end
 
+    return self.over_16
+  end
 
 
 
