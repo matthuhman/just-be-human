@@ -22,7 +22,7 @@ class PagesController < ApplicationController
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
       @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5)
-      @roles = current_user.roles
+      @roles = current_user.problem_roles
     else
       redirect_to :action => 'landing'
     end
@@ -30,7 +30,7 @@ class PagesController < ApplicationController
 
   # 20190815 - @mhuhman - this may not be necessary any more
   def my_problems
-    @roles = current_user.roles
+    @roles = current_user.problem_roles
   end
 
   # This action is a static 'about us' page that just contains some text
@@ -47,7 +47,7 @@ class PagesController < ApplicationController
   # This action is used to create a new "Donation" record and then redirects to
   # the home or landing page
   def donation_signup
-    @donation = Donation.create(donation_params)
+    @donation = Donation.new(donation_params)
 
     respond_to do |format|
       if @donation.save

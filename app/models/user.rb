@@ -4,17 +4,25 @@ class User < ApplicationRecord
          :lockable, :timeoutable, :trackable
 
   has_many :problems
-  has_many :roles
-  has_many :milestones, through: :milestone_roles, :dependent => :destroy
+  has_many :problem_roles, :dependent => :destroy
+  has_many :milestones
+  has_many :milestone_roles, :dependent => :destroy
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
 
-  after_destroy :fill_admin_roles
+  
 
   # before_save :validate
 
+  def over_16?
+    if self.over_16.nil?
+      self.over_16 = self.birth_date < 18.year.ago
+      self.save
+    end
 
+    return self.over_16
+  end
 
 
 
