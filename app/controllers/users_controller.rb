@@ -71,6 +71,20 @@ class UsersController < ApplicationController
     end
   end
 
+
+
+  def request_contact_info
+    requesting_user = User.find(contact_params[:requesting_user_id])
+    requested_id = contact_params[:requested_user_id]
+    respond_to do |format|
+      if (current_user == requesting_user && Problem.users_are_volunteers(requesting_id, requested_id) && requesting_user.over_16 && requested_user.over_16)
+        @request = ContactRequest.new(contact_params)
+        if @request.save
+          format.html { redirect_to requested_user, notice: "You have requested #{requested_id.username}'s contact information. You will be notified via email if they accept" }
+    
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
