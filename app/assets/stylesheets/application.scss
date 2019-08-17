@@ -9,6 +9,10 @@ html, body {
   margin: 0;
 }
 
+.main {
+  padding: 4vh 2vw;
+}
+
 .wrapper {
   min-height: 75vh;
 }
@@ -39,4 +43,8 @@ html, body {
   font-size: .3em;
   vertical-align: text-top;
   line-height: 350%;
+}
+
+abbr[title], abbr[data-original-title] {
+  text-decoration: none;
 }

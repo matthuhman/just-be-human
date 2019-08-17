@@ -1,39 +1,60 @@
-<h2>Sign up</h2>
+<div class="main container">
+  <h1>Welcome</h1>
+  <h4>to our community! We're excited to have you join Just Be Human</h4>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :username,
-                required: true,
-                autofocus: true %>
-    <%= f.input :email,
-                required: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :first_name,
-                required: true %>
-    <%= f.input :last_name,
-                required: true %>
-    <%= f.input :city,
-                required: true %>
-    <%= f.input :state,
-                required: true %>
-    <%= f.input :zip,
-                required: true %>
-    <%= f.input :country,
-                required: true %>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-  </div>
+    <div class="form-inputs">
+      <%= f.input :username,
+                  required: true,
+                  placeholder: 'What would you like to go by?',
+                  autofocus: true %>
+      <%= f.input :email,
+                  required: true,
+                  placeholder: "What's your email?",
+                  input_html: { autocomplete: "email" }%>
+      <%= f.input :phone_number,
+                  placeholder: "What's your phone number?",
+                  required: true %>
+      <%= f.input :first_name,
+                  placeholder: 'Enter your first name',
+                  required: true %>
+      <%= f.input :last_name,
+                  placeholder: 'Enter your last name',
+                  required: true %>
+      <%= f.input :birth_date,
+                  order: [:month, :day, :year],
+                  start_year: Date.today.year - 110,
+                  end_year: Date.today.year,
+                  required: true %>
+      <%= f.input :city,
+                  placeholder: 'What city do you live in?',
+                  required: true %>
+      <%= f.input :region,
+                  placeholder: 'What state/region is that?',
+                  required: true %>
+      <%= f.input :postal_code,
+                  placeholder: 'Enter your postal code',
+                  required: true %>
+      <%= f.input :country,
+                  selected: 'US',
+                  required: true %>
+      <%= f.input :password,
+                  placeholder: 'Pick a password (the more secure the better)!',
+                  required: true,
+                  hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                  input_html: { autocomplete: "new-password" } %>
+      <%= f.input :password_confirmation,
+                  placeholder: 'Confirm your password',
+                  required: true,
+                  input_html: { autocomplete: "new-password" } %>
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
+    <div class="form-actions">
+      <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+</div>
