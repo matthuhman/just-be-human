@@ -57,6 +57,14 @@
         <strong>Description:</strong>
         <%= @problem.description %>
       </h5>
+      <h5>
+        <strong>Category:</strong>
+        <%= @problem.category_title %>
+      </h5>
+      <h5>
+        <strong>Sub Category:</strong>
+        <%= @problem.subcategory_title %>
+      </h5>
 
       <h5>
         <strong>Target completion date:</strong>
@@ -109,7 +117,7 @@
                 </p>
               </div>
 
-            </div> 
+            </div>
           </ol>
 
         <% end %>

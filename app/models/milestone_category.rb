@@ -37,40 +37,42 @@ class MilestoneCategory
     return equipment_subcats[id]
   end
 
+  # map of integer ID's to categories
+  def self.categories
+    [
+      {:id => 0, :title => "Planning", :desc => "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!"},
+      {:id => 1, :title => "Labor", :desc => "Once you've figured out what needs doing, find volunteers to get it done."},
+      {:id => 2, :title => "Equipment", :desc => "Make sure that any equipment you need is located ahead of time, so it's there when you need it."},
+      {:id => 3, :title => "Transportation", :desc => "Find volunteers with vehicles who can help you get where you need to be!"}
+    ]
+  end
 
-  
-    # map of integer ID's to categories
-    categories = 
+  def self.sub_categories
     {
-      1 => {:title => "Planning", :desc => "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!"}, 
-      2 => {:title => "Labor", :desc => "Once you've figured out what needs doing, find volunteers to get it done."}, 
-      3 => {:title => "Equipment", :desc => "Make sure that any equipment you need is located ahead of time, so it's there when you need it."},
-      4 => {:title => "Transportation", :desc => "Find volunteers with vehicles who can help you get where you need to be!"}
+      0 => [ # planning
+        {:id => 0, :title => "In-person", :desc => "Trying to make plans as a group? In-person is always better."},
+        {:id => 1, :title => "Remote", :desc => "Remote planning is great for when small decisions need to be made quickly!"}
+      ],
+      1 => [ # labor
+        {:id => 0, :title => "Light labor", :desc => "This should be well within the physical capabilities of an average person."},
+        {:id => 1, :title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs"},
+        {:id => 2, :title => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
+        {:id => 3, :title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
+      ],
+      2 => [ # equipment
+        {:id => 0, :title => "Household items", :desc => "If you need "},
+        {:id => 1, :title => "Lawn and garden", :desc => "asdf"},
+        {:id => 2, :title => "Hand tools", :desc => "asdf2"},
+        {:id => 3, :title => "Specialized tools", :desc => ""},
+        {:id => 4, :title => "Custom built/ordered", :desc => "Are you going to need something custom-made? Define it here."},
+        {:id => 5, :title => "Heavy equipment", :desc => "Examples: a stump grinder, jackhammer, backhoe, etc"},
+        {:id => 6, :title => "Food", :desc => ""}
+      ],
+      3 => [ #Transportation
+        {:id => 0, :title => "Large Vehicle", :desc => "Need large vehicle for transporting lots of people and/or equipment"},
+        {:id => 1, :title => "Medium Vehicle", :desc => "Need medium vehicle for transporting a few people and/or equipment"},
+        {:id => 2, :title => "Small Vehicle", :desc => "Need medium vehicle for transporting small amount of people and/or equipment"},
+      ]
     }
-
-    planning_subcats = 
-    {
-      1 => {:title => "In-person", :desc => "Trying to make plans as a group? In-person is always better."},
-      2 => {:title => "Remote", :desc => "Remote planning is great for when small decisions need to be made quickly!"}
-    }
-
-    labor_subcats = 
-    {
-      1 => {:title => "Light labor", :desc => "This should be well within the physical capabilities of an average person."},
-      2 => {:title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs"},
-      3 => {:title => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
-      4 => {:title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
-    }
-
-    equipment_subcats = 
-    {
-      1 => {:title => "Household items", :desc => "If you need "},
-      2 => {:title => "Lawn and garden", :desc => "asdf"},
-      3 => {:title => "Hand tools", :desc => "asdf2"}
-      4 => {:title => "Specialized tools", :desc => ""},
-      5 => {:title => "Custom built/ordered", :desc => "Are you going to need something custom-made? Define it here."},
-      6 => {:title => "Heavy equipment", :desc => "Examples: a stump grinder, jackhammer, backhoe, etc"},
-      8 => {:title => "Food", :desc => ""}
-    }
-
+  end
 end
