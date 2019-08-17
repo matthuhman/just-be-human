@@ -42,24 +42,39 @@ class MilestoneCategory
     # map of integer ID's to categories
     categories = 
     {
-      1 => {:title => "Planning", :desc => "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!"}, 
+      1 => {:id => 1, :title => "Planning", :desc => "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!"}, 
       2 => {:title => "Labor", :desc => "Once you've figured out what needs doing, find volunteers to get it done."}, 
       3 => {:title => "Equipment", :desc => "Make sure that any equipment you need is located ahead of time, so it's there when you need it."},
       4 => {:title => "Transportation", :desc => "Find volunteers with vehicles who can help you get where you need to be!"}
     }
 
+
+    subcategories =
+    {
+      1 => [
+          { id: 1, title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },
+          { id: 1, title: "Remote", desc: "Remote planning is great for when small decisions need to be made quickly!" }
+        ],
+      2 => [
+          { id: 1, :title => "Light labor", :desc => "This should be well within the physical capabilities of an average person." },
+          { id: 2, :title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs" },
+          { id: 3, title: "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional." }
+          { id: 4, :title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
+      ]
+    }
+
     planning_subcats = 
     {
-      1 => {:title => "In-person", :desc => "Trying to make plans as a group? In-person is always better."},
-      2 => {:title => "Remote", :desc => "Remote planning is great for when small decisions need to be made quickly!"}
+      1 => {:title => "In-person", :desc => ""},
+      2 => 
     }
 
     labor_subcats = 
     {
       1 => {:title => "Light labor", :desc => "This should be well within the physical capabilities of an average person."},
-      2 => {:title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs"},
-      3 => {:title => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
-      4 => {:title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
+      2 => ,
+      3 => {:title => "Specialized labor",},
+      4 => {}
     }
 
     equipment_subcats = 

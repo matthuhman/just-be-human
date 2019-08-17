@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :milestone_roles, :dependent => :destroy
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
+  has_many :contact_requests, :dependent => :destroy
 
 
   
@@ -26,6 +27,8 @@ class User < ApplicationRecord
 
 
 
+
+
   private
 
     # TODO: if a user has any admin roles of problems that have > 1 follower, we want to take the highest-ranked other person
@@ -34,5 +37,8 @@ class User < ApplicationRecord
 
     end
 
-
+    def as_json(options = {})
+      options[:except] ||= [:last_name, :email, :phone_number, :birth_date]
+      super(options)
+    end
 end
