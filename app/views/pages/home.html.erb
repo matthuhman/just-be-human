@@ -5,25 +5,26 @@
 </head>
   <body>
     <div class="home-page">
+      <div class="d-flex flex-column align-items-center justify-content-center current-zip-floater">
+        <h3>Active zip code: <%= @geopoint.zip %></h3>
+      </div>
       <aside class="home-page-aside">
-        <div class="d-flex flex-column align-items-center homepage-header">
-          <h3>Problems Near Me - Currently active zip code: <%= @geopoint.zip %></h3>
-        </div>
-        <% @problems.each do |problem| %>
-          <div class="problem-row">
-            <h5><%= problem.title %></h5>
-            <p><%= problem.description %></p>
-            <p><strong>Due: </strong><%= problem.target_completion_date %></p>
-            <p><strong>Created by: </strong><%= problem.user.username %></p>
-            <div class="d-flex flew-row justify-content-around">
-              <%= link_to 'Show', problem, class: 'problem-link' %>
-              <% if current_user == problem.user %>
-                <%= link_to 'Edit', edit_problem_path(problem), class: 'problem-link'  %>
-                <%= link_to 'Delete', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'problem-link'  %>
-              <% end %>
-            </div>
+        <div class="homepage-header">
+          <div class="tab hp">
+            <button class="tablinks hp" onclick="openTab(event, 'probs-near-me')" id="defaultOpen">Problems Near Me</button>
+            <button class="tablinks hp" onclick="openTab(event, 'my-probs')">My Problems</button>
           </div>
-        <% end %>
+        </div>
+        <div id="probs-near-me" class="tabcontent hp">
+          <% @problems.each do |problem| %>
+            <%= render 'problem_row', problem: problem %>
+          <% end %>
+        </div>
+        <div id="my-probs" class="tabcontent hp">
+          <% @problems.filter {|problem| problem.user_id === current_user.id }.each do |prob| %>
+            <%= render 'problem_row', problem: prob %>
+          <% end %>
+        </div>
       </aside>
       <div id="map"></div>
     </div>
@@ -56,14 +57,14 @@
 
 
         data.contentString =
-          '<div id="content">' +
-            '<div id="siteNotice"></div>' +
-            '<h2 id="marker_title" class="marker_title">' + data.title + '</h2>' +
-            '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.volunteer_count + "/" + data.volunteers_required + "</h4>" +
-            '<h5 id="marker_followers" class="marker_followers">Followers: ' + data.follower_count + "</h5>" +
-            '<h5 id="marker_category" class="marker_category">Category: ' + data.category_title + ' -- Subcategory: ' + data.subcategory_title + '</h5>' +
-            '<h6 id="marker_link" class="marker_link"><a href="/problems/' + data.id + '">See Problem Details</a>' +
-          '</div>';
+          `<div id="content">
+            <div id="siteNotice"></div>
+            <h4 id="marker_title" class="marker_title"> ${data.title}</h4>
+            <p id="marker_participants" class="marker_participants">Participant status: ${data.volunteer_count} / ${data.volunteers_required}</p>
+            <p id="marker_followers" class="marker_followers">Followers: ${data.follower_count}</p>
+            <p id="marker_category" class="marker_category">Category: ${data.category_title} -- Subcategory: ${data.subcategory_title}</p>
+            <a href="/problems/${data.id}" id="marker_link" class="marker_link">See Problem Details</a>
+           </div>`;
 
         var marker = new google.maps.Marker({
           position: LatLng,

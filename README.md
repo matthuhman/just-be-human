@@ -9,8 +9,8 @@ Rails 5.2
   * Ruby 2.6.3
   * Rails 5.2
   * rvm used for install
-  
-  
+
+
 # ERB Breakdown
 ```
 * User (self-explanatory)
@@ -80,7 +80,7 @@ Rails 5.2
   * probably need to add a /show page back in
   * need participant count, due date (which must be <= problem due date)
   * added: 20190811
-  * completed: 
+  * completed:
 
 # Known small bugs/changes needed
 * devise user registration handlers redirect to /users and need to be overridden somehow
@@ -89,10 +89,19 @@ Rails 5.2
   * 20190815
 
 # Arren todo:
- * Action Mailer Design
- * sticky foooter -- DONE
+ * home page design
+  - update style
+  - clickable problem cards (remove links)
+    - edit and delete from show page
+  - tabs for near me / my problems
+    - near me tab has filter by category
+ * fix up problem show page
+ * Posts
+    - write code once for both problems/ milestones
+ * Comments
+    - write code once for both problems/ milestones
+ * sticky footer -- DONE
  * open specific problem tab on load and after modal submit
  * get rid of my problems page
- * move new problem to navbar
- * add problem filters on homepage
- * add tabs for homepage my problems vs problems near me
+
+ * Action Mailer Design -- wait for later
