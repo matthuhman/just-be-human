@@ -27,10 +27,18 @@ class Problem < ApplicationRecord
     end
   end
 
+  def category_title
+    MilestoneCategory.categories[self.category.to_i][:title]
+  end
+
+  def subcategory_title
+    MilestoneCategory.sub_categories[self.category.to_i][self.subcategory.to_i][:title]
+  end
+
 
   def self.users_are_volunteers(*args)
     args.each do |id|
-      role = ProblemRole.
+      # role = ProblemRole.
 
 
 
@@ -42,6 +50,14 @@ class Problem < ApplicationRecord
 
   def coordinates
     return [self.latitude, self.longitude]
+  end
+
+  def as_json(options = { })
+    # just in case someone says as_json(nil) and bypasses
+    # our default...
+    super((options || { }).merge({
+      :methods => [:category_title, :subcategory_title]
+    }))
   end
 
 end

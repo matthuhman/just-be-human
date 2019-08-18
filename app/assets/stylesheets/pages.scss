@@ -2,14 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
+@import 'theme.scss';
 
 //
 //
 //
 // HOME PAGE STYLING
 
-/* Style the tab */
+// /* Style the tab */
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
@@ -59,7 +59,7 @@
 .home-page-aside {
   padding: 1vh 1vw;
   grid-column: 1;
-  background-color: #e6f9ff;
+  background-color: $primary;
   height: 80vh;
   overflow-y: scroll;
 }
