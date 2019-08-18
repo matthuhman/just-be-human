@@ -9,6 +9,10 @@ html, body {
   margin: 0;
 }
 
+.main {
+  padding: 4vh 0;
+}
+
 .wrapper {
   min-height: 75vh;
 }
@@ -22,21 +26,28 @@ html, body {
   font-size: 2.2em;
 }
 
-#map {
-  height: 100%;
-  width: 100%;
-  margin: auto;
-}
-
 .navbar-beta-tag {
   vertical-align: text-top;
   font-size: .3rem;
   line-height: 200%;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+.alert {
+  margin-bottom: 0;
+}
 
 .landing-beta-tag {
   font-size: .3em;
   vertical-align: text-top;
   line-height: 350%;
+}
+
+abbr[title], abbr[data-original-title] {
+  text-decoration: none;
 }

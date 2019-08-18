@@ -57,6 +57,14 @@
         <strong>Description:</strong>
         <%= @problem.description %>
       </h5>
+      <h5>
+        <strong>Category:</strong>
+        <%= @problem.category_title %>
+      </h5>
+      <h5>
+        <strong>Sub Category:</strong>
+        <%= @problem.subcategory_title %>
+      </h5>
 
       <h5>
         <strong>Target completion date:</strong>
@@ -74,8 +82,8 @@
       </h5>
 
       <h5>
-        <strong>Current Participant Count / Target Participant Count:</strong>
-        <%= @problem.participant_count %> / <%= @problem.participants_required %>
+        <strong>Current Volunteer Count / Target Volunteer Count:</strong>
+        <%= @problem.volunteer_count %> / <%= @problem.volunteers_required %>
       </h5>
       <br>
       <br>
@@ -109,7 +117,7 @@
                 </p>
               </div>
 
-            </div> 
+            </div>
           </ol>
 
         <% end %>
@@ -135,7 +143,7 @@
             </div>
             <div class="milestone-info">
               <Strong>Complete:</Strong> <%= milestone.complete %> <br>
-              <Strong>Current/Needed Participants:</Strong> <%= milestone.participants_required %> <br>
+              <Strong>Current/Needed Volunteers:</Strong> <%= milestone.volunteers_required %> <br>
             </div>
             <div class="milestone-button-group">
               <div class="btn-group" role="group" aria-label="Admin Controls">
@@ -159,8 +167,8 @@
 
     <div id="problem-people-tab" class="tabcontent">
       <h2>Followers</h2>
-        <% @problem.roles.each do |role| %>
-          <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
+        <% @problem.problem_roles.each do |role| %>
+          <p>Username: <%= role.user.username %>  |  ProblemRole. <%= role.title %>
             <% if @is_admin %>
               <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
               | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>

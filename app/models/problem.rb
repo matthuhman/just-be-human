@@ -1,6 +1,6 @@
 class Problem < ApplicationRecord
   belongs_to :user
-  has_many :roles, :dependent => :destroy
+  has_many :problem_roles, :dependent => :destroy
   has_many :milestones, :dependent => :destroy
   has_many :posts, as: :postable, :dependent => :destroy
 
@@ -18,7 +18,7 @@ class Problem < ApplicationRecord
       return true
     end
 
-    role = Role.find(user_id: user_id, problem_id: self.id)
+    role = ProblemRole.find(user_id: user_id, problem_id: self.id)
 
     if role && role.level <= 2
       return true
@@ -27,9 +27,37 @@ class Problem < ApplicationRecord
     end
   end
 
+  def category_title
+    MilestoneCategory.categories[self.category.to_i][:title]
+  end
+
+  def subcategory_title
+    MilestoneCategory.sub_categories[self.category.to_i][self.subcategory.to_i][:title]
+  end
+
+
+  def self.users_are_volunteers(*args)
+    args.each do |id|
+      # role = ProblemRole.
+
+
+
+    end
+
+
+  end
+
 
   def coordinates
     return [self.latitude, self.longitude]
+  end
+
+  def as_json(options = { })
+    # just in case someone says as_json(nil) and bypasses
+    # our default...
+    super((options || { }).merge({
+      :methods => [:category_title, :subcategory_title]
+    }))
   end
 
 end

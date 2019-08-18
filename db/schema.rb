@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_152124) do
+ActiveRecord::Schema.define(version: 2019_08_17_180751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.bigint "post_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "contact_requests", force: :cascade do |t|
+    t.bigint "requesting_user_id"
+    t.bigint "requested_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "accepted", default: false
+    t.date "accept_time"
+    t.boolean "active", default: false
+    t.index ["requested_user_id", "requesting_user_id", "active"], name: "index_requester_requesting"
+    t.index ["requested_user_id"], name: "index_contact_requests_on_requested_user_id"
+    t.index ["requesting_user_id", "requested_user_id", "active"], name: "index_requesting_requester"
+    t.index ["requesting_user_id"], name: "index_contact_requests_on_requesting_user_id"
   end
 
   create_table "costs", force: :cascade do |t|
@@ -60,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "notes"
     t.index ["milestone_id", "user_id"], name: "index_milestone_roles_on_milestone_id_and_user_id", unique: true
     t.index ["milestone_id"], name: "index_milestone_roles_on_milestone_id"
     t.index ["user_id"], name: "index_milestone_roles_on_user_id"
@@ -100,6 +115,19 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "problem_roles", force: :cascade do |t|
+    t.integer "level"
+    t.string "title"
+    t.bigint "user_id"
+    t.bigint "problem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "notes"
+    t.index ["problem_id"], name: "index_problem_roles_on_problem_id"
+    t.index ["user_id", "problem_id"], name: "index_problem_roles_on_user_id_and_problem_id", unique: true
+    t.index ["user_id"], name: "index_problem_roles_on_user_id"
+  end
+
   create_table "problems", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -128,6 +156,8 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["priority"], name: "index_reported_errors_on_priority"
+    t.index ["source"], name: "index_reported_errors_on_source"
   end
 
   create_table "resources", force: :cascade do |t|
@@ -136,18 +166,6 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.integer "category"
     t.integer "subcategory"
     t.index ["code"], name: "index_resources_on_code"
-  end
-
-  create_table "roles", force: :cascade do |t|
-    t.integer "level"
-    t.string "title"
-    t.bigint "user_id"
-    t.bigint "problem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["problem_id"], name: "index_roles_on_problem_id"
-    t.index ["user_id", "problem_id"], name: "index_roles_on_user_id_and_problem_id", unique: true
-    t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
   create_table "user_resources", force: :cascade do |t|
@@ -186,6 +204,9 @@ ActiveRecord::Schema.define(version: 2019_08_16_152124) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.boolean "over_16"
+    t.string "phone_number"
+    t.date "birth_date"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

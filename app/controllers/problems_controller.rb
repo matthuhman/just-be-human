@@ -8,7 +8,7 @@ class ProblemsController < ApplicationController
   def show
 
     if current_user
-      @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
+      @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
       @is_mod = @problem.user_has_mod_permissions(current_user.id)
       @is_admin = @problem.user_is_admin(current_user.id)
     end
@@ -19,6 +19,8 @@ class ProblemsController < ApplicationController
   # GET /problems/new
   def new
     @problem = Problem.new
+    @categories = MilestoneCategory.categories
+    @sub_categories = MilestoneCategory.sub_categories
   end
 
   # GET /problems/1/edit
@@ -41,7 +43,7 @@ class ProblemsController < ApplicationController
       end
     end
 
-    @role = Role.create
+    @role = ProblemRole.create
     @role.user_id = current_user.id
     @role.level = 1
     @role.title = "Leader"

@@ -16,10 +16,10 @@
             <p><strong>Due: </strong><%= problem.target_completion_date %></p>
             <p><strong>Created by: </strong><%= problem.user.username %></p>
             <div class="d-flex flew-row justify-content-around">
-              <%= link_to 'Show', problem %>
+              <%= link_to 'Show', problem, class: 'problem-link' %>
               <% if current_user == problem.user %>
-                <%= link_to 'Edit', edit_problem_path(problem) %>
-                <%= link_to 'Delete', problem, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Edit', edit_problem_path(problem), class: 'problem-link'  %>
+                <%= link_to 'Delete', problem, method: :delete, data: { confirm: 'Are you sure?' }, class: 'problem-link'  %>
               <% end %>
             </div>
           </div>
@@ -51,15 +51,17 @@
       for (var i = 0, length = json.length; i < length; i++)
       {
         var data = json[i],
-          LatLng = {lat: data.latitude, lng: data.longitude};
+          LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
+          // @MATT -- fix the parse float issue
+
 
         data.contentString =
           '<div id="content">' +
             '<div id="siteNotice"></div>' +
             '<h2 id="marker_title" class="marker_title">' + data.title + '</h2>' +
-            '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.participant_count + "/" + data.participants_required + "</h4>" +
+            '<h4 id="marker_participants" class="marker_participants">Participant status:' + data.volunteer_count + "/" + data.volunteers_required + "</h4>" +
             '<h5 id="marker_followers" class="marker_followers">Followers: ' + data.follower_count + "</h5>" +
-            '<h5 id="marker_category" class="marker_category">Category: ' + data.category + ' -- Subcategory: ' + data.subcategory + '</h5>' +
+            '<h5 id="marker_category" class="marker_category">Category: ' + data.category_title + ' -- Subcategory: ' + data.subcategory_title + '</h5>' +
             '<h6 id="marker_link" class="marker_link"><a href="/problems/' + data.id + '">See Problem Details</a>' +
           '</div>';
 
@@ -68,6 +70,7 @@
           map: map,
           animation: google.maps.Animation.DROP
         });
+
 
         (function (marker, data) {
           google.maps.event.addListener(marker, "click", function (e) {

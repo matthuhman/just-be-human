@@ -1,6 +1,7 @@
+@import 'theme.scss';
 
 .footer {
    height: 32vh;
-   background: #343a40;
+   background: $dark;
    color: #fff;
 }

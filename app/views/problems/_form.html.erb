@@ -1,3 +1,6 @@
+<%= content_tag :div, class: "sub_categories", data: {sub_categories: @sub_categories} do %>
+<% end %>
+
 
 <%= simple_form_for(@problem) do |f| %>
   <%= f.error_notification %>
@@ -6,16 +9,19 @@
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Keep your title short and simple!" %>
     <%= f.input :description, placeholder: "A good description will go a long way." %>
-    <%= f.input :category, placeholder: "Examples: 'Trash Cleanup', 'Personal Outreach'" %>
-    <%= f.input :subcategory %>
-    <%= f.input :participants_required %>
-    <%= f.input :target_completion_date, as: :date %>
+    <div class="form-group">
+      <%= f.label :category %>
+      <%= f.select :category, @categories.map {|cat| [cat[:title], cat[:id]] }, {}, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :subcategory %>
+      <%= f.select :subcategory, @sub_categories[0].map {|sub| [sub[:title], sub[:id]]}, {}, class: "form-control" %>
+    </div>
+    <%= f.input :volunteers_required %>
+    <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
     <%= f.input :address, placeholder: "If possible, please enter an address" %>
     <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
-    <%= f.input :country, placeholder: "Will default to United States if left blank" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn btn-outline-primary'%>
-  </div>
+  <%= f.button :submit, class: 'btn btn-outline-primary'%>
 <% end %>
