@@ -1,79 +1,71 @@
 class MilestoneCategory
 
-    #
-    # get all keys methods
-  def self.all_category_ids
-    return categories.keys
+  #
+  # get all category titles
+  def self.titles
+    return self.cats.map { |c| c[:title] }
   end
-
-  def self.all_labor_subcat_ids
-    return labor_subcats.keys
-  end
-
-  def self.all_planning_subcat_ids
-    return planning_subcats.keys
-  end
-
-  def self.all_equipment_subcat_ids
-    return equipment_subcats.keys
-  end
-
 
   #
-  # lookup methods
-  def self.lookup_category(id)
-    return categories[id]
+  # get all category titles with descriptions
+  def self.titles_with_desc
+    return self.cats
   end
 
-  def self.lookup_planning_subcat(id)
-    return planning_subcats[id]
+  #
+  # get all subcategory titles for a given category id
+  def self.subcat_titles(cat_id)
+    self.subcats[cat_id].map { |sc| sc[:title] }
   end
 
-  def self.lookup_labor_subcat(id)
-    return labor_subcats[id]
+  #
+  # get all subcat titles and descriptions for a given category id
+  def self.subcat_titles_with_desc(cat_id)
+    return self.subcats[cat_id]
   end
 
-  def self.lookup_equipment_subcat(id)
-    return equipment_subcats[id]
-  end
+
+
+  private
 
   # map of integer ID's to categories
-  def self.categories
+  def self.cats
     [
-      {:id => 0, :title => "Planning", :desc => "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!"},
-      {:id => 1, :title => "Labor", :desc => "Once you've figured out what needs doing, find volunteers to get it done."},
-      {:id => 2, :title => "Equipment", :desc => "Make sure that any equipment you need is located ahead of time, so it's there when you need it."},
-      {:id => 3, :title => "Transportation", :desc => "Find volunteers with vehicles who can help you get where you need to be!"}
+      # the index is the category ID- ORDER IS IMPORTANT!
+      { title: "Planning", desc: "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!" },
+      { title: "Labor", desc: "Once you've figured out what needs doing, find volunteers to get it done." },
+      { title: "Equipment", desc: "Make sure that any equipment you need is located ahead of time, so it's there when you need it." },
+      { title: "Transportation", desc: "Find volunteers with vehicles who can help you get where you need to be!" }
     ]
   end
 
 
-  def self.sub_categories
-    {
-      0 => [ # planning
-        {:id => 0, :title => "In-person", :desc => "Trying to make plans as a group? In-person is always better."},
-        {:id => 1, :title => "Remote", :desc => "Remote planning is great for when small decisions need to be made quickly!"}
+  def self.subcats
+    [
+      [ # planning
+        { title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },
+        { title: "Remote", desc: "Remote planning is great for when small decisions need to be made quickly!" }
       ],
-      1 => [ # labor
-        {:id => 0, :title => "Light labor", :desc => "This should be well within the physical capabilities of an average person."},
-        {:id => 1, :title => "Heavy labor", :desc => "If you need someone who can pick up and move around 50+ lbs"},
-        {:id => 2, :title => "Specialized labor", :desc => "If you need a someone with a specialized skill, but it's okay if they're not a professional."},
-        {:id => 3, :title => "Professional labor", :desc => "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!"}
+      [ # labor
+        { title: "Light labor", desc: "This should be well within the physical capabilities of an average person." },
+        { title: "Heavy labor", desc: "If you need someone who can pick up and move around 50+ lbs" },
+        { title: "Specialized labor", desc: "If you need a someone with a specialized skill, but it's okay if they're not a professional." },
+        { title: "Professional labor", desc: "This task can only be handled by a professional. Keep in mind that you'll probably still need to pay them!" }
       ],
-      2 => [ # equipment
-        {:id => 0, :title => "Household items", :desc => "If you need "},
-        {:id => 1, :title => "Lawn and garden", :desc => "asdf"},
-        {:id => 2, :title => "Hand tools", :desc => "asdf2"},
-        {:id => 3, :title => "Specialized tools", :desc => ""},
-        {:id => 4, :title => "Custom built/ordered", :desc => "Are you going to need something custom-made? Define it here."},
-        {:id => 5, :title => "Heavy equipment", :desc => "Examples: a stump grinder, jackhammer, backhoe, etc"},
-        {:id => 6, :title => "Food", :desc => ""}
+      [ # equipment
+        { title: "Household items", desc: "Items common in households like trash bags, cleaning supplies, " },
+        { title: "Food", desc: "Food, cooked or uncooked. If you'll need someone to cook, you may want to also specify a labor milestone!" },
+        { title: "Lawn and garden", desc: "" },
+        { title: "Hand tools", desc: "If you'll need hand tools that most people have. Hammers, screwdrivers, etc." },
+        { title: "Specialized tools", desc: "Tools that not everyone has: a sewing machine, nail gun, soldering iron, etc." },
+        { title: "Custom built/ordered", desc: "Are you going to need something custom-made? Define it here." },
+        { title: "Heavy equipment", desc: "Examples: a stump grinder, jackhammer, backhoe, etc." }
       ],
-      3 => [ #Transportation
-        {:id => 0, :title => "Large Vehicle", :desc => "Need large vehicle for transporting lots of people and/or equipment"},
-        {:id => 1, :title => "Medium Vehicle", :desc => "Need medium vehicle for transporting a few people and/or equipment"},
-        {:id => 2, :title => "Small Vehicle", :desc => "Need medium vehicle for transporting small amount of people and/or equipment"},
+      [ #Transportation
+        { title: "Large Vehicle", desc: "Need large vehicle for transporting lots of people and/or equipment" },
+        { title: "Medium Vehicle", desc: "Need medium vehicle for transporting a few people and/or equipment" },
+        { title: "Small Vehicle", desc: "Need medium vehicle for transporting small amount of people and/or equipment" }
       ]
-    }
+    ]
   end
 end
