@@ -1,27 +1,49 @@
-class MilestoneCategory
+class Category
 
   #
   # get all category titles
-  def self.titles
-    return self.cats.map { |c| c[:title] }
+  def self.problem_titles
+    return self.problem_cats.map { |c| c[:title] }
   end
 
   #
   # get all category titles with descriptions
-  def self.titles_with_desc
-    return self.cats
+  def self.problem_titles_with_desc
+    return self.problem_cats
   end
 
   #
   # get all subcategory titles for a given category id
-  def self.subcat_titles(cat_id)
-    self.subcats[cat_id].map { |sc| sc[:title] }
+  def self.problem_subcat_titles(cat_id)
+    self.problem_subcats[cat_id].map { |sc| sc[:title] }
   end
 
   #
   # get all subcat titles and descriptions for a given category id
-  def self.subcat_titles_with_desc(cat_id)
-    return self.subcats[cat_id]
+  def self.problem_subcat_titles_with_desc(cat_id)
+    return self.problem_subcats[cat_id]
+  end
+
+  def self.ms_titles
+    return self.ms_cats.map { |c| c[:title] }
+  end
+
+  #
+  # get all category titles with descriptions
+  def self.ms_titles_with_desc
+    return self.ms_cats
+  end
+
+  #
+  # get all subcategory titles for a given category id
+  def self.ms_subcat_titles(cat_id)
+    self.ms_subcats[cat_id].map { |sc| sc[:title] }
+  end
+
+  #
+  # get all subcat titles and descriptions for a given category id
+  def self.ms_subcat_titles_with_desc(cat_id)
+    return self.ms_subcats[cat_id]
   end
 
 
@@ -29,7 +51,37 @@ class MilestoneCategory
   private
 
   # map of integer ID's to categories
-  def self.cats
+  def self.problem_cats
+    [
+      # the index is the category ID- ORDER IS IMPORTANT!
+      { title: "Community Cleanup", desc: "Community cleanup description" },
+      { title: "Fundraising", desc: "Fundraising description" },
+      { title: "Outreach", desc: "Outreach description" }
+    ]
+  end
+
+  # map of Problem category index to subcategory arrays
+  def self.problem_subcats
+    [
+      [ # community cleanup
+        { title: "Trash pickup", desc: "Pick up some trash, damnit!" },
+        { title: "Property maintenance", desc: "There's a property in my neighborhood that needs to be cleaned up!" }
+      ],
+      [ # labor
+        { title: "For a person", desc: "For a person in need." },
+        { title: "For a cause", desc: "For a cause that you care about."},
+        { title: "For an organization", desc: "For an organization that needs the help!" }
+      ],
+      [ # equipment
+        { title: "Food drive", desc: "Collect food for a cause!" },
+        { title: "Homeless outreach", desc: "Help some homeless people." },
+        { title: "Awareness drive", desc: "If you have a cause you think people need to be made aware of." }
+      ]
+    ]
+  end
+
+  # map of Milestone categories
+  def self.ms_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Planning", desc: "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!" },
@@ -39,8 +91,8 @@ class MilestoneCategory
     ]
   end
 
-
-  def self.subcats
+  # map of Milestone category index to subcategory array
+  def self.ms_subcats
     [
       [ # planning
         { title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },
