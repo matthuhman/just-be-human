@@ -103,5 +103,6 @@ Rails 5.2
  * sticky footer -- DONE
  * open specific problem tab on load and after modal submit
  * get rid of my problems page
+ * filters on hp by problem title, category, sort by due date
 
  * Action Mailer Design -- wait for later

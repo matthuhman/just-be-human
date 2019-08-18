@@ -12,8 +12,8 @@ $(function(){
     })
 
     function changeOptions(){
-      let mappedSubs = subCategories[category].map(sub => {
-        return `<option value="${sub.id}">${sub.title}</option>`
+      let mappedSubs = subCategories[category].map((sub, index) => {
+        return `<option value="${index}">${sub.title}</option>`
       })
       problemSub.innerHTML = mappedSubs;
     }

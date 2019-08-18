@@ -11,11 +11,11 @@
     <%= f.input :description, placeholder: "A good description will go a long way." %>
     <div class="form-group">
       <%= f.label :category %>
-      <%= f.select :category, @categories.map {|cat| [cat[:title], cat[:id]] }, {}, class: "form-control" %>
+      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
     </div>
     <div class="form-group">
       <%= f.label :subcategory %>
-      <%= f.select :subcategory, @sub_categories[0].map {|sub| [sub[:title], sub[:id]]}, {}, class: "form-control" %>
+      <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
     </div>
     <%= f.input :volunteers_required %>
     <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>

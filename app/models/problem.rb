@@ -28,11 +28,11 @@ class Problem < ApplicationRecord
   end
 
   def category_title
-    MilestoneCategory.categories[self.category.to_i][:title]
+    Category.problem_titles[self.category.to_i]
   end
 
   def subcategory_title
-    MilestoneCategory.sub_categories[self.category.to_i][self.subcategory.to_i][:title]
+    Category.problem_subcat_titles(self.category.to_i)[self.subcategory.to_i]
   end
 
 

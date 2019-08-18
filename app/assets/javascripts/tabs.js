@@ -20,7 +20,10 @@ function openTab(evt, cityName) {
 }
 
 function init() {
-  document.getElementById("defaultOpen").click();
+  const opener = document.getElementById("defaultOpen");
+  if (opener) opener.click();
 }
 
 document.addEventListener('DOMContentLoaded', init)
+
+$(document).on("turbolinks:load", init)
