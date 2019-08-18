@@ -18,7 +18,7 @@ class Problem < ApplicationRecord
       return true
     end
 
-    role = ProblemRole.find(user_id: user_id, problem_id: self.id)
+    role = ProblemRole.find_by(user_id: user_id, problem_id: self.id)
 
     if role && role.level <= 2
       return true

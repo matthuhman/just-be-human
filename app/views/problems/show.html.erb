@@ -51,6 +51,13 @@
     </h5>
     <br>
     <br>
+    <% if !@role %>
+      <%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id %>
+    <% elsif @role.level == 4 %>
+      <%= link_to 'Unfollow Problem', controller: "problems", action: "unfollow", problem_id: @problem.id %>
+    <% elsif @role.level == 2 %>
+      <%= link_to 'Step down as Supervisor', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: @role.user_id %>
+    <% end %>
 
 
     <div class="posts-container">
@@ -104,10 +111,11 @@
         </div>
         <div class="milestone-info">
           <Strong>Complete:</Strong> <%= milestone.complete %> <br>
-          <Strong>Current/Needed Volunteers:</Strong> <%= milestone.volunteers_required %> <br>
+          <Strong>Current/Needed Volunteers:</Strong> <%= milestone.volunteer_count %>/<%= milestone.volunteers_required %> <br>
         </div>
         <div class="milestone-button-group">
           <div class="btn-group" role="group" aria-label="Admin Controls">
+            <%= link_to 'Show', milestone %>
             <% if @is_mod %>
             <%= link_to 'Edit', edit_milestone_path(milestone), class: 'btn btn-outline-info my-2 my-sm-0', data: { modal: true } %>
             <%= link_to 'Delete', milestone, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger my-2 my-sm-0' %>
