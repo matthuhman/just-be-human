@@ -75,7 +75,7 @@
 .home-page {
   display: grid;
   grid-template-columns: 30% 70%;
-  height: 80vh;
+  height: 90vh;
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;
@@ -125,7 +125,7 @@
 
 .filter.floater {
   left: 30%;
-  
+
   @include respond-to(handhelds) {
     left: 0;
   }
