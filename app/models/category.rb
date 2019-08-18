@@ -46,6 +46,10 @@ class Category
     return self.ms_subcats[cat_id]
   end
 
+  def self.get_all_problem_subcats
+    self.problem_subcats
+  end
+
 
 
   private

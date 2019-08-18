@@ -19,8 +19,8 @@ class ProblemsController < ApplicationController
   # GET /problems/new
   def new
     @problem = Problem.new
-    @categories = MilestoneCategory.categories
-    @sub_categories = MilestoneCategory.sub_categories
+    @categories = Category.problem_titles
+    @sub_categories = Category.get_all_problem_subcats
   end
 
   # GET /problems/1/edit
