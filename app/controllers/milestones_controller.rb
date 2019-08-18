@@ -14,8 +14,8 @@ class MilestonesController < ApplicationController
   # GET /milestones/1
   def show
     @problem = Problem.find(@milestone.problem_id)
-    @role = Role.find_by(user_id: current_user.id, problem_id: @problem.id)
-    @ms_role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: @milestone.id)
+    @prob_level = Role.problem_role_level(current_user.id, @problem.id)
+    @ms_level = Role.milestone_role_level(current_user.id, @milestone.id)
     respond_modal_with @milestone
   end
 
@@ -29,11 +29,6 @@ class MilestonesController < ApplicationController
   def create
     @milestone = Milestone.new(milestone_params)
     problem = Problem.find(@milestone.problem_id)
-
-    if @milestone.participants_required > problem.participants_required
-      problem.participants_required = @milestone.participants_required
-      problem.save
-    end
 
     #respond_modal_with @milestone, location: @problem
     respond_to do |format|
@@ -55,14 +50,9 @@ class MilestonesController < ApplicationController
 
   def participate
     @milestone = Milestone.find(params[:milestone_id])
-    @role = MilestoneRole.create(participate_params)
-    @role.title = "Participant"
-    @role.level = 3
-    @role.user_id = current_user.id
     respond_to do |format|
-      if @role.save
-        Milestone.increment_counter(:participant_count, @milestone.id)
-        format.html { redirect_to @milestone, notice: "You are now a participant in #{@milestone.title}" }
+      if Role.volunteer(current_user.id, @milestone.id, @milestone.problem_id)
+        format.html { redirect_to @milestone, notice: "You are now a volunteer in #{@milestone.title}" }
         format.json { render :show, status: :created, location: @milestone }
       else
         format.html { redirect_to @milestone, notice: 'There was a problem when volunteering to participate in this milestone.' }
@@ -73,16 +63,12 @@ class MilestonesController < ApplicationController
 
   def cancel_participation
     @milestone = Milestone.find(cancel_params[:milestone_id])
-    @problem =
-    @role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: params[:milestone_id])
     respond_to do |format|
-      if (@role)
-        @role.destroy
-        Milestone.decrement_counter(:participant_count, @milestone.id)
+      if Role.cancel(current_user.id, @milestone.id, @milestone.problem_id)
         format.html { redirect_to @milestone, notice: "You have cancelled your participation." }
         format.json { render :show, status: :ok, location: @milestone}
       else
-        format.html { redirect_to @milestone, alert: "You were not a participant."}
+        format.html { redirect_to @milestone, alert: "You were not a volunteer."}
         format.json { render :show, status: :unprocessable_entity, location: @milestone}
       end
     end
@@ -134,7 +120,7 @@ class MilestonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def milestone_params
-      params.require(:milestone).permit(:title, :description, :current_status, :complete, :problem_id, :address, :participants_required)
+      params.require(:milestone).permit(:title, :description, :current_status, :complete, :problem_id, :address, :volunteers_required)
     end
 
     def participate_params

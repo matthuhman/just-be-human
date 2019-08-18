@@ -155,6 +155,6 @@ class UsersController < ApplicationController
     end
 
     def contact_response_params
-      params.require(:contact_request).(:id, :accept)
+      params.require(:contact_response).(:id, :accept)
     end
 end
