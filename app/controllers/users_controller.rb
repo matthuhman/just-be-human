@@ -136,6 +136,7 @@ class UsersController < ApplicationController
         format.json { render :show, status: :forbidden, location: current_user }
       end
     end
+  end
 
 
 
