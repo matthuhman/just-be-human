@@ -6,26 +6,23 @@ class Milestone < ApplicationRecord
   
 
 
-  def user_has_mod_permissions
-    id = current_user.id
-    if id == self.user_id
+  def user_has_mod_permissions(u_id)
+    if u_id == self.user_id
       return true
     end
 
-    role = MilestoneRole.find(user_id: id, milestone_id: self.id)
+    level = Role.milestone_role_level(u_id, self.id)
 
-    if role && role.level <= 2
+    if level < 2
       return true
     else
-      role = Role.find(user_id: id, problem_id: self.problem_id)
-      if role && role.level <= 2
+      if Role.problem_role_level(u_id, self.problem_id) <= 2
         return true
       else
         return false
       end
     end
   end
-
 
 
 end

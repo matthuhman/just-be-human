@@ -1,5 +1,5 @@
 <body>
-  <h1> <%= @problem.title %> </h1>
+  <h1 class="problem-title"> <%= @problem.title %> </h1>
   <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'problem-info-tab')" id="defaultOpen">General Problem Info</button>
     <button class="tablinks" onclick="openTab(event, 'problem-milestones-tab')">Milestones and Progress</button>
@@ -135,7 +135,7 @@
   <div id="problem-people-tab" class="tabcontent">
     <h2>Followers</h2>
       <% @problem.problem_roles.each do |role| %>
-        <p>Username: <%= role.user.username %>  |  ProblemRole. <%= role.title %>
+        <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
           <% if @is_admin %>
             <% if (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
             | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>

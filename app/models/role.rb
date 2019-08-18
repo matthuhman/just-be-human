@@ -1,6 +1,5 @@
 class Role
 
-
   #
   # this creates a ProblemRole with a level of 4 for the given user/problem
   # returns true if it saves successfully
@@ -30,7 +29,7 @@ class Role
       Problem.decrement_counter(:follower_count, p_id)
       return true
     else
-      puts "We shouldn't have been able to get here! Unfollow problem for user: #{u_id} and problem: #{p_id}"
+      ReportedError.report("Role.unfollow_problem", "framework logic error", 1000)
       return false
     end
   end
@@ -54,10 +53,10 @@ class Role
         ReportedError.report("Role.volunteer_prob", prob_role.errors, 1000)
         return false
       end
+      Problem.increment_counter(:volunteer_count, p_id)
     end
 
     if ms_role.save
-      Problem.increment_counter(:volunteer_count, p_id)
       Milestone.increment_counter(:volunteer_count, ms_id)
       return true
     else
@@ -143,46 +142,49 @@ class Role
         return false
       end
     else
-      ReportedError.report("Role.remove_supervsior", "framework logic error", 1000)
+      ReportedError.report("Role.remove_supervisor", "framework logic error", 1000)
       return false
     end
   end
 
 
-  def set_problem_leader(u_id, p_id)
+  # def self.set_problem_leader(current_leader_id, new_leader_id, p_id)
+  #   curr_leader = ProblemRole.find_by(problem_id: p_id, level: 1)
 
 
 
-  end
+  # end
 
 
-  def set_ms_leader(u_id, ms_id)
-
-
-
-  end
-
-
-  def remove_ms_leader(u_id, ms_id)
+  # def self.set_ms_leader(u_id, ms_id)
 
 
 
-  end
+  # end
+
+
+  # def self.remove_ms_leader(u_id, ms_id)
+
+
+
+  # end
   
 
-  def problem_role_level(u_id, p_id)
+  def self.problem_role_level(u_id, p_id)
+    role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
 
-
-
-
+    if role
+      return role.level
+    end
   end
 
 
-  def milestone_role_level(u_id, ms_id)
+  def self.milestone_role_level(u_id, ms_id)
+    role = MilestoneRole.find_by(user_id: u_id, milestone_id: ms_id)
 
-
-
-
+    if role
+      return role.level
+    end
   end
 
 

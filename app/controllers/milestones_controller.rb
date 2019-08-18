@@ -14,8 +14,8 @@ class MilestonesController < ApplicationController
   # GET /milestones/1
   def show
     @problem = Problem.find(@milestone.problem_id)
-    @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
-    @ms_role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: @milestone.id)
+    @prob_level = Role.problem_role_level(current_user.id, @problem.id)
+    @ms_level = Role.milestone_role_level(current_user.id, @milestone.id)
     respond_modal_with @milestone
   end
 
@@ -29,11 +29,6 @@ class MilestonesController < ApplicationController
   def create
     @milestone = Milestone.new(milestone_params)
     problem = Problem.find(@milestone.problem_id)
-
-    if @milestone.volunteers_required > problem.volunteers_required
-      problem.volunteers_required = @milestone.volunteers_required
-      problem.save
-    end
 
     #respond_modal_with @milestone, location: @problem
     respond_to do |format|
