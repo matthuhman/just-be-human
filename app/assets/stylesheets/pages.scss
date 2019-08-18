@@ -1,12 +1,8 @@
 // Place all the styles related to the Pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 @import 'theme.scss';
 
-//
-//
-//
 // HOME PAGE STYLING
 
 // /* Style the tab */
@@ -14,6 +10,13 @@
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
+
+  &.hp {
+    background-color: $secondary;
+    border: none;
+    width: 100%;
+    display: flex;
+  }
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -25,6 +28,22 @@
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+
+  &.hp {
+    text-transform: uppercase;
+    padding: 12px 12px;
+    color: #fff;
+    height: 100%;
+    width: 100%;
+
+    &:hover {
+      background-color: $secondary-hover;
+    }
+
+    &.active {
+      background-color: $secondary-hover;
+    }
+  }
 }
 
 /* Change background color of buttons on hover */
@@ -43,6 +62,30 @@
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+
+  &.hp {
+    padding: 0;
+    border: none;
+  }
+}
+
+// ====HOME PAGE STYLES=====
+
+.home-page {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.home-page-aside {
+  grid-column: 1;
+  height: 80vh;
+  overflow-y: scroll;
+  background-color: $secondary;
+  color: #fff;
+
+  & h3 {
+    margin: 0;
+  }
 }
 
 .homepage-header {
@@ -51,29 +94,54 @@
   margin-bottom: 2px;
 }
 
-.home-page {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
+.current-zip-floater {
+  position: absolute;
+  left: 26%;
+  z-index: 999;
+  background: white;
+  height: 8vh;
+  padding: 10px;
+  margin: 10px;
+  opacity: .9;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
 
-.home-page-aside {
-  padding: 1vh 1vw;
-  grid-column: 1;
-  background-color: $primary;
-  height: 80vh;
-  overflow-y: scroll;
+  & h3 {
+    color: #666;
+  }
 }
 
 .problem-row {
   border-bottom: 1px solid;
   margin-bottom: 2px;
+  padding: 1vh 1vw;
+  background-color: $secondary;
+  transition: all .2s linear;
+
+  & a {
+    color: #fff;
+  }
+
+  & div {
+    transform: scale(.95);
+    transition: all .2s linear;
+  }
+
+  &:hover {
+    background-color: $secondary-hover;
+
+    & a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    & div {
+      transform: scale(.98);
+    }
+  }
 }
 
-
-//
-//
-//
-// DONATE PAGE STYLING
+// ========DONATE PAGE STYLING========
 
 .donation-booleans {
   text-align: center;
