@@ -4,10 +4,14 @@
 
 
 
-<% if !@ms_role %>
+<% if !@ms_level %>
 <%= link_to 'Volunteer to help with this milestone!', controller: 'milestones', action: 'participate', milestone_id: @milestone.id %>
-<% elsif @ms_role.level <= 2 %>
+<% elsif @ms_level < 2 || @prob_level <= 2 %>
 <%= link_to 'Edit this milestone', edit_milestone_path(@milestone) %>
-<% elsif @ms_role.level == 3 %>
+<% elsif @ms_level >= 2 %>
 <%= link_to 'Cancel your participation', controller: 'milestones', action: 'cancel_participation', milestone_id: @milestone.id %>
 <% end %>
+
+
+
+<%= link_to 'Parent problem', @problem %>

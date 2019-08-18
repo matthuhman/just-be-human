@@ -6,6 +6,13 @@
   font-size: 150%;
 }
 
+
+.problem-title {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 4vh;
+}
+
 /* Style the tab */
 .tab {
   overflow: hidden;
@@ -40,6 +47,8 @@
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+  padding-left: 2vh;
+  padding-top: 2vh;
 }
 
 .tabcontent {

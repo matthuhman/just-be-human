@@ -36,16 +36,16 @@ class PostsController < ApplicationController
 
     if @post.postable_type == 'Problem'
       @parent = Problem.find(@post.postable_id)
-      @role = Role.find_by(user_id: current_user.id, problem_id: @post.postable_id)
+      level = Role.problem_role_level(current_user.id, @post.postable_id)
     else
       @parent = Milestone.find(@post.postable_id)
-      @role = MilestoneRole.find_by(user_id: current_user.id, milestone_id: @post.postable_id)
+      level = Role.milestone_role_level(current_user.id, @post.postable_id)
     end
 
     @post.user_id = current_user.id
 
     respond_to do |format|
-      if @role
+      if level
         if @post.save
           format.html { redirect_to @parent, notice: 'Post was successfully created.' }
           format.json { render :show, status: :created, location: @parent }
