@@ -1,20 +1,25 @@
 @import "/*";
 @import "bootstrap";
 @import "tether";
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Rubik&display=swap');
 
 //*= require introjs
 
 html, body {
   height: 100vh;
   margin: 0;
-  font-family: 'Rubik', Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
+  font-family: 'Rubik', Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
+
+p, a, span {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
 
 .main {
   padding: 4vh 0;
@@ -22,21 +27,6 @@ h1, h2, h3, h4, h5 {
 
 .wrapper {
   min-height: 75vh;
-}
-
-.navbar {
-  height: 10vh;
-  font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
-}
-
-.navbar-brand {
-  font-size: 2.2em;
-}
-
-.navbar-beta-tag {
-  vertical-align: text-top;
-  font-size: .3rem;
-  line-height: 200%;
 }
 
 #map {

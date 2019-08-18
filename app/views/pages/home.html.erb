@@ -5,8 +5,11 @@
 </head>
   <body>
     <div class="home-page">
-      <div class="d-flex flex-column align-items-center justify-content-center current-zip-floater">
-        <h3>Active zip code: <%= @geopoint.zip %></h3>
+      <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
+        <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
+      </div>
+      <div class="d-flex flex-column align-items-center justify-content-center filter floater">
+        <h3>Filters</h3>
       </div>
       <aside class="home-page-aside">
         <div class="homepage-header">
@@ -28,7 +31,7 @@
       </aside>
       <div id="map"></div>
     </div>
-    
+
   <script>
 
     var map;
@@ -44,7 +47,8 @@
         center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
         zoom: 14,
         streetViewControl: false,
-        mapTypeControl: false
+        mapTypeControl: false,
+        fullscreenControl: false
       });
 
       var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;

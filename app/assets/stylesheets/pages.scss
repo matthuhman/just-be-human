@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'theme.scss';
+@import 'mixins.scss';
 
 // HOME PAGE STYLING
 
@@ -73,18 +74,29 @@
 
 .home-page {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 30% 70%;
+  height: 80vh;
+
+  @include respond-to(handhelds) {
+    grid-template-columns: 100%;
+    grid-template-rows: 60% 40%;
+  }
 }
 
 .home-page-aside {
   grid-column: 1;
-  height: 80vh;
+  height: 100%;
   overflow-y: scroll;
   background-color: $secondary;
   color: #fff;
 
   & h3 {
     margin: 0;
+  }
+
+  @include respond-to(handhelds) {
+    grid-column: 1;
+    grid-row: 2;
   }
 }
 
@@ -94,9 +106,8 @@
   margin-bottom: 2px;
 }
 
-.current-zip-floater {
+.floater {
   position: absolute;
-  left: 26%;
   z-index: 999;
   background: white;
   height: 8vh;
@@ -104,10 +115,29 @@
   margin: 10px;
   opacity: .9;
   border-radius: 2px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 4px 0;
 
   & h3 {
     color: #666;
+    margin: 0;
+  }
+}
+
+.filter.floater {
+  left: 30%;
+  
+  @include respond-to(handhelds) {
+    left: 0;
+  }
+}
+
+.current-zip.floater {
+  right: 0;
+}
+
+.zip-floater {
+  @include respond-to(handhelds) {
+    display: none;
   }
 }
 
