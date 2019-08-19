@@ -1,6 +1,6 @@
 class CreateMilestones < ActiveRecord::Migration[5.2]
   def change
-    create_table :milestones do |t|
+    create_table :milestones, id: :uuid do |t|
       t.string :title
       t.text :description
       t.string :address
@@ -14,8 +14,8 @@ class CreateMilestones < ActiveRecord::Migration[5.2]
       t.string :current_status
 
 
-      t.belongs_to :problem, index: true
-      t.belongs_to :user, index: true
+      t.belongs_to :problem, type: :uuid, index: true
+      t.belongs_to :user, type: :uuid, index: true
 
       t.index [:category, :subcategory], name: "index_milestones_on_category_and_subcategory"
       t.index [:latitude, :longitude], name: "index_milestones_on_latitude_and_longitude"

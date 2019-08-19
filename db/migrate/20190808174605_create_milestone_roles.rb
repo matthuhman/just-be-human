@@ -5,8 +5,8 @@ class CreateMilestoneRoles < ActiveRecord::Migration[5.2]
       t.string :title
       t.string :note
       t.integer :problem_id
-      t.belongs_to :milestone, index: true
-      t.belongs_to :user, index: true
+      t.belongs_to :milestone, type: :uuid, index: true
+      t.belongs_to :user, type: :uuid, index: true
       t.timestamps
     end
 

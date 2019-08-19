@@ -18,7 +18,7 @@ class CreateProblems < ActiveRecord::Migration[5.2]
       t.integer :subcategory
       t.integer :follower_count, default: 1
       
-      t.belongs_to :user, index: true
+      t.belongs_to :user, type: :uuid, index: true
 
       t.timestamps
 

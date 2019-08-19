@@ -9,19 +9,40 @@
 
 require 'csv'
 
-csv_text = File.read(Rails.root.join('lib', 'seeds', 'us-zip-code-latitude-and-longitude.csv'))
-csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1', :col_sep => ?;)
-csv.each do |row|
-  t = Geopoint.new
-  t.city = row['city']
-  t.zip = row['zip']
-  t.state = row['state']
+# csv_text = File.read(Rails.root.join('lib', 'seeds', 'us-zip-code-latitude-and-longitude.csv'))
+# csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1', :col_sep => ?;)
+# csv.each do |row|
+#   t = Geopoint.new
+#   t.city = row['city']
+#   t.zip = row['zip']
+#   t.state = row['state']
   
-  t.latitude = row['latitude']
-  t.longitude = row['longitude']
-  t.time_zone = row['time_zone']
-  t.dst_flag = row['dst_flag']
-  t.coordinates = row['geopoint,']
-  t.save
-  puts "#{t.zip}:::: #{t.coordinates} saved"
-end
+#   t.latitude = row['latitude']
+#   t.longitude = row['longitude']
+#   t.time_zone = row['time_zone']
+#   t.dst_flag = row['dst_flag']
+#   t.coordinates = row['geopoint,']
+#   t.save
+#   puts "#{t.zip}:::: #{t.coordinates} saved"
+# end
+
+
+
+
+
+
+
+
+
+User.create({
+  username: "matt",
+  email: "huhmanbeing@gmail.com",
+  first_name: "Matt",
+  last_name: "Huhman",
+  postal_code: "80205",
+  password: "password",
+  password_confirmation: "password",
+  region: "CO",
+  city: "Denver",
+  confirmed_at: Time.now
+})

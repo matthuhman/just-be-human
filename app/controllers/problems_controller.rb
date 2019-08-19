@@ -3,6 +3,7 @@ class ProblemsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
 
+
   # GET /problems/1
   # GET /problems/1.json
   def show
@@ -31,6 +32,8 @@ class ProblemsController < ApplicationController
   # POST /problems
   # POST /problems.json
   def create
+    @categories = Category.problem_titles
+    @sub_categories = Category.get_all_problem_subcats
     @problem = Problem.new(problem_params)
     @problem.user = current_user
 
@@ -44,6 +47,8 @@ class ProblemsController < ApplicationController
       end
     end
 
+    binding.pry
+
     @role = ProblemRole.create
     @role.user_id = current_user.id
     @role.level = 1
@@ -55,7 +60,7 @@ class ProblemsController < ApplicationController
           format.html { redirect_to @problem, notice: 'Problem and role was successfully created.' }
           format.json { render :show, status: :created, location: @problem }
         else
-          format.html {render :new}
+          format.html {render :new }
           format.json { render json: @role.errors, status: :unprocessable_entity}
         end
       else
@@ -69,6 +74,8 @@ class ProblemsController < ApplicationController
   # PATCH/PUT /problems/1
   # PATCH/PUT /problems/1.json
   def update
+    @categories = Category.problem_titles
+    @sub_categories = Category.get_all_problem_subcats
     respond_to do |format|
       if @problem.update(problem_params)
         format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }
@@ -183,7 +190,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :postal_code, :country, :participants_required)
+      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
     end
 
     def follow_params

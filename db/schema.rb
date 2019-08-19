@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
 
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "content"
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "post_id"
+    t.uuid "post_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.boolean "active", default: false
     t.boolean "accepted", default: false
     t.datetime "accept_time"
-    t.bigint "requesting_user_id"
-    t.bigint "requested_user_id"
+    t.uuid "requesting_user_id"
+    t.uuid "requested_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["requested_user_id", "requesting_user_id"], name: "index_requested_requesting"
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.string "title"
     t.string "note"
     t.integer "problem_id"
-    t.bigint "milestone_id"
-    t.bigint "user_id"
+    t.uuid "milestone_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["milestone_id"], name: "index_milestone_roles_on_milestone_id"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.index ["user_id"], name: "index_milestone_roles_on_user_id"
   end
 
-  create_table "milestones", force: :cascade do |t|
+  create_table "milestones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.string "address"
@@ -97,8 +97,8 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.integer "subcategory"
     t.boolean "complete"
     t.string "current_status"
-    t.bigint "problem_id"
-    t.bigint "user_id"
+    t.uuid "problem_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category", "subcategory"], name: "index_milestones_on_category_and_subcategory"
@@ -111,9 +111,9 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.string "title", default: "CHANGEME", null: false
     t.text "content", default: "CHANGEME", null: false
     t.integer "comment_count", default: 0
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.string "postable_type"
-    t.bigint "postable_id"
+    t.uuid "postable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id"
@@ -124,8 +124,8 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.integer "level"
     t.string "title"
     t.string "note"
-    t.bigint "user_id"
-    t.bigint "problem_id"
+    t.uuid "user_id"
+    t.uuid "problem_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["problem_id"], name: "index_problem_roles_on_problem_id"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 2019_08_17_171142) do
     t.integer "category"
     t.integer "subcategory"
     t.integer "follower_count", default: 1
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category", "subcategory"], name: "index_problems_on_category_and_subcategory"

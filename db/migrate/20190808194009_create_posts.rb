@@ -5,14 +5,14 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.text :content, null: false, default: "CHANGEME"
       t.integer :comment_count, default: 0
       
-      t.belongs_to :user, index: true
-      t.references :postable, polymorphic: true, index: true
+      t.belongs_to :user, type: :uuid, index: true
+      t.references :postable, type: :uuid, polymorphic: true, index: true
       t.timestamps
     end
 
 
     change_table :comments do |t|
-      t.belongs_to :post, index: true
+      t.belongs_to :post, type: :uuid, index: true
     end
   end
 end

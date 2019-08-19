@@ -4,8 +4,8 @@ class CreateRoles < ActiveRecord::Migration[5.2]
       t.integer :level
       t.string :title
       t.string :note
-      t.belongs_to :user, index: true
-      t.belongs_to :problem, index: true
+      t.belongs_to :user, type: :uuid, index: true
+      t.belongs_to :problem, type: :uuid, index: true
       t.timestamps
     end
 

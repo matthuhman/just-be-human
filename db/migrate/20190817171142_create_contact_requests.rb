@@ -5,8 +5,8 @@ class CreateContactRequests < ActiveRecord::Migration[5.2]
       t.boolean :accepted, default: false
       t.datetime :accept_time
 
-      t.references :requesting_user
-      t.references :requested_user
+      t.belongs_to :requesting_user, class: "User", type: :uuid
+      t.belongs_to :requested_user, class: "User", type: :uuid
       t.timestamps
 
 
