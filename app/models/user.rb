@@ -22,7 +22,7 @@ class User < ApplicationRecord
       self.over_16 = self.birth_date < 18.year.ago
       self.save
     end
-
+    binding.pry
     return self.over_16
   end
 

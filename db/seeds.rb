@@ -32,17 +32,18 @@ require 'csv'
 
 
 
-
-
-User.create({
-  username: "matt",
-  email: "huhmanbeing@gmail.com",
-  first_name: "Matt",
-  last_name: "Huhman",
-  postal_code: "80205",
-  password: "password",
-  password_confirmation: "password",
-  region: "CO",
-  city: "Denver",
-  confirmed_at: Time.now
-})
+if Rails.env == "development"
+  User.create({
+    username: "matt",
+    email: "huhmanbeing@gmail.com",
+    first_name: "Matt",
+    last_name: "Huhman",
+    postal_code: "80205",
+    password: "password",
+    password_confirmation: "password",
+    region: "CO",
+    city: "Denver",
+    confirmed_at: Time.now,
+    birth_date: Date.strptime("30/11/1991", "%d/%m/%Y")
+  })
+end
