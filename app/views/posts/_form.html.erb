@@ -1,25 +1,23 @@
 
-<%= simple_form_for(@post) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= simple_form_for(@post) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <%= f.input :title %>
-  </div>
+    <div class="form-inputs">
+      <%= f.input :title, placeholder: "Enter a post title" %>
+    </div>
 
-  <div class="form-inputs">
-    <%= f.input :content %>
-  </div>
+    <div class="form-inputs">
+      <%= f.input :content, placeholder: "Write your post here" %>
+    </div>
 
-    <% if params[:problem] %>
-      <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
-      <%= f.hidden_field :postable_type, :value => 'Problem' %>
-    <% elsif params[:milestone] %>
-      <%= f.hidden_field :postable_id, :value => params[:milestone][:milestone_id] %>
-      <%= f.hidden_field :postable_type, :value => 'Milestone' %>
-    <% end %>
+      <% if params[:problem] %>
+        <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
+        <%= f.hidden_field :postable_type, :value => 'Problem' %>
+      <% elsif params[:milestone] %>
+        <%= f.hidden_field :postable_id, :value => params[:milestone][:milestone_id] %>
+        <%= f.hidden_field :postable_type, :value => 'Milestone' %>
+      <% end %>
+      <%= f.button :submit, class: "btn btn-primary"  %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+  <% end %>

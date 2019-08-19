@@ -21,6 +21,7 @@ class PagesController < ApplicationController
         @geopoint = Geopoint.find_by(zip: current_user.postal_code)
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
+      @my_problems = current_user.problems
       @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5)
       @roles = current_user.problem_roles
     else

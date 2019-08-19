@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_150312) do
+ActiveRecord::Schema.define(version: 2019_08_19_151057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -140,8 +140,6 @@ ActiveRecord::Schema.define(version: 2019_08_19_150312) do
     t.text "description"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.float "float_lat"
-    t.float "float_long"
     t.date "target_completion_date"
     t.integer "volunteers_required", default: 1
     t.integer "volunteer_count", default: 1
