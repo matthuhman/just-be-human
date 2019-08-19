@@ -72,8 +72,9 @@ class UsersController < ApplicationController
   end
 
 
-  ## POST /contact/request
+  ## GET /contact/request
   def request_contact_info
+    binding.pry
     requesting_user = User.find(contact_params[:requesting_user_id])
     requested_user = User.find(contact_params[:requested_user_id])
 
@@ -95,7 +96,7 @@ class UsersController < ApplicationController
   end
 
 
-  ## POST /contact/response
+  ## GET /contact/response
   def respond_contact_info
     req = ContactRequest.find(contact_response_params[:id])
     accepted = contact_response_params[:accepted]
@@ -137,7 +138,7 @@ class UsersController < ApplicationController
     end
 
     def contact_params
-      params.require(:contact_request).(:requesting_user_id, :requested_user_id, :problem_id)
+      params.require(:contact_request).permit(:requesting_user_id, :requested_user_id, :problem_id)
     end
 
     def contact_response_params

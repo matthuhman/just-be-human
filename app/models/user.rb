@@ -26,6 +26,15 @@ class User < ApplicationRecord
   end
 
 
+  def get_active_contact_requests(problem_id)
+    reqs = ContactRequest.where(requested_user_id: self.id, problem_id: problem_id)
+
+
+
+
+
+  end
+
 
 
 
