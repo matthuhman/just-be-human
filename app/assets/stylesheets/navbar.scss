@@ -1,3 +1,5 @@
+@import "mixins.scss";
+
 .navbar {
   min-height: 10vh;
   font-family: 'Rubik', Verdana, Arial, Sans-Serif;
@@ -6,10 +8,42 @@
 
 .navbar-brand {
   font-size: 2.2em;
+  margin-right: auto;
 }
 
 .navbar-beta-tag {
   vertical-align: text-top;
   font-size: .3rem;
   line-height: 200%;
+}
+
+.mobile-nav {
+  display: none;
+
+  @include respond-to(medium-screens) {
+    display: block;
+  }
+
+  @include respond-to(handhelds) {
+    display: block;
+  }
+
+}
+
+.desktop-nav {
+  display: flex;
+  flex-basis: auto;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+
+  @include respond-to(medium-screens) {
+    display: none;
+  }
+
+  @include respond-to(handhelds) {
+    display: none;
+  }
 }

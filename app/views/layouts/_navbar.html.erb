@@ -4,30 +4,30 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="desktop-nav" >
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <% if current_user %>
-      <li class="nav-item">
-        <%= link_to 'New Problem', new_problem_path, class: 'nav-link' %>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          User Actions
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/users/edit">Edit</a>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item"><%= link_to 'Sign Out', '/users/sign_out', method: :delete %></div>
-          <!-- <a class="dropdown-item" href="/users/sign_out">Sign Out</a> -->
-        </div>
-      </li>
+        <li class="nav-item">
+          <%= link_to 'New Problem', new_problem_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            User Actions
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/users/edit">Edit</a>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item"><%= link_to 'Sign Out', '/users/sign_out', method: :delete %></div>
+            <!-- <a class="dropdown-item" href="/users/sign_out">Sign Out</a> -->
+          </div>
+        </li>
       <% else %>
-      <li class="nav-item">
-        <a class="nav-link" href="/users/sign_in">Sign In/Register</a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/sign_in">Sign In/Register</a>
+        </li>
       <% end %>
     </ul>
 
@@ -39,4 +39,38 @@
       </form>
     <% end %>
   </div>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="mobile-nav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <% if current_user %>
+            <li class="nav-item">
+              <%= link_to 'New Problem', new_problem_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/edit">Edit Account</a>
+            </li>
+            <li class="nav-item">
+              <div class="nav-link"><%= link_to 'Sign Out', '/users/sign_out', method: :delete %></div>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/sign_in">Sign In/Register</a>
+            </li>
+          <% end %>
+        </ul>
+
+
+        <% if current_user %>
+          <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
+            <input class="form-control mr-sm-2" type="search" id="location_term" placeholder="Enter a postal code" aria-label="Change Location" name="location_term">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" href="/" value="location_term">Change Location</button>
+          </form>
+        <% end %>
+      </div>
+    </div>
+
 </nav>

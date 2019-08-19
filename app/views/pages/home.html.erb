@@ -1,96 +1,90 @@
-<head>
-  <title>Simple Map</title>
-  <meta name="viewport" content="initial-scale=1.0">
-  <meta charset="utf-8">
-</head>
-  <body>
-    <div class="home-page">
-      <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
-        <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
+
+<div class="home-page">
+  <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
+    <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
+  </div>
+  <div class="d-flex flex-column align-items-center justify-content-center filter floater">
+    <h3>Filters</h3>
+  </div>
+  <aside class="home-page-aside">
+    <div class="homepage-header">
+      <div class="tab hp">
+        <button class="tablinks hp" onclick="openTab(event, 'probs-near-me')" id="defaultOpen">Problems Near Me</button>
+        <button class="tablinks hp" onclick="openTab(event, 'my-probs')">My Problems</button>
       </div>
-      <div class="d-flex flex-column align-items-center justify-content-center filter floater">
-        <h3>Filters</h3>
-      </div>
-      <aside class="home-page-aside">
-        <div class="homepage-header">
-          <div class="tab hp">
-            <button class="tablinks hp" onclick="openTab(event, 'probs-near-me')" id="defaultOpen">Problems Near Me</button>
-            <button class="tablinks hp" onclick="openTab(event, 'my-probs')">My Problems</button>
-          </div>
-        </div>
-        <div id="probs-near-me" class="tabcontent hp">
-          <% @problems.each do |problem| %>
-            <%= render 'problem_row', problem: problem %>
-          <% end %>
-        </div>
-        <div id="my-probs" class="tabcontent hp">
-          <% @problems.filter {|problem| problem.user_id === current_user.id }.each do |prob| %>
-            <%= render 'problem_row', problem: prob %>
-          <% end %>
-        </div>
-      </aside>
-      <div id="map"></div>
     </div>
+    <div id="probs-near-me" class="tabcontent hp">
+      <% @problems.each do |problem| %>
+        <%= render 'problem_row', problem: problem %>
+      <% end %>
+    </div>
+    <div id="my-probs" class="tabcontent hp">
+      <% @my_problems.each do |problem| %>
+        <%= render 'problem_row', problem: problem %>
+      <% end %>
+    </div>
+  </aside>
+  <div id="map"></div>
+</div>
 
-  <script>
+<script>
 
-    var map;
-    // var assignListener = function(markerObj, infoWindowObj){
-    //   console.log('Clicked on a marker')
-    //   return function() {
-    //          infoWindowObj.open(map, markerObj);
-    //           };
-    // };
-    function initMap()
+  var map;
+  // var assignListener = function(markerObj, infoWindowObj){
+  //   console.log('Clicked on a marker')
+  //   return function() {
+  //          infoWindowObj.open(map, markerObj);
+  //           };
+  // };
+  function initMap()
+  {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
+      zoom: 14,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false
+    });
+
+    var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    for (var i = 0, length = json.length; i < length; i++)
     {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
-        zoom: 14,
-        streetViewControl: false,
-        mapTypeControl: false,
-        fullscreenControl: false
+      var data = json[i],
+        LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
+        // @MATT -- fix the parse float issue
+
+
+      data.contentString =
+        `<div id="content">
+          <div id="siteNotice"></div>
+          <h4 id="marker_title" class="marker_title"> ${data.title}</h4>
+          <p id="marker_participants" class="marker_participants">Participant status: ${data.volunteer_count} / ${data.volunteers_required}</p>
+          <p id="marker_followers" class="marker_followers">Followers: ${data.follower_count}</p>
+          <p id="marker_category" class="marker_category">Category: ${data.category_title} -- Subcategory: ${data.subcategory_title}</p>
+          <a href="/problems/${data.id}" id="marker_link" class="marker_link">See Problem Details</a>
+         </div>`;
+
+      var marker = new google.maps.Marker({
+        position: LatLng,
+        map: map,
+        animation: google.maps.Animation.DROP
       });
 
-      var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
 
-      var infoWindow = new google.maps.InfoWindow();
-
-      for (var i = 0, length = json.length; i < length; i++)
-      {
-        var data = json[i],
-          LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
-          // @MATT -- fix the parse float issue
-
-
-        data.contentString =
-          `<div id="content">
-            <div id="siteNotice"></div>
-            <h4 id="marker_title" class="marker_title"> ${data.title}</h4>
-            <p id="marker_participants" class="marker_participants">Participant status: ${data.volunteer_count} / ${data.volunteers_required}</p>
-            <p id="marker_followers" class="marker_followers">Followers: ${data.follower_count}</p>
-            <p id="marker_category" class="marker_category">Category: ${data.category_title} -- Subcategory: ${data.subcategory_title}</p>
-            <a href="/problems/${data.id}" id="marker_link" class="marker_link">See Problem Details</a>
-           </div>`;
-
-        var marker = new google.maps.Marker({
-          position: LatLng,
-          map: map,
-          animation: google.maps.Animation.DROP
+      (function (marker, data) {
+        google.maps.event.addListener(marker, "click", function (e) {
+          infoWindow.setContent(data.contentString);
+          infoWindow.open(map, marker);
         });
+      }) (marker, data);
 
-
-        (function (marker, data) {
-          google.maps.event.addListener(marker, "click", function (e) {
-            infoWindow.setContent(data.contentString);
-            infoWindow.open(map, marker);
-          });
-        }) (marker, data);
-
-        //marker.addListener('click', assignListener(marker, infoWindow));
-      }
+      //marker.addListener('click', assignListener(marker, infoWindow));
     }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap"
-  async defer>
-  </script>
-</body>
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap"
+async defer>
+</script>

@@ -4,70 +4,34 @@
 @import 'theme.scss';
 @import 'mixins.scss';
 
-// HOME PAGE STYLING
+// LANDING PAGE STYLE
+.landing-lead {
+  font-size: 4em;
 
-// /* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-
-  &.hp {
-    background-color: $secondary;
-    border: none;
-    width: 100%;
-    display: flex;
+  @include respond-to(handhelds) {
+    font-size: 2.2em;
   }
 }
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
+.landing-how-block {
+  margin-top: 2vh;
+}
 
-  &.hp {
-    text-transform: uppercase;
-    padding: 12px 12px;
-    color: #fff;
-    height: 100%;
-    width: 100%;
+.landing-page.jumbotron {
+  margin-bottom: 0;
+}
 
-    &:hover {
-      background-color: $secondary-hover;
-    }
+.beta-disclaimer {
+  padding-left: 2vw;
+  margin-top: 6vh;
 
-    &.active {
-      background-color: $secondary-hover;
-    }
+  @include respond-to(handhelds) {
+    padding: 2vh 6vw;
   }
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-
-  &.hp {
-    padding: 0;
-    border: none;
-  }
+.landing-list {
+  margin-top: 2vh;
 }
 
 // ====HOME PAGE STYLES=====
@@ -229,6 +193,8 @@
 }
 
 
-.beta-disclaimer {
-  padding-left: 2vw;
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

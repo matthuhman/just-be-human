@@ -2,6 +2,7 @@
 @import "bootstrap";
 @import "tether";
 @import url('https://fonts.googleapis.com/css?family=Roboto|Rubik&display=swap');
+$enable-responsive-font-sizes: true;
 
 //*= require introjs
 
@@ -12,8 +13,11 @@ html, body {
 
 h1, h2, h3, h4, h5 {
   font-family: 'Rubik', Arial, sans-serif;
-  text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+h1, h2 {
+  text-transform: uppercase;
 }
 
 p, a, span {
