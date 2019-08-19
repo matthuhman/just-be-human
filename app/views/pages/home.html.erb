@@ -54,9 +54,7 @@
       for (var i = 0, length = json.length; i < length; i++)
       {
         var data = json[i],
-          LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
-          // @MATT -- fix the parse float issue
-
+          LatLng = {lat: data.float_lat, lng: data.float_long};
 
         data.contentString =
           `<div id="content">

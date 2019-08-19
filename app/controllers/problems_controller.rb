@@ -47,8 +47,6 @@ class ProblemsController < ApplicationController
       end
     end
 
-    binding.pry
-
     @role = ProblemRole.create
     @role.user_id = current_user.id
     @role.level = 1
@@ -159,6 +157,7 @@ class ProblemsController < ApplicationController
 
     respond_to do |format|
       if (current_user == @problem.user || current_user == target_user_id)
+        ## remove the target user as a supervisor
         if Role.remove_supervisor(target_user_id, @problem.id)
             if (target_user_id != current_user.id)
               format.html { redirect_to @problem, notice: "User is no longer a Supervisor." }
@@ -209,5 +208,4 @@ class ProblemsController < ApplicationController
     #   role = Role.new
     #   return role
     # end
-
 end

@@ -75,13 +75,12 @@ class UsersController < ApplicationController
   ## POST /contact/request
   def request_contact_info
     requesting_user = User.find(contact_params[:requesting_user_id])
-    requested_id = contact_params[:requested_user_id]
-    share_problem = Problem.users_are_volunteers(requesting_user.id, requested_user.id)
+    requested_user = User.find(contact_params[:requested_user_id])
+
     respond_to do |format|
-      if (current_user == requesting_user && share_problem && requesting_user.over_16? && requested_user.over_16?)
-        @request = ContactRequest.new(contact_params)
-        if @request.save
-          format.html { redirect_to requested_user, notice: "You have requested #{requested_id.username}'s contact information. You will be notified via email if they accept" }
+      if (current_user == requesting_user)
+        if ContactRequest.send_contact_request(requesting_user, requested_user, contact_params[:problem_id])
+          format.html { redirect_to requested_user, notice: "You have requested #{requested_user.username}'s contact information. You will be notified via email if they accept" }
           format.json { render :show, status: :created, location: requested_user }
         else
           ReportedError.report("User.request_contact_info", @request.errors, 1000)
@@ -89,13 +88,8 @@ class UsersController < ApplicationController
           format.json { render :show, status: :unprocessable_entity, location: requested_user }
         end
       else
-        if current_user != requesting_user || !share_problem
-          format.html { redirect_to requested_user, alert: "You do not have permission to request this user's contact information" }
-          format.json { render :show, status: :forbidden, location: requested_user }
-        elsif !requesting_user.over_16?
-          format.html { redirect_to requested_user, alert: "You must be over 16 to request another user's contact information." }
-          format.json { render :show, status: :forbidden, location: requested_user }
-        end
+        format.html { redirect_to requested_user, alert: "You " }
+        format.json { render :show, status: :forbidden, location: requested_user }
       end
     end
   end
@@ -103,24 +97,14 @@ class UsersController < ApplicationController
 
   ## POST /contact/response
   def respond_contact_info
-    request = ContactRequest.find(contact_response_params[:id])
-    accept = contact_response_params[:accept]
-    requesting_user = User.find(request.requesting_user_id)
+    req = ContactRequest.find(contact_response_params[:id])
+    accepted = contact_response_params[:accepted]
 
     respond_to do |format|
-      if current_user.id == request.requested_user_id
-        if accept
-          request.active = true
-          request.accepted = true
-          request.accept_time = Date.today
-        else
-          request.active = true
-          request.accepted = false
-        end
-
-        if request.save 
-          if request.accepted
-            respond.html { redirect_to current_user, notice: "You have accepted the contact request from #{requesting_user.username}- they will be notified via email." }
+      if req && current_user.id == req.requested_user_id
+        if ContactRequest.contact_response(contact_response_params[:id], accepted) 
+          if req.accepted
+            respond.html { redirect_to current_user, notice: "You have accepted the contact request- they will be notified via email." }
             respond.json { render :show, status: :accepted, location: current_user }
           else
             respond.html { redirect_to current_user, alert: "You have declined to share contact information with #{requesting_user.username}. They will not be notified, and you will automatically decline all future requests from this user." }
@@ -132,8 +116,9 @@ class UsersController < ApplicationController
           respond.json { render :show, status: :unprocessable_entity, location: current_user }
         end
       else
-        format.html { redirect_to current_user, alert: "You do not have permissions on this object." }
-        format.json { render :show, status: :forbidden, location: current_user }
+        ReportedError.report("User.respond_permissions_breach", current_user.username, 100)
+        respond.html { redirect_to current_user, alert: "You can't do that."}
+        respond.json { render :show, status: :forbidden, location: current_user }
       end
     end
   end
@@ -152,10 +137,10 @@ class UsersController < ApplicationController
     end
 
     def contact_params
-      params.require(:contact_request).(:requesting_user_id, :requested_user_id)
+      params.require(:contact_request).(:requesting_user_id, :requested_user_id, :problem_id)
     end
 
     def contact_response_params
-      params.require(:contact_response).(:id, :accept)
+      params.require(:contact_response).(:id, :accepted)
     end
 end

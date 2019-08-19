@@ -36,15 +36,11 @@ class Problem < ApplicationRecord
   end
 
 
-  def self.users_are_volunteers(*args)
-    args.each do |id|
-      # role = ProblemRole.
+  def self.users_are_volunteers(u1_id, u2_id, p_id)
+    u1_role = ProblemRole.find_by(user_id: u1_id, problem_id: p_id)
+    u2_role = ProblemRole.find_by(user_id: u2_id, problem_id: p_id)
 
-
-
-    end
-
-
+    return u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
   end
 
 
