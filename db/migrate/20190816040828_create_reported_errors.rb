@@ -5,6 +5,10 @@ class CreateReportedErrors < ActiveRecord::Migration[5.2]
       t.text :errors
       t.integer :priority
       t.timestamps
+
+
+      t.index :source
+      t.index :priority
     end
   end
 end
