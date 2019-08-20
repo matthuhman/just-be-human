@@ -18,9 +18,11 @@
       <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
     </div>
     <%= f.input :volunteers_required %>
+    <%= f.input :estimated_work, placeholder: "Estimate the number of hours." %>
     <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
     <%= f.input :address, placeholder: "If possible, please enter an address" %>
     <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
+    
   </div>
 
   <%= f.button :submit, class: 'btn btn-outline-primary'%>

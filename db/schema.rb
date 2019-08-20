@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_010802) do
+ActiveRecord::Schema.define(version: 2019_08_20_192935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_010802) do
     t.uuid "requested_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "problem_id"
+    t.datetime "response_time"
     t.index ["requested_user_id", "requesting_user_id"], name: "index_requested_requesting"
     t.index ["requested_user_id"], name: "index_contact_requests_on_requested_user_id"
     t.index ["requesting_user_id", "requested_user_id"], name: "index_requesting_requester"
@@ -101,6 +103,10 @@ ActiveRecord::Schema.define(version: 2019_08_19_010802) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "priority", default: 1
+    t.float "estimated_work", default: 1.0
+    t.float "pct_work_remaining", default: 100.0
+    t.date "target_completion_date"
     t.index ["category", "subcategory"], name: "index_milestones_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_milestones_on_latitude_and_longitude"
     t.index ["problem_id"], name: "index_milestones_on_problem_id"
@@ -109,7 +115,7 @@ ActiveRecord::Schema.define(version: 2019_08_19_010802) do
 
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", default: "CHANGEME", null: false
-    t.text "content", default: "CHANGEME", null: false
+    t.string "content", default: "CHANGEME", null: false
     t.integer "comment_count", default: 0
     t.uuid "user_id"
     t.string "postable_type"
@@ -138,8 +144,6 @@ ActiveRecord::Schema.define(version: 2019_08_19_010802) do
     t.text "description"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.float "float_lat"
-    t.float "float_long"
     t.date "target_completion_date"
     t.integer "volunteers_required", default: 1
     t.integer "volunteer_count", default: 1
@@ -152,6 +156,7 @@ ActiveRecord::Schema.define(version: 2019_08_19_010802) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "estimated_work", default: 1.0
     t.index ["category", "subcategory"], name: "index_problems_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_problems_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_problems_on_user_id"

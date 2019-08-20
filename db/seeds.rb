@@ -34,9 +34,9 @@ require 'csv'
 
 if Rails.env == "development"
   User.create({
-    username: "matt",
-    email: "huhmanbeing@gmail.com",
-    first_name: "Matt",
+    username: "test1",
+    email: "test1@test.com",
+    first_name: "Test1",
     last_name: "Huhman",
     postal_code: "80205",
     password: "password",
@@ -45,5 +45,31 @@ if Rails.env == "development"
     city: "Denver",
     confirmed_at: Time.now,
     birth_date: Date.strptime("30/11/1991", "%d/%m/%Y")
+  })
+  User.create({
+    username: "test2",
+    email: "test2@test.com",
+    first_name: "Test2",
+    last_name: "Huhman",
+    postal_code: "80205",
+    password: "password",
+    password_confirmation: "password",
+    region: "CO",
+    city: "Denver",
+    confirmed_at: Time.now,
+    birth_date: Date.strptime("30/11/1991", "%d/%m/%Y")
+  })
+  User.create({
+    username: "test-under16",
+    email: "test-under16@test.com",
+    first_name: "Test2",
+    last_name: "Huhman",
+    postal_code: "80205",
+    password: "password",
+    password_confirmation: "password",
+    region: "CO",
+    city: "Denver",
+    confirmed_at: Time.now,
+    birth_date: Date.strptime("30/11/2011", "%d/%m/%Y")
   })
 end

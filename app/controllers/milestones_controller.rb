@@ -7,6 +7,8 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/new
   def new
+    @categories = Category.ms_titles
+    @sub_categories = Category.ms_subcats
     @milestone = Milestone.new
     respond_modal_with @milestone
   end
@@ -21,6 +23,8 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/1/edit
   def edit
+    @categories = Category.ms_titles
+    @sub_categories = Category.ms_subcats
     respond_modal_with @milestone
   end
 
@@ -29,7 +33,8 @@ class MilestonesController < ApplicationController
   def create
     @milestone = Milestone.new(milestone_params)
     problem = Problem.find(@milestone.problem_id)
-
+    @categories = Category.problem_titles
+    @sub_categories = Category.ms_subcats
     #respond_modal_with @milestone, location: @problem
     respond_to do |format|
       @tab = 'problem-milestones-tab'

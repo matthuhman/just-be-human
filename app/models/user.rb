@@ -22,8 +22,17 @@ class User < ApplicationRecord
       self.over_16 = self.birth_date < 18.year.ago
       self.save
     end
-    binding.pry
     return self.over_16
+  end
+
+
+  def get_active_contact_requests(problem_id)
+    reqs = ContactRequest.where(requested_user_id: self.id, problem_id: problem_id)
+
+
+
+
+
   end
 
 

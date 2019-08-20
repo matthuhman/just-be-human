@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+
+
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
@@ -26,5 +28,7 @@ Rails.application.routes.draw do
   resources :problems, :comments, :posts, :milestones
   
   devise_for :users, :controllers => { registrations: 'registrations' }
+
+
+
 end
-  
