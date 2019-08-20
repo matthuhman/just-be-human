@@ -31,8 +31,10 @@
 
 
 
-  <% if !@role %>
+  <% if !@role && current_user %>
     <%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id %>
+  <% elsif !current_user %>
+    <%= link_to 'Sign In', "/users/sign_in" %>
   <% elsif @role.level == 4 %>
     <%= link_to 'Unfollow Problem', controller: "problems", action: "unfollow", problem_id: @problem.id %>
   <% elsif @role.level == 2 %>

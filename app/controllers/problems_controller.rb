@@ -21,7 +21,7 @@ class ProblemsController < ApplicationController
   def new
     @problem = Problem.new
     @categories = Category.problem_titles
-    @sub_categories = Category.get_all_problem_subcats
+    @sub_categories = Category.problem_subcats
   end
 
   # GET /problems/1/edit
@@ -33,7 +33,7 @@ class ProblemsController < ApplicationController
   # POST /problems.json
   def create
     @categories = Category.problem_titles
-    @sub_categories = Category.get_all_problem_subcats
+    @sub_categories = Category.problem_subcats
     @problem = Problem.new(problem_params)
     @problem.user = current_user
 
@@ -73,7 +73,7 @@ class ProblemsController < ApplicationController
   # PATCH/PUT /problems/1.json
   def update
     @categories = Category.problem_titles
-    @sub_categories = Category.get_all_problem_subcats
+    @sub_categories = Category.problem_subcats
     respond_to do |format|
       if @problem.update(problem_params)
         format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }

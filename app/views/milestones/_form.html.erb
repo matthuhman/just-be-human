@@ -3,12 +3,26 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :current_status %>
-    <%= f.input :address %>
-    <%= f.input :complete %>
-    <%= f.input :volunteers_required %>
+    <%= f.input :title, placeholder: "Keep it short and sweet" %>
+    <%= f.input :description, placeholder: "An in-depth description goes here." %>
+    <%= f.input :current_status, placeholder: "A short description of the current status." %>
+    <%= f.input :address, placeholder: "Leave this blank if there isn't a specific address." %>
+
+    <% if params[:milestone] %>
+      <%= f.input :target_completion_date, :value => Problem.find(params[:milestone][:problem_id]).target_completion_date %>
+    <% else %>
+      <%= f.input :target_completion_date, :value => @milestone.problem.target_completion_date %>
+    <% end %>
+    <div class="form-group">
+      <%= f.label :category %>
+      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :subcategory %>
+      <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
+    </div>
+    <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
+    <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
     <% if params[:milestone] %>
     <%= f.hidden_field :problem_id, :value => params[:milestone][:problem_id] %>
     <% end %>
