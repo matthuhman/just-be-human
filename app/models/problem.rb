@@ -57,9 +57,13 @@ class Problem < ApplicationRecord
       est_ms_work += ms.estimated_work
     end
 
-
-
-
+    if work_done == 0
+      return 100.0
+    elsif est_work > est_ms_work
+      return work_done / est_work * 100
+    else
+      return work_done / est_ms_work * 100
+    end
   end
 
 

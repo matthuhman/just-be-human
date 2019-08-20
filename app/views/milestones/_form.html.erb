@@ -13,6 +13,10 @@
     <% else %>
       <%= f.input :target_completion_date, :value => @milestone.problem.target_completion_date %>
     <% end %>
+
+    <% if params[:action] == "edit" %>
+      <%= f.input :pct_work_remaining, label: 'Estimate the % of work that remains!' %>
+    <% end %>
     <div class="form-group">
       <%= f.label :category %>
       <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
