@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  respond_to :html, :xml, :json
+
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
@@ -16,17 +18,18 @@ class PostsController < ApplicationController
     else
       @parent = Milestone.find(@post.postable_id)
     end
-
-    # binding.pry
+    respond_modal_with @post
   end
 
   # GET /posts/new
   def new
     @post = Post.new
+    respond_modal_with @post
   end
 
   # GET /posts/1/edit
   def edit
+    respond_modal_with @post
   end
 
   # POST /posts
@@ -64,7 +67,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
-      if @post.user_has_permissions(current_user.id) 
+      if @post.user_has_permissions(current_user.id)
         if @post.update(post_params)
           format.html { redirect_to @post, notice: 'Post was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }
@@ -87,7 +90,7 @@ class PostsController < ApplicationController
     else
       @parent = Milestone.find(@post.postable_id)
     end
-    
+
     respond_to do |format|
       if @post.user_has_permissions(current_user.id)
         @post.destroy

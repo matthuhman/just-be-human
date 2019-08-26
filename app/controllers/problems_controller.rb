@@ -1,5 +1,8 @@
 class ProblemsController < ApplicationController
-  before_action :set_problem, only: [:show, :edit, :update, :destroy]
+  respond_to :html, :xml, :json
+
+
+  before_action :set_problem, only: [:show, :edit, :update, :destroy, :followers]
   before_action :authenticate_user!, except: [:show]
 
 
@@ -96,6 +99,11 @@ class ProblemsController < ApplicationController
     end
   end
 
+  def followers
+    @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
+    @is_admin = @problem.user_is_admin(current_user.id)
+    respond_modal_with @post, @is_admin
+  end
 
   #
   # GET /problems/follow
@@ -108,6 +116,20 @@ class ProblemsController < ApplicationController
         format.json { render :show, status: :created, location: @problem }
       else
         format.html { redirect_to @problem, notice: 'You have not followed this problem successfully' }
+        format.json { render :show, status: :unprocessable_entity, location: @problem }
+      end
+    end
+  end
+
+  def volunteer
+    @problem = Problem.find(params[:problem_id])
+    ms_id = 1## @arren fix this
+    respond_to do |format|
+      if Role.volunteer(current_user.id, ms_id, @problem.id)
+        format.html { redirect_to @problem, notice: 'You have volunteered!' }
+        format.json { render :show, status: :created, location: @problem }
+      else
+        format.html { redirect_to @problem, notice: 'You have not volunteered for this problem successfully' }
         format.json { render :show, status: :unprocessable_entity, location: @problem }
       end
     end

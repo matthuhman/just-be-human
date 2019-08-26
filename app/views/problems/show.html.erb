@@ -1,20 +1,32 @@
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'problem-info-tab')" id="defaultOpen">General Problem Info</button>
-  <button class="tablinks" onclick="openTab(event, 'problem-milestones-tab')">Milestones and Progress</button>
-  <% if @is_admin %>
-    <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Manage Volunteers and Followers</button>
-  <% elsif @role %>
-    <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Volunteers and Followers</button>
-  <% end %>
-</div>
-
 <div class="problem-header">
-  <h1 class="problem-title"> <%= @problem.title %> </h1>
+  <div class="problem-desc">
+    <h1 class="problem-title"> <%= @problem.title %> </h1>
+    <p><%= @problem.description %></p>
+
+    <% if !@role && current_user %>
+      <%= link_to 'Follow Problem', problems_follow_path(problem_id: @problem.id), class: "btn btn-outline-primary" %>
+    <% elsif !current_user %>
+      <%= link_to 'Sign In', "/users/sign_in" %>
+    <% elsif @role.level == 4 %>
+      <%= link_to 'Unfollow Problem', problems_unfollow_path(problem_id: @problem.id), class: "btn btn-outline-primary" %>
+    <% elsif @role.level == 2 %>
+      <%= link_to 'Step down as Supervisor', problems_demote_user_path(problem_id: @problem.id, target_user_id: @role.user_id), class: "btn btn-outline-primary" %>
+    <% end %>
+  </div>
+
   <div class="problem-info">
     <div class="problem-info-row">
       <span class="follower-count">Created By <span class="follower-count-span"><%= @problem.user.username %></span></span>
       <span class="follower-count">Sub-Category <span class="follower-count-span black"><%= @problem.subcategory_title %></span></span>
-      <span class="follower-count">Followers <span class="follower-count-span info"><%= @problem.follower_count %></span></span>
+      <span class="follower-count">
+        <%= link_to 'Followers', problems_followers_path(:id => @problem.id), data: { modal: true } %>
+        <span class="follower-count-span info"><%= @problem.follower_count %></span>
+      </span>
+      <!-- @arren - follower spans could be modal style info graphics
+        followers opens to a list of the followers
+        volunteers opens list of volunteers
+        need way to show they're clickable. maybe underline?
+      -->
     </div>
     <div class="problem-info-row">
       <span class="follower-count">Target Completion <span class="follower-count-span">  <%= @problem.target_completion_date %></span></span>
@@ -25,25 +37,27 @@
 
 </div>
 
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'problem-info-tab')" id="defaultOpen">Posts</button>
+  <button class="tablinks" onclick="openTab(event, 'problem-milestones-tab')">Milestones and Progress</button>
+  <% if @is_admin %>
+    <!-- <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Manage Volunteers and Followers</button> -->
+  <% elsif @role %>
+    <!-- <button class="tablinks" onclick="openTab(event, 'problem-people-tab')">Volunteers and Followers</button> -->
+  <% end %>
+</div>
+
 <!-- Tab content -->
 <div id="problem-info-tab" class="tabcontent">
-  <h4><%= @problem.description %></h4>
-
-
-
-  <% if !@role && current_user %>
-    <%= link_to 'Follow Problem', controller: "problems", action: "follow", problem_id: @problem.id %>
-  <% elsif !current_user %>
-    <%= link_to 'Sign In', "/users/sign_in" %>
-  <% elsif @role.level == 4 %>
-    <%= link_to 'Unfollow Problem', controller: "problems", action: "unfollow", problem_id: @problem.id %>
-  <% elsif @role.level == 2 %>
-    <%= link_to 'Step down as Supervisor', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: @role.user_id %>
-  <% end %>
-
-
   <div class="posts-container">
-    <h2> Posts </h2>
+    <div class="tab-header d-flex align-items-center">
+      <h2 class="tab-heading"> Posts </h2>
+      <% if current_user && @role %>
+        <div class="add-milestone-button">
+          <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+        </div>
+      <% end %>
+    </div>
     <div class="post-list">
       <% @problem.posts.each do |post| %>
         <% post_user = User.find(post.user_id) %>
@@ -56,16 +70,19 @@
         </div>
       <% end %>
     </div>
-    <div class="add-post">
-      <% if current_user && @role %>
-        <%= link_to 'Add A Post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn-success btn-lg btn-block" %>
-      <% end %>
-    </div>
+
   </div>
 </div>
 
 <div id="problem-milestones-tab" class="tabcontent">
-  <div class="tab-title"><h2>Milestones</h2></div>
+  <div class="d-flex align-items-center">
+    <h2 class="tab-heading">Milestones</h2>
+    <% if @is_mod %>
+      <div class="add-milestone-button">
+        <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg', data: { modal: true } %>
+      </div>
+    <% end %>
+  </div>
 
   <% @problem.milestones.each do |milestone| %>
     <div class="milestone-container">
@@ -90,34 +107,4 @@
       </div>
     </div>
   <%end%>
-
-  <% if @is_mod %>
-    <div class="add-milestone-button">
-      <%= link_to 'Add a new milestone', new_milestone_path(:milestone => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg btn-block', data: { modal: true } %>
-    </div>
-  <% end %>
-</div>
-
-<div id="problem-people-tab" class="tabcontent">
-  <h2>Followers</h2>
-    <% @problem.problem_roles.each do |role| %>
-      <p>Username: <%= role.user.username %>  |  Role: <%= role.title %>
-        <% if @is_admin %>
-          <% if role.level == 1 && role.user == current_user && @problem.user == current_user %>
-          | <%= link_to 'Step down as Leader', "/" %>
-          <% elsif (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-          | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
-          <% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 3 %>
-          | <%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
-          <% end %>
-        <% end %>
-      <% if @role && @role.level <= 3 && role.level <= 3 && current_user.id != role.user_id %>
-        <% if !ContactRequest.find_by(requesting_user_id: current_user.id, requested_user_id: role.user_id) %>
-        <% #:contact_request => { requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
-          | <%= link_to 'Send contact request', controller: "users", action: "request_contact_info", :contact_request => {requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
-        <% end %>
-      <% end %> 
-      </p>
-
-    <% end %>
 </div>

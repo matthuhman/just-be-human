@@ -2,12 +2,16 @@ $(function() {
   const modal_holder_selector = '#modal-holder';
   const modal_selector = '.modal';
 
-  $(document).on('click', 'a[data-modal]', function() {
+  $(document).on('click', 'a[data-modal]', function(e) {
+    e.preventDefault()
+
     const location = $(this).attr('href');
     // Load modal dialog from server
     $.get(
       location,
-      data => { $(modal_holder_selector).html(data).find(modal_selector).modal() }
+      data => {
+        $(modal_holder_selector).html(data).find(modal_selector).modal()
+      }
     );
     return false;
   });
@@ -23,6 +27,7 @@ $(function() {
       $('.modal-backdrop').remove();
       // Update modal content
       const modal = $(data).find('body').html();
+      debugger
       $(modal_holder_selector).html(modal).find(modal_selector).modal();
     }
 
