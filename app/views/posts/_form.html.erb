@@ -7,9 +7,11 @@
       <%= f.input :title, placeholder: "Enter a post title" %>
     </div>
 
-    <div class="form-inputs">
-      <%= f.input :content, placeholder: "Write your post here" %>
-    </div>
+  <div class="form-inputs field">
+    <%= f.label :content %>
+    <!-- TODO: @MATT why is this not working -->
+    <%= f.rich_text_area :content %>
+  </div>
 
       <% if params[:problem] %>
         <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>

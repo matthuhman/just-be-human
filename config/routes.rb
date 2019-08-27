@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-
-
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
@@ -13,6 +11,9 @@ Rails.application.routes.draw do
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
+
+  get '/contact/request' => 'users#request_contact_info'
+  get '/contact/response' => 'users#respond_contact_info'
 
   get '/my_problems' => 'pages#my_problems'
 
