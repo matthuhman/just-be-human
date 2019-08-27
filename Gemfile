@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0'
+gem 'rails', '6.0.0.rc1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
@@ -17,7 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -50,6 +50,9 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'webpacker'
 gem 'railties' 
+
+gem "actiontext", "6.0.0.rc1", github: "rails/actiontext"
+gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’
 # gem 'activerecord-postgresql-adapter', '~> 0.0.1'
 
 gem 'aws-sdk-costexplorer', '1.29.0'

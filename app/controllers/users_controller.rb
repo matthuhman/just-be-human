@@ -74,23 +74,23 @@ class UsersController < ApplicationController
 
   ## GET /contact/request
   def request_contact_info
-    binding.pry
     requesting_user = User.find(contact_params[:requesting_user_id])
     requested_user = User.find(contact_params[:requested_user_id])
+    problem = Problem.find(contact_params[:problem_id])
 
     respond_to do |format|
       if (current_user == requesting_user)
-        if ContactRequest.send_contact_request(requesting_user, requested_user, contact_params[:problem_id])
-          format.html { redirect_to requested_user, notice: "You have requested #{requested_user.username}'s contact information. You will be notified via email if they accept" }
-          format.json { render :show, status: :created, location: requested_user }
+        if ContactRequest.send_contact_request(requesting_user, requested_user, problem.id)
+          format.html { redirect_to problem, notice: "You have requested #{requested_user.username}'s contact information. You will be notified via email if they accept" }
+          format.json { render :show, status: :created, location: problem }
         else
           ReportedError.report("User.request_contact_info", @request.errors, 1000)
-          format.html { redirect_to requested_user, alert: "An unexpected error occurred when issuing this contact request. The error has been logged for investigation." }
-          format.json { render :show, status: :unprocessable_entity, location: requested_user }
+          format.html { redirect_to problem, alert: "An unexpected error occurred when issuing this contact request. The error has been logged for investigation." }
+          format.json { render :show, status: :unprocessable_entity, location: problem }
         end
       else
-        format.html { redirect_to requested_user, alert: "You " }
-        format.json { render :show, status: :forbidden, location: requested_user }
+        format.html { redirect_to problem, alert: "You are not allowed to do that." }
+        format.json { render :show, status: :forbidden, location: problem }
       end
     end
   end
@@ -118,7 +118,7 @@ class UsersController < ApplicationController
         end
       else
         ReportedError.report("User.respond_permissions_breach", current_user.username, 100)
-        respond.html { redirect_to current_user, alert: "You can't do that."}
+        respond.html { redirect_to current_user, alert: "You are not allowed to do that."}
         respond.json { render :show, status: :forbidden, location: current_user }
       end
     end
@@ -132,9 +132,8 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :zip, :country)
+      params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country)
     end
 
     def contact_params

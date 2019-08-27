@@ -51,7 +51,7 @@
           <a href="/posts/<%= post.id %>" class="post-link">
             <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
             <p class="post-title"><%= post.title %></p>
-            <p class="post-excerpt"><strong>Excerpt: </strong><%= post.content.length > 40 ? "#{post.content.slice(0, 40)}... " : post.content %></p>
+            <p class="post-excerpt"><strong>Excerpt: </strong></p>
           </a>
         </div>
       <% end %>
