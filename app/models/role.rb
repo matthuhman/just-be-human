@@ -39,6 +39,7 @@ class Role
   # creates a RequirementRole for a given user/requirement
   # sets the ProblemRole level/title to 3/Volunteer if it isn't already
   def self.volunteer(u_id, req_id, p_id)
+    req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
     req_role = RequirementRole.new(user_id: u_id, requirement_id: req_id)
     prob_role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
     req_role.level = 2
