@@ -1,7 +1,7 @@
 class Problem < ApplicationRecord
   belongs_to :user
   has_many :problem_roles, :dependent => :destroy
-  has_many :milestones, :dependent => :destroy
+  has_many :requirements, :dependent => :destroy
   has_many :posts, as: :postable, :dependent => :destroy
 
   geocoded_by :address
@@ -35,10 +35,6 @@ class Problem < ApplicationRecord
     Category.problem_titles[self.category.to_i]
   end
 
-  def subcategory_title
-    Category.problem_subcat_titles(self.category.to_i)[self.subcategory.to_i]
-  end
-
 
   def pct_time_remaining
     total_time = self.target_completion_date.to_time.to_f - self.created_at.to_f
@@ -49,20 +45,24 @@ class Problem < ApplicationRecord
 
 
   def pct_work_remaining
+    if self.planned?
+      return 0
+    end
+
     est_work = self.estimated_work
     work_done = 0.0
-    est_ms_work = 0.0
-    self.milestones.each do |ms|
-      work_done += (1 - (ms.pct_work_remaining / 100)) * ms.estimated_work
-      est_ms_work += ms.estimated_work
+    est_req_work = 0.0
+    self.requirements.each do |req|
+      work_done += (1 - (req.pct_work_remaining / 100)) * req.estimated_work
+      est_req_work += req.estimated_work
     end
 
     if work_done == 0
       return 100.0
-    elsif est_work > est_ms_work
+    elsif est_work > est_req_work
       return work_done / est_work * 100
     else
-      return work_done / est_ms_work * 100
+      return work_done / est_req_work * 100
     end
   end
 
@@ -83,7 +83,7 @@ class Problem < ApplicationRecord
     # just in case someone says as_json(nil) and bypasses
     # our default...
     super((options || { }).merge({
-      :methods => [:category_title, :subcategory_title]
+      :methods => [:category_title]
     }))
   end
 

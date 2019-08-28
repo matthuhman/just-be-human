@@ -36,14 +36,14 @@ class Role
 
 
   #
-  # creates a MilestoneRole for a given user/milestone
+  # creates a RequirementRole for a given user/requirement
   # sets the ProblemRole level/title to 3/Volunteer if it isn't already
-  def self.volunteer(u_id, ms_id, p_id)
-    ms_role = MilestoneRole.new(user_id: u_id, milestone_id: ms_id)
+  def self.volunteer(u_id, req_id, p_id)
+    req_role = RequirementRole.new(user_id: u_id, requirement_id: req_id)
     prob_role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
-    ms_role.level = 2
-    ms_role.title = "Volunteer"
-    ms_role.problem_id = p_id
+    req_role.level = 2
+    req_role.title = "Volunteer"
+    req_role.problem_id = p_id
 
     # if the user is currently a "follower", set their status to "volunteer"
     if prob_role.level == 4
@@ -56,27 +56,27 @@ class Role
       Problem.increment_counter(:volunteer_count, p_id)
     end
 
-    if ms_role.save
-      Milestone.increment_counter(:volunteer_count, ms_id)
+    if req_role.save
+      Requirement.increment_counter(:volunteer_count, req_id)
       return true
     else
-      ReportedError.report("Role.volunteer_ms", ms_role.errors, 1000)
+      ReportedError.report("Role.volunteer_req", req_role.errors, 1000)
       return false
     end
   end
 
 
-  def self.cancel(u_id, ms_id, p_id)
-    ms_role = MilestoneRole.find_by(user_id: u_id, milestone_id: ms_id)
-    if ms_role
-      ms_role.destroy
-      Milestone.decrement_counter(:volunteer_count, ms_id)
+  def self.cancel(u_id, req_id, p_id)
+    req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
+    if req_role
+      req_role.destroy
+      Requirement.decrement_counter(:volunteer_count, req_id)
     else
       ReportedError.report("Role.cancel", "trying to cancel role that doesn't exist?? Framework logic error!!!", 1000)
       return false
     end
 
-    if MilestoneRole.where(user_id: u_id, problem_id: p_id).size == 0
+    if RequirementRole.where(user_id: u_id, problem_id: p_id).size == 0
       prob_role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
       if prob_role.level > 2
         prob_role.level = 4
@@ -123,7 +123,7 @@ class Role
     prob_role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
 
     if prob_role
-      if MilestoneRole.where(user_id: u_id, problem_id: p_id).size == 0
+      if RequirementRole.where(user_id: u_id, problem_id: p_id).size == 0
         prob_role.level = 4
         prob_role.title = "Follower"
         decrement_volunteer_counter = true
@@ -146,28 +146,6 @@ class Role
       return false
     end
   end
-
-
-  # def self.set_problem_leader(current_leader_id, new_leader_id, p_id)
-  #   curr_leader = ProblemRole.find_by(problem_id: p_id, level: 1)
-
-
-
-  # end
-
-
-  # def self.set_ms_leader(u_id, ms_id)
-
-
-
-  # end
-
-
-  # def self.remove_ms_leader(u_id, ms_id)
-
-
-
-  # end
   
 
   def self.problem_role_level(u_id, p_id)
@@ -179,8 +157,8 @@ class Role
   end
 
 
-  def self.milestone_role_level(u_id, ms_id)
-    role = MilestoneRole.find_by(user_id: u_id, milestone_id: ms_id)
+  def self.requirement_role_level(u_id, req_id)
+    role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
 
     if role
       return role.level

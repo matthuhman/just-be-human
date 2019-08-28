@@ -1,8 +1,8 @@
-class Milestone < ApplicationRecord
+class Requirement < ApplicationRecord
   
   belongs_to :problem
   has_many :posts, as: :postable, :dependent => :destroy
-  has_many :milestone_roles, :dependent => :destroy
+  has_many :requirement_roles, :dependent => :destroy
   
 
 

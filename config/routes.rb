@@ -23,11 +23,11 @@ Rails.application.routes.draw do
   get '/problems/demote_user' => 'problems#demote_user'
   get '/problems/followers' => 'problems#followers'
 
-  get '/milestones/participate' => 'milestones#participate'
-  get '/milestones/cancel' => 'milestones#cancel_participation'
+  get '/requirements/participate' => 'requirements#participate'
+  get '/requirements/cancel' => 'requirements#cancel_participation'
 
 
-  resources :problems, :comments, :posts, :milestones
+  resources :problems, :comments, :posts, :requirements
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 

@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     if @post.postable_type == 'Problem'
       @parent = Problem.find(@post.postable_id)
     else
-      @parent = Milestone.find(@post.postable_id)
+      @parent = Requirement.find(@post.postable_id)
     end
     respond_modal_with @post
   end
@@ -41,7 +41,7 @@ class PostsController < ApplicationController
       @parent = Problem.find(@post.postable_id)
       level = Role.problem_role_level(current_user.id, @post.postable_id)
     else
-      @parent = Milestone.find(@post.postable_id)
+      @parent = Requirement.find(@post.postable_id)
       level = Role.milestone_role_level(current_user.id, @post.postable_id)
     end
 
@@ -88,7 +88,7 @@ class PostsController < ApplicationController
     if @post.postable_type == "Problem"
       @parent = Problem.find(@post.postable_id)
     else
-      @parent = Milestone.find(@post.postable_id)
+      @parent = Requirement.find(@post.postable_id)
     end
 
     respond_to do |format|

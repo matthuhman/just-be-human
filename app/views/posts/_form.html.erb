@@ -14,9 +14,9 @@
     <% if params[:problem] %>
       <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
       <%= f.hidden_field :postable_type, :value => 'Problem' %>
-    <% elsif params[:milestone] %>
-      <%= f.hidden_field :postable_id, :value => params[:milestone][:milestone_id] %>
-      <%= f.hidden_field :postable_type, :value => 'Milestone' %>
+    <% elsif params[:requirement] %>
+      <%= f.hidden_field :postable_id, :value => params[:requirement][:requirement_id] %>
+      <%= f.hidden_field :postable_type, :value => 'Requirement' %>
     <% end %>
     <%= f.button :submit, class: "btn btn-primary"  %>
 

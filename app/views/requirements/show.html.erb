@@ -1,0 +1,17 @@
+<h1><%= @requirement.title %></h1>
+
+<p><Strong><%= @requirement.description %></Strong></p>
+
+
+
+<% if !@req_level %>
+<%= link_to 'Volunteer to help with this requirement!', controller: 'requirements', action: 'participate', requirement_id: @requirement.id %>
+<% elsif @req_level < 2 || @prob_level <= 2 %>
+<%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
+<% elsif @req_level >= 2 %>
+<%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
+<% end %>
+
+
+
+<%= link_to 'Parent problem', @problem %>

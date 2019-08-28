@@ -155,3 +155,64 @@
   letter-spacing: 2px;
   margin: 0;
 }
+
+
+
+
+
+
+// PROBLEMS FORM
+
+
+.title-subheader {
+  padding-top: 5vh;
+}
+
+.title-selection {
+  padding-left: 2vw;
+}
+
+.difficulty-subheader {
+  padding-top: 3vh;
+}
+
+.difficulty-selection {
+  padding-left: 2vw;
+}
+
+.recurring-selection {
+  padding-left: 2vw;
+}
+
+.recurring-subheader {
+  padding-top: 3vh;
+}
+
+
+.location-subheader {
+  padding-top: 3vh;
+}
+
+.location-selection {
+  padding-left: 2vw;
+}
+
+
+.completion-date-subheader {
+  padding-top: 3vh;
+}
+
+.completion-date-selection {
+  padding-left: 2vw;
+}
+
+
+.submit-problem {
+  padding-top: 8vh;
+  text-align: center;
+  width: 80%;
+}
+
+.btn-block {
+  font-size: 3em;
+}
