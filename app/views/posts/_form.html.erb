@@ -1,25 +1,23 @@
 
-  <%= simple_form_for(@post) do |f| %>
-    <%= f.error_notification %>
-    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<%= simple_form_for(@post, remote: request.xhr?, html: { data: { modal: true } }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-    <div class="form-inputs">
-      <%= f.input :title, placeholder: "Enter a post title" %>
-    </div>
-
-  <div class="form-inputs field">
-    <%= f.label :content %>
-    <!-- TODO: @MATT why is this not working -->
-    <%= f.rich_text_area :content %>
+  <div class="form-inputs">
+    <%= f.input :title, placeholder: "Enter a post title" %>
   </div>
 
-      <% if params[:problem] %>
-        <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
-        <%= f.hidden_field :postable_type, :value => 'Problem' %>
-      <% elsif params[:milestone] %>
-        <%= f.hidden_field :postable_id, :value => params[:milestone][:milestone_id] %>
-        <%= f.hidden_field :postable_type, :value => 'Milestone' %>
-      <% end %>
-      <%= f.button :submit, class: "btn btn-primary"  %>
+  <div class="form-inputs">
+    <%= f.input :content, placeholder: "Write your post here" %>
+  </div>
 
-  <% end %>
+    <% if params[:problem] %>
+      <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
+      <%= f.hidden_field :postable_type, :value => 'Problem' %>
+    <% elsif params[:requirement] %>
+      <%= f.hidden_field :postable_id, :value => params[:requirement][:requirement_id] %>
+      <%= f.hidden_field :postable_type, :value => 'Requirement' %>
+    <% end %>
+    <%= f.button :submit, class: "btn btn-primary"  %>
+
+<% end %>

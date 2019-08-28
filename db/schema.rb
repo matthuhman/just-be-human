@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_22_184637) do
+ActiveRecord::Schema.define(version: 2019_08_28_170913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -103,47 +103,6 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.index ["zip"], name: "index_geopoints_on_zip"
   end
 
-  create_table "milestone_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "level"
-    t.string "title"
-    t.string "note"
-    t.integer "problem_id"
-    t.uuid "milestone_id"
-    t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["milestone_id"], name: "index_milestone_roles_on_milestone_id"
-    t.index ["problem_id"], name: "index_milestone_roles_on_problem_id"
-    t.index ["user_id", "milestone_id"], name: "index_milestone_roles_on_user_id_and_milestone_id", unique: true
-    t.index ["user_id"], name: "index_milestone_roles_on_user_id"
-  end
-
-  create_table "milestones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.string "address"
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
-    t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
-    t.integer "category"
-    t.integer "subcategory"
-    t.boolean "complete"
-    t.string "current_status"
-    t.uuid "problem_id"
-    t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "priority", default: 1
-    t.float "estimated_work", default: 1.0
-    t.float "pct_work_remaining", default: 100.0
-    t.date "target_completion_date"
-    t.index ["category", "subcategory"], name: "index_milestones_on_category_and_subcategory"
-    t.index ["latitude", "longitude"], name: "index_milestones_on_latitude_and_longitude"
-    t.index ["problem_id"], name: "index_milestones_on_problem_id"
-    t.index ["user_id"], name: "index_milestones_on_user_id"
-  end
-
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", default: "CHANGEME", null: false
     t.text "content", default: "CHANGEME", null: false
@@ -182,7 +141,6 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.string "address"
     t.string "postal_code"
     t.integer "category"
-    t.integer "subcategory"
     t.integer "follower_count", default: 1
     t.uuid "user_id"
     t.datetime "created_at", null: false
@@ -191,8 +149,9 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.boolean "recurring", default: false
     t.datetime "recurring_period"
     t.boolean "defined", default: true
-    t.index ["category", "subcategory"], name: "index_problems_on_category_and_subcategory"
+    t.boolean "planned", default: true
     t.index ["latitude", "longitude"], name: "index_problems_on_latitude_and_longitude"
+    t.index ["planned", "category"], name: "index_problems_on_planned_and_category"
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 
@@ -204,6 +163,46 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.datetime "updated_at", null: false
     t.index ["priority"], name: "index_reported_errors_on_priority"
     t.index ["source"], name: "index_reported_errors_on_source"
+  end
+
+  create_table "requirement_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "level"
+    t.string "title"
+    t.string "note"
+    t.integer "problem_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "requirement_id"
+    t.index ["problem_id"], name: "index_requirement_roles_on_problem_id"
+    t.index ["user_id", "requirement_id"], name: "index_requirement_roles_on_user_id_and_requirement_id"
+    t.index ["user_id"], name: "index_requirement_roles_on_user_id"
+  end
+
+  create_table "requirements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "address"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.integer "volunteers_required", default: 1
+    t.integer "volunteer_count", default: 1
+    t.integer "category"
+    t.integer "subcategory"
+    t.boolean "complete"
+    t.string "current_status"
+    t.uuid "problem_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "priority", default: 1
+    t.float "estimated_work", default: 1.0
+    t.float "pct_work_remaining", default: 100.0
+    t.date "target_completion_date"
+    t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
+    t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
+    t.index ["problem_id"], name: "index_requirements_on_problem_id"
+    t.index ["user_id"], name: "index_requirements_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

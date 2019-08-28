@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
-  
+
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
@@ -21,13 +21,14 @@ Rails.application.routes.draw do
   get '/problems/unfollow' => 'problems#unfollow'
   get '/problems/promote_user' => 'problems#promote_user'
   get '/problems/demote_user' => 'problems#demote_user'
+  get '/problems/followers' => 'problems#followers'
 
-  get '/milestones/participate' => 'milestones#participate'
-  get '/milestones/cancel' => 'milestones#cancel_participation'
-  
+  get '/requirements/participate' => 'requirements#participate'
+  get '/requirements/cancel' => 'requirements#cancel_participation'
 
-  resources :problems, :comments, :posts, :milestones
-  
+
+  resources :problems, :comments, :posts, :requirements
+
   devise_for :users, :controllers => { registrations: 'registrations' }
 
 

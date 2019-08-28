@@ -1,0 +1,30 @@
+<div class="modal-inner">
+
+  <h2>Followers</h2>
+    <% @problem.problem_roles.each do |role| %>
+    <div class="post-container">
+      <p class="post-author">
+        <%= role.user.username %>
+        <span>
+          | <%= role.title %>
+          <% if @is_admin %>
+            <% if role.level == 1 && role.user == current_user && @problem.user == current_user %>
+              | <%= link_to 'Step down as Leader', "/" %>
+            <% elsif (current_user == @problem.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
+              | <%= link_to 'Promote User', controller: "problems", action: "promote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+            <% elsif (current_user == @problem.user) && (role.user != current_user) && role.level < 3 %>
+              | <%= link_to 'Demote User', controller: "problems", action: "demote_user", problem_id: @problem.id, target_user_id: role.user.id %>
+            <% end %>
+          <% end %>
+          <% if @role && @role.level <= 3 && role.level <= 3 && current_user.id != role.user_id %>
+            <% if !ContactRequest.find_by(requesting_user_id: current_user.id, requested_user_id: role.user_id) %>
+            <% #:contact_request => { requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
+              | <%= link_to 'Send contact request', controller: "users", action: "request_contact_info", :contact_request => {requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
+            <% end %>
+          <% end %>
+        </span>
+      </p>
+    </div>
+    <% end %>
+
+</div>

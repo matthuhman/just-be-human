@@ -16,7 +16,7 @@ require 'csv'
 #   t.city = row['city']
 #   t.zip = row['zip']
 #   t.state = row['state']
-  
+#
 #   t.latitude = row['latitude']
 #   t.longitude = row['longitude']
 #   t.time_zone = row['time_zone']
@@ -29,7 +29,7 @@ require 'csv'
 
 
 
-
+User.destroy_all
 
 
 if Rails.env == "development"

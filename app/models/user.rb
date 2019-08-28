@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   has_many :problems
   has_many :problem_roles, :dependent => :destroy
-  has_many :milestones
-  has_many :milestone_roles, :dependent => :destroy
+  has_many :requirements
+  has_many :requirement_roles, :dependent => :destroy
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :outbound_requests, foreign_key: "requesting_user_id", class_name: "ContactRequest", :dependent => :destroy

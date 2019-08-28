@@ -7,32 +7,51 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :title, placeholder: "Keep your title short and simple!" %>
-    <%= f.input :description, placeholder: "A good description will go a long way." %>
-
-    <div class="form-group">
-      <%= f.label :category %>
-      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-    </div>
-    <div class="form-group">
-      <%= f.label :subcategory %>
-      <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
+    <h5 class="title-subheader">What are the basics?</h5>
+    <div class="title-selection">
+      <%= f.input :title, placeholder: "Keep your title short and simple!" %>
+      <%= f.input :description, placeholder: "A good description will go a long way." %>
+      <div class="form-group">
+        <%= f.label :category %>
+        <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+      </div>
     </div>
 
 
-    <%= f.input :volunteers_required %>
-    <%= f.input :recurring, default: false %>
-    <%= f.input :planned, default: false, label: "Is there any more planning that needs to be done?" %>
-    <%= f.input :estimated_work, placeholder: "Estimate the amount of work required from volunteers on a 1-10 scale" %>
-    <%= f.input :recurring, default: false %>
-    <div class="date-selection">
+
+
+    <h5 class="difficulty-subheader">How much help do you need?</h5>
+    <div class="difficulty-selection">
+      NOTE @arren - if this checkbox gets selected, we want to show the "how difficult" multi-select. If not, default estimated_work to 0
+      <%= f.input :planned, default: false, label: "Is there any more planning that needs to be done?" %>
+      <%= f.input :volunteers_required %>
+      <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
+      <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
+    </div>
+
+    <h5 class="recurring-subheader">One-time or recurring?</h5>
+    <div class="recurring-selection"> 
+      NOTE @arren - if this checkbox is selected, we want to then show the "how often" multi-select
+      <%= f.input :recurring, default: false, label: "Is this problem recurring?" %>
       <%= f.label "How often do you want to do this?" %>
-      <%= f.select :recurring_time, @time_options %>
+      <%= f.select :recurring_period, @time_options %>
     </div>
-    <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
-    <%= f.input :address, placeholder: "If possible, please enter an address" %>
-    <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
+
+
+    <h5 class="location-subheader">Where is your problem located?</h5>    
+    <div class="location-selection">
+      <%= f.input :address, placeholder: "If possible, please enter a specific street address" %>
+      <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
+    </div>
+
+    <h5 class="completion-date-subheader">When do you want to complete it?</h5>
+    <div class="completion-date-selection">
+      <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
+    </div>
   </div>
 
-  <%= f.button :submit, class: 'btn btn-outline-primary'%>
+
+  <div class="submit-problem">
+    <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-problem-btn'%>
+  </div>
 <% end %>

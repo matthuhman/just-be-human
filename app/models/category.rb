@@ -24,26 +24,26 @@ class Category
     return self.problem_subcats[cat_id]
   end
 
-  def self.ms_titles
-    return self.ms_cats.map { |c| c[:title] }
+  def self.req_titles
+    return self.req_cats.map { |c| c[:title] }
   end
 
   #
   # get all category titles with descriptions
-  def self.ms_titles_with_desc
-    return self.ms_cats
+  def self.req_titles_with_desc
+    return self.req_cats
   end
 
   #
   # get all subcategory titles for a given category id
-  def self.ms_subcat_titles(cat_id)
-    self.ms_subcats[cat_id].map { |sc| sc[:title] }
+  def self.req_subcat_titles(cat_id)
+    self.req_subcats[cat_id].map { |sc| sc[:title] }
   end
 
   #
   # get all subcat titles and descriptions for a given category id
-  def self.ms_subcat_titles_with_desc(cat_id)
-    return self.ms_subcats[cat_id]
+  def self.req_subcat_titles_with_desc(cat_id)
+    return self.req_subcats[cat_id]
   end
 
   def self.get_all_problem_subcats
@@ -85,7 +85,7 @@ class Category
   end
 
   # map of Milestone categories
-  def self.ms_cats
+  def self.req_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Planning", desc: "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!" },
@@ -96,7 +96,7 @@ class Category
   end
 
   # map of Milestone category index to subcategory array
-  def self.ms_subcats
+  def self.req_subcats
     [
       [ # planning
         { title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },

@@ -1,4 +1,4 @@
-<%= simple_form_for(@milestone, remote: request.xhr?, html: { data: { modal: true } }) do |f| %>
+<%= simple_form_for(@requirement, remote: request.xhr?, html: { data: { modal: true } }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -8,10 +8,10 @@
     <%= f.input :current_status, placeholder: "A short description of the current status." %>
     <%= f.input :address, placeholder: "Leave this blank if there isn't a specific address." %>
 
-    <% if params[:milestone] %>
-      <%= f.input :target_completion_date, :value => Problem.find(params[:milestone][:problem_id]).target_completion_date %>
+    <% if params[:requirement] %>
+      <%= f.input :target_completion_date, :value => Problem.find(params[:requirement][:problem_id]).target_completion_date %>
     <% else %>
-      <%= f.input :target_completion_date, :value => @milestone.problem.target_completion_date %>
+      <%= f.input :target_completion_date, :value => @requirement.problem.target_completion_date %>
     <% end %>
 
     <% if params[:action] == "edit" %>
@@ -27,14 +27,11 @@
     </div>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
     <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
-    <% if params[:milestone] %>
-    <%= f.hidden_field :problem_id, :value => params[:milestone][:problem_id] %>
+    <% if params[:requirement] %>
+    <%= f.hidden_field :problem_id, :value => params[:requirement][:problem_id] %>
     <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+  <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>
-

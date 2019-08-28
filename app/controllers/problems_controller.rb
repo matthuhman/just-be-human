@@ -1,5 +1,8 @@
 class ProblemsController < ApplicationController
-  before_action :set_problem, only: [:show, :edit, :update, :destroy]
+  respond_to :html, :xml, :json
+
+
+  before_action :set_problem, only: [:show, :edit, :update, :destroy, :followers]
   before_action :authenticate_user!, except: [:show]
 
 
@@ -21,7 +24,7 @@ class ProblemsController < ApplicationController
   def new
     @problem = Problem.new
     @categories = Category.problem_titles
-    @sub_categories = Category.problem_subcats
+    @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
   end
 
   # GET /problems/1/edit
@@ -33,7 +36,6 @@ class ProblemsController < ApplicationController
   # POST /problems.json
   def create
     @categories = Category.problem_titles
-    @sub_categories = Category.problem_subcats
     @problem = Problem.new(problem_params)
     @problem.user = current_user
 
@@ -73,7 +75,6 @@ class ProblemsController < ApplicationController
   # PATCH/PUT /problems/1.json
   def update
     @categories = Category.problem_titles
-    @sub_categories = Category.problem_subcats
     respond_to do |format|
       if @problem.update(problem_params)
         format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }
@@ -96,6 +97,11 @@ class ProblemsController < ApplicationController
     end
   end
 
+  def followers
+    @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
+    @is_admin = @problem.user_is_admin(current_user.id)
+    respond_modal_with @post, @is_admin
+  end
 
   #
   # GET /problems/follow
@@ -108,6 +114,20 @@ class ProblemsController < ApplicationController
         format.json { render :show, status: :created, location: @problem }
       else
         format.html { redirect_to @problem, notice: 'You have not followed this problem successfully' }
+        format.json { render :show, status: :unprocessable_entity, location: @problem }
+      end
+    end
+  end
+
+  def volunteer
+    @problem = Problem.find(params[:problem_id])
+    req_id = 1## @arren fix this
+    respond_to do |format|
+      if Role.volunteer(current_user.id, req_id, @problem.id)
+        format.html { redirect_to @problem, notice: 'You have volunteered!' }
+        format.json { render :show, status: :created, location: @problem }
+      else
+        format.html { redirect_to @problem, notice: 'You have not volunteered for this problem successfully' }
         format.json { render :show, status: :unprocessable_entity, location: @problem }
       end
     end
@@ -189,7 +209,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :subcategory, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
+      params.require(:problem).permit(:title, :description, :category, :planned, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
     end
 
     def follow_params
