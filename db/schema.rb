@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_193454) do
+ActiveRecord::Schema.define(version: 2019_08_28_201137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_193454) do
     t.float "estimated_work", default: 1.0
     t.float "pct_work_remaining", default: 100.0
     t.date "target_completion_date"
+    t.boolean "defined", default: true
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["problem_id"], name: "index_requirements_on_problem_id"

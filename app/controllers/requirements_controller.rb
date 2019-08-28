@@ -7,9 +7,16 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/new
   def new
-    @categories = Category.ms_titles
-    @sub_categories = Category.ms_subcats
+    @categories = Category.req_titles
+    @sub_categories = Category.req_subcats
     @requirement = Requirement.new
+    if params[:requirement]
+      @date = params[:requirement][:target_date].to_date
+      @planned = params[:requirement][:problem_planned]
+    end
+
+    # binding.pry
+
     respond_modal_with @requirement
   end
 
@@ -23,8 +30,8 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/1/edit
   def edit
-    @categories = Category.ms_titles
-    @sub_categories = Category.ms_subcats
+    @categories = Category.req_titles
+    @sub_categories = Category.req_subcats
     respond_modal_with @requirement
   end
 
@@ -33,8 +40,8 @@ class RequirementsController < ApplicationController
   def create
     @requirement = Requirement.new(requirement_params)
     problem = Problem.find(@requirement.problem_id)
-    @categories = Category.problem_titles
-    @sub_categories = Category.ms_subcats
+    @categories = Category.req_titles
+    @sub_categories = Category.req_subcats
     #respond_modal_with @requirement, location: @problem
     respond_to do |format|
       @tab = 'problem-requirements-tab'

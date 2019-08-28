@@ -8,8 +8,8 @@
     <%= f.input :current_status, placeholder: "A short description of the current status." %>
     <%= f.input :address, placeholder: "Leave this blank if there isn't a specific address." %>
 
-    <% if params[:requirement] %>
-      <%= f.input :target_completion_date, :value => Problem.find(params[:requirement][:problem_id]).target_completion_date %>
+    <% if @date %>
+      <%= f.input :target_completion_date, :selected => @date, start_year: Date.today.year %>
     <% else %>
       <%= f.input :target_completion_date, :value => @requirement.problem.target_completion_date %>
     <% end %>
@@ -26,7 +26,15 @@
       <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
     </div>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
-    <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
+
+    <% if !@planned %>
+      <div class="planned-selection">
+        <%= f.input :defined, label: "This is everything I need!" %>
+        <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
+      </div>
+    <% else %>
+      <%= f.hidden_field :planned, :value => true %>
+    <% end %>
     <% if params[:requirement] %>
     <%= f.hidden_field :problem_id, :value => params[:requirement][:problem_id] %>
     <% end %>

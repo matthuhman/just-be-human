@@ -53,6 +53,7 @@ class ProblemsController < ApplicationController
     @role.user_id = current_user.id
     @role.level = 1
     @role.title = "Leader"
+
     respond_to do |format|
       if @problem.save
         @role.problem_id = @problem.id

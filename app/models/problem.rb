@@ -8,7 +8,7 @@ class Problem < ApplicationRecord
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
 
-  validates_presence_of :title, :description, :category, :subcategory, :volunteers_required
+  validates_presence_of :title, :description, :category, :volunteers_required
   validates_presence_of :address, :unless => :postal_code?
 
   def user_is_admin(user_id)
@@ -30,6 +30,13 @@ class Problem < ApplicationRecord
     end
   end
 
+  def display_title
+    title.size > 50 ? title[0,50] << "..." : title
+  end
+
+  def display_description
+    description.size > 160 ? description[0,160] << "..." : description 
+  end
 
   def category_title
     Category.problem_titles[self.category.to_i]

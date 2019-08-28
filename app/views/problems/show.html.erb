@@ -80,7 +80,7 @@
     <h2 class="tab-heading">Requirements</h2>
     <% if @is_mod %>
       <div class="add-requirement-button">
-        <%= link_to 'Add a new requirement', new_requirement_path(:requirement => {:problem_id => @problem.id}), class: 'btn btn-success btn-lg', data: { modal: true } %>
+        <%= link_to 'Add a new requirement', new_requirement_path(:requirement => {:problem_id => @problem.id, :problem_planned => @problem.planned, :target_date => @problem.target_completion_date}), class: 'btn btn-success btn-lg', data: { modal: true } %>
       </div>
     <% end %>
   </div>
