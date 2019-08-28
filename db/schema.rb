@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_22_184637) do
+ActiveRecord::Schema.define(version: 2019_08_28_144217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -182,7 +182,6 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.string "address"
     t.string "postal_code"
     t.integer "category"
-    t.integer "subcategory"
     t.integer "follower_count", default: 1
     t.uuid "user_id"
     t.datetime "created_at", null: false
@@ -191,8 +190,9 @@ ActiveRecord::Schema.define(version: 2019_08_22_184637) do
     t.boolean "recurring", default: false
     t.datetime "recurring_period"
     t.boolean "defined", default: true
-    t.index ["category", "subcategory"], name: "index_problems_on_category_and_subcategory"
+    t.boolean "planned", default: true
     t.index ["latitude", "longitude"], name: "index_problems_on_latitude_and_longitude"
+    t.index ["planned", "category"], name: "index_problems_on_planned_and_category"
     t.index ["user_id"], name: "index_problems_on_user_id"
   end
 

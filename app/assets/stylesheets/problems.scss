@@ -4,7 +4,6 @@
 @import 'theme.scss';
 
 .problem-title {
-  padding: 1vh 5vw 1vh 2vw;
   text-transform: none;
   font-weight: 700;
 }
@@ -30,6 +29,13 @@
 .problem-header {
   display: flex;
   align-items: center;
+  min-height: 20vh;
+  padding: 1vh 1vw;
+  margin-bottom: 2vh;
+}
+
+.problem-desc {
+  padding: 0 5vw 0 0;
 }
 
 .problem-info {
@@ -65,7 +71,7 @@
   background-color: #9b9b9b;
   min-height: 4vh;
   min-width: 4vh;
-  border-radius: 50%;
+  border-radius: 1rem;
   color: #fff;
 
   &.success {
@@ -79,6 +85,10 @@
   &.info {
     background-color: $info;
   }
+}
+
+.tab-header {
+  margin-bottom: 4vh;
 }
 
 .post-container {
@@ -104,6 +114,10 @@
       background: #f1f1f1;
     }
   }
+}
+
+.tab-heading {
+  margin: 0 4vw 0 0;
 }
 
 .post-author {
