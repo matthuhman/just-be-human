@@ -3,6 +3,7 @@ class ModalResponder < ActionController::Responder
   self.modal_layout = 'modal'
 
   def render(*args)
+    # binding.pry
     options = args.extract_options!
     if request.xhr?
       options.merge! layout: modal_layout

@@ -34,8 +34,40 @@
   margin-bottom: 2vh;
 }
 
-.problem-desc {
+.problem-info-summary {
   padding: 0 5vw 0 0;
+}
+
+.problem-tab-links {
+  grid-column: 2;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: $secondary;
+  color: #fff;
+
+  & h3 {
+    margin: 0;
+  }
+
+  @include respond-to(handhelds) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.add-requirement-button {
+  padding-top: 3vh;
+  text-align: center;
+}
+
+.add-post-button {
+  text-align: center;
+  padding-top: 1vh;
+}
+
+.tab-heading {
+  padding-left: 2vw;
+  padding-bottom: 1vh;
 }
 
 .problem-info {
@@ -47,6 +79,7 @@
 
 .problem-info-row {
   display: flex;
+  border-radius: 1rem;
 }
 
 .follower-count {
@@ -87,9 +120,7 @@
   }
 }
 
-.tab-header {
-  margin-bottom: 4vh;
-}
+
 
 .post-container {
   padding: 1vh 1vw;
@@ -108,7 +139,7 @@
   }
 
   &:nth-of-type(even) {
-    background: #ddd;
+    background: #3f84b9;
 
     &:hover {
       background: #f1f1f1;
@@ -117,13 +148,14 @@
 }
 
 .tab-heading {
-  margin: 0 4vw 0 0;
+  margin: 0 1vw 0 0;
 }
 
 .post-author {
-  color: $primary;
+  color: #99cc66;
   margin: 0;
-  font-weight: 500;
+  font-weight: 1000;
+  font-size: 1.4rem;
   text-transform: uppercase;
   letter-spacing: 2.2px;
 
@@ -138,7 +170,7 @@
   letter-spacing: 2px;
   margin: 0;
   font-style: italic;
-
+  font-size: 1.2rem;
   &:hover {
     color: #4b4b4b;
   }

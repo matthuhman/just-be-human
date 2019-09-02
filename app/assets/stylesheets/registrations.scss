@@ -19,3 +19,36 @@
   padding-top: 3vh;
   padding-bottom: 3vh;
 }
+
+
+
+
+.requirement-row {
+  border-bottom: 1px solid;
+  margin-bottom: 2px;
+  padding: 1vh 1vw;
+  background-color: $secondary;
+  transition: all .2s linear;
+
+  & a {
+    color: #fff;
+  }
+
+  & div {
+    transform: scale(.95);
+    transition: all .2s linear;
+  }
+
+  &:hover {
+    background-color: $secondary-hover;
+
+    & a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    & div {
+      transform: scale(.98);
+    }
+  }
+}
