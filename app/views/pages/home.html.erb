@@ -10,6 +10,15 @@
         <label for="problem_titles">Search Problem Titles</label>
         <input type="text" class="form-control" id="problem_titles" oninput="handleTextInput(event)" aria-describedby="problem_titles" placeholder="Search by title">
       </div>
+      <div class="form-group">
+        <label for="problem_category">Select a category</label>
+        <select id="problem_category" class="custom-select" onchange="handleSelect(event)">
+          <option selected value="all">All</option>
+           <% Category.problem_titles.map do |title| %>
+             <option value="<%= title %>"><%= title %></option>
+           <% end %>
+        </select>
+      </div>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="problem_volunteers" onchange="handleCheckbox(event)" aria-describedby="problem_volunteers">
         <label for="problem_volunteers">Needs Volunteers</label>

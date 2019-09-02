@@ -25,7 +25,6 @@ class ProblemsController < ApplicationController
   def new
     @problem = Problem.new
     @categories = Category.problem_titles
-
   end
 
   # GET /problems/1/edit

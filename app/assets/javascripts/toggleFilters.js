@@ -9,7 +9,8 @@ let attributes = {
 let filters = {
   title: '',
   volunteers: false,
-  defined: false
+  defined: false,
+  category: 'all'
 }
 
 document.addEventListener('DOMContentLoaded', getProbs)
@@ -26,7 +27,7 @@ function getProbs(){
 
 function toggleFilter(e){
 
-  if (e.target.tagName === "FORM" || e.target.tagName === "INPUT" || e.target.tagName === "LABEL"){
+  if (e.target.tagName === "FORM" || e.target.tagName === "INPUT" || e.target.tagName === "LABEL" || e.target.tagName === "SELECT"){
     e.stopPropagation()
     return null;
   }
@@ -64,6 +65,12 @@ function handleCheckbox(e) {
   filterProblems()
 }
 
+function handleSelect(e) {
+  filters.category = e.target.value
+
+  filterProblems()
+}
+
 function filterProblems(){
   // handles all filters in one
   nearProbs.forEach(checkProblem)
@@ -80,7 +87,10 @@ function checkProblem(prob) {
   if (filters.defined && prob.dataset.defined === "false") {
     prob.style.display = 'none';
   }
-  if (!title.match(regFilter)) { // title doesn't match search
+  if (filters.category !== 'all' && prob.dataset.category !== filters.category) {
+    prob.style.display = 'none';
+  }
+  if (!title.match(regFilter)) {
     prob.style.display = 'none';
   }
 }
