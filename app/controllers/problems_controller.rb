@@ -5,6 +5,7 @@ class ProblemsController < ApplicationController
   before_action :set_problem, only: [:show, :edit, :update, :destroy, :followers]
   before_action :authenticate_user!, except: [:show]
 
+  before_action :set_time_options, only: [:create, :edit, :new]
 
 
   # GET /problems/1
@@ -24,7 +25,7 @@ class ProblemsController < ApplicationController
   def new
     @problem = Problem.new
     @categories = Category.problem_titles
-    @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
+    
   end
 
   # GET /problems/1/edit
@@ -53,6 +54,7 @@ class ProblemsController < ApplicationController
     @role.user_id = current_user.id
     @role.level = 1
     @role.title = "Leader"
+
     respond_to do |format|
       if @problem.save
         @role.problem_id = @problem.id
@@ -160,7 +162,7 @@ class ProblemsController < ApplicationController
         if Role.make_supervisor(params[:target_user_id], @problem.id)
           format.html { redirect_to @problem, notice: "User promoted to Supervisor." }
           format.json { render :show, status: :ok, location: @problem}
-        else
+        elses
           format.html { redirect_to @problem, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
           format.json { render :show, status: :unprocessable_entity, location: @problem}
         end
@@ -224,6 +226,9 @@ class ProblemsController < ApplicationController
       params.permit(:problem_id, :target_user_id)
     end
 
+    def set_time_options
+      @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
+    end
     # def add_follower_role
     #   role = Role.new
     #   return role

@@ -1,7 +1,39 @@
-<h1><%= @requirement.title %></h1>
 
-<p><Strong><%= @requirement.description %></Strong></p>
 
+<div class="requirement-info">
+  <h2 class="requirement-title"><%= @requirement.title %></h2>
+  <div class="requirement-info-description">
+    <%= @requirement.description %>
+  </div>
+  <div class="requirement-info-category">
+    Category: <%= @requirement.category_title %>
+  </div>
+  <div class="requirement-info-subcategory">
+    Subcategory: <%= @requirement.subcategory_title %>
+  </div>
+  <div class="requirement-info-status">
+    <p>Current status: <%= @requirement.current_status %></p>
+    <p>Priority: <%= @requirement.priority %></p>
+    <p>Estimated work: <%= @requirement.estimated_work %></p>
+    <p>Work remaining: <%= @requirement.pct_remaining_display %></p>
+  </div>
+
+
+</div>
+
+
+<div class="requirement-posts">
+  <h3 class="requirement-posts-title">Posts</h3>
+
+  <div class="requirement-posts-list">
+    <% @requirement.posts.each do |p| %>
+      <%= p.title %>
+      <%= p.content %>
+      <%= link_to "See all comments", p %>
+    <% end %>
+  </div>
+
+  <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
 
 
 <% if !@req_level %>

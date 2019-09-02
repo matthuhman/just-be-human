@@ -75,6 +75,7 @@
   z-index: 999;
   background: white;
   height: 8vh;
+  width: 10vw;
   padding: 10px;
   margin: 10px;
   opacity: .9;
@@ -89,10 +90,27 @@
 
 .filter.floater {
   left: 30%;
+  cursor: pointer;
+  transition: all .3s linear;
 
   @include respond-to(handhelds) {
     left: 0;
   }
+}
+
+.filter.show-filter {
+  height: 20vh;
+  width: 20vw;
+}
+
+.filter-container {
+  display: none;
+  opacity: 0;
+  transition: all .3s linear;
+}
+.filter-container.show {
+  display: block;
+  opacity: 1;
 }
 
 .current-zip.floater {

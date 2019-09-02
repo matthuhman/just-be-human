@@ -1,7 +1,7 @@
 <div class="modal-inner">
 
   <h2>Followers</h2>
-    <% @problem.problem_roles.each do |role| %>
+    <% @problem.problem_roles.sort_by {|r| r.level }.each do |role| %>
     <div class="post-container">
       <p class="post-author">
         <%= role.user.username %>
