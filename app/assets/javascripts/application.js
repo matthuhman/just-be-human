@@ -20,3 +20,8 @@
 //= require_tree .
 //= require chartkick
 //= require Chart.bundle
+$(function() {
+  setTimeout(function(){
+    $('.alert').slideUp(500);
+  }, 2000);
+});
