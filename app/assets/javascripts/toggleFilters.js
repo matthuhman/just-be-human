@@ -1,12 +1,36 @@
+let myProbs;
+let nearProbs;
+
+let attributes = {
+  "problem_volunteers": "volunteers",
+  "problem_defined": "defined"
+}
+
+let filters = {
+  title: '',
+  volunteers: false,
+  defined: false
+}
+
+document.addEventListener('DOMContentLoaded', getProbs)
+$(document).on("turbolinks:load", getProbs)
+
+
+function getProbs(){
+  if (document.querySelector("#probs-near-me")){
+    nearProbs = [...document.querySelector("#probs-near-me").children]
+    myProbs = [...document.querySelector("#my-probs").children]
+  }
+}
+
 
 function toggleFilter(e){
 
   if (e.target.tagName === "FORM" || e.target.tagName === "INPUT" || e.target.tagName === "LABEL"){
     e.stopPropagation()
-    handleFilterParams(e);
     return null;
   }
-  // filter floater
+
   let target = traverseToEl('filter', e.target)
   if (target.classList.contains('filter')) {
     let filterContainer = target.querySelector('.filter-container');
@@ -26,19 +50,43 @@ function toggleFilter(e){
   }
 }
 
+function handleTextInput(e) {
+  let val = e.target.value.toLowerCase()
+
+  filters.title = val
+  filterProblems()
+}
+
+function handleCheckbox(e) {
+  let attribute = attributes[e.target.id]
+  filters[attribute] = e.target.checked;
+
+  filterProblems()
+}
+
+function filterProblems(){
+  // handles all filters in one
+  nearProbs.forEach(checkProblem)
+  myProbs.forEach(checkProblem)
+}
+
+function checkProblem(prob) {
+  let regFilter = new RegExp(filters.title, 'i')
+  prob.style.display = 'block'; // start fresh every time
+  let title = prob.querySelector('.problem-title').innerText.toLowerCase()
+  if (filters.volunteers && prob.dataset.volunteers === "false") {
+    prob.style.display = 'none';
+  }
+  if (filters.defined && prob.dataset.defined === "false") {
+    prob.style.display = 'none';
+  }
+  if (!title.match(regFilter)) { // title doesn't match search
+    prob.style.display = 'none';
+  }
+}
 
 function traverseToEl(targetClassName, currentEl) {
   if (currentEl.classList.contains(targetClassName)) return currentEl
   currentEl = currentEl.parentElement
   return traverseToEl(targetClassName, currentEl)
-}
-
-function handleFilterParams(e) {
-  console.log('filter by:', e.target.name);
-  // let target = traverseToEl('filter', e.target)
-  // let form = target.querySelector('form');
-
-  // Rails.fire(form, 'submit')
-  $("#filter-form").submit()
-  // make a get request to
 }

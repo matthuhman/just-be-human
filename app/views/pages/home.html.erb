@@ -3,13 +3,21 @@
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
   </div>
-  <div class="d-flex flex-column align-items-center filter floater" data-open="false" onclick="toggleFilter(event)">
+  <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)">
     <h3>Filters</h3>
     <div class="filter-container">
-      <%= form_tag(root_path, method: :get, id: 'filter-form') do %>
-        <%= check_box_tag 'due_date' %>
-        <%= label_tag 'due_date', 'Sort by completion date' %>
-      <% end %>
+      <div class="form-group">
+        <label for="problem_titles">Search Problem Titles</label>
+        <input type="text" class="form-control" id="problem_titles" oninput="handleTextInput(event)" aria-describedby="problem_titles" placeholder="Search by title">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="problem_volunteers" onchange="handleCheckbox(event)" aria-describedby="problem_volunteers">
+        <label for="problem_volunteers">Needs Volunteers</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="problem_defined" onchange="handleCheckbox(event)" aria-describedby="problem_defined">
+        <label for="problem_defined">Fully Defined</label>
+      </div>
       <!-- need to have grab params and send them to home page to filter the problems -->
     </div>
   </div>
