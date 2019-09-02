@@ -34,7 +34,7 @@ class RequirementsController < ApplicationController
   def edit
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
-    respond_modal_with @requirement
+    respond_modal_with @requirement, title: "Editing requirement"
   end
 
   # POST /requirements
@@ -98,7 +98,7 @@ class RequirementsController < ApplicationController
     respond_to do |format|
       if current_user.id == @requirement.user_id || @problem.user_has_mod_permissions(current_user.id) || @requirement.user_has_mod_permissions(current_user.id)
         if @requirement.update(requirement_params)
-          format.html { redirect_to @problem, notice: 'Requirement.was successfully updated.' }
+          format.html { redirect_to @problem, notice: "The requirement '#{@requirement.title}' was updated successfully" }
           format.json { render :show, status: :ok, location: @problem }
         else
           format.html { render :edit }
@@ -136,7 +136,7 @@ class RequirementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def requirement_params
-      params.require(:requirement).permit(:title, :description, :current_status, :complete, :problem_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id)
+      params.require(:requirement).permit(:title, :description, :current_status, :complete, :problem_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority)
     end
 
     def participate_params

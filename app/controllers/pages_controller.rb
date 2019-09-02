@@ -22,8 +22,9 @@ class PagesController < ApplicationController
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
       @my_problems = current_user.problems
-      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5)
+      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5).sort_by{ |p| p[:target_completion_date]}
       @roles = current_user.problem_roles
+      # binding.pry
     else
       redirect_to :action => 'landing'
     end

@@ -11,7 +11,7 @@ class ProblemsController < ApplicationController
   # GET /problems/1
   # GET /problems/1.json
   def show
-
+    @requirements = @problem.requirements.sort_by(&:priority).sort_by(&:target_completion_date)
     if current_user
       @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
       @is_mod = @problem.user_has_mod_permissions(current_user.id)

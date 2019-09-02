@@ -20,3 +20,11 @@
 //= require_tree .
 //= require chartkick
 //= require Chart.bundle
+
+
+// this will make flash messages disappear after a few seconds on-screen
+$(function() {
+  setTimeout(function(){
+    $('.alert').slideUp(500);
+  }, 4000);
+});

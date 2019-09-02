@@ -13,7 +13,9 @@ class Post < ApplicationRecord
     end
   end
 
-
+  def display_content
+    !content.nil? ? content.first(100) << "..." : nil
+  end
 
   def user_can_comment(user_id)
     if (self.postable_type == 'Problem')
