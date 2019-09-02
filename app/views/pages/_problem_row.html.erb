@@ -1,8 +1,8 @@
 <div class="problem-row">
   <div>
     <a href="/problems/<%= problem.id %>">
-      <h5><%= problem.title %></h5>
-      <p><%= problem.description %></p>
+      <h5><%= problem.display_title %></h5>
+      <p><%= problem.display_description %></p>
       <p><strong>Due: </strong><%= problem.target_completion_date %></p>
       <p><strong>Created by: </strong><%= User.find(problem.user_id).username %></p>
     </a>

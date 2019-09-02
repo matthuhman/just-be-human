@@ -42,7 +42,7 @@ class PostsController < ApplicationController
       level = Role.problem_role_level(current_user.id, @post.postable_id)
     else
       @parent = Requirement.find(@post.postable_id)
-      level = Role.milestone_role_level(current_user.id, @post.postable_id)
+      level = Role.requirement_role_level(current_user.id, @post.postable_id)
     end
 
     @post.user_id = current_user.id
@@ -57,7 +57,7 @@ class PostsController < ApplicationController
           format.json { render json: @post.errors, status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to @parent, alert: 'You do not have permission to make a post on this problem/milestone' }
+        format.html { redirect_to @parent, alert: 'You do not have permission to make a post on this problem/requirement' }
         format.json { render :show, status: :forbidden, location: @parent }
       end
     end

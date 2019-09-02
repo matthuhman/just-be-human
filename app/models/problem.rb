@@ -8,8 +8,9 @@ class Problem < ApplicationRecord
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
 
-  validates_presence_of :title, :description, :category, :subcategory, :volunteers_required
-  validates_presence_of :address, :unless => :postal_code?
+  validates_presence_of :title, message: 'You must enter a title.'
+  validates_presence_of :description, message: 'You must enter a description.'
+  validates_presence_of :address, :unless => :postal_code?, message: 'An address or postcode must be entered.'
 
   def user_is_admin(user_id)
     return user_id == self.user_id
@@ -30,6 +31,13 @@ class Problem < ApplicationRecord
     end
   end
 
+  def display_title
+    title.size > 50 ? title[0,50] << "..." : title
+  end
+
+  def display_description
+    description.size > 160 ? description[0,160] << "..." : description 
+  end
 
   def category_title
     Category.problem_titles[self.category.to_i]
@@ -46,7 +54,7 @@ class Problem < ApplicationRecord
 
   def pct_work_remaining
     if self.planned?
-      return 0
+      0
     end
 
     est_work = self.estimated_work
@@ -58,11 +66,11 @@ class Problem < ApplicationRecord
     end
 
     if work_done == 0
-      return 100.0
+      100.0
     elsif est_work > est_req_work
-      return work_done / est_work * 100
+      work_done / est_work * 100
     else
-      return work_done / est_req_work * 100
+      work_done / est_req_work * 100
     end
   end
 
@@ -71,12 +79,12 @@ class Problem < ApplicationRecord
     u1_role = ProblemRole.find_by(user_id: u1_id, problem_id: p_id)
     u2_role = ProblemRole.find_by(user_id: u2_id, problem_id: p_id)
 
-    return u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
+    u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
   end
 
 
   def coordinates
-    return [self.latitude, self.longitude]
+    [self.latitude, self.longitude]
   end
 
   def as_json(options = { })

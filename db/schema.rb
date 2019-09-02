@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_193454) do
+ActiveRecord::Schema.define(version: 2019_09_02_174601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -104,14 +104,14 @@ ActiveRecord::Schema.define(version: 2019_08_28_193454) do
   end
 
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title", default: "CHANGEME", null: false
-    t.text "content", default: "CHANGEME", null: false
     t.integer "comment_count", default: 0
     t.uuid "user_id"
     t.string "postable_type"
     t.uuid "postable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.text "content"
     t.index ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_193454) do
     t.float "estimated_work", default: 1.0
     t.float "pct_work_remaining", default: 100.0
     t.date "target_completion_date"
+    t.boolean "defined", default: true
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["problem_id"], name: "index_requirements_on_problem_id"
