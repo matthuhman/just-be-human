@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :outbound_requests, foreign_key: "requesting_user_id", class_name: "ContactRequest", :dependent => :destroy
   has_many :inbound_requests, foreign_key: "requested_user_id", class_name: "ContactRequest", :dependent => :destroy 
 
-
+  validate :number_free_names
   
 
   # before_save :validate
@@ -40,6 +40,16 @@ class User < ApplicationRecord
 
 
   private
+
+    def number_free_names
+      if first_name =~ /\d/
+        errors.add(:first_name, "cannot contain numbers.")
+      end
+
+      if last_name =~ /\d/
+        errors.add(:last_name, "cannot contain numbers")
+      end
+    end
 
     def as_json(options = {})
       options[:except] ||= [:last_name, :email, :phone_number, :birth_date]

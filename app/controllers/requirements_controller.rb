@@ -13,6 +13,7 @@ class RequirementsController < ApplicationController
     if params[:requirement]
       @date = params[:requirement][:target_date].to_date
       @planned = params[:requirement][:problem_planned]
+      # binding.pry
     end
 
     # binding.pry
@@ -25,6 +26,7 @@ class RequirementsController < ApplicationController
     @problem = Problem.find(@requirement.problem_id)
     @prob_level = Role.problem_role_level(current_user.id, @problem.id)
     @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
+    # binding.pry
     respond_modal_with @requirement
   end
 
@@ -38,6 +40,7 @@ class RequirementsController < ApplicationController
   # POST /requirements
   # POST /requirements.json
   def create
+    
     @requirement = Requirement.new(requirement_params)
     problem = Problem.find(@requirement.problem_id)
     @categories = Category.req_titles
@@ -47,11 +50,12 @@ class RequirementsController < ApplicationController
       @tab = 'problem-requirements-tab'
       if problem.user_has_mod_permissions(current_user.id)
         if @requirement.save
-          format.html { redirect_to problem, notice: 'Requirement.was successfully created.' }
+          format.html { redirect_to problem, notice: 'Requirement was successfully created.' }
           format.json { render :show, status: :created, location: problem }
         else
-          format.html { render :new }
-          format.json { render json: @requirement.errors, status: :unprocessable_entity }
+          respond_modal_with @requirement
+          # format.html { render :new }
+          # format.json { render json: @requirement.errors, status: :unprocessable_entity }
         end
       else
         format.html { rerdirect_to problem, alert: "You do not have permission to create a requirement for this problem." }
@@ -132,7 +136,7 @@ class RequirementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def requirement_params
-      params.require(:requirement).permit(:title, :description, :current_status, :complete, :problem_id, :address, :volunteers_required)
+      params.require(:requirement).permit(:title, :description, :current_status, :complete, :problem_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id)
     end
 
     def participate_params
