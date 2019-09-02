@@ -17,21 +17,15 @@
   <div class="problem-info">
     <div class="problem-info-row">
       <span class="follower-count">Created By <span class="follower-count-span"><%= @problem.user.username %></span></span>
-      
-      <span class="follower-count">
-        <%= link_to 'Followers', problems_followers_path(:id => @problem.id), data: { modal: true } %>
-        <span class="follower-count-span info"><%= @problem.follower_count %></span>
-      </span>
-      <!-- @arren - follower spans could be modal style info graphics
-        followers opens to a list of the followers
-        volunteers opens list of volunteers
-        need way to show they're clickable. maybe underline?
-      -->
+      <span class="follower-count">Category <span class="follower-count-span"><%= @problem.category_title %></span></span>
+      <span class="follower-count">Target Completion <span class="follower-count-span">  <%= @problem.target_completion_date %></span></span>
     </div>
     <div class="problem-info-row">
-      <span class="follower-count">Target Completion <span class="follower-count-span">  <%= @problem.target_completion_date %></span></span>
-      <span class="follower-count">Category <span class="follower-count-span black"><%= @problem.category_title %></span></span>
-      <span class="follower-count">Volunteers <span class="follower-count-span info"><%= @problem.volunteer_count %> / <%= @problem.volunteers_required %></span></span>
+      <span class="follower-count">
+        <%= link_to 'Followers', problems_followers_path(:id => @problem.id), data: { modal: true } %>
+        <span class="follower-count-span black"><%= @problem.follower_count %></span>
+      </span>
+      <span class="follower-count">Volunteers <span class="follower-count-span black"><%= @problem.volunteer_count %> / <%= @problem.volunteers_required %></span></span>
     </div>
     <p><%= @problem.description %></p>
   </div>
@@ -48,8 +42,16 @@
 <!-- Tab content -->
 <div id="problem-info-tab" class="tabcontent">
   <div class="posts-container">
-    <div class="tab-header d-flex align-items-center">
+    <div class="d-flex align-items-center">
       <h2 class="tab-heading"> Posts </h2>
+<<<<<<< HEAD
+=======
+      <% if current_user && @role %>
+        <div class="add-requirement-button">
+          <%= link_to 'Add a post', new_post_path(:problem => {:problem_id => @problem.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+        </div>
+      <% end %>
+>>>>>>> 219ae51d43db9a70f02612686e8e085afe794e01
     </div>
     <div class="post-list">
       <% @problem.posts.each do |post| %>

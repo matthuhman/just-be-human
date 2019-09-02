@@ -27,7 +27,6 @@ $(function() {
       $('.modal-backdrop').remove();
       // Update modal content
       const modal = $(data).find('body').html();
-      debugger
       $(modal_holder_selector).html(modal).find(modal_selector).modal();
     }
 

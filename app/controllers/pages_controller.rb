@@ -74,4 +74,8 @@ class PagesController < ApplicationController
       params.require(:donation).permit(:email, :donate, :marketing, :volunteer)
     end
 
+    def filter_params
+      params.permit(:due_date)
+    end
+
 end

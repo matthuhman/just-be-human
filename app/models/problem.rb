@@ -36,7 +36,7 @@ class Problem < ApplicationRecord
   end
 
   def display_description
-    description.size > 160 ? description[0,160] << "..." : description 
+    description.size > 160 ? description[0,160] << "..." : description
   end
 
   def category_title

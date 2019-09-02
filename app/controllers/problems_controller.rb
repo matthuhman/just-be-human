@@ -25,7 +25,6 @@ class ProblemsController < ApplicationController
   def new
     @problem = Problem.new
     @categories = Category.problem_titles
-    
   end
 
   # GET /problems/1/edit
@@ -102,7 +101,7 @@ class ProblemsController < ApplicationController
   def followers
     @role = ProblemRole.find_by(user_id: current_user.id, problem_id: @problem.id)
     @is_admin = @problem.user_is_admin(current_user.id)
-    respond_modal_with @post, @is_admin
+    respond_modal_with @post, @is_admin, {}, { title: 'hello' }
   end
 
   #

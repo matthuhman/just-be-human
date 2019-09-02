@@ -9,22 +9,22 @@
 
 require 'csv'
 
-# csv_text = File.read(Rails.root.join('lib', 'seeds', 'us-zip-code-latitude-and-longitude.csv'))
-# csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1', :col_sep => ?;)
-# csv.each do |row|
-#   t = Geopoint.new
-#   t.city = row['city']
-#   t.zip = row['zip']
-#   t.state = row['state']
-#
-#   t.latitude = row['latitude']
-#   t.longitude = row['longitude']
-#   t.time_zone = row['time_zone']
-#   t.dst_flag = row['dst_flag']
-#   t.coordinates = row['geopoint,']
-#   t.save
-#   puts "#{t.zip}:::: #{t.coordinates} saved"
-# end
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'us-zip-code-latitude-and-longitude.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1', :col_sep => ?;)
+csv.each do |row|
+  t = Geopoint.new
+  t.city = row['city']
+  t.zip = row['zip']
+  t.state = row['state']
+
+  t.latitude = row['latitude']
+  t.longitude = row['longitude']
+  t.time_zone = row['time_zone']
+  t.dst_flag = row['dst_flag']
+  t.coordinates = row['geopoint,']
+  t.save
+  puts "#{t.zip}:::: #{t.coordinates} saved"
+end
 
 
 
@@ -45,6 +45,19 @@ if Rails.env == "development"
     city: "Denver",
     confirmed_at: Time.now,
     birth_date: Date.strptime("30/11/1991", "%d/%m/%Y")
+  })
+  User.create({
+    username: "arren",
+    email: "arren@test.com",
+    first_name: "Arren",
+    last_name: "Alexander",
+    postal_code: "80211",
+    password: "password",
+    password_confirmation: "password",
+    region: "CO",
+    city: "Denver",
+    confirmed_at: Time.now,
+    birth_date: Date.strptime("25/10/1992", "%d/%m/%Y")
   })
   User.create({
     username: "test2",

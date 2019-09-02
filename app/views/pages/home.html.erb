@@ -3,8 +3,32 @@
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
   </div>
-  <div class="d-flex flex-column align-items-center justify-content-center filter floater">
+  <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)">
     <h3>Filters</h3>
+    <div class="filter-container">
+      <div class="form-group">
+        <label for="problem_titles">Search Problem Titles</label>
+        <input type="text" class="form-control" id="problem_titles" oninput="handleTextInput(event)" aria-describedby="problem_titles" placeholder="Search by title">
+      </div>
+      <div class="form-group">
+        <label for="problem_category">Select a category</label>
+        <select id="problem_category" class="custom-select" onchange="handleSelect(event)">
+          <option selected value="all">All</option>
+           <% Category.problem_titles.map do |title| %>
+             <option value="<%= title %>"><%= title %></option>
+           <% end %>
+        </select>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="problem_volunteers" onchange="handleCheckbox(event)" aria-describedby="problem_volunteers">
+        <label for="problem_volunteers">Needs Volunteers</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="problem_defined" onchange="handleCheckbox(event)" aria-describedby="problem_defined">
+        <label for="problem_defined">Fully Defined</label>
+      </div>
+      <!-- need to have grab params and send them to home page to filter the problems -->
+    </div>
   </div>
   <aside class="home-page-aside">
     <div class="homepage-header">
@@ -29,15 +53,14 @@
 
 <script>
 
-  var map;
+  let map;
   // var assignListener = function(markerObj, infoWindowObj){
   //   console.log('Clicked on a marker')
   //   return function() {
   //          infoWindowObj.open(map, markerObj);
   //           };
   // };
-  function initMap()
-  {
+  function initMap(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
       zoom: 14,
@@ -46,14 +69,14 @@
       fullscreenControl: false
     });
 
-    var json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
+    let json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
 
 
-    var infoWindow = new google.maps.InfoWindow();
+    let infoWindow = new google.maps.InfoWindow();
 
-    for (var i = 0, length = json.length; i < length; i++)
+    for (let i = 0, length = json.length; i < length; i++)
     {
-      var data = json[i],
+      let data = json[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
         // @MATT -- fix the parse float issue
 
@@ -67,7 +90,7 @@
           <a href="/problems/${data.id}" id="marker_link" class="marker_link">See Problem Details</a>
          </div>`;
 
-      var marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: LatLng,
         map: map,
         animation: google.maps.Animation.DROP
@@ -79,12 +102,10 @@
           infoWindow.setContent(data.contentString);
           infoWindow.open(map, marker);
         });
-      }) (marker, data);
+      })(marker, data);
 
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap"
-async defer>
-</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap" async defer></script>

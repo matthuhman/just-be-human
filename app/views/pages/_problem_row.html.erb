@@ -1,10 +1,13 @@
-<div class="problem-row">
+<div class="problem-row"
+  data-category="<%= problem.category_title %>"
+  data-volunteers="<%= problem.volunteers_required - problem.volunteer_count != 0 %>"
+  data-defined="<%= problem.defined %>"
+  >
   <div>
     <a href="/problems/<%= problem.id %>">
-      <h5><%= problem.display_title %></h5>
-      <p><strong>Description: </strong><%= problem.display_description %></p>
+      <h5 class="problem-title"><%= problem.display_title %></h5>
+      <p><%= problem.display_description %></p>
       <p><strong>Due: </strong><%= problem.target_completion_date %></p>
-      <p><strong>Created by: </strong><%= User.find(problem.user_id).username %></p>
     </a>
   </div>
 </div>
