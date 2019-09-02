@@ -8,7 +8,7 @@ class Problem < ApplicationRecord
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
 
-  validates_presence_of :title, :description, :category, :subcategory, :volunteers_required
+  validates_presence_of :title, :description, :category, :volunteers_required
   validates_presence_of :address, :unless => :postal_code?
 
   def user_is_admin(user_id)
