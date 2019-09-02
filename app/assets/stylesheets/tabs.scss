@@ -44,10 +44,12 @@
 
     &:hover {
       background-color: $secondary-hover;
+      color: black;
     }
 
     &.active {
       background-color: $secondary-hover;
+      color: black;
     }
   }
 }

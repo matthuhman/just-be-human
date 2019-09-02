@@ -6,8 +6,8 @@
   <div>
     <a href="/problems/<%= problem.id %>">
       <h5 class="problem-title"><%= problem.display_title %></h5>
-      <p><%= problem.display_description %></p>
-      <p><strong>Due: </strong><%= problem.target_completion_date %></p>
+      <p class="problem-desc"><%= problem.display_description %></p>
+      <p class="problem-date"><strong>Due: </strong><%= problem.target_completion_date %></p>
     </a>
   </div>
 </div>

@@ -8,8 +8,8 @@ let attributes = {
 
 let filters = {
   title: '',
-  volunteers: false,
-  defined: false,
+  volunteers: true,
+  defined: true,
   category: 'all'
 }
 

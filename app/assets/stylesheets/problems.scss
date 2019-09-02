@@ -126,12 +126,12 @@
   padding: 1vh 1vw;
   border-radius: 2px;
   border-bottom: 1px solid #fff;
-  background: #ccc;
+  background: #053366;
   transition: all .2s linear;
   cursor: pointer;
-
+  color: white;
   &:hover {
-    background: #e2e2e2;
+    background: #1E2326;
   }
 
   &:last-of-type {
@@ -139,10 +139,10 @@
   }
 
   &:nth-of-type(even) {
-    background: #3f84b9;
+    background: #4099cc;
 
     &:hover {
-      background: #f1f1f1;
+      background: #1E2326;
     }
   }
 }
@@ -155,25 +155,21 @@
   color: #99cc66;
   margin: 0;
   font-weight: 1000;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 2.2px;
 
   & span {
-    color: #000;
+    color: white;
     font-weight: 300;
   }
 }
 
 .post-title {
-  color: #000;
+  color: white;
   letter-spacing: 2px;
   margin: 0;
-  font-style: italic;
-  font-size: 1.2rem;
-  &:hover {
-    color: #4b4b4b;
-  }
+  font-size: 1.8rem;
 }
 
 .post-link {
@@ -183,9 +179,10 @@
 }
 
 .post-excerpt {
-  color: #000;
+  color: white;
   letter-spacing: 2px;
   margin: 0;
+  font-style: italic;
 }
 
 

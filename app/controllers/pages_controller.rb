@@ -43,7 +43,7 @@ class PagesController < ApplicationController
   # This action is used to collect emails for future donation, marketing,
   # and information-sharing purposes
   def donate
-    @donation = Donation.new(:donate => true, :marketing => true, :volunteer => true)
+    @donation = Donation.new(:donate => true, :marketing => true)
   end
 
   # This action is used to create a new "Donation" record and then redirects to

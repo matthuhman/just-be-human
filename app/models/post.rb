@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   has_many :comments
   # has_rich_text :content
 
+  validates_presence_of :title, message: "must be present."
+  validates_presence_of :content, message: "must be present."
 
   def user_has_permissions(user_id)
     if (self.postable_type == "Requirement")
