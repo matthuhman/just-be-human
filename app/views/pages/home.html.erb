@@ -101,11 +101,16 @@
         google.maps.event.addListener(marker, "click", function (e) {
           infoWindow.setContent(data.contentString);
           infoWindow.open(map, marker);
+          event.stopPropagation(); // this prevents propagation of marker click to map click
         });
       })(marker, data);
 
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
+
+    map.addListener("click", function() {
+      infoWindow.close();
+    });
   }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap" async defer></script>

@@ -5,13 +5,22 @@
   >
   <div class="problem-row-info">
     <a href="/problems/<%= problem.id %>">
-      <h5 class="problem-title"><%= problem.display_title %></h5>
-      <div class="problem-meta">
+      <h5 class="problem-title">
+        <%= problem.display_title %>
         <div class="problem-meta-volunteers">
-          <div class="problem-volunteers-needed">
-            <strong> Volunteers:</strong> <%= problem.volunteer_count %>/<%= problem.volunteers_required %>
-          </div>
+          <% if problem.volunteers_needed > 0 %>
+            <div class="problem-volunteers-needed">
+              <%= problem.volunteers_needed %>
+            </div>
+          <% else %>
+            <div class="problem-volunteers-not-needed">
+              0
+            </div>
+          <% end %>
         </div>
+      </h5>
+
+      <div class="problem-meta">
         <div class="problem-row-data">
           <strong>Completion Date: </strong><%= problem.target_completion_date %> <br>
           <strong>Category: </strong> <%= problem.category_title %> <br>

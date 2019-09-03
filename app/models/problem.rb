@@ -43,6 +43,13 @@ class Problem < ApplicationRecord
     Category.problem_titles[self.category.to_i]
   end
 
+  def volunteers_needed
+    self.volunteers_required - self.volunteer_count
+  end
+
+  def volunteers_fraction_string
+    "#{self.volunteer_count}/#{self.volunteers_required}"
+  end
 
   def pct_time_remaining
     total_time = self.target_completion_date.to_time.to_f - self.created_at.to_f
