@@ -22,23 +22,18 @@
 
     <h5 class="difficulty-subheader">How much help do you need?</h5>
     <div class="difficulty-selection">
-      <%= f.input :defined, default: false, label: "Is there any more planning that needs to be done?" %>
+      <%= f.input :defined, label: "Is this problem defined, or do you want to work with people to figure out the solution?" %>
       <%= f.input :volunteers_required %>
       <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
       <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
     </div>
 
-    <h5 class="recurring-subheader">One-time or recurring?</h5>
-    <div class="recurring-selection"> 
-      <%= f.input :recurring, default: false, label: "Is this problem recurring?" %>
-      <%= f.label "How often do you want to do this?" %>
-      <%= f.select :recurring_period, @time_options %>
-    </div>
+
 
 
     <h5 class="location-subheader">Where is your problem located?</h5>    
     <div class="location-selection">
-      <%= f.input :address, placeholder: "If possible, please enter a specific street address" %>
+      <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
       <%= f.input :postal_code, placeholder: "A postcode is not necessary if an address is entered" %>
     </div>
 

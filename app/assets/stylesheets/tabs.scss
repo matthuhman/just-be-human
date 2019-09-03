@@ -34,22 +34,23 @@
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
-
+  font-size: 1.8rem;
+  font-weight: 600;
   &.hp {
     text-transform: uppercase;
     padding: 12px 12px;
     color: #fff;
-    height: 100%;
     width: 100%;
 
     &:hover {
-      background-color: $secondary-hover;
+      background-color: $lightblue;
       color: black;
     }
 
     &.active {
-      background-color: $secondary-hover;
+      background-color: $lightblue;
       color: black;
+      font-style: italic;
     }
   }
 }

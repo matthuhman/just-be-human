@@ -65,9 +65,12 @@
 }
 
 .homepage-header {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
   padding-bottom: 2px;
   margin-bottom: 2px;
+  font-weight: 700;
 }
 
 .floater {
@@ -120,11 +123,11 @@
 }
 
 .problem-row {
-  border-bottom: 1px solid;
+  border-bottom: 2px solid;
   margin-bottom: 2px;
   padding: 1vh 1vw;
   background-color: $darkblue;
-  transition: all .2s linear;
+  transition: all .1s linear;
 
   & a {
     color: #fff;
@@ -136,7 +139,7 @@
   }
 
   &:hover {
-    background-color: #99ccff;
+    background-color: $lightblue;
     
     & a {
       color: black;
@@ -150,15 +153,33 @@
 }
 
 .problem-title {
-  font-size: 1.5em;
+  font-size: 1.8rem;
+  text-shadow: 2px 1px black;
 }
 
-.problem-desc {
-  font-style: italic;
+.problem-row-definition {
+  padding-top: 1vh;
+  text-align: center; 
+  text-shadow: 2px 1px black;
 }
 
-.problem-date {
-  text-align: center;
+.problem-row-data {
+  font-size: 1.2rem;
+}
+
+.problem-volunteers-needed {
+  float: right;
+  color: $limegreen;
+  font-size: 1.1rem;
+}
+
+.problem-defined-wrapper {
+  color: $limegreen;
+  font-size: 2.3rem;
+}
+
+.problem-abstract-wrapper {
+  color: $lightpink;
 }
 
 // ========DONATE PAGE STYLING========

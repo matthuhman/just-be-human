@@ -35,6 +35,7 @@ class ProblemsController < ApplicationController
   # POST /problems
   # POST /problems.json
   def create
+    binding.pry
     @categories = Category.problem_titles
     @problem = Problem.new(problem_params)
     @problem.user = current_user
@@ -210,7 +211,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :planned, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
+      params.require(:problem).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
     end
 
     def follow_params

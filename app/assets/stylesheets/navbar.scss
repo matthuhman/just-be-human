@@ -2,9 +2,26 @@
 
 .navbar {
   min-height: 10vh;
-  font-family: 'Rubik', Verdana, Arial, Sans-Serif;
+  font-family: 'Fjalla One', Verdana, Arial, Sans-Serif;
   
   background-color: #3399CC;
+  border-bottom: 4px solid transparent;
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
+}
+
+.navbar li {
+  list-style-type: none;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  margin-right: 1vw;
+  margin-left: 1vw;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: nowrap; /* assumes you only want one row */
 }
 
 .navbar-brand {
@@ -15,12 +32,21 @@
 .navbar-logo {
   width: auto;
   height: 8vh;
-  min-height: 40px;
+  max-width: 50vh;
+}
+
+.nav-item {
+  border: 1px solid $limegreen;
+  border-radius: 10px;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .nav-link {
-  color: #006699 !important;
+
+  color: $limegreen !important;
   text-transform: uppercase;
+  font-size: 1.4rem;
 }
 
 .bg-dark {

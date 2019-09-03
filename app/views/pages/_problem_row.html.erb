@@ -3,11 +3,28 @@
   data-volunteers="<%= problem.volunteers_required - problem.volunteer_count != 0 %>"
   data-defined="<%= problem.defined %>"
   >
-  <div>
+  <div class="problem-row-info">
     <a href="/problems/<%= problem.id %>">
       <h5 class="problem-title"><%= problem.display_title %></h5>
-      <p class="problem-desc"><%= problem.display_description %></p>
-      <p class="problem-date"><strong>Due: </strong><%= problem.target_completion_date %></p>
+      <div class="problem-meta">
+        <div class="problem-meta-volunteers">
+          <div class="problem-volunteers-needed">
+            <strong> Volunteers:</strong> <%= problem.volunteer_count %>/<%= problem.volunteers_required %>
+          </div>
+        </div>
+        <div class="problem-row-data">
+          <strong>Completion Date: </strong><%= problem.target_completion_date %> <br>
+          <strong>Category: </strong> <%= problem.category_title %> <br>
+        </div>
+      </div>
+
+      <div class="problem-row-definition">
+        <% if problem.defined %>
+          <h2 class="problem-defined-wrapper">PLANNED</h2>
+        <% else %>
+          <h2 class="problem-abstract-wrapper">PLANNING</h2>
+        <% end %>
+      </div>
     </a>
   </div>
 </div>
