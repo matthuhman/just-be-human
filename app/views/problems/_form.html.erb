@@ -23,7 +23,7 @@
     <h5 class="difficulty-subheader">How much help do you need?</h5>
     <div class="difficulty-selection">
       NOTE @arren - if this checkbox gets selected, we want to show the "how difficult" multi-select. If not, default estimated_work to 0
-      <%= f.input :planned, default: false, label: "Is there any more planning that needs to be done?" %>
+      <%= f.input :defined, default: false, label: "Is there any more planning that needs to be done?" %>
       <%= f.input :volunteers_required %>
       <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
       <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
