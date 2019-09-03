@@ -22,7 +22,6 @@
 
     <h5 class="difficulty-subheader">How much help do you need?</h5>
     <div class="difficulty-selection">
-      NOTE @arren - if this checkbox gets selected, we want to show the "how difficult" multi-select. If not, default estimated_work to 0
       <%= f.input :defined, default: false, label: "Is there any more planning that needs to be done?" %>
       <%= f.input :volunteers_required %>
       <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
@@ -31,7 +30,6 @@
 
     <h5 class="recurring-subheader">One-time or recurring?</h5>
     <div class="recurring-selection"> 
-      NOTE @arren - if this checkbox is selected, we want to then show the "how often" multi-select
       <%= f.input :recurring, default: false, label: "Is this problem recurring?" %>
       <%= f.label "How often do you want to do this?" %>
       <%= f.select :recurring_period, @time_options %>
