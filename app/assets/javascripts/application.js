@@ -20,6 +20,7 @@
 //= require_tree .
 //= require chartkick
 //= require Chart.bundle
+//= require local-time
 
 
 // this will make flash messages disappear after a few seconds on-screen

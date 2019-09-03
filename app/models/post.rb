@@ -19,6 +19,10 @@ class Post < ApplicationRecord
     !content.nil? ? content.first(100) << "..." : nil
   end
 
+  def display_timestamp
+    self.created_at.strftime("%l:%M%P on %-m/%-d/%y")
+  end
+
   def user_can_comment(user_id)
     if (self.postable_type == 'Problem')
       role = ProblemRole.find_by(user_id: user_id, problem_id: self.postable_id)

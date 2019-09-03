@@ -15,10 +15,10 @@
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
-  background-color: $primary;
+  background-color: $darkblue;
 
   &.hp {
-    background-color: $secondary;
+    background-color: $darkblue;
     border: none;
     width: 100%;
     display: flex;
@@ -27,7 +27,7 @@
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
-  background-color: inherit;
+  background-color: $darkblue;
   float: left;
   border: none;
   outline: none;

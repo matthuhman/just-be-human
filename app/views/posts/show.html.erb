@@ -1,14 +1,12 @@
-<p id="notice"><%= notice %></p>
-
 <div class="original-post">
   <div class="original-post-title">
-    <h2>Discussion topic: "<%= @post.title %>"</h2>
+    <h3><%= @post.title %></h3>
   </div>
   <div class="original-post-content">
     <p> <%= @post.content %> </p>
   </div>
   <div class="original-post-meta">
-    <p>Discussion started by: <%= User.find(@post.user_id).username %> at <%= @post.created_at %></p>
+    <p><%= User.find(@post.user_id).username %> at <%= local_time(@post.created_at, "%l:%M%P on %-m/%-d/%y") %></p>
   </div>
 </div>
 

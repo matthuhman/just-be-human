@@ -51,7 +51,7 @@
   grid-column: 1;
   height: 100%;
   overflow-y: scroll;
-  background-color: $secondary;
+  background-color: $darkblue;
   color: #fff;
 
   & h3 {
@@ -123,7 +123,7 @@
   border-bottom: 1px solid;
   margin-bottom: 2px;
   padding: 1vh 1vw;
-  background-color: $secondary;
+  background-color: $darkblue;
   transition: all .2s linear;
 
   & a {

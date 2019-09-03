@@ -2,15 +2,36 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
+@import 'theme.scss';
 
 .original-post {
   padding-left: 1vw;
-  padding-top: 3vh;
   padding-bottom: 3vh;
   background-color: #959CA0;
 }
 
+.original-post-title {
+  padding-top: 2vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  color: $limegreen;
+  border-bottom: 2px solid;
+  border-color: black;
+}
+
+
+.original-post-content {
+  padding-top: 3vh;
+  padding-left: 4vw;
+  padding-right: 10vw;
+  font-size: 1.3rem;
+  
+}
+
+.original-post-meta {
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
 
 
 .comments-container {
