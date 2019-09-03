@@ -11,10 +11,16 @@
           <% if problem.volunteers_needed > 0 %>
             <div class="problem-volunteers-needed">
               <%= problem.volunteers_needed %>
+              <div class="volunteers-needed">
+                volunteers<br>needed
+              </div>
             </div>
           <% else %>
             <div class="problem-volunteers-not-needed">
               0
+              <div class="volunteers-needed">
+                volunteers<br>needed
+              </div>
             </div>
           <% end %>
         </div>

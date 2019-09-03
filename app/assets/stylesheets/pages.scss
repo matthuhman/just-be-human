@@ -171,10 +171,17 @@
   width: auto;
 }
 
+.volunteers-needed {
+  font-size: 0.8rem;
+  text-align: right;
+}
+
 .problem-meta-volunteers {
+  text-align: right;
   float: right;
   font-size: 4rem;
   padding-right: 1vw;
+  padding-left: 3vw;
 }
 
 .problem-meta {
