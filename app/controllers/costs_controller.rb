@@ -7,9 +7,7 @@ class CostsController < ApplicationController
     @monthly_cost = costs.last.mtd_cost
     month = costs.last.fetch_date.month
     costs.each do |c|
-      if (c.fetch_date.month == month)
-        @cost_data[c.fetch_date.strftime('%Y-%m-%d')] = c.daily_cost
-      end
+      @cost_data[c.fetch_date.strftime('%Y-%m-%d')] = c.daily_cost
     end
   end
 
