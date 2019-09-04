@@ -12,7 +12,7 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.new
     if params[:requirement]
       @date = params[:requirement][:target_date].to_date
-      @planned = params[:requirement][:problem_planned]
+      @planned = params[:requirement][:defined]
       # binding.pry
     end
 
@@ -26,7 +26,6 @@ class RequirementsController < ApplicationController
     @problem = Problem.find(@requirement.problem_id)
     @prob_level = Role.problem_role_level(current_user.id, @problem.id)
     @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
-    # binding.pry
     respond_modal_with @requirement
   end
 

@@ -16,7 +16,13 @@ class Post < ApplicationRecord
   end
 
   def display_content
-    !content.nil? ? content.first(100) << "..." : nil
+    if !content
+      nil
+    elsif content.size > 100
+      content[0, 100] << "..."
+    else
+      content
+    end
   end
 
   def display_timestamp

@@ -211,7 +211,7 @@ class ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.require(:problem).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required)
+      params.require(:problem).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work)
     end
 
     def follow_params

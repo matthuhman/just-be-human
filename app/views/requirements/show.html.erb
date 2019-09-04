@@ -23,17 +23,27 @@
 
 
 <div class="requirement-posts">
-  <h3 class="requirement-posts-title">Posts</h3>
+  <div class="posts-container">
+    <h2 class="requirement-posts-title">Posts</h2>
+    <div class="post-list">
+      <% @requirement.posts.each do |post| %>
+        <% post_user = User.find(post.user_id) %>
+        <div class="post-container">
+          <a href="/posts/<%= post.id %>" class="post-link">
+            <p class="post-title"><%= post.title %></p>
+            <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
+            <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
+          </a>
+        </div>
+      <% end %>
+      <% if current_user && (@req_level || @prob_level <= 2) %>
+        <div class="add-post-button">
+          <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+        </div>
+      <% end %>
+    </div>
 
-  <div class="requirement-posts-list">
-    <% @requirement.posts.each do |p| %>
-      <%= p.title %>
-      <%= p.content %>
-      <%= link_to "See all comments", p %>
-    <% end %>
   </div>
-
-  <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
 
 
 <% if !@req_level %>

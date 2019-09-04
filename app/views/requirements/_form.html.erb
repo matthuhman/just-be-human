@@ -25,17 +25,24 @@
       <%= f.select :subcategory, @sub_categories[0].map.with_index {|sub, index| [sub[:title], index]}, {}, class: "form-control" %>
     </div>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
-    <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
+    <div class="form-group">
+      <%= f.label "Priority- 1 is most important, 10 is least important" %>
+      <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
+    </div>
+    <!--        
+      this `if @planned` block will tell us if the parent problem is already defined or not. if the parent problem is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned problems.
+    -->
     <% if !@planned %>
       <div class="planned-selection">
         <%= f.input :defined, label: "This is everything I need!" %>
         <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
       </div>
     <% else %>
-      <%= f.hidden_field :defined, :value => true %>
+      <%= f.hidden_field :defined, value: true %>
+      <%= f.hidden_field :estimated_work, value: 0 %>
     <% end %>
     <% if params[:requirement] %>
-    <%= f.hidden_field :problem_id, :value => params[:requirement][:problem_id] %>
+      <%= f.hidden_field :problem_id, :value => params[:requirement][:problem_id] %>
     <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
