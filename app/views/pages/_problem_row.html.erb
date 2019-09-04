@@ -1,3 +1,6 @@
+<% role_title = Role.problem_role_title(current_user.id, problem.id) %>
+
+
 <div class="problem-row"
   data-category="<%= problem.category_title %>"
   data-volunteers="<%= problem.volunteers_required - problem.volunteer_count != 0 %>"
@@ -30,6 +33,9 @@
         <div class="problem-row-data">
           <strong>Completion Date: </strong><%= problem.target_completion_date %> <br>
           <strong>Category: </strong> <%= problem.category_title %> <br>
+          <% if role_title %>
+            <strong>Role: </strong> <%= role_title %> <br>
+          <% end %>
         </div>
       </div>
 

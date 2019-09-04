@@ -147,6 +147,14 @@ class Role
       return false
     end
   end
+
+  def self.problem_role_title(u_id, p_id)
+    role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
+
+    if role
+      return role.title
+    end
+  end
   
 
   def self.problem_role_level(u_id, p_id)

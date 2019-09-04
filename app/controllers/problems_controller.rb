@@ -18,7 +18,7 @@ class ProblemsController < ApplicationController
       @is_admin = @problem.user_is_admin(current_user.id)
     end
 
-    # binding.pry
+    # 
   end
 
   # GET /problems/new
@@ -35,7 +35,7 @@ class ProblemsController < ApplicationController
   # POST /problems
   # POST /problems.json
   def create
-    binding.pry
+    
     @categories = Category.problem_titles
     @problem = Problem.new(problem_params)
     @problem.user = current_user
@@ -162,7 +162,7 @@ class ProblemsController < ApplicationController
         if Role.make_supervisor(params[:target_user_id], @problem.id)
           format.html { redirect_to @problem, notice: "User promoted to Supervisor." }
           format.json { render :show, status: :ok, location: @problem}
-        elses
+        else
           format.html { redirect_to @problem, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
           format.json { render :show, status: :unprocessable_entity, location: @problem}
         end

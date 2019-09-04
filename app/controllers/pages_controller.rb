@@ -21,10 +21,11 @@ class PagesController < ApplicationController
         @geopoint = Geopoint.find_by(zip: current_user.postal_code)
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
-      @my_problems = current_user.problems
-      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5).sort_by{ |p| p[:target_completion_date]}
+      @my_problems = current_user.problem_roles.sort_by{ |r| r.level }.map{ |role| role.problem }
+
+      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5).sort_by{ |p| p[:target_completion_date]} - @my_problems
       @roles = current_user.problem_roles
-      # binding.pry
+      # 
     else
       redirect_to :action => 'landing'
     end

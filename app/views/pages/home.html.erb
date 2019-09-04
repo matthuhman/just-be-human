@@ -38,8 +38,14 @@
       </div>
     </div>
     <div id="probs-near-me" class="tabcontent hp">
-      <% @problems.each do |problem| %>
-        <%= render 'problem_row', problem: problem %>
+      <% if @problems.size > 0 %>
+        <% @problems.each do |problem| %>
+          <%= render 'problem_row', problem: problem %>
+        <% end %>
+      <% else %>
+        <div class="no-open-problems">
+          There are no open problems nearby that you're not already involved with!
+        </div>
       <% end %>
     </div>
     <div id="my-probs" class="tabcontent hp">
