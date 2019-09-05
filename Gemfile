@@ -68,8 +68,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
   gem 'rspec-rails'
-  gem 'ffaker'
   gem 'factory_bot_rails'
+  gem 'ffaker'
 end
 
 group :development do
