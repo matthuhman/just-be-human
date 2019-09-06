@@ -4,10 +4,7 @@
   min-height: 10vh;
   font-family: 'Fjalla One', Verdana, Arial, Sans-Serif;
   
-  background-color: #3399CC;
-  border-bottom: 4px solid transparent;
-  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-  border-image-slice: 1;
+  border-bottom: 4px solid $lightgrey;
 }
 
 .navbar li {
@@ -31,7 +28,7 @@
 
 .navbar-logo {
   width: auto;
-  height: 8vh;
+  height: 7vh;
   max-width: 50vh;
 }
 

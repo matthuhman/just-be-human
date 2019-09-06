@@ -38,12 +38,12 @@
 
 .home-page {
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 50% 50%;
   height: 90vh;
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;
-    grid-template-rows: 60% 40%;
+    grid-template-rows: 50% 50%;
   }
 }
 
@@ -88,7 +88,7 @@
 }
 
 .filter.floater {
-  left: 30%;
+  left: 52%;
   cursor: pointer;
 
   @include respond-to(handhelds) {
@@ -167,7 +167,9 @@
 
 .problem-row-definition {
   padding-top: 1vh;
-  text-align: center; 
+  
+  //float:right;
+  text-align: right; 
 }
 
 .problem-row-data {
@@ -195,6 +197,10 @@
   border-top: 1px solid white;
 }
 
+.problem-row-data-header {
+  font-size: 1rem;
+}
+
 .problem-volunteers-needed {
   color: $limegreen;
 }
@@ -212,6 +218,8 @@
 .problem-abstract-wrapper {
   color: $lightpink;
 }
+
+
 
 // ========DONATE PAGE STYLING========
 
