@@ -8,6 +8,8 @@ class Requirement < ApplicationRecord
   validates_presence_of :title, message: 'must be entered.'
   validates_presence_of :description, message: 'must be entered.'
   validate :completion_date_limit
+  validate :field_length
+
 
 
   def pct_remaining_display
@@ -44,10 +46,17 @@ class Requirement < ApplicationRecord
   private
 
 
-    def completion_date_limit
+    def field_length
+      if title.size > 60
+        errors.add(:title, "must be less than 60 characters")
+      end
+      if current_status.size > 60
+        errors.add(:current_status, "must be less than 60 characters")
+      end
+    end
 
-      problem = Problem.find(self.problem_id)
-      if self.target_completion_date > problem.target_completion_date
+    def completion_date_limit
+      if target_completion_date > problem.target_completion_date
         errors.add(:target_completion_date, "cannot be after the Problem's target completion date.")
       end
     end

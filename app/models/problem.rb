@@ -11,9 +11,10 @@ class Problem < ApplicationRecord
   validates_presence_of :title, message: 'You must enter a title.'
   validates_presence_of :description, message: 'You must enter a description.'
   validates_presence_of :address, :unless => :postal_code?, message: 'An address or postcode must be entered.'
+  validate :title_length
 
   def user_is_admin(user_id)
-    return user_id == self.user_id
+    user_id == self.user_id
   end
 
 
@@ -24,11 +25,7 @@ class Problem < ApplicationRecord
 
     role = ProblemRole.find_by(user_id: user_id, problem_id: self.id)
 
-    if role && role.level <= 2
-      return true
-    else
-      return false
-    end
+    role && role.level <= 2
   end
 
   def display_title
@@ -61,7 +58,7 @@ class Problem < ApplicationRecord
 
   def pct_work_remaining
     if self.planned?
-      0
+      return 0
     end
 
     est_work = self.estimated_work
@@ -101,5 +98,15 @@ class Problem < ApplicationRecord
       :methods => [:category_title]
     }))
   end
+
+  private
+
+    def title_length
+      if self.title.size > 60
+        errors.add(:title, "must be less than 60 characters")
+      end
+    end
+
+
 
 end

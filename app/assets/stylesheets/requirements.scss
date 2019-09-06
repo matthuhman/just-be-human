@@ -1,3 +1,91 @@
 // Place all the styles related to the Milestones controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.requirement-info {
+  padding-left: 1vw;
+}
+
+.requirement-title {
+  margin-top: 2vh;
+  margin-left: 2vw;
+}
+
+.requirement-info-categories {
+  float: right;
+  text-align: right;
+  margin-right: 4vw;
+
+  padding-right: 1vw;
+  padding-left: 1vw;
+
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.requirement-meta {
+  margin-left: 10vw;
+  text-align: left;
+}
+
+.requirement-info-description {
+  margin-left: 4vw;
+  margin-bottom: 4vh;
+  margin-top: 4vh;
+  margin-right: 4vw;
+}
+
+.overdue-warning {
+  text-align: center;
+  color: red;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 4vh;
+}
+
+
+.progress-title {
+  padding-left: 2vw;
+}
+
+.progress {
+  height: 10vh !important;
+  border: 3px solid black;
+  margin-right: 5vw;
+  margin-left: 5vw;
+  margin-bottom: 2vh;
+}
+
+.progress-bar {
+  font-size: 1.3rem;
+}
+
+
+.work-remaining {
+  font-size: 1.8rem;
+  color: black;
+  text-align: left;
+  padding: 2vw;
+}
+
+
+.volunteer-btn-div {
+  text-align: center;
+  font-size: 3rem;
+  border: 6px solid $limegreen;
+  border-radius: 10px;
+  margin-bottom: 1vh;
+  margin-left: 20vw;
+  margin-right: 20vw;
+  color: $limegreen;
+  background: $darkblue;
+}
+
+
+.requirement-posts-title {
+  text-align: center;
+  border-top: 3px dotted $darkblue;
+  padding-top: 2vh;
+}

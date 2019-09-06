@@ -11,7 +11,7 @@ class ContactRequest < ApplicationRecord
 
   def self.send_contact_request(out_user, in_user, prob_id)
     old_req = ContactRequest.find_by(requesting_user_id: out_user.id, requested_user_id: in_user.id)
-    binding.pry
+    
     if old_req
       return true
     end
@@ -20,7 +20,7 @@ class ContactRequest < ApplicationRecord
 
     if out_user.over_16? && in_user.over_16? && Problem.users_are_volunteers(out_user.id, in_user.id, prob_id)
       
-      binding.pry
+      
       if req.save
         return true
       else
@@ -28,7 +28,7 @@ class ContactRequest < ApplicationRecord
         return false
       end
     else
-      binding.pry
+      
       req.accepted = false
 
       if req.save
@@ -58,7 +58,6 @@ class ContactRequest < ApplicationRecord
     else
       req.active = true
       req.accepted = false
-
       if req.save
         return true
       else

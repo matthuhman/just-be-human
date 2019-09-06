@@ -54,6 +54,8 @@ class Category
 
   private
 
+  ## TODO: make these constants so that we're not recreating them every time you reference Category
+
   # map of integer ID's to categories
   def self.problem_cats
     [

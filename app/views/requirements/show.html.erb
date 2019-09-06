@@ -1,26 +1,68 @@
 
 
 <div class="requirement-info">
+  <div class="requirement-info-categories">
+    <div class="requirement-info-category">
+      <small>Category:</small><br><strong><%= @requirement.category_title %></strong>
+    </div>
+    <div class="requirement-info-subcategory">
+      <small>Subcategory:</small><br><strong><%= @requirement.subcategory_title %></strong>
+    </div>
+  </div>
   <h2 class="requirement-title"><%= @requirement.title %></h2>
   <div class="requirement-info-description">
     <%= @requirement.description %>
   </div>
-  <div class="requirement-info-category">
-    Category: <%= @requirement.category_title %>
-  </div>
-  <div class="requirement-info-subcategory">
-    Subcategory: <%= @requirement.subcategory_title %>
-  </div>
-  <div class="requirement-info-status">
-    <p>Current status: <%= @requirement.current_status %></p>
+  <div class="requirement-meta">
     <p>Priority: <%= @requirement.priority %></p>
-    <p>Estimated work: <%= @requirement.estimated_work %></p>
-    <p>Work remaining: <%= @requirement.pct_remaining_display %></p>
+    <p>Estimated difficulty: <%= @requirement.estimated_work.round %>/10</p>
   </div>
-
-
 </div>
 
+<% if @overdue %>
+  <div class="overdue-warning">
+    This requirement is overdue!
+  </div>
+<% end %>
+
+<!--  
+  This next part is so that we can use different progress bars based on the percentage. Green if it's < 40% work remaining, orange for 40-70, and red for 70+
+  -->
+<% progress = @requirement.pct_work_remaining %>
+<% progress_display = @requirement.pct_remaining_display %>
+
+<div class="progress-title">
+  <h4>Current status:</h4>
+</div>
+<div class="progress">
+  <% if progress >= 70 %>
+    <div class="progress-bar progress-bar-striped bg-danger" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.current_status %>
+      </small>
+    </div>
+  <% elsif progress >= 40 && progress < 70 %>
+    <div class="progress-bar progress-bar-striped bg-warning" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.current_status %>
+      </small>
+    </div>
+  <% else %>
+    <div class="progress-bar progress-bar-striped bg-success" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.current_status %>
+      </small>
+    </div>
+  <% end %>
+</div>
+
+<% if !@req_level %>
+  <a href="/requirements/participate?requirement_id=<%= @requirement.id %>">
+    <div class="volunteer-btn-div">
+      Volunteer to help!
+    </div>
+  </a>
+<% end %>
 
 <div class="requirement-posts">
   <div class="posts-container">
@@ -46,12 +88,13 @@
   </div>
 
 
-<% if !@req_level %>
-<%= link_to 'Volunteer to help with this requirement!', controller: 'requirements', action: 'participate', requirement_id: @requirement.id %>
-<% elsif @req_level < 2 || @prob_level <= 2 %>
-<%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
-<% elsif @req_level >= 2 %>
-<%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
+
+<% if @req_level && @req_level >= 2 %>
+  <%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
+<% end %>
+
+<% if @prob_level <= 2 || req_level < 2 %>
+  <%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
 <% end %>
 
 

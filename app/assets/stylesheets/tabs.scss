@@ -2,7 +2,7 @@
 .tabcontent {
   display: none;
   padding: 2vh 2vw;
-  border: 1px solid #ccc;
+  border: 1px solid $lightgrey;
   border-top: none;
   animation: fadeEffect 1s; /* Fading effect takes 1 second */
 
@@ -15,10 +15,10 @@
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
-  background-color: $darkblue;
+  
 
   &.hp {
-    background-color: $darkblue;
+    
     border: none;
     width: 100%;
     display: flex;
@@ -27,9 +27,9 @@
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
-  background-color: $darkblue;
   float: left;
   border: none;
+  border-radius: 10px;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
@@ -37,18 +37,18 @@
   font-size: 1.8rem;
   font-weight: 600;
   &.hp {
+    margin-left: 5px;
+    background-color: white;
     text-transform: uppercase;
     padding: 12px 12px;
-    color: #fff;
+    color: $lightgrey;
     width: 100%;
 
     &:hover {
-      background-color: $lightblue;
       color: black;
     }
 
     &.active {
-      background-color: $lightblue;
       color: black;
       font-style: italic;
     }

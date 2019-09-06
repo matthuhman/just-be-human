@@ -25,7 +25,6 @@ class PagesController < ApplicationController
 
       @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 5).sort_by{ |p| p[:target_completion_date]} - @my_problems
       @roles = current_user.problem_roles
-      # 
     else
       redirect_to :action => 'landing'
     end

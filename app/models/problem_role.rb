@@ -4,9 +4,10 @@ class ProblemRole < ApplicationRecord
   belongs_to :user
   before_destroy :fill_admin_role
 
-  ## role level id 1 = ADMIN
-  ## role level id 2 = MODERATOR
-  ## role level id 3 = PARTICIPANT
+  ## role level id 1 = LEADER
+  ## role level id 2 = SUPERVISOR
+  ## role level id 3 = VOLUNTEER
+  ## role level id 4 = FOLLOWER
 
 
   private

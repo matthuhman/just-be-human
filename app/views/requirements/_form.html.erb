@@ -14,7 +14,7 @@
     <% end %>
 
     <% if params[:action] == "edit" %>
-      <%= f.input :pct_work_remaining, label: 'Estimate the % of work that remains!' %>
+      <%= f.input :pct_work_remaining, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
     <% end %>
     <div class="form-group">
       <%= f.label :category %>
@@ -32,10 +32,10 @@
     <!--        
       this `if @planned` block will tell us if the parent problem is already defined or not. if the parent problem is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned problems.
     -->
-    <% if !@planned %>
+    <% if @problem_defined %>
       <div class="planned-selection">
         <%= f.input :defined, label: "This is everything I need!" %>
-        <%= f.input :estimated_work, placeholder: "Estimate the number of hours. Don't worry, you can edit this later!" %>
+        <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>
       </div>
     <% else %>
       <%= f.hidden_field :defined, value: true %>
