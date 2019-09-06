@@ -45,3 +45,6 @@ yarn-debug.log*
 
 package-lock.json
 yarn.lock
+
+# ignore coverage folder
+/coverage/*
