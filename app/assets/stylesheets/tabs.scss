@@ -43,14 +43,14 @@
     padding: 12px 12px;
     color: $lightgrey;
     width: 100%;
-
+    font-style: italic;
     &:hover {
       color: black;
     }
 
     &.active {
       color: black;
-      font-style: italic;
+      font-style: normal;
     }
   }
 }

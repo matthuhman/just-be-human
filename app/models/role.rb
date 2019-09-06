@@ -47,6 +47,8 @@ class Role
     req_role.problem_id = p_id
 
     # if the user is currently a "follower", set their status to "volunteer"
+    binding.pry
+    
     if prob_role.level == 4
       prob_role.level = 3
       prob_role.title = "Volunteer"

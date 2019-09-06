@@ -4,13 +4,13 @@
     
 
     <% if !@role && current_user %>
-      <%= link_to 'Follow Problem', problems_follow_path(problem_id: @problem.id), class: "btn btn-outline-primary" %>
+      <%= link_to 'Follow Problem', problems_follow_path(problem_id: @problem.id), class: "btn btn-outline-primary follow-problem-button" %>
     <% elsif !current_user %>
-      <%= link_to 'Sign In', "/users/sign_in" %>
+      <%= link_to 'Sign In', "/users/sign_in", class="problem-sign-in-button" %>
     <% elsif @role.level == 4 %>
-      <%= link_to 'Unfollow Problem', problems_unfollow_path(problem_id: @problem.id), class: "btn btn-outline-primary" %>
+      <%= link_to 'Unfollow Problem', problems_unfollow_path(problem_id: @problem.id), class: "btn btn-outline-primary unfollow-problem-button" %>
     <% elsif @role.level == 2 %>
-      <%= link_to 'Step down as Supervisor', problems_demote_user_path(problem_id: @problem.id, target_user_id: @role.user_id), class: "btn btn-outline-primary" %>
+      <%= link_to 'Step down as Supervisor', problems_demote_user_path(problem_id: @problem.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
     <% end %>
   </div>
 

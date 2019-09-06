@@ -56,7 +56,7 @@
   <% end %>
 </div>
 
-<% if !@req_level %>
+<% if !@req_level && @prob_level %>
   <a href="/requirements/participate?requirement_id=<%= @requirement.id %>">
     <div class="volunteer-btn-div">
       Volunteer to help!
@@ -78,14 +78,14 @@
           </a>
         </div>
       <% end %>
-      <% if current_user && (@req_level || @prob_level <= 2) %>
+      <% if current_user && (@req_level || (@prob_level && @prob_level <= 2)) %>
         <div class="add-post-button">
           <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
         </div>
       <% end %>
     </div>
-
   </div>
+</div>
 
 
 
@@ -93,7 +93,7 @@
   <%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
 <% end %>
 
-<% if @prob_level <= 2 || req_level < 2 %>
+<% if @prob_level && (@prob_level <= 2 || req_level < 2) %>
   <%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
 <% end %>
 
