@@ -42,9 +42,14 @@
 
 .nav-link {
 
-  color: $limegreen !important;
+  color: $midgrey !important;
   text-transform: uppercase;
   font-size: 1.4rem;
+}
+
+.btn-outline-dark {
+  color: $midgrey !important;
+  border: 1px solid $midgrey !important;
 }
 
 .mobile-nav {
