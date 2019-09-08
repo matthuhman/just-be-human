@@ -26,19 +26,16 @@
   <div class="form-inputs">
     <div class="donation-email-input">
       <div class="donation-email-label">
-        What's your preferred email?
+        Interested in helping get the word out?
       </div>
       <%= f.email_field :email, :required => true, placeholder: "my@email.com" %>
-    </div>
-    <div class="donation-booleans">
-      <%= f.input :donate, label: "I'm interested in donating!", checked: true %>
-      <%= f.input :marketing, label: "I'd like to help with getting the word out." %>
+      <%= f.hidden_field :marketing, value: true %>
     </div>
   </div>
 
 
 
   <div class="form-actions">
-    <%= f.button :submit, "Keep me posted!", class: "btn-success btn-block btn-lg" %>
+    <%= f.button :submit, "Keep me posted!", class: "btn btn-mktg-helper btn-block btn-lg" %>
   </div>
 <% end %>

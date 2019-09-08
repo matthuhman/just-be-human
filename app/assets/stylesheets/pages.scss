@@ -149,7 +149,6 @@
 
     & div {
       transform: scale(.98);
-
     }
   }
 }
@@ -273,13 +272,28 @@
   text-align: center;
 }
 
-.donation-info-title {
-  padding-left: 1vw;
-  padding-top: 3vh;
+.donation-widget {
+  margin-top: -10vh;
+//  margin-bottom: -10vh;
+  height: 70vh;
+  width: 100vw;
 }
 
-.donation-info-container {
-  padding-right: 20vw;
+.btn-mktg-helper {
+  background-color: $limegreen !important;
+  color: black !important;
+  border: 1px solid $midgrey !important;
+  margin-bottom: 2vh;
+}
+
+.signup-disclaimer {
+  padding-left: 5vw;
+  padding-right: 5vw;
+  text-align: center;
+}
+
+#regForm {
+  margin: 1vh auto !important;
 }
 
 .donation-email-label {
