@@ -47,8 +47,7 @@ class Role
     req_role.problem_id = p_id
 
     # if the user is currently a "follower", set their status to "volunteer"
-    binding.pry
-    
+
     if prob_role.level == 4
       prob_role.level = 3
       prob_role.title = "Volunteer"
@@ -61,10 +60,10 @@ class Role
 
     if req_role.save
       Requirement.increment_counter(:volunteer_count, req_id)
-      return true
+      true
     else
       ReportedError.report("Role.volunteer_req", req_role.errors, 1000)
-      return false
+      false
     end
   end
 
@@ -92,7 +91,7 @@ class Role
       end
     end
 
-    return true
+    true
   end
 
 
@@ -110,14 +109,14 @@ class Role
         if increment_vol_counter
           Problem.increment_counter(:volunteer_count, p_id)
         end
-        return true
+        true
       else
         ReportedError.report("Role.make_supervisor", prob_role.errors, 1000)
-        return false
+        false
       end
     else
       ReportedError.report("Role.make_supervisor", "trying to promote prob_role that doesn't exist?? Framework logic error!!!", 1000)
-      return false
+      false
     end
   end
 

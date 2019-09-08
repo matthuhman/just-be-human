@@ -3,6 +3,7 @@
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
   </div>
+
   <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)">
     <h3>Filters</h3>
     <div class="filter-container">
@@ -34,7 +35,7 @@
     <div class="homepage-header">
       <div class="tab hp">
         <button class="tablinks hp" onclick="openTab(event, 'probs-near-me')" id="defaultOpen">Open Opportunities</button>
-        <button class="tablinks hp" onclick="openTab(event, 'my-probs')">Active Opportunities</button>
+        <button class="tablinks hp" onclick="openTab(event, 'my-probs')">My Opportunities</button>
       </div>
     </div>
     <div id="probs-near-me" class="tabcontent hp">
@@ -54,7 +55,9 @@
       <% end %>
     </div>
   </aside>
+  
   <div id="map" class="map-div"></div>
+  
 </div>
 
 <script>

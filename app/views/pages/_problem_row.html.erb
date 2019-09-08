@@ -31,10 +31,13 @@
 
       <div class="problem-meta">
         <div class="problem-row-data">
-          <div class="problem-row-data-header">Completion Date: </div><%= problem.target_completion_date %> <br>
-          <div class="problem-row-data-header">Category: </div> <%= problem.category_title %> <br>
+          <div class="problem-row-data-header">Completion Date: </div>
+          <div class="problem-row-data-content"><%= problem.target_completion_date %></div>
+          <div class="problem-row-data-header">Category: </div> 
+          <div class="problem-row-data-content"><%= problem.category_title %> </div>
           <% if role_title %>
-            <div class="problem-row-data-header">Role: </div> <div class="problem-row-role-title"><%= role_title %> </div>
+            <div class="problem-row-data-header">Role: </div>
+            <div class="problem-row-data-content"><%= role_title %> </div> 
           <% end %>
         </div>
       </div>

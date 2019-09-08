@@ -90,6 +90,7 @@
 
 .filter.floater {
   left: 52%;
+  margin-top: 3vh;
   cursor: pointer;
 
   @include respond-to(handhelds) {
@@ -113,6 +114,7 @@
 
 .current-zip.floater {
   right: 0;
+  margin-top: 3vh;
 }
 
 .zip-floater {
@@ -122,8 +124,12 @@
 }
 
 .problem-row {
-  border-bottom: 2px solid $lightgrey;
-
+  margin: 14px;
+  border: 1px solid $lightgrey;
+  border-radius: 10px;
+  //border-bottom: 2px solid $lightgrey;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 12px;
+ 
   transition: all .1s linear;
 
 //  & a {
@@ -143,16 +149,42 @@
 
     & div {
       transform: scale(.98);
+
     }
   }
 }
 
 #map {
-  border: 1rem solid white;
+  border: 1em solid white;
+}
+
+
+.new-opportunity {
+  right: 2vw;
+  bottom: 2vh;
+  height: 8vh;
+  width: 15vw;
+}
+
+.btn-new-opportunity {
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw;
+  width: 15vw;
+  height: 9vh;
+  background-color: $limegreen !important;
+  color: black !important;
+
+  text-align: center;
+  font-size: 1.4em !important;
+  text-transform: uppercase;
+
+  border: 2px solid $midgrey !important;
+  border-radius: 5px !important;
 }
 
 .map-div {
-  padding: 1rem;
+  padding: 1em;
 }
 
 .no-open-problems {
@@ -162,7 +194,7 @@
 
 .problem-title {
   padding-top: 1vh;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   color: black;
 }
 
@@ -174,20 +206,20 @@
 }
 
 .problem-row-data {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   width: auto;
-  color: $midgrey;
+  color: black;
 }
 
 .volunteers-needed {
-  font-size: 0.8rem;
+  font-size: 0.13em;
   text-align: right;
 }
 
 .problem-meta-volunteers {
   text-align: right;
   float: right;
-  font-size: 4rem;
+  font-size: 4em;
   padding-right: 1vw;
   padding-left: 3vw;
 }
@@ -199,7 +231,9 @@
 }
 
 .problem-row-data-header {
-  font-size: 1rem;
+  font-size: 0.9em;
+  color: $midgrey;
+  padding-left: 1vw;
 }
 
 .problem-volunteers-needed {
@@ -213,7 +247,7 @@
 
 .problem-defined-wrapper {
   color: $limegreen;
-  font-size: 2.3rem;
+  font-size: 2.3em;
 }
 
 .problem-abstract-wrapper {
