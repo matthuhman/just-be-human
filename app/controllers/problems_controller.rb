@@ -121,19 +121,19 @@ class ProblemsController < ApplicationController
     end
   end
 
-  def volunteer
-    @problem = Problem.find(params[:problem_id])
-    req_id = 1## @arren fix this
-    respond_to do |format|
-      if Role.volunteer(current_user.id, req_id, @problem.id)
-        format.html { redirect_to @problem, notice: 'You have volunteered!' }
-        format.json { render :show, status: :created, location: @problem }
-      else
-        format.html { redirect_to @problem, notice: 'You have not volunteered for this problem successfully' }
-        format.json { render :show, status: :unprocessable_entity, location: @problem }
-      end
-    end
-  end
+  # def volunteer
+  #   @problem = Problem.find(params[:problem_id])
+  #   req_id = params[:requirement_id]
+  #   respond_to do |format|
+  #     if Role.volunteer(current_user.id, req_id, @problem.id)
+  #       format.html { redirect_to @problem, notice: 'You have volunteered!' }
+  #       format.json { render :show, status: :created, location: @problem }
+  #     else
+  #       format.html { redirect_to @problem, notice: 'You have not volunteered for this problem successfully' }
+  #       format.json { render :show, status: :unprocessable_entity, location: @problem }
+  #     end
+  #   end
+  # end
 
 
   #
