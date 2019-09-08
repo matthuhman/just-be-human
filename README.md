@@ -90,19 +90,16 @@ Rails 5.2
 
 # Arren todo:
  * home page design
-  - update style
-  - clickable problem cards (remove links)
-    - edit and delete from show page
-  - tabs for near me / my problems
-    - near me tab has filter by category
- * fix up problem show page
- * Posts
-    - write code once for both problems/ milestones
- * Comments
-    - write code once for both problems/ milestones
- * sticky footer -- DONE
- * open specific problem tab on load and after modal submit
- * get rid of my problems page
- * filters on hp by problem title, category, defined t/f, volunteers needed t/f
+  <!-- - update style -->
+  <!-- - clickable problem cards (remove links) -->
+    <!-- - edit and delete from show page -->
+  <!-- - tabs for near me / my problems -->
+    <!-- - near me tab has filter by category -->
+ * fix up problem show page for mobile
+ * active zip on home page editable and get rid of the search form
+ <!-- * sticky footer -- DONE -->
+ <!-- * open specific problem tab on load and after modal submit -->
+ <!-- * get rid of my problems page -->
+ <!-- * filters on hp by problem title, category, defined t/f, volunteers needed t/f -->
 
  * Action Mailer Design -- wait for later
