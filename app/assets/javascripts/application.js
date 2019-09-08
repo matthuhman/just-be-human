@@ -21,6 +21,7 @@
 //= require chartkick
 //= require Chart.bundle
 //= require local-time
+//= require introjs
 
 
 // this will make flash messages disappear after a few seconds on-screen
