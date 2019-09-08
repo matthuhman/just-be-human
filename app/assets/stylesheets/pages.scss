@@ -257,19 +257,20 @@
 
 // ========DONATE PAGE STYLING========
 
-.donation-booleans {
-  text-align: center;
-  font-size: 1.5em;
-}
 
 .donation-email-input {
   font-size: 2em;
   text-align: center;
+
 }
 
 
 .donation-signup-error {
+  padding-top: 5vh;
   text-align: center;
+  color: red;
+  margin-bottom: -3vh;
+  font-size: 2em;
 }
 
 .donation-widget {
@@ -279,11 +280,21 @@
   width: 100vw;
 }
 
+.form-inputs {
+  border-top: 2px solid $lightgrey !important;
+  margin-left: 10vw !important;
+  margin-right: 10vw !important;
+}
+
 .btn-mktg-helper {
   background-color: $limegreen !important;
   color: black !important;
   border: 1px solid $midgrey !important;
   margin-bottom: 2vh;
+  margin-top: 4vh;
+  text-align: center;
+  padding-right: 30vw !important;
+  padding-left: 30vw !important;
 }
 
 .signup-disclaimer {
@@ -292,18 +303,8 @@
   text-align: center;
 }
 
-#regForm {
-  margin: 1vh auto !important;
-}
-
 .donation-email-label {
   padding-bottom: 2vh;
-}
-
-.form-actions {
-  padding-top: 4vh;
-  padding-right: 20%;
-  padding-left: 20%;
 }
 
 .donation-email-input {

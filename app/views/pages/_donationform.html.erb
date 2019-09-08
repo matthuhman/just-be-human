@@ -2,6 +2,11 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
+  <div class="donation-widget">
+    <iframe frameborder = "0" height="100%" scrolling="no"  src = "https://give.donatekindly.org/jb701/makedonation/donation/d6efeb1e-5dd3-4f04-bbe5-51890ba2eddb"  width="100%"></iframe>
+  </div>
+
+
   <ul>
     <% @donation.errors.full_messages.each do |message| %>
       <div class="donation-signup-error">
@@ -14,7 +19,7 @@
         <% elsif message.include? "taken" %>
           <div class="taken-email-error">
             <p>
-              That email is already in our system!
+              You're already signed up!
             </p>
           </div>
         <% end %>
@@ -23,6 +28,7 @@
 
   </ul>
 
+
   <div class="form-inputs">
     <div class="donation-email-input">
       <div class="donation-email-label">
@@ -30,12 +36,14 @@
       </div>
       <%= f.email_field :email, :required => true, placeholder: "my@email.com" %>
       <%= f.hidden_field :marketing, value: true %>
+
     </div>
+    <%= f.button :submit, "I'd like to help!", class: "btn btn-mktg-helper" %>
   </div>
 
 
 
   <div class="form-actions">
-    <%= f.button :submit, "Keep me posted!", class: "btn btn-mktg-helper btn-block btn-lg" %>
+    
   </div>
 <% end %>
