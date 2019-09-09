@@ -13,7 +13,6 @@ class PersonalMessagesController < ApplicationController
         flash[:success] = "Your message was sent!"
         redirect_to conversation_path(@conversation)
       else
-        # if @personal_message.errors
         flash[:alert] = "Your message was not sent!"
         redirect_to conversation_path(@conversation)
       end
@@ -30,20 +29,20 @@ class PersonalMessagesController < ApplicationController
 
   private
 
-  def personal_message_params
-    params.require(:personal_message).permit(:body)
-  end
-
-  def find_conversation!
-    if params[:receiver_id]
-      @receiver = User.find_by(id: params[:receiver_id])
-      redirect_to(root_path) and return unless @receiver
-      @conversation = Conversation.between(current_user.id, @receiver.id)[0]
-    else
-      @conversation = Conversation.find_by(id: params[:conversation_id])
-      @receiver = @conversation.receiver
-      redirect_to(root_path) and return unless @conversation && @conversation.participates?(current_user)
+    def personal_message_params
+      params.require(:personal_message).permit(:body)
     end
-  end
+
+    def find_conversation!
+      if params[:receiver_id]
+        @receiver = User.find_by(id: params[:receiver_id])
+        redirect_to(root_path) and return unless @receiver
+        @conversation = Conversation.between(current_user.id, @receiver.id)[0]
+      else
+        @conversation = Conversation.find_by(id: params[:conversation_id])
+        @receiver = @conversation.receiver
+        redirect_to(root_path) and return unless @conversation && @conversation.participates?(current_user)
+      end
+    end
 
 end
