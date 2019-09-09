@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   get '/requirements/participate' => 'requirements#participate'
   get '/requirements/cancel' => 'requirements#cancel_participation'
 
+  resources :personal_messages, only: [:create]
+  resources :conversations, only: [:index, :show]
+  resources :personal_messages, only: [:new, :create]
+  
 
   resources :problems, :comments, :posts, :requirements
 

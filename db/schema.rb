@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_174601) do
+ActiveRecord::Schema.define(version: 2019_09_09_065029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(version: 2019_09_02_174601) do
     t.index ["requesting_user_id"], name: "index_contact_requests_on_requesting_user_id"
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "author_id"
+    t.uuid "receiver_id"
+    t.index ["author_id", "receiver_id"], name: "index_conversations_on_author_id_and_receiver_id", unique: true
+    t.index ["author_id"], name: "index_conversations_on_author_id"
+    t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
+  end
+
   create_table "costs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "fetch_date", default: -> { "CURRENT_TIMESTAMP" }
     t.float "daily_cost"
@@ -101,6 +111,16 @@ ActiveRecord::Schema.define(version: 2019_09_02_174601) do
     t.boolean "dst_flag"
     t.string "coordinates"
     t.index ["zip"], name: "index_geopoints_on_zip"
+  end
+
+  create_table "personal_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "body"
+    t.bigint "conversation_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_id"], name: "index_personal_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_personal_messages_on_user_id"
   end
 
   create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -244,4 +264,6 @@ ActiveRecord::Schema.define(version: 2019_09_02_174601) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "personal_messages", "conversations"
+  add_foreign_key "personal_messages", "users"
 end
