@@ -8,8 +8,8 @@ let attributes = {
 
 let filters = {
   title: '',
-  volunteers: true,
-  defined: true,
+  volunteers: false,
+  defined: false,
   category: 'all'
 }
 
@@ -61,6 +61,7 @@ function handleTextInput(e) {
 function handleCheckbox(e) {
   let attribute = attributes[e.target.id]
   filters[attribute] = e.target.checked;
+  console.log(filters);
 
   filterProblems()
 }
@@ -72,15 +73,15 @@ function handleSelect(e) {
 }
 
 function filterProblems(){
-  // handles all filters in one
   nearProbs.forEach(checkProblem)
   myProbs.forEach(checkProblem)
 }
 
 function checkProblem(prob) {
   let regFilter = new RegExp(filters.title, 'i')
-  prob.style.display = 'block'; // start fresh every time
   let title = prob.querySelector('.problem-title').innerText.toLowerCase()
+  prob.style.display = 'block'; // start fresh every time
+
   if (filters.volunteers && prob.dataset.volunteers === "false") {
     prob.style.display = 'none';
   }

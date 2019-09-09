@@ -51,6 +51,7 @@ gem 'groupdate'
 gem 'webpacker'
 gem 'railties' 
 gem 'local_time'
+gem "introjs-rails"
 
 gem "actiontext", "6.0.0.rc1", github: "rails/actiontext"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’
