@@ -24,9 +24,112 @@
 //= require introjs
 
 
+let intro;
+
 // this will make flash messages disappear after a few seconds on-screen
 $(function() {
   setTimeout(function(){
     $('.alert').slideUp(500);
   }, 4000);
 });
+
+
+
+
+// and check for it when deciding whether to start. 
+window.addEventListener('load', function() {
+  var path = window.location.pathname;
+  if (!hasIntro(path)) return;
+  intro = introJs();
+
+  intro.setOptions(getSteps(path));
+  //add a flag when we're done
+  intro.oncomplete(function() {
+    console.log("Introjs tour is done! Path: " + window.location.pathname);
+    localStorage.setItem(window.location.pathname, 'done');
+  });
+
+  // add a flag when we exit
+  intro.onexit(function(path) {
+    console.log("Introjs tour was exited! Path: " + window.location.pathname);
+     localStorage.setItem(window.location.pathname, 'done');
+  });
+
+  var doneTour = localStorage.getItem(path) === 'done';
+  if (doneTour) return;
+  intro.start();
+});
+
+
+function hasIntro(path)
+{
+  var shouldIntro = false;
+  switch (path) {
+    case "/":
+      return true;
+    case "/problems/new":
+      return true;
+    default:
+      return false;
+  }
+}
+
+
+function getSteps(path) {
+  var steps;
+
+  switch (path) {
+    case "/":
+      steps = {
+        steps: [
+          {
+            intro: "Welcome to Just Be Human! This platform is designed to allow you to quickly and easily define volunteer opportunities in your local community!"
+          },
+          {
+            element: '#home-step1',
+            intro: 'You can click the logo at any time to return to this page.'
+          },
+          {
+            element: '#home-step2',
+            intro:"Have a new volunteer opportunity in mind? You can define it by clicking this button."
+          },
+          {
+            element: '#home-step3',
+            intro: "You can use this to change the postal code you're viewing opportunities for."
+          },
+          {
+            element: '#home-step4',
+            intro: "You can use these buttons to switch between the lists of opportunities near you and those you're already following or volunteering for."
+          },
+          {
+            element: document.querySelectorAll('#home-step5')[0],
+            intro: "Select an opportunity to learn more!"
+          }
+        ]
+      }
+      break;
+    case "/problems/new":
+      steps = {
+        steps: [
+          {
+            intro: "This page lets you define a new volunteer opportunity!"
+          },
+          {
+            element: '#new-problem-step1',
+            intro: "Specify a title, description, and category here. A simple title and informative description will be very helpful for finding volunteers!"
+          },
+          {
+            element: '#new-problem-step2',
+            intro: "If you know exactly what your opportunity requires, select 'defined'. If you're still figuring it out, leave the checkbox blank."
+          },
+          {
+            element: '#new-problem-step3',
+            intro: "Using a street address is much better than a postal code. If you don't know an exact address, pick a public park or landmark nearby!"
+          }
+        ]
+      }
+  }
+
+  return steps;
+
+}
