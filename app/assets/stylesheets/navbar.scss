@@ -4,7 +4,7 @@
 .navbar {
   min-height: 10vh;
   font-family: 'Fjalla One', Verdana, Arial, Sans-Serif;
-  
+
   border-bottom: 1px solid $midgrey;
 }
 
@@ -29,8 +29,11 @@
 
 .navbar-logo {
   width: auto;
-  height: 7vh;
-  max-width: 50vh;
+  max-width: 25vw;
+
+  @include respond-to(handhelds) {
+    max-width: 65vw;
+  };
 }
 
 .nav-item {

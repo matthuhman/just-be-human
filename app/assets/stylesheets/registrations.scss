@@ -30,31 +30,21 @@
 
 
 .requirement-row {
-  border-bottom: 1px solid;
   margin-bottom: 2px;
-  padding: 1vh 1vw;
-  background-color: $secondary;
+  padding: 2vh;
+  background: $lightgrey;
   transition: all .2s linear;
 
   & a {
-    color: #fff;
-  }
-
-  & div {
-    transform: scale(.95);
-    transition: all .2s linear;
+    color: #000;
   }
 
   &:hover {
-    background-color: $lightblue;
+    background-color: $midgrey;
 
     & a {
-      color: #fff;
+      color: #000;
       text-decoration: none;
-    }
-
-    & div {
-      transform: scale(.98);
     }
   }
 }

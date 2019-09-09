@@ -1,8 +1,6 @@
 <div class="problem-header">
   <div class="problem-info-summary">
     <h1 class="problem-title"> <%= @problem.title %> </h1>
-    
-
     <% if !@role && current_user %>
       <%= link_to 'Follow Problem', problems_follow_path(problem_id: @problem.id), class: "btn btn-outline-primary follow-problem-button" %>
     <% elsif !current_user %>
@@ -13,29 +11,20 @@
       <%= link_to 'Step down as Supervisor', problems_demote_user_path(problem_id: @problem.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
     <% end %>
   </div>
-
   <div class="problem-info">
     <div class="problem-info-row">
       <span class="follower-count">Created By <span class="follower-count-span"><%= @problem.user.username %></span></span>
-      
+      <span class="follower-count">Category <span class="follower-count-span black"><%= @problem.category_title %></span></span>
+
+      <span class="follower-count">Target Completion <span class="follower-count-span">  <%= @problem.target_completion_date %></span></span>
       <span class="follower-count">
         <%= link_to 'Followers', problems_followers_path(:id => @problem.id), data: { modal: true } %>
         <span class="follower-count-span info"><%= @problem.follower_count %></span>
       </span>
-      <!-- @arren - follower spans could be modal style info graphics
-        followers opens to a list of the followers
-        volunteers opens list of volunteers
-        need way to show they're clickable. maybe underline?
-      -->
-    </div>
-    <div class="problem-info-row">
-      <span class="follower-count">Target Completion <span class="follower-count-span">  <%= @problem.target_completion_date %></span></span>
-      <span class="follower-count">Category <span class="follower-count-span black"><%= @problem.category_title %></span></span>
       <span class="follower-count">Volunteers <span class="follower-count-span info"><%= @problem.volunteer_count %> / <%= @problem.volunteers_required %></span></span>
     </div>
     <p><%= @problem.description %></p>
   </div>
-
 </div>
 
 <div class="tab">

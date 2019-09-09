@@ -9,35 +9,36 @@
     <p><%= User.find(@post.user_id).username %> at <%= local_time(@post.created_at, "%l:%M%P on %-m/%-d/%y") %></p>
   </div>
 </div>
+<div class="container">
 
-
-<% if @post.comments.size == 0 %>
-  <h4>There are no comments on this post. Add a comment?</h4>
-<% else %>
-  <div class="comments-container">
-    <% @post.comments.each do |comment| %>
-      <div class="comment-card">
-        <div class="comment-content">
-          <p><%= comment.content %></p>
+  <% if @post.comments.size == 0 %>
+    <h4>There are no comments on this post. Add a comment?</h4>
+  <% else %>
+    <div class="comments-container">
+      <% @post.comments.each do |comment| %>
+        <div class="comment-card">
+          <div class="comment-content">
+            <p><%= comment.content %></p>
+          </div>
+          <div class="comment-divider"><p></p></div>
+          <div class="comment-meta">
+            <p>Left by: <%= comment.user.username %>  |  At: <%= comment.created_at %></p>
+          </div>
         </div>
-        <div class="comment-divider"><p></p></div>
-        <div class="comment-meta">
-          <p>Left by: <%= comment.user.username %>  |  At: <%= comment.created_at %></p>
-        </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+      <% end %>
+    </div>
+  <% end %>
 
-<h4><%= link_to 'Add a comment', new_comment_path(:post => {:post_id => @post.id}) %></h4>
+  <h4><%= link_to 'Add a comment', new_comment_path(:post => {:post_id => @post.id}) %></h4>
 
-<br>
-<br>
-<% if @post.user_has_permissions(current_user.id) %>
-<%= link_to 'Edit', edit_post_path(@post) %>  |  
-<%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %> 
-<% end %>
+  <br>
+  <br>
+  <% if @post.user_has_permissions(current_user.id) %>
+  <%= link_to 'Edit', edit_post_path(@post) %>  |
+  <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
+  <% end %>
 
-<br>
-<br>
-<%= link_to 'Back to parent problem/requirement', @parent %>
+  <br>
+  <br>
+  <%= link_to 'Back to parent problem/requirement', @parent %>
+</div>
