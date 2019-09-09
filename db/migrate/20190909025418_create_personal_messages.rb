@@ -13,7 +13,7 @@ class CreatePersonalMessages < ActiveRecord::Migration[6.0]
   def change
     create_table :personal_messages, id: :uuid do |t|
       t.text :body
-      t.belongs_to :conversation, null: false, foreign_key: true
+      t.belongs_to :conversation, null: false, foreign_key: true, type: :uuid
       t.belongs_to :user, null: false, foreign_key: true, type: :uuid
 
       t.timestamps
