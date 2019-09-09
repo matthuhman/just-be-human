@@ -38,8 +38,14 @@ $(function() {
 
 // and check for it when deciding whether to start. 
 window.addEventListener('load', function() {
+  console.log('how often does this get run?');
   var path = window.location.pathname;
+  
+  // return if path doesn't have an intro or if we've already shown it 
+  // on this browser
   if (!hasIntro(path)) return;
+  if (localStorage.getItem(path) === 'done') return;
+
   intro = introJs();
 
   intro.setOptions(getSteps(path));
@@ -53,8 +59,7 @@ window.addEventListener('load', function() {
      localStorage.setItem(window.location.pathname, 'done');
   });
 
-  var doneTour = localStorage.getItem(path) === 'done';
-  if (doneTour) return;
+
   intro.start();
 });
 
@@ -73,12 +78,12 @@ function hasIntro(path)
 }
 
 
-function getSteps(path) {
-  var steps;
-
+function getSteps(path) 
+{
   switch (path) {
     case "/":
-      steps = {
+      return 
+      {
         steps: [
           {
             intro: "Welcome to Just Be Human! This platform is designed to allow you to quickly and easily define volunteer opportunities in your local community!"
@@ -107,7 +112,8 @@ function getSteps(path) {
       }
       break;
     case "/problems/new":
-      steps = {
+      return 
+      {
         steps: [
           {
             intro: "This page lets you define a new volunteer opportunity!"
@@ -126,8 +132,7 @@ function getSteps(path) {
           }
         ]
       }
+    default:
+      return {};
   }
-
-  return steps;
-
 }

@@ -69,7 +69,11 @@
   //          infoWindowObj.open(map, markerObj);
   //           };
   // };
-  function initMap(openOrActive){
+  function initMap(){
+    if (map != undefined) {
+      console.log("map is not undefined");
+      return;
+    }
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
       zoom: 14,
