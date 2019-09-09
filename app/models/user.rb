@@ -9,8 +9,15 @@ class User < ApplicationRecord
   has_many :requirement_roles, :dependent => :destroy
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
-  has_many :outbound_requests, foreign_key: "requesting_user_id", class_name: "ContactRequest", :dependent => :destroy
-  has_many :inbound_requests, foreign_key: "requested_user_id", class_name: "ContactRequest", :dependent => :destroy 
+  #has_many :outbound_requests, foreign_key: "requesting_user_id", class_name: "ContactRequest", :dependent => :destroy
+  #has_many :inbound_requests, foreign_key: "requested_user_id", class_name: "ContactRequest", :dependent => :destroy 
+
+
+  has_many :authored_conversations, class_name: 'Conversation', foreign_key: 'author_id'
+  has_many :received_conversations, class_name: 'Conversation', foreign_key: 'received_id'
+  has_many :personal_messages, :dependent => :destroy
+  # ...
+
 
   validate :number_free_names
   

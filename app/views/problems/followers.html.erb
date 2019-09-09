@@ -17,9 +17,7 @@
             <% end %>
           <% end %>
           <% if @role && @role.level <= 3 && role.level <= 3 && current_user.id != role.user_id %>
-            <% if !ContactRequest.find_by(requesting_user_id: current_user.id, requested_user_id: role.user_id) %>
-            <% #:contact_request => { requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
-              | <%= link_to 'Send contact request', controller: "users", action: "request_contact_info", :contact_request => {requesting_user_id: current_user.id, requested_user_id: role.user_id, problem_id: @problem.id } %>
+              |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user) %>
             <% end %>
           <% end %>
         </span>
