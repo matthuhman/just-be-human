@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
 
-  before_action :authenticate!
+  before_action :authenticate_user!
   # ...
   before_action :set_conversation, except: [:index]
   before_action :check_participating!, except: [:index]

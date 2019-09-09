@@ -18,7 +18,6 @@
           <% end %>
           <% if @role && @role.level <= 3 && role.level <= 3 && current_user.id != role.user_id %>
               |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user) %>
-            <% end %>
           <% end %>
         </span>
       </p>
