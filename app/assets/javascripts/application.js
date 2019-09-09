@@ -45,13 +45,11 @@ window.addEventListener('load', function() {
   intro.setOptions(getSteps(path));
   //add a flag when we're done
   intro.oncomplete(function() {
-    console.log("Introjs tour is done! Path: " + window.location.pathname);
     localStorage.setItem(window.location.pathname, 'done');
   });
 
   // add a flag when we exit
-  intro.onexit(function(path) {
-    console.log("Introjs tour was exited! Path: " + window.location.pathname);
+  intro.onexit(function() {
      localStorage.setItem(window.location.pathname, 'done');
   });
 
