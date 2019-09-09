@@ -3,7 +3,7 @@ class PersonalMessagesController < ApplicationController
 
   def create
 
-    if Problem.users_are_volunteers(current_user.id, @receiver.id) 
+    if Conversation.can_have_conversation(current_user, @receiver) 
       @conversation ||= Conversation.create(author_id: current_user.id,
                                           receiver_id: @receiver.id)
       @personal_message = current_user.personal_messages.build(personal_message_params)
@@ -18,7 +18,7 @@ class PersonalMessagesController < ApplicationController
         redirect_to conversation_path(@conversation)
       end
     else
-      flash[:alert] = "You don't share any volunteer opportunities with #{@receiver.username}."
+      flash[:alert] = "You cannot have a private conversation with #{@receiver.username}"
       redirect_to root_path
     end
   end
