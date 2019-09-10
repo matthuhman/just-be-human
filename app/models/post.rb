@@ -1,3 +1,6 @@
+require 'yaml'
+require 'obscenity/active_model'
+
 class Post < ApplicationRecord
 
   belongs_to :postable, polymorphic: true
@@ -6,6 +9,10 @@ class Post < ApplicationRecord
 
   validates_presence_of :title, message: "must be present."
   validates_presence_of :content, message: "must be present."
+
+  # profanity validations
+  validates :title, obscenity: true
+  validates :content, obscenity: { sanitize: true, replacement: '[censored]'}
 
   def user_has_permissions(user_id)
     if (self.postable_type == "Requirement")

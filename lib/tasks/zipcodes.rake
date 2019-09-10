@@ -71,7 +71,7 @@ namespace :zipcodes do
       state = State.find_by_abbr!(row['state'])
       begin
         county = County.find_by_name_and_state_id!(row['county'], state.to_param)
-      rescue Exception => e
+      rescue StandardError => e
         puts ">>> e: [#{e}]"
         puts ">>>> No county found for zipcode: [#{row['code']}], '#{row['city']}, #{row['state']}, #{row['county']}... SKIPPING..."
         next
@@ -103,7 +103,7 @@ namespace :zipcodes do
         csv << [
           state.abbr,
           state.name
-          ]
+        ]
       end
     end
     filename = "all_us_states.csv"
@@ -122,7 +122,7 @@ namespace :zipcodes do
           county.name,
           county.state.abbr,
           county.county_seat
-          ]
+        ]
       end
     end
     filename = "all_us_counties.csv"
@@ -145,7 +145,7 @@ namespace :zipcodes do
           zip.area_code,
           zip.lat,
           zip.lon
-          ]
+        ]
       end
     end
     filename = "all_us_zipcodes.csv"

@@ -15,9 +15,6 @@ class RequirementsController < ApplicationController
       @planned = params[:requirement][:defined]
       # 
     end
-
-    # 
-
     respond_modal_with @requirement
   end
 
@@ -130,11 +127,25 @@ class RequirementsController < ApplicationController
     end
   end
 
-  def mark_complete
+  def change_completion_status
     @requirement = Requirement.find(:requirement_id)
-    
-    requirement.complete = true;
-
+    current_status = @requirement.complete
+    @problem = @requirement.problem
+    respond_to do |format|
+      if @requirement.user_has_mod_permissions(current_user.id) || @problem.user_has_mod_permissions
+        requirement.complete = !current_status;
+        if requirement.save
+          format.html { redirect_to @requirement, success: "This requirement is complete!" }
+          format.json { render :show, status: ok, location: @requirement }
+        else
+          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        end
+      else
+        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement complete." }
+        format.json { render :show, status: :forbidden, location: @requirement }
+      end
+    end
   end
 
 

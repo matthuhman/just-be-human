@@ -43,7 +43,7 @@
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 30% 70%;
   }
 }
 
@@ -100,6 +100,10 @@
 
 .filter.show-filter {
   min-height: 20vh;
+
+  @include respond-to(handhelds) {
+    width: 95%;
+  }
 }
 
 .filter-container {
@@ -129,7 +133,7 @@
   border-radius: 10px;
   //border-bottom: 2px solid $lightgrey;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 12px;
- 
+
   transition: all .1s linear;
 
 //  & a {
@@ -142,7 +146,7 @@
   }
 
   &:hover {
-    
+
     & a {
       text-decoration: none;
     }
@@ -152,11 +156,6 @@
     }
   }
 }
-
-#map {
-  border: 1em solid white;
-}
-
 
 .new-opportunity {
   right: 2vw;
@@ -199,9 +198,9 @@
 
 .problem-row-definition {
   padding-top: 1vh;
-  
+
   //float:right;
-  text-align: right; 
+  text-align: right;
 }
 
 .problem-row-data {

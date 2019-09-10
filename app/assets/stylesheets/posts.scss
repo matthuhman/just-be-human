@@ -7,7 +7,8 @@
 .original-post {
   padding-left: 1vw;
   padding-bottom: 3vh;
-  background-color: #959CA0;
+  margin-bottom: 30px;
+  background-color: $midgrey;
 }
 
 .original-post-title {
@@ -25,7 +26,7 @@
   padding-left: 4vw;
   padding-right: 10vw;
   font-size: 1.3rem;
-  
+
 }
 
 .original-post-meta {
@@ -35,7 +36,7 @@
 
 
 .comments-container {
-  
+
 }
 
 .comment-card {
@@ -51,7 +52,7 @@
  width: 80%;
  text-align: center;
  background-color: black;
-} 
+}
 
 .comment-content {
   padding-left: 3vw;
