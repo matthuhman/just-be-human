@@ -48,3 +48,7 @@ yarn.lock
 
 # ignore coverage folder
 /coverage/*
+
+
+# ignore the rubocop output file
+rubocop.txt
