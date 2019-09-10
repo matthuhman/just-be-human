@@ -138,14 +138,14 @@ class Role
         if decrement_volunteer_counter
           Problem.decrement_counter(:volunteer_count, p_id)
         end
-        return true
+        true
       else
         ReportedError.report("Role.remove_supervisor", prob_role.errors, 1000)
-        return false
+        false
       end
     else
       ReportedError.report("Role.remove_supervisor", "framework logic error", 1000)
-      return false
+      false
     end
   end
 
@@ -153,7 +153,7 @@ class Role
     role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
 
     if role
-      return role.title
+      role.title
     end
   end
 
@@ -162,7 +162,7 @@ class Role
     role = ProblemRole.find_by(user_id: u_id, problem_id: p_id)
 
     if role
-      return role.level
+      role.level
     end
   end
 
@@ -171,7 +171,7 @@ class Role
     role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
 
     if role
-      return role.level
+      role.level
     end
   end
 

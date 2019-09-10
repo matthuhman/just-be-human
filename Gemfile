@@ -49,12 +49,13 @@ gem 'geocoder'
 gem 'chartkick'
 gem 'groupdate'
 gem 'webpacker'
-gem 'railties' 
+gem 'railties'
 gem 'local_time'
 gem "introjs-rails"
 gem 'emoji'
 gem 'rubocop'
 gem 'htmlbeautifier'
+gem 'obscenity'
 
 gem "actiontext", "6.0.0.rc1", github: "rails/actiontext"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’

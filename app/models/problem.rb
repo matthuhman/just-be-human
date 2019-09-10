@@ -1,3 +1,6 @@
+require 'yaml'
+require 'obscenity/active_model'
+
 class Problem < ApplicationRecord
   belongs_to :user
   has_many :problem_roles, :dependent => :destroy
@@ -11,7 +14,11 @@ class Problem < ApplicationRecord
   validates_presence_of :title, message: 'You must enter a title.'
   validates_presence_of :description, message: 'You must enter a description.'
   validates_presence_of :address, :unless => :postal_code?, message: 'An address or postcode must be entered.'
+
   validate :title_length
+
+  validates :title, obscenity: true
+  validates :description, obscenity: { sanitize: true, replacement: '[censored]' }
 
   def user_is_admin(user_id)
     user_id == self.user_id
@@ -104,16 +111,14 @@ class Problem < ApplicationRecord
     # just in case someone says as_json(nil) and bypasses
     # our default...
     super((options || { }).merge({
-      :methods => [:category_title]
+                                   :methods => [:category_title]
     }))
   end
 
   private
-
-    def title_length
-      if self.title.size > 60
-        errors.add(:title, "must be less than 60 characters")
-      end
+  def title_length
+    if title.size > 60
+      errors.add(:title, "must be less than 60 characters")
     end
-
+  end
 end

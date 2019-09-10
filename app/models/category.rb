@@ -1,15 +1,17 @@
+require 'yaml'
+
 class Category
 
   #
   # get all category titles
   def self.problem_titles
-    return self.problem_cats.map { |c| c[:title] }
+    problem_cats.map { |c| c[:title] }
   end
 
   #
   # get all category titles with descriptions
   def self.problem_titles_with_desc
-    return self.problem_cats
+    problem_cats
   end
 
   # #
@@ -25,7 +27,7 @@ class Category
   # end
 
   def self.req_titles
-    self.req_cats.map { |c| c[:title] }
+    req_cats.map { |c| c[:title] }
   end
 
   #
@@ -54,7 +56,7 @@ class Category
 
   # map of integer ID's to categories
   private
-  def problem_cats
+  def self.problem_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Community Cleanup", desc: "Community cleanup description" },
@@ -85,7 +87,7 @@ class Category
   # end
 
   # map of Milestone categories
-  def req_cats
+  def self.req_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Planning", desc: "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!" },
@@ -97,7 +99,7 @@ class Category
 
 
   # map of Milestone category index to subcategory array
-  def req_subcats
+  def self.req_subcats
     [
       [ # planning
         { title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },

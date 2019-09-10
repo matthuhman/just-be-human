@@ -18,7 +18,7 @@ class ProblemsController < ApplicationController
       @is_admin = @problem.user_is_admin(current_user.id)
     end
 
-    # 
+    #
   end
 
   # GET /problems/new
@@ -35,12 +35,12 @@ class ProblemsController < ApplicationController
   # POST /problems
   # POST /problems.json
   def create
-    
+
     @categories = Category.problem_titles
     @problem = Problem.new(problem_params)
     @problem.user = current_user
 
-    if !@problem.postal_code.empty?
+    if !@problem.postal_code
       geopoint = Geopoint.find_by(zip: @problem.postal_code)
       if geopoint
         @problem.latitude = geopoint.latitude
@@ -181,13 +181,13 @@ class ProblemsController < ApplicationController
       if (current_user == @problem.user || current_user == target_user_id)
         ## remove the target user as a supervisor
         if Role.remove_supervisor(target_user_id, @problem.id)
-            if (target_user_id != current_user.id)
-              format.html { redirect_to @problem, notice: "User is no longer a Supervisor." }
-              format.json { render :show, status: :ok, location: @problem}
-            else
-              format.html { redirect_to @problem, notice: "You have stepped down as a Supervisor." }
-              format.json { render :show, status: :ok, location: @problem}
-            end
+          if (target_user_id != current_user.id)
+            format.html { redirect_to @problem, notice: "User is no longer a Supervisor." }
+            format.json { render :show, status: :ok, location: @problem}
+          else
+            format.html { redirect_to @problem, notice: "You have stepped down as a Supervisor." }
+            format.json { render :show, status: :ok, location: @problem}
+          end
         else
           format.html { redirect_to @problem, alert: "User was not demoted due to an internal error. It has been logged for investigation." }
           format.json { render :show, status: :unprocessable_entity, location: @problem }
@@ -204,33 +204,33 @@ class ProblemsController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_problem
-      @problem = Problem.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_problem
+    @problem = Problem.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def problem_params
-      params.require(:problem).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def problem_params
+    params.require(:problem).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work)
+  end
 
-    def follow_params
-      params.permit(:problem_id)
-    end
+  def follow_params
+    params.permit(:problem_id)
+  end
 
-    def unfollow_params
-      params.permit(:problem_id)
-    end
+  def unfollow_params
+    params.permit(:problem_id)
+  end
 
-    def promotion_params
-      params.permit(:problem_id, :target_user_id)
-    end
+  def promotion_params
+    params.permit(:problem_id, :target_user_id)
+  end
 
-    def set_time_options
-      @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
-    end
-    # def add_follower_role
-    #   role = Role.new
-    #   return role
-    # end
+  def set_time_options
+    @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
+  end
+  # def add_follower_role
+  #   role = Role.new
+  #   return role
+  # end
 end
