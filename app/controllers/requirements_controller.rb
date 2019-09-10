@@ -131,7 +131,7 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.find(:requirement_id)
     current_status = @requirement.complete
     @problem = @requirement.problem
-    respond_to do |f|
+    respond_to do |format|
       if @requirement.user_has_mod_permissions(current_user.id) || @problem.user_has_mod_permissions
         requirement.complete = !current_status;
         if requirement.save

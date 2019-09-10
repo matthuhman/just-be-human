@@ -57,7 +57,7 @@ class Category
   ## TODO: make these constants so that we're not recreating them every time you reference Category
 
   # map of integer ID's to categories
-  def self.problem_cats
+  private self.problem_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Community Cleanup", desc: "Community cleanup description" },
@@ -67,7 +67,7 @@ class Category
   end
 
   # map of Problem category index to subcategory arrays
-  def self.problem_subcats
+  private self.problem_subcats
     [
       [ # community cleanup
         { title: "Trash pickup", desc: "Pick up some trash, damnit!" },
@@ -87,7 +87,7 @@ class Category
   end
 
   # map of Milestone categories
-  def self.req_cats
+  private self.req_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
       { title: "Planning", desc: "Have things that still need to be figured out? Schedule some time to do it. Prior Planning Prevents Piss Poor Performance!" },
@@ -98,7 +98,7 @@ class Category
   end
 
   # map of Milestone category index to subcategory array
-  def self.req_subcats
+  private self.req_subcats
     [
       [ # planning
         { title: "In-person", desc: "Trying to make plans as a group? In-person is always better." },

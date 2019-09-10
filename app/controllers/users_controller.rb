@@ -29,13 +29,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    
-    # zipcode = Zipcode.find_by_code @user.zip
-
-    # if zipcode.blank?
-    #   format.html { render :new }
-    #   format.json { render json: @user, status: :unprocessable_entity }
-    # end
 
     respond_to do |format|
       if @user.save
@@ -69,59 +62,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to '/', alert: 'Your account was successfully deleted.' }
       format.json { head :no_content }
-    end
-  end
-
-
-  ## GET /contact/request
-  def request_contact_info
-    requesting_user = User.find(contact_params[:requesting_user_id])
-    requested_user = User.find(contact_params[:requested_user_id])
-    problem = Problem.find(contact_params[:problem_id])
-
-    respond_to do |format|
-      if (current_user == requesting_user)
-        if ContactRequest.send_contact_request(requesting_user, requested_user, problem.id)
-          format.html { redirect_to problem, notice: "You have requested #{requested_user.username}'s contact information. You will be notified via email if they accept" }
-          format.json { render :show, status: :created, location: problem }
-        else
-          ReportedError.report("User.request_contact_info", @request.errors, 1000)
-          format.html { redirect_to problem, alert: "An unexpected error occurred when issuing this contact request. The error has been logged for investigation." }
-          format.json { render :show, status: :unprocessable_entity, location: problem }
-        end
-      else
-        format.html { redirect_to problem, alert: "You are not allowed to do that." }
-        format.json { render :show, status: :forbidden, location: problem }
-      end
-    end
-  end
-
-
-  ## GET /contact/response
-  def respond_contact_info
-    req = ContactRequest.find(contact_response_params[:id])
-    accepted = contact_response_params[:accepted]
-
-    respond_to do |format|
-      if req && current_user.id == req.requested_user_id
-        if ContactRequest.contact_response(contact_response_params[:id], accepted) 
-          if req.accepted
-            respond.html { redirect_to current_user, notice: "You have accepted the contact request- they will be notified via email." }
-            respond.json { render :show, status: :accepted, location: current_user }
-          else
-            respond.html { redirect_to current_user, alert: "You have declined to share contact information with #{requesting_user.username}. They will not be notified, and you will automatically decline all future requests from this user." }
-            respond.json { render :show, status: :accepted, location: current_user }
-          end
-        else
-          ReportedError.report("User.repond_contact_info", request.errors, 1000)
-          respond.html { redirect_to current_user, alert: "An unexpected error occurred when responding to this contact request. The error has been logged for investigation." }
-          respond.json { render :show, status: :unprocessable_entity, location: current_user }
-        end
-      else
-        ReportedError.report("User.respond_permissions_breach", current_user.username, 100)
-        respond.html { redirect_to current_user, alert: "You are not allowed to do that."}
-        respond.json { render :show, status: :forbidden, location: current_user }
-      end
     end
   end
 
