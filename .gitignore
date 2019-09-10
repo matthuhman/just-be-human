@@ -51,4 +51,4 @@ yarn.lock
 
 
 # ignore the rubocop output file
-rubocop.txt
+rubocop*.txt
