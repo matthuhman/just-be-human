@@ -17,20 +17,15 @@
                   hint: "Your last name will not be visible to other users." %>
       <%= f.input :postal_code,
                   hint: "This is the postal code your home page will default to." %>
-      <%= f.input :region %>
+      <%= f.input :region,
+                  hint: "You can leave this blank if you're in the United States" %>
       <%= f.input :birth_date, 
-                  label: "Birthday",
-                  hint: "Your birth date will not be visible to other users." %>
-      <%= f.input :phone_number,
-                  hint: "Your phone number will not be visible to other users." %>
-      <div class="user-pi-note">
-        *A quick note about your email, last name, birth date, and phone number- we are building out the ability to allow volunteers over the age of 16 to securely share their contact information with people volunteering for the same projects. All volunteers will have complete control and awareness of who has access to their contact information at all times.
-      </div>
-    </div>
+                  label: "Birth Date",
+                  hint: "This will not be visible to other users." %>
 
     <div class="user-password-change">
       <%= f.input :password,
-                hint: "Leave it blank if you don't want to change your password!",
+                hint: "Leave it blank if you don't want to change your password.",
                 required: false,
                 input_html: { autocomplete: "new-password" } %>
       <%= f.input :password_confirmation,
@@ -40,14 +35,14 @@
 
     <div class="password-confirmation">
       <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
+                hint: "We need your current password to confirm your changes.",
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
     </div>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Update" %>
+    <%= f.button :submit, "Update", class: 'btn btn-block edit-user-update-btn' %>
   </div>
 <% end %>
 

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    binding.pry
+    
   end
 
   # POST /users

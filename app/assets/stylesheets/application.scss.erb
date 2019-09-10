@@ -26,6 +26,10 @@ p, a, span {
 
 }
 
+.btn-success {
+  background-color: $limegreen !important;
+}
+
 .main {
   padding: 4vh 0;
 }
@@ -34,12 +38,15 @@ p, a, span {
   min-height: 75vh;
 }
 
-
-
 #map {
   height: 100%;
   width: 100%;
   margin: auto;
+  border: 1em solid white;
+
+  @include respond-to(handhelds){
+    border: none;
+  };
 }
 
 .alert {
@@ -48,6 +55,9 @@ p, a, span {
 
 .modal-dialog {
   max-width: 60vw;
+  @include respond-to(handhelds) {
+    max-width: 100%;
+  }
 }
 
 .modal-inner {

@@ -3,6 +3,7 @@
 
 .navbar {
   min-height: 10vh;
+
   font-family: 'Montserrat', sans-serif;
   
   border-bottom: 1px solid $midgrey;
@@ -30,8 +31,11 @@
 
 .navbar-logo {
   width: auto;
-  height: 7vh;
-  max-width: 70vw;
+  max-width: 25vw;
+
+  @include respond-to(handhelds) {
+    max-width: 65vw;
+  };
 }
 
 .nav-item {
@@ -44,7 +48,6 @@
 
 
 .nav-link {
-
   color: $midgrey !important;
   text-transform: uppercase;
   font-size: 1.2rem;

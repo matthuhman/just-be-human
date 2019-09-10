@@ -1,102 +1,97 @@
-
-
-<div class="requirement-info">
-  <div class="requirement-info-categories">
-    <div class="requirement-info-category">
-      <small>Category:</small><br><strong><%= @requirement.category_title %></strong>
+<div class="container">
+  <div class="requirement-info">
+    <div class="requirement-info-categories">
+      <div class="requirement-info-category">
+        <small>Category:</small>
+        <strong><%= @requirement.category_title %></strong>
+      </div>
+      <div class="requirement-info-subcategory">
+        <small>Subcategory:</small>
+        <strong><%= @requirement.subcategory_title %></strong>
+      </div>
     </div>
-    <div class="requirement-info-subcategory">
-      <small>Subcategory:</small><br><strong><%= @requirement.subcategory_title %></strong>
+    <h2 class="requirement-title"><%= @requirement.title %></h2>
+    <div class="requirement-info-description">
+      <%= @requirement.description %>
+    </div>
+    <div class="requirement-meta">
+      <p>Priority: <%= @requirement.priority %></p>
+      <p>Estimated difficulty: <%= @requirement.estimated_work.round %>/10</p>
     </div>
   </div>
-  <h2 class="requirement-title"><%= @requirement.title %></h2>
-  <div class="requirement-info-description">
-    <%= @requirement.description %>
-  </div>
-  <div class="requirement-meta">
-    <p>Priority: <%= @requirement.priority %></p>
-    <p>Estimated difficulty: <%= @requirement.estimated_work.round %>/10</p>
-  </div>
-</div>
 
-<% if @overdue %>
-  <div class="overdue-warning">
-    This requirement is overdue!
-  </div>
-<% end %>
-
-<!--  
-  This next part is so that we can use different progress bars based on the percentage. Green if it's < 40% work remaining, orange for 40-70, and red for 70+
-  -->
-<% progress = @requirement.pct_work_remaining %>
-<% progress_display = @requirement.pct_remaining_display %>
-
-<div class="progress-title">
-  <h4>Current status:</h4>
-</div>
-<div class="progress">
-  <% if progress >= 70 %>
-    <div class="progress-bar progress-bar-striped bg-danger" style="width:<%= progress_display %>">
-      <small class="work-remaining">
-        <%= @requirement.current_status %>
-      </small>
-    </div>
-  <% elsif progress >= 40 && progress < 70 %>
-    <div class="progress-bar progress-bar-striped bg-warning" style="width:<%= progress_display %>">
-      <small class="work-remaining">
-        <%= @requirement.current_status %>
-      </small>
-    </div>
-  <% else %>
-    <div class="progress-bar progress-bar-striped bg-success" style="width:<%= progress_display %>">
-      <small class="work-remaining">
-        <%= @requirement.current_status %>
-      </small>
+  <% if @overdue %>
+    <div class="overdue-warning">
+      This requirement is overdue!
     </div>
   <% end %>
-</div>
+  <!--  This next part is so that we can use different progress bars based on the percentage. Green if it's < 40% work remaining, orange for 40-70, and red for 70+  -->
+  <% progress = @requirement.pct_work_remaining %>
+  <% progress_display = @requirement.pct_remaining_display %>
 
-<% if !@req_level && @prob_level %>
-  <a href="/requirements/participate?requirement_id=<%= @requirement.id %>">
-    <div class="volunteer-btn-div">
-      Volunteer to help!
-    </div>
-  </a>
-<% end %>
+  <div class="progress-title">
+    <h4>Current status:</h4>
+  </div>
+  <div class="progress">
+    <% if progress >= 70 %>
+      <div class="progress-bar progress-bar-striped bg-danger" style="width:<%= progress_display %>">
+        <small class="work-remaining">
+          <%= @requirement.current_status %>
+        </small>
+      </div>
+    <% elsif progress >= 40 && progress < 70 %>
+      <div class="progress-bar progress-bar-striped bg-warning" style="width:<%= progress_display %>">
+        <small class="work-remaining">
+          <%= @requirement.current_status %>
+        </small>
+      </div>
+    <% else %>
+      <div class="progress-bar progress-bar-striped bg-success" style="width:<%= progress_display %>">
+        <small class="work-remaining">
+          <%= @requirement.current_status %>
+        </small>
+      </div>
+    <% end %>
+  </div>
 
-<div class="requirement-posts">
-  <div class="posts-container">
-    <h2 class="requirement-posts-title">Posts</h2>
-    <div class="post-list">
-      <% @requirement.posts.each do |post| %>
-        <% post_user = User.find(post.user_id) %>
-        <div class="post-container">
-          <a href="/posts/<%= post.id %>" class="post-link">
-            <p class="post-title"><%= post.title %></p>
-            <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
-            <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
-          </a>
-        </div>
-      <% end %>
-      <% if current_user && (@req_level || (@prob_level && @prob_level <= 2)) %>
-        <div class="add-post-button">
-          <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
-        </div>
-      <% end %>
+  <% if !@req_level && @prob_level %>
+    <a href="/requirements/participate?requirement_id=<%= @requirement.id %>">
+      <div class="volunteer-btn-div">
+        Volunteer to help!
+      </div>
+    </a>
+  <% end %>
+
+  <div class="requirement-posts">
+    <div class="posts-container">
+      <div class="requirement-posts-title">Posts</div>
+      <div class="post-list">
+        <% @requirement.posts.each do |post| %>
+          <% post_user = User.find(post.user_id) %>
+          <div class="post-container">
+            <a href="/posts/<%= post.id %>" class="post-link">
+              <p class="post-title"><%= post.title %></p>
+              <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
+              <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
+            </a>
+          </div>
+        <% end %>
+        <% if current_user && (@req_level || (@prob_level && @prob_level <= 2)) %>
+          <div class="add-post-button">
+            <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
+
+  <div class="link-group d-flex flex-column">
+    <% if @req_level && @req_level >= 2 %>
+    <%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
+    <% end %>
+    <% if @prob_level && (@prob_level <= 2 || (@req_level && @req_level < 2)) %>
+      <%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
+    <% end %>
+    <%= link_to 'Back to parent problem', @problem %>
+  </div>
 </div>
-
-
-
-<% if @req_level && @req_level >= 2 %>
-  <%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
-<% end %>
-
-<% if @prob_level && (@prob_level <= 2 || (@req_level && @req_level < 2)) %>
-  <%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
-<% end %>
-
-
-
-<%= link_to 'Parent problem', @problem %>

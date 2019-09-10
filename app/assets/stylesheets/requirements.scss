@@ -5,36 +5,37 @@
 
 
 .requirement-info {
-  padding-left: 1vw;
+
 }
 
 .requirement-title {
   margin-top: 2vh;
-  margin-left: 2vw;
+
 }
 
+.requirement-info-category, .requirement-info-subcategory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+}
 .requirement-info-categories {
   float: right;
   text-align: right;
-  margin-right: 4vw;
-
-  padding-right: 1vw;
-  padding-left: 1vw;
-
   border: 1px solid black;
   border-radius: 10px;
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .requirement-meta {
-  margin-left: 10vw;
   text-align: left;
 }
 
 .requirement-info-description {
-  margin-left: 4vw;
-  margin-bottom: 4vh;
-  margin-top: 4vh;
-  margin-right: 4vw;
+  margin: 4vh 0;
 }
 
 .overdue-warning {
@@ -47,7 +48,6 @@
 
 
 .progress-title {
-  padding-left: 2vw;
 }
 
 .progress {
@@ -88,4 +88,8 @@
   text-align: center;
   border-top: 3px dotted $darkblue;
   padding-top: 2vh;
+}
+
+.link-group {
+  margin-top: 20px;
 }

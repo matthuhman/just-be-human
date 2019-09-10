@@ -26,23 +26,30 @@
   }
 }
 
+
+
 .problem-header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   min-height: 20vh;
-  padding: 1vh 1vw;
+  padding: 2vh 2vh;
   margin-bottom: 2vh;
 }
 
+.problem-info-summary h1 {
+  margin-right: 20px;
+}
+
 .problem-info-summary {
-  padding: 0 5vw 0 0;
+  display: flex;
+  align-items: center;
 }
 
 .problem-tab-links {
   grid-column: 2;
   height: 100%;
   overflow-y: scroll;
-  background-color: $secondary;
   color: #fff;
 
   & h3 {
@@ -66,8 +73,8 @@
 }
 
 .tab-heading {
-  padding-left: 2vw;
-  padding-bottom: 1vh;
+  margin: 0 1vw 0 0;
+  text-align: center;
 }
 
 .problem-info {
@@ -80,16 +87,25 @@
 .problem-info-row {
   display: flex;
   border-radius: 1rem;
+
+  @include respond-to(handhelds) {
+    flex-direction: column;
+  }
 }
 
 .follower-count {
   display: flex;
   align-items: center;
-  font-size: .6em;
+  font-size: .8em;
   text-transform: uppercase;
   letter-spacing: 2px;
-  height: 6vh;
-  width: 21vw
+  height: 8vh;
+  margin-right: 25px;
+
+  @include respond-to(handhelds){
+    height: 6vh;
+    margin-right: 0;
+  };
 }
 
 .follower-count-span {
@@ -101,58 +117,37 @@
   letter-spacing: 2px;
   margin: 0 .4vw;
   padding: 1vh;
-  background-color: #9b9b9b;
+  background-color: $darkgrey;
   min-height: 4vh;
   min-width: 4vh;
   border-radius: 1rem;
   color: #fff;
 
-  &.success {
-    background-color: $success;
-  }
-
-  &.black {
-    background-color: #000;
-  }
-
-  &.info {
-    background-color: $info;
-  }
+  @include respond-to(handhelds){
+    margin-left: auto;
+  };
 }
 
-
-
 .post-container {
-  padding: 1vh 1vw;
+  padding: 2vh;
   border-radius: 2px;
   border-bottom: 1px solid #fff;
-  background: #053366;
+  background: $lightgrey;
   transition: all .2s linear;
   cursor: pointer;
-  color: white;
+  color: black;
   &:hover {
-    background: #1E2326;
+    background: $midgrey;
   }
 
   &:last-of-type {
     border-bottom: none;
   }
-
-  &:nth-of-type(even) {
-    background: #4099cc;
-
-    &:hover {
-      background: #1E2326;
-    }
-  }
 }
 
-.tab-heading {
-  margin: 0 1vw 0 0;
-}
 
 .post-author {
-  color: #99cc66;
+  color: $limegreen;
   margin: 0;
   font-weight: 1000;
   font-size: 1.2rem;
@@ -163,13 +158,21 @@
     color: white;
     font-weight: 300;
   }
+
+  @include respond-to(handhelds){
+    font-size: .9rem;
+  };
 }
 
 .post-title {
-  color: white;
+  color: black;
   letter-spacing: 2px;
   margin: 0;
   font-size: 1.8rem;
+
+  @include respond-to(handhelds){
+    font-size: 1.4rem;
+  };
 }
 
 .post-link {
@@ -179,7 +182,7 @@
 }
 
 .post-excerpt {
-  color: white;
+  color: black;
   letter-spacing: 2px;
   margin: 0;
   font-style: italic;
