@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_09_065029) do
+ActiveRecord::Schema.define(version: 2019_09_11_224816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -58,22 +58,6 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "contact_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.boolean "active", default: false
-    t.boolean "accepted", default: false
-    t.datetime "accept_time"
-    t.uuid "requesting_user_id"
-    t.uuid "requested_user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "problem_id"
-    t.datetime "response_time"
-    t.index ["requested_user_id", "requesting_user_id"], name: "index_requested_requesting"
-    t.index ["requested_user_id"], name: "index_contact_requests_on_requested_user_id"
-    t.index ["requesting_user_id", "requested_user_id"], name: "index_requesting_requester"
-    t.index ["requesting_user_id"], name: "index_contact_requests_on_requesting_user_id"
-  end
-
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -113,6 +97,45 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.index ["zip"], name: "index_geopoints_on_zip"
   end
 
+  create_table "opportunities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.date "target_completion_date"
+    t.integer "volunteers_required", default: 1
+    t.integer "volunteer_count", default: 1
+    t.boolean "completed", default: false
+    t.string "address"
+    t.string "postal_code"
+    t.integer "category"
+    t.integer "follower_count", default: 1
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "estimated_work", default: 1.0
+    t.boolean "recurring", default: false
+    t.datetime "recurring_period"
+    t.boolean "defined", default: true
+    t.boolean "planned", default: true
+    t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
+    t.index ["planned", "category"], name: "index_opportunities_on_planned_and_category"
+    t.index ["user_id"], name: "index_opportunities_on_user_id"
+  end
+
+  create_table "opportunity_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "level"
+    t.string "title"
+    t.string "note"
+    t.uuid "user_id"
+    t.uuid "opportunity_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["opportunity_id"], name: "index_opportunity_roles_on_opportunity_id"
+    t.index ["user_id", "opportunity_id"], name: "index_opportunity_roles_on_user_id_and_opportunity_id", unique: true
+    t.index ["user_id"], name: "index_opportunity_roles_on_user_id"
+  end
+
   create_table "personal_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "body"
     t.bigint "conversation_id", null: false
@@ -136,45 +159,6 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "problem_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "level"
-    t.string "title"
-    t.string "note"
-    t.uuid "user_id"
-    t.uuid "problem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["problem_id"], name: "index_problem_roles_on_problem_id"
-    t.index ["user_id", "problem_id"], name: "index_problem_roles_on_user_id_and_problem_id", unique: true
-    t.index ["user_id"], name: "index_problem_roles_on_user_id"
-  end
-
-  create_table "problems", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
-    t.date "target_completion_date"
-    t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
-    t.boolean "completed", default: false
-    t.string "address"
-    t.string "postal_code"
-    t.integer "category"
-    t.integer "follower_count", default: 1
-    t.uuid "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "estimated_work", default: 1.0
-    t.boolean "recurring", default: false
-    t.datetime "recurring_period"
-    t.boolean "defined", default: true
-    t.boolean "planned", default: true
-    t.index ["latitude", "longitude"], name: "index_problems_on_latitude_and_longitude"
-    t.index ["planned", "category"], name: "index_problems_on_planned_and_category"
-    t.index ["user_id"], name: "index_problems_on_user_id"
-  end
-
   create_table "reported_errors", force: :cascade do |t|
     t.string "source"
     t.text "errors"
@@ -189,12 +173,10 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.integer "level"
     t.string "title"
     t.string "note"
-    t.integer "problem_id"
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "requirement_id"
-    t.index ["problem_id"], name: "index_requirement_roles_on_problem_id"
     t.index ["user_id", "requirement_id"], name: "idx_one_role_per_user", unique: true
     t.index ["user_id"], name: "index_requirement_roles_on_user_id"
   end
@@ -211,7 +193,7 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.integer "subcategory"
     t.boolean "complete"
     t.string "current_status"
-    t.uuid "problem_id"
+    t.uuid "opportunity_id"
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -222,7 +204,7 @@ ActiveRecord::Schema.define(version: 2019_09_09_065029) do
     t.boolean "defined", default: true
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
-    t.index ["problem_id"], name: "index_requirements_on_problem_id"
+    t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"
     t.index ["user_id"], name: "index_requirements_on_user_id"
   end
 

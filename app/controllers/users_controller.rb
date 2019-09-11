@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    
+
   end
 
   # POST /users
@@ -68,20 +68,20 @@ class UsersController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country)
-    end
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country)
+  end
 
-    def contact_params
-      params.require(:contact_request).permit(:requesting_user_id, :requested_user_id, :problem_id)
-    end
+  def contact_params
+    params.require(:contact_request).permit(:requesting_user_id, :requested_user_id, :opportunity_id)
+  end
 
-    def contact_response_params
-      params.require(:contact_response).(:id, :accepted)
-    end
+  def contact_response_params
+    params.require(:contact_response).(:id, :accepted)
+  end
 end

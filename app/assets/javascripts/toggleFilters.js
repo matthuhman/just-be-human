@@ -2,8 +2,8 @@ let myProbs;
 let nearProbs;
 
 let attributes = {
-  "problem_volunteers": "volunteers",
-  "problem_defined": "defined"
+  "opportunity_volunteers": "volunteers",
+  "opportunity_defined": "defined"
 }
 
 let filters = {
@@ -18,9 +18,9 @@ $(document).on("turbolinks:load", getProbs)
 
 
 function getProbs(){
-  if (document.querySelector("#probs-near-me")){
-    nearProbs = [...document.querySelector("#probs-near-me").children]
-    myProbs = [...document.querySelector("#my-probs").children]
+  if (document.querySelector("#opps-near-me")){
+    nearProbs = [...document.querySelector("#opps-near-me").children]
+    myProbs = [...document.querySelector("#my-opps").children]
   }
 }
 
@@ -55,7 +55,7 @@ function handleTextInput(e) {
   let val = e.target.value.toLowerCase()
 
   filters.title = val
-  filterProblems()
+  filterOpportunities()
 }
 
 function handleCheckbox(e) {
@@ -63,36 +63,36 @@ function handleCheckbox(e) {
   filters[attribute] = e.target.checked;
   console.log(filters);
 
-  filterProblems()
+  filterOpportunities()
 }
 
 function handleSelect(e) {
   filters.category = e.target.value
 
-  filterProblems()
+  filterOpportunities()
 }
 
-function filterProblems(){
-  nearProbs.forEach(checkProblem)
-  myProbs.forEach(checkProblem)
+function filterOpportunities(){
+  nearProbs.forEach(checkOpportunity)
+  myProbs.forEach(checkOpportunity)
 }
 
-function checkProblem(prob) {
+function checkOpportunity(opp) {
   let regFilter = new RegExp(filters.title, 'i')
-  let title = prob.querySelector('.problem-title').innerText.toLowerCase()
-  prob.style.display = 'block'; // start fresh every time
+  let title = opp.querySelector('.opportunity-title').innerText.toLowerCase()
+  opp.style.display = 'block'; // start fresh every time
 
-  if (filters.volunteers && prob.dataset.volunteers === "false") {
-    prob.style.display = 'none';
+  if (filters.volunteers && opp.dataset.volunteers === "false") {
+    opp.style.display = 'none';
   }
-  if (filters.defined && prob.dataset.defined === "false") {
-    prob.style.display = 'none';
+  if (filters.defined && opp.dataset.defined === "false") {
+    opp.style.display = 'none';
   }
-  if (filters.category !== 'all' && prob.dataset.category !== filters.category) {
-    prob.style.display = 'none';
+  if (filters.category !== 'all' && opp.dataset.category !== filters.category) {
+    opp.style.display = 'none';
   }
   if (!title.match(regFilter)) {
-    prob.style.display = 'none';
+    opp.style.display = 'none';
   }
 }
 

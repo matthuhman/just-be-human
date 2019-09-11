@@ -1,10 +1,6 @@
 <%= simple_form_for(@donation, :url => '/donate', :method => :post) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-
-
-
   <ul>
     <% @donation.errors.full_messages.each do |message| %>
       <div class="donation-signup-error">
@@ -23,10 +19,7 @@
         <% end %>
       </div>
     <% end %>
-
   </ul>
-
-
   <div class="form-inputs">
     <div class="donation-email-input">
       <div class="donation-email-label">
@@ -37,12 +30,7 @@
       <br>
       <%= f.button :submit, "I want to help!", class: "btn btn-mktg-helper" %>
     </div>
-    
   </div>
-
-
-
   <div class="form-actions">
-    
   </div>
 <% end %>

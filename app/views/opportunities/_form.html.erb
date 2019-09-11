@@ -1,27 +1,21 @@
 <%= content_tag :div, class: "sub_categories", data: {sub_categories: @sub_categories} do %>
 <% end %>
-
-
-<%= simple_form_for(@problem) do |f| %>
+<%= simple_form_for(@opportunity) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div class="form-inputs">
-    <div class="basic-info-container" id="new-problem-step1">
+    <div class="basic-info-container" id="new-opportunity-step1">
       <h5 class="title-subheader">What are the basics?</h5>
       <div class="title-selection">
         <%= f.input :title, placeholder: "60-character limit" %>
         <%= f.input :description, placeholder: "A good description will go a long way." %>
         <div class="form-group">
-          <%= f.label :category %>
+          <%= f.label :category, class: 'opportunity-form-category-label' %>
           <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
         </div>
       </div>
     </div>
-
-
-
-    <div class="difficulty-container" id="new-problem-step2">
+    <div class="difficulty-container" id="new-opportunity-step2">
       <h5 class="difficulty-subheader">How much help do you need?</h5>
       <div class="difficulty-selection">
         <%= f.input :defined, label: "Is this opportunity defined, or do you want to work with people to figure out the solution?" %>
@@ -30,24 +24,18 @@
         <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
       </div>
     </div>
-
-
-
-    <div class="location-container" id="new-problem-step3">
-      <h5 class="location-subheader">Where is your opportunity located?</h5>    
+    <div class="location-container" id="new-opportunity-step3">
+      <h5 class="location-subheader">Where is your opportunity located?</h5>
       <div class="location-selection">
         <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
       </div>
     </div>
-
     <h5 class="completion-date-subheader">When do you want to complete it?</h5>
     <div class="completion-date-selection">
       <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
     </div>
   </div>
-
-
-  <div class="submit-problem">
-    <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-problem-btn'%>
+  <div class="submit-opportunity">
+    <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-opportunity-btn'%>
   </div>
 <% end %>

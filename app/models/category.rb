@@ -4,26 +4,26 @@ class Category
 
   #
   # get all category titles
-  def self.problem_titles
-    problem_cats.map { |c| c[:title] }
+  def self.opportunity_titles
+    opportunity_cats.map { |c| c[:title] }
   end
 
   #
   # get all category titles with descriptions
-  def self.problem_titles_with_desc
-    problem_cats
+  def self.opportunity_titles_with_desc
+    opportunity_cats
   end
 
   # #
   # # get all subcategory titles for a given category id
-  # def self.problem_subcat_titles(cat_id)
-  #   self.problem_subcats[cat_id].map { |sc| sc[:title] }
+  # def self.opportunity_subcat_titles(cat_id)
+  #   self.opportunity_subcats[cat_id].map { |sc| sc[:title] }
   # end
 
   # #
   # # get all subcat titles and descriptions for a given category id
-  # def self.problem_subcat_titles_with_desc(cat_id)
-  #   return self.problem_subcats[cat_id]
+  # def self.opportunity_subcat_titles_with_desc(cat_id)
+  #   return self.opportunity_subcats[cat_id]
   # end
 
   def self.req_titles
@@ -48,26 +48,28 @@ class Category
     req_subcats[cat_id]
   end
 
-  def self.get_all_problem_subcats
-    problem_subcats
+  def self.get_all_opportunity_subcats
+    opportunity_subcats
   end
 
   ## TODO: make these constants so that we're not recreating them every time you reference Category
 
   # map of integer ID's to categories
   private
-  def self.problem_cats
+  def self.opportunity_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
-      { title: "Community Cleanup", desc: "Community cleanup description" },
-      { title: "Fundraising", desc: "Fundraising description" },
-      { title: "Outreach", desc: "Outreach description" }
+      { title: "Cleanup", desc: "Clean up in your community- examples include trash pickups, park cleanups, beautification projects, etc." },
+      { title: "Fundraising", desc: "Organize people to help fundraise for an individual, cause, or organization." },
+      { title: "Outreach", desc: "Spread the word about something important to you." },
+      { title: "Drives", desc: "Organize a food/clothing/goods drive in your community." },
+      { title: "Caregiving", desc: "Organize help for specific individuals or groups in your neighborhood who need it." }
     ]
   end
 
-  # # map of Problem category index to subcategory arrays
+  # # map of Opportunity category index to subcategory arrays
   # # commented out on 20190910 by @matthuhman - gonna leave this around for now, just in case
-  # private self.problem_subcats
+  # private self.opportunity_subcats
   # [
   #   [ # community cleanup
   #     { title: "Trash pickup", desc: "Pick up some trash, damnit!" },

@@ -11,7 +11,7 @@ class PagesController < ApplicationController
   end
 
   # This action represents the main interface for the application.
-  # Uses the google maps JS integration to display @problems on the map
+  # Uses the google maps JS integration to display @opportunities on the map
   # If there is no user, it redirects to the landing screen
   def home
     if current_user
@@ -21,17 +21,20 @@ class PagesController < ApplicationController
         @geopoint = Geopoint.find_by(zip: current_user.postal_code)
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
-      @my_problems = current_user.problem_roles.sort_by{ |r| r.level }.map{ |role| role.problem }
-      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 10).where(:target_completion_date >= Date.today).sort_by{ |p| p[:target_completion_date]} - @my_problems
-      @roles = current_user.problem_roles
+
+
+      @my_opportunities = current_user.opportunity_roles.sort_by{ |r| r.level }
+      .map{ |role| role.opportunity }
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
+      @roles = current_user.opportunity_roles
     else
       redirect_to :action => 'landing'
     end
   end
 
   # 20190815 - @mhuhman - this may not be necessary any more
-  def my_problems
-    @roles = current_user.problem_roles
+  def my_opportunities
+    @roles = current_user.opportunity_roles
   end
 
   # This action is a static 'about us' page that just contains some text
@@ -70,7 +73,7 @@ class PagesController < ApplicationController
   end
 
   def donation_params
-    params.require(:donation).permit(:email, :donate, :marketing, :volunteer)
+    params.require(:donation).permit(:email, :marketing)
   end
 
   def filter_params

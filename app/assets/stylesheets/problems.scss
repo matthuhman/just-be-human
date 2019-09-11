@@ -1,24 +1,24 @@
-// Place all the styles related to the Problems controller here.
+// Place all the styles related to the Opportunities controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'theme.scss';
 
-.problem-title {
+.opportunity-title {
   text-transform: none;
   font-weight: 700;
 }
 
-.my-problems {
+.my-opportunities {
   display: flex;
   flex-wrap: wrap;
 }
 
-.problem {
+.opportunity {
   margin: 0 2vw 0 0;
   max-width: 28vw;
 }
 
-.problem-link {
+.opportunity-link {
   color: #fff;
 
   &:hover {
@@ -28,7 +28,7 @@
 
 
 
-.problem-header {
+.opportunity-header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -37,16 +37,16 @@
   margin-bottom: 2vh;
 }
 
-.problem-info-summary h1 {
+.opportunity-info-summary h1 {
   margin-right: 20px;
 }
 
-.problem-info-summary {
+.opportunity-info-summary {
   display: flex;
   align-items: center;
 }
 
-.problem-tab-links {
+.opportunity-tab-links {
   grid-column: 2;
   height: 100%;
   overflow-y: scroll;
@@ -77,14 +77,15 @@
   text-align: center;
 }
 
-.problem-info {
+.opportunity-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: space-between;
+  width: 100%;
 }
 
-.problem-info-row {
+.opportunity-info-row {
   display: flex;
   border-radius: 1rem;
 
@@ -96,7 +97,7 @@
 .follower-count {
   display: flex;
   align-items: center;
-  font-size: .8em;
+  font-size: 1.0em;
   text-transform: uppercase;
   letter-spacing: 2px;
   height: 8vh;
@@ -112,7 +113,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .6em;
+  font-size: .8em;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 .4vw;
@@ -193,11 +194,15 @@
 
 
 
-// PROBLEMS FORM
+// OPPORTUNITIES FORM
 
 
 .basic-info-container {
   padding-bottom: 2vh;
+}
+
+.opportunity-form-category-label {
+  margin-left: -2vw;
 }
 
 .difficulty-container {
@@ -251,10 +256,17 @@
 }
 
 
-.submit-problem {
+.submit-opportunity {
   padding-top: 8vh;
-  text-align: center;
-  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  height: 15vh;
+  margin-bottom: 3vh;
+}
+
+.submit-opportunity-btn {
+  height: 100%;
 }
 
 .btn-block {

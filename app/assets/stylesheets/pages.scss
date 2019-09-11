@@ -223,7 +223,7 @@
   }
 }
 
-.problem-row {
+.opportunity-row {
   margin: 14px;
   border: 1px solid $lightgrey;
   border-radius: 10px;
@@ -281,25 +281,25 @@
   padding: 1em;
 }
 
-.no-open-problems {
+.no-open-opportunities {
   padding-top: 3vh;
   padding-left: 1vw;
 }
 
-.problem-title {
+.opportunity-title {
   padding-top: 1vh;
   font-size: 1.8em;
   color: black;
 }
 
-.problem-row-definition {
+.opportunity-row-definition {
   padding-top: 1vh;
 
   //float:right;
-  text-align: right;
+  text-align: center; 
 }
 
-.problem-row-data {
+.opportunity-row-data {
   font-size: 1.4em;
   width: auto;
   color: black;
@@ -310,7 +310,7 @@
   text-align: right;
 }
 
-.problem-meta-volunteers {
+.opportunity-meta-volunteers {
   text-align: right;
   float: right;
   font-size: 4em;
@@ -318,34 +318,40 @@
   padding-left: 3vw;
 }
 
-.problem-meta {
+.opportunity-meta {
   width: 80%;
-  border-bottom: 1px solid white;
-  border-top: 1px solid white;
 }
 
-.problem-row-data-header {
+.opportunity-row-data-header {
   font-size: 0.9em;
   color: $midgrey;
   padding-left: 1vw;
 }
 
-.problem-volunteers-needed {
+.opportunity-volunteers-needed {
   color: $limegreen;
 }
 
-.problem-volunteers-not-needed {
+.opportunity-row-overdue {
+  color: red;
+  font-weight: 700;
+}
+
+.opportunity-volunteers-not-needed {
   color: grey;
   text-shadow: 1px 1px black;
 }
 
-.problem-defined-wrapper {
+.opportunity-defined-wrapper {
   color: $limegreen;
   font-size: 2.3em;
+  font-weight: 700;
 }
 
-.problem-abstract-wrapper {
+.opportunity-abstract-wrapper {
   color: $lightpink;
+  font-size: 2.3em;
+  font-weight: 700;
 }
 
 

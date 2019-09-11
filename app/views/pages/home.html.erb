@@ -1,67 +1,61 @@
-
 <div class="home-page">
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
   </div>
-
   <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)" >
     <h3>Filters</h3>
     <div class="filter-container">
       <div class="form-group">
-        <label for="problem_titles">Search Titles</label>
-        <input type="text" class="form-control" id="problem_titles" oninput="handleTextInput(event)" aria-describedby="problem_titles" placeholder="Search by title">
+        <label for="opportunity_titles">Search Titles</label>
+        <input type="text" class="form-control" id="opportunity_titles" oninput="handleTextInput(event)" aria-describedby="opportunity_titles" placeholder="Search by title">
       </div>
       <div class="form-group">
-        <label for="problem_category">Select a category</label>
-        <select id="problem_category" class="custom-select" onchange="handleSelect(event)">
+        <label for="opportunity_category">Select a category</label>
+        <select id="opportunity_category" class="custom-select" onchange="handleSelect(event)">
           <option selected value="all">All</option>
-           <% Category.problem_titles.map do |title| %>
-             <option value="<%= title %>"><%= title %></option>
-           <% end %>
+          <% Category.opportunity_titles.map do |title| %>
+            <option value="<%= title %>"><%= title %></option>
+          <% end %>
         </select>
       </div>
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="problem_volunteers" onchange="handleCheckbox(event)" aria-describedby="problem_volunteers">
-        <label for="problem_volunteers">Needs Volunteers</label>
+        <input type="checkbox" class="form-check-input" id="opportunity_volunteers" onchange="handleCheckbox(event)" aria-describedby="opportunity_volunteers">
+        <label for="opportunity_volunteers">Needs Volunteers</label>
       </div>
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="problem_defined" onchange="handleCheckbox(event)" aria-describedby="problem_defined">
-        <label for="problem_defined">Defined</label>
+        <input type="checkbox" class="form-check-input" id="opportunity_defined" onchange="handleCheckbox(event)" aria-describedby="opportunity_defined">
+        <label for="opportunity_defined">Defined</label>
       </div>
-      <!-- need to have grab params and send them to home page to filter the problems -->
+      <!-- need to have grab params and send them to home page to filter the opportunities -->
     </div>
   </div>
   <aside class="home-page-aside">
     <div class="homepage-header" id="home-step4">
       <div class="tab hp">
-        <button class="tablinks hp" onclick="openTab(event, 'probs-near-me')" id="defaultOpen">Open Opportunities</button>
-        <button class="tablinks hp" onclick="openTab(event, 'my-probs')">My Opportunities</button>
+        <button class="tablinks hp" onclick="openTab(event, 'opps-near-me')" id="defaultOpen">Open Opportunities</button>
+        <button class="tablinks hp" onclick="openTab(event, 'my-opps')">My Opportunities</button>
       </div>
     </div>
-    <div id="probs-near-me" class="tabcontent hp">
-      <% if @problems.size > 0 %>
-        <% @problems.each do |problem| %>
-          <%= render 'problem_row', problem: problem %>
+    <div id="opps-near-me" class="tabcontent hp">
+      <% if @opportunities.size > 0 %>
+        <% @opportunities.each do |opportunity| %>
+          <%= render 'opportunity_row', opportunity: opportunity %>
         <% end %>
       <% else %>
-        <div class="no-open-problems">
-          It looks like there aren't any more open problems near you right now. Keep an eye out for volunteer opportunities in your neighborhood!
+        <div class="no-open-opportunities">
+          It looks like there aren't any more open opportunities near you right now. Keep an eye out for volunteer opportunities in your neighborhood!
         </div>
       <% end %>
     </div>
-    <div id="my-probs" class="tabcontent hp">
-      <% @my_problems.each do |problem| %>
-        <%= render 'problem_row', problem: problem %>
+    <div id="my-opps" class="tabcontent hp">
+      <% @my_opportunities.each do |opportunity| %>
+        <%= render 'opportunity_row', opportunity: opportunity %>
       <% end %>
     </div>
   </aside>
-  
   <div id="map" class="map-div"></div>
-  
 </div>
-
 <script>
-
   let map;
   // var assignListener = function(markerObj, infoWindowObj){
   //   console.log('Clicked on a marker')
@@ -77,20 +71,20 @@
       mapTypeControl: false,
       fullscreenControl: false
     });
-
-    let json = <%= raw @problems.map.to_json {|problem|}.html_safe %>;
-    
-    
-
-
+  
+    let json = <%= raw @opportunities.map.to_json {|opportunity|}.html_safe %>;
+  
+  
+  
+  
     let infoWindow = new google.maps.InfoWindow();
-
+  
     for (let i = 0, length = json.length; i < length; i++)
     {
       let data = json[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
         // @MATT -- fix the parse float issue
-
+  
       data.contentString =
         `<div id="marker-content">
           <div id="siteNotice"></div>
@@ -98,16 +92,16 @@
           <p id="marker-participants" class="marker-participants">Participant status: ${data.volunteer_count} / ${data.volunteers_required}</p>
           <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
           <p id="marker-category" class="marker_category">Category: ${data.category_title}</p>
-          <a href="/problems/${data.id}" id="marker-link" class="marker-link">See Problem Details</a>
+          <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
-
+  
       let marker = new google.maps.Marker({
         position: LatLng,
         map: map,
         animation: google.maps.Animation.DROP
       });
-
-
+  
+  
       (function (marker, data) {
         google.maps.event.addListener(marker, "click", function (e) {
           infoWindow.setContent(data.contentString);
@@ -115,10 +109,10 @@
           event.stopPropagation(); // this prevents propagation of marker click to map click
         });
       })(marker, data);
-
+  
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
-
+  
     map.addListener("click", function() {
       infoWindow.close();
     });

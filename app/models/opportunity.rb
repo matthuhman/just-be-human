@@ -1,9 +1,9 @@
 require 'yaml'
 require 'obscenity/active_model'
 
-class Problem < ApplicationRecord
+class Opportunity < ApplicationRecord
   belongs_to :user
-  has_many :problem_roles, :dependent => :destroy
+  has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements, :dependent => :destroy
   has_many :posts, as: :postable, :dependent => :destroy
 
@@ -20,17 +20,21 @@ class Problem < ApplicationRecord
   validates :title, obscenity: true
   validates :description, obscenity: { sanitize: true, replacement: '[censored]' }
 
-  def user_is_admin(user_id)
-    user_id == self.user_id
+
+  def overdue?
+    target_completion_date < Date.today
   end
 
+  def user_is_admin(u_id)
+    u_id == user_id
+  end
 
-  def user_has_mod_permissions(user_id)
-    if user_id == self.user_id
+  def user_has_mod_permissions(u_id)
+    if u_id == user_id
       return true
     end
 
-    role = ProblemRole.find_by(user_id: user_id, problem_id: self.id)
+    role = OpportunityRole.find_by(user_id: u_id, opportunity_id: id)
 
     role && role.level <= 2
   end
@@ -44,7 +48,7 @@ class Problem < ApplicationRecord
   end
 
   def category_title
-    Category.problem_titles[self.category.to_i]
+    Category.opportunity_titles[self.category.to_i]
   end
 
   def volunteers_needed
@@ -88,13 +92,13 @@ class Problem < ApplicationRecord
 
   def self.users_are_volunteers(u1_id, u2_id, p_id = nil)
     if p_id != nil
-      u1_role = ProblemRole.find_by(user_id: u1_id, problem_id: p_id)
-      u2_role = ProblemRole.find_by(user_id: u2_id, problem_id: p_id)
+      u1_role = OpportunityRole.find_by(user_id: u1_id, opportunity_id: p_id)
+      u2_role = OpportunityRole.find_by(user_id: u2_id, opportunity_id: p_id)
 
       u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
     else
-      u1_roles = ProblemRole.where(user_id: u1_id).map { |r| r.level <= 3 ? r.problem_id : nil }
-      u2_roles = ProblemRole.where(user_id: u2_id).map{ |r| r.level <= 3 ? r.problem_id : nil }
+      u1_roles = OpportunityRole.where(user_id: u1_id).map { |r| r.level <= 3 ? r.opportunity_id : nil }
+      u2_roles = OpportunityRole.where(user_id: u2_id).map{ |r| r.level <= 3 ? r.opportunity_id : nil }
 
       intersection = u1_roles & u2_roles
 
