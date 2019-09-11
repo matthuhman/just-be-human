@@ -5,18 +5,18 @@ class Cost < ApplicationRecord
     most_recent_cost = Cost.last
 
     if !most_recent_cost || most_recent_cost.fetch_date != Date.today
-      get_todays_cost(most_recent_cost)
+      self.get_todays_cost(most_recent_cost)
     end
 
 
-    Cost.where('fetch_date >= ?', Date.today.at_beginning_of_month).sort_by(:fetch_date)
+    costs = Cost.where('fetch_date >= ?', Date.today.at_beginning_of_month).sort_by &:fetch_date
   end
 
 
 
 
   private
-  def get_todays_cost(most_recent_cost)
+  def self.get_todays_cost(most_recent_cost)
     ce = Aws::CostExplorer::Client.new
 
     resp = ce.get_cost_and_usage({
