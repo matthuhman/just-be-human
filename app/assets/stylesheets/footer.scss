@@ -2,6 +2,13 @@
 
 .footer {
    min-height: 3vh;
-   background: $dark;
+   background: $darkgrey;
    color: #fff;
 }
+
+.footer-link {
+  color: $limegreen;
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
