@@ -6,8 +6,8 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable, :confirmable,
     :lockable, :timeoutable, :trackable
 
-  has_many :problems
-  has_many :problem_roles, :dependent => :destroy
+  has_many :opportunities
+  has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements
   has_many :requirement_roles, :dependent => :destroy
   has_many :posts, :dependent => :destroy
@@ -38,8 +38,8 @@ class User < ApplicationRecord
 
 
   def is_admin?(type, type_id)
-    if type == "problem"
-      lvl = Role.problem_role_level(id, type_id)
+    if type == "opportunity"
+      lvl = Role.opportunity_role_level(id, type_id)
 
       (lvl && lvl < 2)
     else
@@ -48,8 +48,8 @@ class User < ApplicationRecord
       if lvl && lvl < 2
         true
       else
-        parent = Problem.find(Requirement.find(type_id).problem_id)
-        lvl = Role.problem_role_level(id, parent.id)
+        parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
+        lvl = Role.opportunity_role_level(id, parent.id)
 
         (lvl && lvl < 2)
       end
@@ -57,8 +57,8 @@ class User < ApplicationRecord
   end
 
   def is_mod?(type, type_id)
-    if type == "problem"
-      lvl = Role.problem_role_level(id, type_id)
+    if type == "opportunity"
+      lvl = Role.opportunity_role_level(id, type_id)
 
       (lvl && lvl <= 2)
     else
@@ -67,8 +67,8 @@ class User < ApplicationRecord
       if lvl && lvl <= 2
         true
       else
-        parent = Problem.find(Requirement.find(type_id).problem_id)
-        lvl = Role.problem_role_level(id, parent.id)
+        parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
+        lvl = Role.opportunity_role_level(id, parent.id)
 
         (lvl && lvl <= 2)
       end

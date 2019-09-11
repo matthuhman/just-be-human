@@ -15,13 +15,13 @@ Rails.application.routes.draw do
   get '/contact/request' => 'users#request_contact_info'
   get '/contact/response' => 'users#respond_contact_info'
 
-  get '/my_problems' => 'pages#my_problems'
+  get '/my_opportunities' => 'pages#my_opportunities'
 
-  get '/problems/follow' => 'problems#follow'
-  get '/problems/unfollow' => 'problems#unfollow'
-  get '/problems/promote_user' => 'problems#promote_user'
-  get '/problems/demote_user' => 'problems#demote_user'
-  get '/problems/followers' => 'problems#followers'
+  get '/opportunities/follow' => 'opportunities#follow'
+  get '/opportunities/unfollow' => 'opportunities#unfollow'
+  get '/opportunities/promote_user' => 'opportunities#promote_user'
+  get '/opportunities/demote_user' => 'opportunities#demote_user'
+  get '/opportunities/followers' => 'opportunities#followers'
 
   get '/requirements/participate' => 'requirements#participate'
   get '/requirements/cancel' => 'requirements#cancel_participation'
@@ -29,9 +29,9 @@ Rails.application.routes.draw do
   resources :personal_messages, only: [:create]
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
-  
 
-  resources :problems, :comments, :posts, :requirements
+
+  resources :opportunities, :comments, :posts, :requirements
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 

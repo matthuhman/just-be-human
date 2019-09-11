@@ -18,7 +18,7 @@ class Post < ApplicationRecord
     if (self.postable_type == "Requirement")
       return Requirement.find(self.postable_id).user_has_mod_permissions(user_id)
     else
-      return Problem.find(self.postable_id).user_has_mod_permissions(user_id)
+      return Opportunity.find(self.postable_id).user_has_mod_permissions(user_id)
     end
   end
 
@@ -37,14 +37,14 @@ class Post < ApplicationRecord
   end
 
   def user_can_comment(user_id)
-    if (self.postable_type == 'Problem')
-      role = ProblemRole.find_by(user_id: user_id, problem_id: self.postable_id)
+    if (self.postable_type == 'Opportunity')
+      role = OpportunityRole.find_by(user_id: user_id, opportunity_id: self.postable_id)
       if role
         return true
       end
     else
-      problem_id = Requirement.find(self.postable_id).problem_id
-      role = ProblemRole.find_by(user_id: user_id, problem_id: problem_id)
+      opportunity_id = Requirement.find(self.postable_id).opportunity_id
+      role = OpportunityRole.find_by(user_id: user_id, opportunity_id: opportunity_id)
       if role
         return true;
       end

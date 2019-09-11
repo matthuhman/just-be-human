@@ -1,8 +1,38 @@
 @import 'theme.scss';
 
-.conversations-title {
-  font-size: 2em;
-  padding-left: 5vw;
-  padding-top: 2vh;
-  border-bottom: 2px solid $lightgrey;
+
+
+//
+//
+//
+//
+//
+// INDEX PAGE
+//
+
+.conversation {
+  padding-left: 8vw;
+  color: black;
+
+  &:hover {
+    & a {
+      text-decoration: none;
+    }
+
+    & div {
+      transform: scale(.98);
+    }
+  }
+}
+
+
+
+.conversation-username {
+  font-size: 1.6em;
+
+}
+
+
+.last-msg-header {
+  font-size: 0.8em;
 }

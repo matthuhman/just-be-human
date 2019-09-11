@@ -23,6 +23,10 @@
   }
 }
 
+.tab-heading {
+
+}
+
 /* Style the buttons that are used to open the tab content */
 .tab button {
   float: left;
@@ -32,7 +36,7 @@
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
-  font-size: 1.5em;
+  font-size: 2.3em;
   font-weight: 600;
 
   &.hp {

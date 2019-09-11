@@ -57,6 +57,9 @@ gem 'rubocop'
 gem 'htmlbeautifier'
 gem 'obscenity'
 gem 'whenever'
+gem 'simple_calendar'
+gem 'recurring_select'
+gem 'ice_cube'
 
 gem "actiontext", "6.0.0.rc1", github: "rails/actiontext"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’

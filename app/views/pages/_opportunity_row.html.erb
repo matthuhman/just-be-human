@@ -1,0 +1,59 @@
+<% role_title = Role.opportunity_role_title(current_user.id, opportunity.id) %>
+<div class="opportunity-row" id="home-step5"
+  data-category="<%= opportunity.category_title %>"
+  data-volunteers="<%= opportunity.volunteers_required - opportunity.volunteer_count != 0 %>"
+  data-defined="<%= opportunity.defined %>">
+  <div class="opportunity-row-info">
+    <a href="/opportunities/<%= opportunity.id %>">
+      <h5 class="opportunity-title">
+        <%= opportunity.display_title %>
+        <div class="opportunity-meta-volunteers">
+          <% if opportunity.volunteers_needed > 0 %>
+            <div class="opportunity-volunteers-needed">
+              <%= opportunity.volunteers_needed %>
+              <div class="volunteers-needed">
+                volunteers<br>
+                needed
+              </div>
+            </div>
+          <% else %>
+            <div class="opportunity-volunteers-not-needed">
+              0
+              <div class="volunteers-needed">
+                volunteers<br>
+                needed
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </h5>
+      <div class="opportunity-meta">
+        <div class="opportunity-row-data">
+          <div class="opportunity-row-data-header">Completion Date: </div>
+          <% if opportunity.overdue? %>
+            <div class="opportunity-row-data-content opportunity-row-overdue">
+              <%= opportunity.target_completion_date %> - behind schedule!
+            </div>
+          <% else %>
+            <div class="opportunity-row-data-content">
+              <%= opportunity.target_completion_date %>
+            </div>
+          <% end %>
+          <div class="opportunity-row-data-header">Category: </div>
+          <div class="opportunity-row-data-content"><%= opportunity.category_title %> </div>
+          <% if role_title %>
+            <div class="opportunity-row-data-header">Role: </div>
+            <div class="opportunity-row-data-content"><%= role_title %> </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="opportunity-row-definition">
+        <% if opportunity.defined %>
+          <h2 class="opportunity-defined-wrapper">PLANNED</h2>
+        <% else %>
+          <h2 class="opportunity-abstract-wrapper">PLANNING</h2>
+        <% end %>
+      </div>
+    </a>
+  </div>
+</div>

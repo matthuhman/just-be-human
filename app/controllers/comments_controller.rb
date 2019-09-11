@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
           format.json { render json: @comment.errors, status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to @post, alert: 'You do not have permission to comment on this post. You must follow the problem first!' }
+        format.html { redirect_to @post, alert: 'You do not have permission to comment on this post. You must follow the opportunity first!' }
         format.json { render :show, status: :forbidden, location: @post }
       end
     end
@@ -69,13 +69,13 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def comment_params
-      params.require(:comment).permit(:content, :post_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def comment_params
+    params.require(:comment).permit(:content, :post_id)
+  end
 end

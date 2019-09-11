@@ -13,8 +13,8 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    if @post.postable_type == 'Problem'
-      @parent = Problem.find(@post.postable_id)
+    if @post.postable_type == 'Opportunity'
+      @parent = Opportunity.find(@post.postable_id)
     else
       @parent = Requirement.find(@post.postable_id)
     end
@@ -37,9 +37,9 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    if @post.postable_type == 'Problem'
-      @parent = Problem.find(@post.postable_id)
-      level = Role.problem_role_level(current_user.id, @post.postable_id)
+    if @post.postable_type == 'Opportunity'
+      @parent = Opportunity.find(@post.postable_id)
+      level = Role.opportunity_role_level(current_user.id, @post.postable_id)
     else
       @parent = Requirement.find(@post.postable_id)
       level = Role.requirement_role_level(current_user.id, @post.postable_id)
@@ -57,7 +57,7 @@ class PostsController < ApplicationController
           format.json { render json: @post.errors, status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to @parent, alert: 'You do not have permission to make a post on this problem/requirement' }
+        format.html { redirect_to @parent, alert: 'You do not have permission to make a post on this opportunity/requirement' }
         format.json { render :show, status: :forbidden, location: @parent }
       end
     end
@@ -85,8 +85,8 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    if @post.postable_type == "Problem"
-      @parent = Problem.find(@post.postable_id)
+    if @post.postable_type == "Opportunity"
+      @parent = Opportunity.find(@post.postable_id)
     else
       @parent = Requirement.find(@post.postable_id)
     end
@@ -104,13 +104,13 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:title, :content, :postable_id, :postable_type)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def post_params
+    params.require(:post).permit(:title, :content, :postable_id, :postable_type)
+  end
 end
