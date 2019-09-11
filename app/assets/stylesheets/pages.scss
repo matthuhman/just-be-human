@@ -13,46 +13,47 @@
 //
 //
 // LANDING PAGE STYLE
+
+
 .landing-title {
   font-size: 3.5em;
   text-align: center;
   @include respond-to(handhelds) {
     font-size: 1.9em;
   }
+  color: $darkgrey;
 
   margin-top: 3vh;
 }
 
-.landing-beta-tag {
-  color: $limegreen;
-}
+// .landing-title-2 {
+//   font-size: 4em;
+//   font-weight: 700;
+//   text-align: center;
+//   color: $darkgrey;
+//   @include respond-to(handhelds) {
+//     font-size: 2.4em;
+//     margin-left: 10vw;
+//     margin-right: 10vw;
+//   }
+//   border-bottom: 2px solid $lightgrey;
+//   margin-left: 20vw;
+//   margin-right: 20vw;
+// }
 
-.landing-title-2 {
-  font-size: 4em;
-  font-weight: 700;
-  text-align: center;
-  color: $darkgrey;
+.landing-logo {
+  max-width: 60vw;
   @include respond-to(handhelds) {
-    font-size: 2.4em;
-    margin-left: 10vw;
-    margin-right: 10vw;
+    max-width: 80vw;
   }
-  border-bottom: 2px solid $lightgrey;
-  margin-left: 20vw;
-  margin-right: 20vw;
-}
-
-.landing-subtitle {
-  margin-top: 5vh;
-  margin-left: 10vw;
-  text-align: left !important;
-  font-size: 1.8em;
-  text-align: center;
-  font-weight: 550;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .landing-explanation {
-  margin-top: 2vh;
+  border-top: 2px solid $lightgrey;
+  margin-top: 3vh;
   text-align: center;
   @include respond-to(handhelds) {
     margin-left: 10vw;
@@ -73,7 +74,7 @@
 
 .landing-explanation-detail {
   @include respond-to(handhelds) {
-    font-size: 0.6em;
+    font-size: 0.7em;
   }
   
   font-size: 0.8em;
@@ -82,16 +83,30 @@
 
 .landing-explanation-padding {
   margin-top: 5vh;
+  margin-left: 10vh;
+  margin-right: 10vh;
+  margin-bottom: 5vh;
+  border-bottom: 2px solid $lightgrey;
 }
 
 .landing-padding-middle {
-  margin-top: 10vh;
+  margin-top: 5vh;
+  margin-left: 40vh;
+  margin-right: 40vh;
+  margin-bottom: 5vh;
+  border-bottom: 2px solid $lightgrey;
+
+  @include respond-to(handhelds) {
+    margin-left: 20vh;
+    margin-right: 20vh;
+  }
 }
 
 
 .beta-disclaimer {
   padding-left: 2vw;
   margin-top: 6vh;
+  margin-bottom: 2vh;
   @include respond-to(handhelds) {
     padding: 2vh 6vw;
   }
@@ -101,6 +116,9 @@
   margin-top: 2vh;
 }
 
+.start-volunteering-container {
+  margin-bottom: 5vh;
+}
 
 
 //
@@ -342,12 +360,40 @@
 // ========DONATE PAGE STYLING========
 
 
+.donation-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.donation-frame {
+  // overflow-y: scroll;
+  // width: 100vw;
+  // height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#regForm {
+  width: 100% !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 10vh !important;
+  min-width: 400px !important;
+}
+
 .donation-email-input {
   font-size: 2em;
   text-align: center;
-
 }
 
+#donation_email {
+  border: 2px solid $lightgrey;
+  margin: 5px;
+  padding: 5px;
+}
 
 .donation-signup-error {
   padding-top: 5vh;
@@ -359,10 +405,10 @@
 
 .donation-widget {
   overflow-y: scroll;
-  margin-top: -10vh;
-//  margin-bottom: -10vh;
   height: 70vh;
   width: 100vw;
+  // order: 0;
+  // height: auto;
 }
 
 .form-inputs {

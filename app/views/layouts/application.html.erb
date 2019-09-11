@@ -11,7 +11,9 @@
     <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
   <body>
-    <%= render 'layouts/navbar' %>
+    <% if !(params[:action] == 'landing') %>
+      <%= render 'layouts/navbar' %>
+    <% end %>
     <main class='wrapper'>
       <div id="modal-holder"></div>
       <%= render 'layouts/alerts' %>
