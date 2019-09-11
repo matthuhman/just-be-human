@@ -56,6 +56,7 @@ gem 'emoji'
 gem 'rubocop'
 gem 'htmlbeautifier'
 gem 'obscenity'
+gem 'whenever'
 
 gem "actiontext", "6.0.0.rc1", github: "rails/actiontext"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’

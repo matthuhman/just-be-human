@@ -1,13 +1,35 @@
 
+@import 'theme.scss';
 
-
-
-
-.costs-title {
-  text-align: center;
-  padding-top: 2rem;
+.costs-flex-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.chart-container {
-  margin: 0 auto;
+.costs-title {
+  // text-align: center;
+  padding-top: 2vh;
+  margin-left: 5vw;
+  border-bottom: 2px solid $lightgrey;
+  margin-bottom: 4vh;
+  order: 0;
+}
+
+.chartjs-render-monitor {
+    display: block;
+    height: auto !important;
+    width: 100vw !important;
+    order: 2;
+}
+
+.costs-monthly-container {
+  margin-left: 2vw;
+  border-top: 1px solid $lightgrey;
+  order: 3;
+}
+
+.costs-info-container {
+  margin-left: 4vw;
+  margin-right: 15vw;
+  order: 4;
 }

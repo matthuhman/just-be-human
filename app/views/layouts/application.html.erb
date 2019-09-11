@@ -5,18 +5,19 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
   <body>
-    <%= render 'layouts/navbar' %>
+    <% if !(params[:action] == 'landing') %>
+      <%= render 'layouts/navbar' %>
+    <% end %>
     <main class='wrapper'>
       <div id="modal-holder"></div>
       <%= render 'layouts/alerts' %>
-        <%= yield %>
+      <%= yield %>
     </main>
     <%= render 'layouts/footer' %>
   </body>

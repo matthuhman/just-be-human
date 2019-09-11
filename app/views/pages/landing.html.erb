@@ -1,30 +1,40 @@
-<div class="jumbotron landing-page">
-  <h1 class="landing-lead">Welcome to <Strong>Just Be Human</Strong><sup class="landing-beta-tag">beta</sup></h1>
-  <p class="lead">Thank you for checking out what we're building! Hopefully we can answer some of your questions here. </p>
-  <hr class="my-4">
-    <div class="landing-whatis-block">
-      <div class="whatis-title">
-        <li><Strong>What is Just Be Human?</Strong></li>
+<div class="landing-page-container">
+  <div class="landing-title">Welcome to</div>
+  <%= image_tag("beta-logo.png", class: "landing-logo") %>
+  <div class="landing-explanation">
+    <div class="landing-explanation-basic">If you have an idea in mind, create a geo-tagged <b>Opportunity</b> and give it a target completion date. Opportunities are broken down into individual tasks and responsibilities called <b>Requirements</b>. 
+      <div class="landing-explanation-detail">
+        - If you know what's needed to complete the task, your Opportunity is <b>defined</b>. 
       </div>
-      <div class="whatis-body">
-        <p>Just Be Human is a platform for you to identify problems in your local community, connect with neighbors who want to help, and track progress over time as you work to solve real issues in your world.<p>
+      <div class="landing-explanation-detail">
+        - If you want to crowd-source the planning stages, it is <b>abstract</b>.
       </div>
     </div>
-    <div class="landing-how-block">
-      <li><Strong>How does it work?</Strong></li>
-      <p>A person identifies a problem in their community and creates a forum where people can discuss the issue, determine what resources are necessary to resolve it (time, skills, labor, equipment, etc), and then be connected with volunteers who are willing and able to provide those resources.</p>
-      <ul class="landing-list">
-        <li>A user creates a <b>Problem</b> with a location and a desired completion date on the platform which is then broken down into individual tasks and responsibilities called <b>Requirements</b>.</li>
-        <li>Other users search by category or on a map of their local area to find Problems that they can follow, discuss, and volunteer for.</li>
-        <li>Volunteers for a Problem all know each other's roles and responsibilities and also know and agree on due dates, holding volunteers accountable to each other.</li>
-        <li>A Problem that has completed all of its Requirements is a real-world problem in your community that has been solved!</li>
-      </ul>
+    <div class="landing-explanation-padding"></div>
+    <div class="landing-explanation-basic">
+      If you want to volunteer, search and filter your options to quickly find the right opportunity for your abilities and schedule.
     </div>
-  <div class="d-flex justify-content-center">
-    <a class="btn btn-danger btn-lg" href="/users/sign_in" role="button">Let's start volunteering!</a>
   </div>
-
+  <div class="landing-padding-middle"></div>
+  <div class="d-flex justify-content-center start-volunteering-container">
+    <a class="btn btn-danger btn-lg start-volunteering-btn" href="/users/sign_in" role="button">Let's start volunteering!</a>
+  </div>
+  <div class="landing-padding-middle"></div>
+  <div class="aboutus-community-guidelines">
+    <h2 class="guidelines-title">Community Guidelines</h2>
+    <div class="guidelines">
+      <div class="guideline">
+        <b>First:</b> Be excellent to each other.
+      </div>
+      <div class="guideline">
+        <b>Second:</b> See rule #1.
+      </div>
+      <div class="guideline">
+        <b>Third:</b> Using the platform for the purposes of direct or indirect financial gain is not allowed. (See Rule #2)
+      </div>
+    </div>
+  </div>
   <div class="beta-disclaimer">
-    <small>* You're going to run into some bugs, please forgive us! We're a small team and are working as hard as we can to build this thing for you.</small>
+    <small>* Forgive us our bugs! We're a small team and we're working as hard as we can to sand down the rough edges.</small>
   </div>
 </div>

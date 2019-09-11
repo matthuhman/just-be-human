@@ -1,15 +1,11 @@
-
-
-<div class="donation-signup-info">
-  <div class="donation-info-container">
-    <div class="donation-widget">
-      <iframe frameborder = "0" height="100%" scrolling="yes"  src = "https://give.donatekindly.org/jb701/makedonation/donation/d6efeb1e-5dd3-4f04-bbe5-51890ba2eddb"  width="100%"></iframe>
-    </div>
-
-<%= render 'donationform', donation: @donation %>
-
-<div class="signup-disclaimer">
-  <p>
-    <i>Just Be Human will <Strong>never</Strong> sell your information or use it for any purpose other than to contact you about the work we're doing.</i>
-  </p>
+<div class="donation-info-container">
+  <div class="donation-widget">
+    <iframe frameborder = "0" height="100%" scrolling="yes"  src = "https://give.donatekindly.org/jb701/makedonation/donation/d6efeb1e-5dd3-4f04-bbe5-51890ba2eddb"  class="donation-frame"></iframe>
+  </div>
+  <%= render 'donationform', donation: @donation %>
+  <div class="signup-disclaimer">
+    <p>
+      <i>Just Be Human will <Strong>never</Strong> sell your information or use it for any purpose other than to contact you about the work we're doing.</i>
+    </p>
+  </div>
 </div>

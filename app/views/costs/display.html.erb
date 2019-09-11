@@ -1,32 +1,25 @@
-
-
 <head>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
-
-      <%= javascript_include_tag 'application' %>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+  <%= javascript_include_tag 'application' %>
 </head>
-
 <body>
-  <div class="costs-title">
-    <h1>Daily and Monthly Costs</h1>
+  <div class="costs-flex-container">
+    <div class="costs-title">
+      <h2>Daily and Monthly Costs</h2>
+    </div>
+    <div class="chart-container">
+      <%= column_chart @cost_data, xtitle: "Day", ytitle: "Cost ($USD)" %>
+    </div>
+    <div class="costs-monthly-container">
+      <h3> Monthly cost to date: $<%= @monthly_cost %></h3>
+    </div>
+    <div class="costs-info-container">
+      <p>
+        Note about costs: This code was last updated on 8/15/2019 and only includes costs of hosting the web infrastructure for this platform.
+      </p>
+      <p>
+        This chart does not include one-time costs such as domain purchases and other one-time or recurring business expenses.
+      </p>
+    </div>
   </div>
-  <div class="chart-container">
-    <%= column_chart @cost_data, width: "80vw", height: "30vh", xtitle: "Day", ytitle: "Cost ($USD)" %>
-  </div>
-
-  <div class="costs-monthly-container">
-    <h3> Monthly cost to date: $<%= @monthly_cost %></h3>
-  </div>
-
-  <div class="costs-info-container">
-    <p>
-      Note about costs: This code was last updated on 8/15/2019 and only includes costs of hosting the web infrastructure for this platform.
-    </p>
-
-    <p>
-      This chart does not include one-time costs such as domain purchases and other one-time or recurring business expenses.
-    </p>
-  </div>
-
 </body>

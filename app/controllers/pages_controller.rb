@@ -22,7 +22,7 @@ class PagesController < ApplicationController
         flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
       end
       @my_problems = current_user.problem_roles.sort_by{ |r| r.level }.map{ |role| role.problem }
-      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 10).sort_by{ |p| p[:target_completion_date]} - @my_problems
+      @problems = Problem.near([@geopoint.latitude, @geopoint.longitude], 10).where(:target_completion_date >= Date.today).sort_by{ |p| p[:target_completion_date]} - @my_problems
       @roles = current_user.problem_roles
     else
       redirect_to :action => 'landing'
@@ -65,16 +65,16 @@ class PagesController < ApplicationController
 
   private
 
-    def location_params
-      params.permit(:location_term)
-    end
+  def location_params
+    params.permit(:location_term)
+  end
 
-    def donation_params
-      params.require(:donation).permit(:email, :donate, :marketing, :volunteer)
-    end
+  def donation_params
+    params.require(:donation).permit(:email, :donate, :marketing, :volunteer)
+  end
 
-    def filter_params
-      params.permit(:due_date)
-    end
+  def filter_params
+    params.permit(:due_date)
+  end
 
 end
