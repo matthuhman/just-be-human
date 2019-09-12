@@ -94,28 +94,4 @@ class User < ApplicationRecord
     options[:except] ||= [:last_name, :email, :phone_number, :birth_date]
     super(options)
   end
-
-
-
-  # private
-  # def censor_text_input
-  #   binding.pry
-  #   if Obscenity.profane?(username) || Obscenity.profane?(first_name) || Obscenity.profane?(last_name)
-  #     errors.add(:username, " and first/last names cannot be profane.")
-  #     err = "First name: #{first_name} ::: #{last_name} ::: Username: #{username} ::: Email: #{email}"
-  #     ReportedError.report("profane_username", err, 666)
-  #   end
-
-  #   if Obscenity.profane?(city) || Obscenity.profane?(region)
-  #     errors.add(:city, "and region cannot contain profanity.")
-  #   end
-
-  #   if first_name =~ /\d/
-  #     errors.add(:first_name, "cannot contain numbers.")
-  #   end
-
-  #   if last_name =~ /\d/
-  #     errors.add(:last_name, "cannot contain numbers")
-  #   end
-  # end
 end

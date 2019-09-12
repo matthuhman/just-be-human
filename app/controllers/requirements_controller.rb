@@ -23,7 +23,6 @@ class RequirementsController < ApplicationController
     @opportunity = Opportunity.find(@requirement.opportunity_id)
     @opp_level = Role.opportunity_role_level(current_user.id, @opportunity.id)
     @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
-    @overdue = Date.today > @requirement.target_completion_date
     respond_modal_with @requirement
   end
 
@@ -129,11 +128,11 @@ class RequirementsController < ApplicationController
 
   def change_completion_status
     @requirement = Requirement.find(:requirement_id)
-    current_status = @requirement.complete
+    status = @requirement.complete
     @opportunity = @requirement.opportunity
     respond_to do |format|
       if @requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions
-        requirement.complete = !current_status;
+        requirement.complete = !status;
         if requirement.save
           format.html { redirect_to @requirement, success: "This requirement is complete!" }
           format.json { render :show, status: ok, location: @requirement }
@@ -157,11 +156,11 @@ class RequirementsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def requirement_params
-    params.require(:requirement).permit(:title, :description, :current_status, :complete, :opportunity_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_work_remaining, :estimated_work)
+    params.require(:requirement).permit(:title, :description, :status, :complete, :opportunity_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
   end
 
   def update_params
-    params.require(:requirement).permit(:title, :description, :current_status, :complete, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_work_remaining, :estimated_work)
+    params.require(:requirement).permit(:title, :description, :status, :complete, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
   end
 
   def participate_params

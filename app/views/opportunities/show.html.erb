@@ -37,14 +37,20 @@
       <h2 class="tab-heading"> Posts </h2>
     </div>
     <div class="post-list">
-      <% @opportunity.posts.each do |post| %>
-        <% post_user = User.find(post.user_id) %>
-        <div class="post-container">
-          <a href="/posts/<%= post.id %>" class="post-link">
-            <p class="post-title"><%= post.title %></p>
-            <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
-            <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
-          </a>
+      <% if @opportunity.posts.size > 0 %>
+        <% @opportunity.posts.each do |post| %>
+          <% post_user = User.find(post.user_id) %>
+          <div class="post-container">
+            <a href="/posts/<%= post.id %>" class="post-link">
+              <p class="post-title"><%= post.title %></p>
+              <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
+              <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
+            </a>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="no-posts-container">
+          There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
         </div>
       <% end %>
       <% if current_user && @role %>

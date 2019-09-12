@@ -4,10 +4,6 @@
 
 
 
-.requirement-info {
-
-}
-
 .requirement-title {
   margin-top: 2vh;
 
@@ -92,4 +88,55 @@
 
 .link-group {
   margin-top: 20px;
+}
+
+
+.requirement-info-block {
+  margin-left: 3vw;
+}
+
+.needs-leader {
+  color: red !important;
+}
+
+.requirement-info-grid {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  height: 50vh;
+
+  @include respond-to(handhelds) {
+    grid-template-columns: 100%;
+    grid-template-rows: 70% 30%;
+  }
+}
+
+.requirement-info-left {
+  grid-column: 1;
+
+  @include respond-to(handhelds) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.requirement-info-right {
+  grid-column: 2;
+
+  @include respond-to(handhelds) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+
+.requirement-info-row {
+  font-size: 2em;
+  font-weight: 700;
+  color: $darkgrey;
+}
+
+.requirement-info-content {
+  font-size: 1em;
+  font-weight: normal;
+  color: black;
 }

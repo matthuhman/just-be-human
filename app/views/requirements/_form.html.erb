@@ -1,20 +1,17 @@
 <%= simple_form_for(@requirement, remote: request.xhr?, html: { data: { modal: true } }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Keep it short and sweet" %>
     <%= f.input :description, placeholder: "An in-depth description goes here." %>
-    <%= f.input :current_status, placeholder: "A short description of the current status." %>
-
+    <%= f.input :status, placeholder: "A short description of the current status." %>
     <% if @date %>
       <%= f.input :target_completion_date, :selected => @date, start_year: Date.today.year %>
     <% else %>
-      <%= f.input :target_completion_date, :value => @requirement.problem.target_completion_date %>
+      <%= f.input :target_completion_date, :value => @requirement.opportunity.target_completion_date %>
     <% end %>
-
     <% if params[:action] == "edit" %>
-      <%= f.input :pct_work_remaining, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
+      <%= f.input :pct_done, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
     <% end %>
     <div class="form-group">
       <%= f.label :category %>
@@ -30,9 +27,9 @@
       <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
     </div>
     <!--        
-      this `if @planned` block will tell us if the parent problem is already defined or not. if the parent problem is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned problems.
+      this `if @planned` block will tell us if the parent opportunity is already defined or not. if the parent opportunity is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned opportunities.
     -->
-    <% if @problem_defined %>
+    <% if @opportunity_defined %>
       <div class="planned-selection">
         <%= f.input :defined, label: "This is everything I need!" %>
         <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>
@@ -42,10 +39,9 @@
       <%= f.hidden_field :estimated_work, value: 0 %>
     <% end %>
     <% if params[:requirement] %>
-      <%= f.hidden_field :problem_id, :value => params[:requirement][:problem_id] %>
+      <%= f.hidden_field :opportunity_id, :value => params[:requirement][:opportunity_id] %>
     <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
-
   <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>

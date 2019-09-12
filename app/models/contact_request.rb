@@ -4,23 +4,23 @@ class ContactRequest < ApplicationRecord
   belongs_to :requested_user, :class_name => 'User'
 
 
-  def self.get_active_requests_for_problem(user_id, prob_id)
-    return ContactRequest.find_by(requesting_user_id: user_id, problem_id: prob_id, active: true)
+  def self.get_active_requests_for_opportunity(user_id, opp_id)
+    return ContactRequest.find_by(requesting_user_id: user_id, opportunity_id: opp_id, active: true)
   end
 
 
-  def self.send_contact_request(out_user, in_user, prob_id)
+  def self.send_contact_request(out_user, in_user, opp_id)
     old_req = ContactRequest.find_by(requesting_user_id: out_user.id, requested_user_id: in_user.id)
-    
+
     if old_req
       return true
     end
 
-    req = ContactRequest.new(requesting_user_id: out_user.id, requested_user_id: in_user.id, problem_id: prob_id) 
+    req = ContactRequest.new(requesting_user_id: out_user.id, requested_user_id: in_user.id, opportunity_id: opp_id)
 
-    if out_user.over_16? && in_user.over_16? && Problem.users_are_volunteers(out_user.id, in_user.id, prob_id)
-      
-      
+    if out_user.over_16? && in_user.over_16? && Opportunity.users_are_volunteers(out_user.id, in_user.id, opp_id)
+
+
       if req.save
         return true
       else
@@ -28,7 +28,7 @@ class ContactRequest < ApplicationRecord
         return false
       end
     else
-      
+
       req.accepted = false
 
       if req.save
