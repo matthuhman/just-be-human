@@ -2,11 +2,11 @@ class ReportedError < ApplicationRecord
 
 
 
-  def self.report(source, errors, priority)
+  def self.report(source, errs, priority)
     err = ReportedError.new
 
     err.source = source
-    err.errors = errors
+    err.errs = errs
     err.priority = priority
 
     if !err.save

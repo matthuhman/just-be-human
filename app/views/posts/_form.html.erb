@@ -1,23 +1,19 @@
-
 <%= simple_form_for(@post, remote: request.xhr?, html: { data: { modal: true } }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Enter a post title" %>
   </div>
-
   <div class="form-inputs">
     <%= f.input :content, placeholder: "Write your post here" %>
   </div>
-
-    <% if params[:problem] %>
-      <%= f.hidden_field :postable_id, :value => params[:problem][:problem_id] %>
-      <%= f.hidden_field :postable_type, :value => 'Problem' %>
-    <% elsif params[:requirement] %>
-      <%= f.hidden_field :postable_id, :value => params[:requirement][:requirement_id] %>
-      <%= f.hidden_field :postable_type, :value => 'Requirement' %>
-    <% end %>
-    <%= f.button :submit, class: "btn btn-primary"  %>
-
+  <% if params[:opportunity] %>
+    <%= f.hidden_field :postable_id, :value => params[:opportunity][:opportunity_id] %>
+    <%= f.hidden_field :postable_type, :value => 'Opportunity' %>
+  <% elsif params[:requirement] %>
+    <%= f.hidden_field :postable_id, :value => params[:requirement][:requirement_id] %>
+    <%= f.hidden_field :postable_type, :value => 'Requirement' %>
+  <% end %>
+  <%= f.button :submit, class: "btn btn-primary"  %>
+  <% binding.pry %>
 <% end %>

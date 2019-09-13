@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_11_224816) do
+ActiveRecord::Schema.define(version: 2019_09_12_192354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_224816) do
     t.datetime "recurring_period"
     t.boolean "defined", default: true
     t.boolean "planned", default: true
+    t.string "status"
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["planned", "category"], name: "index_opportunities_on_planned_and_category"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
@@ -161,7 +162,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_224816) do
 
   create_table "reported_errors", force: :cascade do |t|
     t.string "source"
-    t.text "errors"
+    t.text "errs"
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -177,6 +178,8 @@ ActiveRecord::Schema.define(version: 2019_09_11_224816) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "requirement_id"
+    t.uuid "opportunity_id"
+    t.index ["user_id", "opportunity_id"], name: "index_requirement_roles_on_user_id_and_opportunity_id"
     t.index ["user_id", "requirement_id"], name: "idx_one_role_per_user", unique: true
     t.index ["user_id"], name: "index_requirement_roles_on_user_id"
   end
@@ -188,18 +191,18 @@ ActiveRecord::Schema.define(version: 2019_09_11_224816) do
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
+    t.integer "volunteer_count", default: 0
     t.integer "category"
     t.integer "subcategory"
     t.boolean "complete"
-    t.string "current_status"
+    t.string "status"
     t.uuid "opportunity_id"
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "priority", default: 1
     t.float "estimated_work", default: 1.0
-    t.float "pct_work_remaining", default: 100.0
+    t.float "pct_done", default: 100.0
     t.date "target_completion_date"
     t.boolean "defined", default: true
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"

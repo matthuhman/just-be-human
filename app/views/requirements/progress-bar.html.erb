@@ -1,0 +1,26 @@
+  <% progress = @requirement.pct_done %>
+<% progress_display = @requirement.pct_done_display %>
+<div class="progress-title">
+  <h4>Current status:</h4>
+</div>
+<div class="progress">
+  <% if progress >= 60 %>
+    <div class="progress-bar progress-bar-striped bg-success" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.status %>
+      </small>
+    </div>
+  <% elsif progress >= 25 && progress < 60 %>
+    <div class="progress-bar progress-bar-striped bg-warning" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.status %>
+      </small>
+    </div>
+  <% else %>
+    <div class="progress-bar progress-bar-striped bg-danger" style="width:<%= progress_display %>">
+      <small class="work-remaining">
+        <%= @requirement.status %>
+      </small>
+    </div>
+  <% end %>
+</div>

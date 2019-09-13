@@ -19,13 +19,13 @@ class Conversation < ApplicationRecord
 
   def self.can_have_conversation(u1, u2, p_id = nil)
     if p_id != nil
-      u1_role = ProblemRole.find_by(user_id: u1.id, problem_id: p_id)
-      u2_role = ProblemRole.find_by(user_id: u2.id, problem_id: p_id)
+      u1_role = OpportunityRole.find_by(user_id: u1.id, opportunity_id: p_id)
+      u2_role = OpportunityRole.find_by(user_id: u2.id, opportunity_id: p_id)
 
       u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
     else
-      u1_roles = ProblemRole.where(user_id: u1.id).map { |r| r.level <= 3 ? r.problem_id : nil }
-      u2_roles = ProblemRole.where(user_id: u2.id).map{ |r| r.level <= 3 ? r.problem_id : nil }
+      u1_roles = OpportunityRole.where(user_id: u1.id).map { |r| r.level <= 3 ? r.opportunity_id : nil }
+      u2_roles = OpportunityRole.where(user_id: u2.id).map{ |r| r.level <= 3 ? r.opportunity_id : nil }
 
       intersection = u1_roles & u2_roles
       both_over16 = u1.over_16? && u2.over_16?
@@ -39,9 +39,9 @@ class Conversation < ApplicationRecord
     author == current_user ? receiver : author
   end
 
-  ## 
+  ##
   def participates?(user)
     author == user || receiver == user
   end
-  
+
 end

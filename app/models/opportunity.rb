@@ -67,7 +67,7 @@ class Opportunity < ApplicationRecord
   end
 
 
-  def pct_work_remaining
+  def pct_done
     if self.planned?
       return 0
     end
@@ -76,7 +76,7 @@ class Opportunity < ApplicationRecord
     work_done = 0.0
     est_req_work = 0.0
     self.requirements.each do |req|
-      work_done += (1 - (req.pct_work_remaining / 100)) * req.estimated_work
+      work_done += (1 - (req.pct_done / 100)) * req.estimated_work
       est_req_work += req.estimated_work
     end
 
@@ -104,6 +104,15 @@ class Opportunity < ApplicationRecord
 
       intersection.size > 0
     end
+  end
+
+  def defined_statuses
+    ['Need Volunteers', 'Ready', 'Complete']
+  end
+
+
+  def abstract_statuses
+    ['Planning', 'In Progress', 'Stuck', 'Expertise Needed', 'Ready']
   end
 
 
