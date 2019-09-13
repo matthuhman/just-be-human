@@ -16,6 +16,9 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
+  border-top: 2px solid $lightgrey;
+  padding-top: 2vh;
+  margin-top: 4vh;
 
   &.hp {
     width: 100%;
@@ -30,6 +33,7 @@
 /* Style the buttons that are used to open the tab content */
 .tab button {
   float: left;
+  width: 50%;
   border: none;
   border-radius: 10px;
   outline: none;

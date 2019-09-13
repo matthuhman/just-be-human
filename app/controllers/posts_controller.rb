@@ -23,7 +23,14 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    # binding.pry
+    if params[:opportunity]
+      @post = Post.new(postable_id: params[:opportunity][:id], postable_type: "opportunity")
+      binding.pry
+    else
+      @post = Post.new(postable_id: params[:requirement][:id], postable_type: "requirement")
+    end
+    # binding.pry
     respond_modal_with @post
   end
 
@@ -36,7 +43,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-
+    binding.pry
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)
       level = Role.opportunity_role_level(current_user.id, @post.postable_id)
@@ -112,5 +119,9 @@ class PostsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
     params.require(:post).permit(:title, :content, :postable_id, :postable_type)
+  end
+
+  def create_params
+    params.permit(opportunity: [:id], requirement: [:id])
   end
 end

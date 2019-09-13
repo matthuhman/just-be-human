@@ -76,13 +76,12 @@ class User < ApplicationRecord
   end
 
 
-  def can_post
-
-
+  def is_opp_volunteer?(opp_id)
+    Role.opportunity_role_level <= 3
   end
 
 
-  def can_message
+  def is_follower?(type, type_id)
 
 
 

@@ -2,7 +2,7 @@ class RequirementsController < ApplicationController
   respond_to :html, :xml, :json
 
 
-  before_action :set_requirement, only: [:show, :edit, :update, :destroy]
+  before_action :set_requirement, only: [:show, :edit, :update, :destroy, :participate, :cancel_participation, :promote_leader, :remove_leader]
   before_action :authenticate_user!
 
   # GET /requirements/new
@@ -13,16 +13,17 @@ class RequirementsController < ApplicationController
     if params[:requirement]
       @date = params[:requirement][:target_date].to_date
       @planned = params[:requirement][:defined]
-      #
     end
     respond_modal_with @requirement
   end
 
   # GET /requirements/1
   def show
+    @volunteers = RequirementRole.where(requirement_id: @requirement.id).map {|r| r.user }
     @opportunity = Opportunity.find(@requirement.opportunity_id)
     @opp_level = Role.opportunity_role_level(current_user.id, @opportunity.id)
     @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
+
     respond_modal_with @requirement
   end
 
@@ -31,6 +32,7 @@ class RequirementsController < ApplicationController
     @opportunity = Opportunity.find(@requirement.opportunity_id)
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
+    @planned = @opportunity.defined
     respond_modal_with @requirement, title: "Editing requirement"
   end
 
@@ -44,15 +46,13 @@ class RequirementsController < ApplicationController
     @sub_categories = Category.req_subcats
     #respond_modal_with @requirement, location: @opportunity
     respond_to do |format|
-      @tab = 'opportunity-requirements-tab'
+      # @tab = 'opportunity-requirements-tab'
       if opportunity.user_has_mod_permissions(current_user.id)
         if @requirement.save
           format.html { redirect_to opportunity, notice: 'Requirement was successfully created.' }
           format.json { render :show, status: :created, location: opportunity }
         else
           respond_modal_with @requirement
-          # format.html { render :new }
-          # format.json { render json: @requirement.errors, status: :unprocessable_entity }
         end
       else
         format.html { rerdirect_to opportunity, alert: "You do not have permission to create a requirement for this opportunity." }
@@ -89,7 +89,7 @@ class RequirementsController < ApplicationController
     @opportunity = Opportunity.find(@requirement.opportunity_id)
 
     respond_to do |format|
-      if current_user.id == @requirement.user_id || @opportunity.user_has_mod_permissions(current_user.id) || @requirement.user_has_mod_permissions(current_user.id)
+      if @opportunity.user_has_mod_permissions(current_user.id) || @requirement.user_has_mod_permissions(current_user.id)
         @requirement.destroy
         format.html { redirect_to @opportunity, notice: 'Requirement.was successfully destroyed.' }
         format.json { head :no_content }
@@ -101,20 +101,18 @@ class RequirementsController < ApplicationController
   end
 
   def participate
-    @requirement = Requirement.find(params[:requirement_id])
     respond_to do |format|
       if Role.volunteer(current_user.id, @requirement.id, @requirement.opportunity_id)
         format.html { redirect_to @requirement, notice: "You are now a volunteer in #{@requirement.title}" }
         format.json { render :show, status: :created, location: @requirement }
       else
-        format.html { redirect_to @requirement, notice: 'There was a opportunity when volunteering to participate in this requirement.' }
+        format.html { redirect_to @requirement, notice: 'There was an unexpected issue when volunteering to participate in this requirement.' }
         format.json { render :show, status: :unprocessable_entity, location: @requirement }
       end
     end
   end
 
   def cancel_participation
-    @requirement = Requirement.find(cancel_params[:requirement_id])
     respond_to do |format|
       if Role.cancel(current_user.id, @requirement.id, @requirement.opportunity_id)
         format.html { redirect_to @requirement, notice: "You have cancelled your participation." }
@@ -122,6 +120,42 @@ class RequirementsController < ApplicationController
       else
         format.html { redirect_to @requirement, alert: "You were not a volunteer."}
         format.json { render :show, status: :unprocessable_entity, location: @requirement}
+      end
+    end
+  end
+
+  def promote_leader
+    opp = @requirement.opportunity
+    respond_to do |format|
+      if opp.user_has_mod_permissions(current_user.id)
+        if Role.make_req_leader(promote_params, @requirement.id)
+          format.html { redirect_to @requirement, notice: "#{@requirement.title} has a new leader!" }
+          format.json { render :show, status: :ok, location: @requirement }
+        else
+          format.html { redirect_to @requirement, alert: "Could not complete request." }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        end
+      else
+        format.html { redirect_to @requirement, notice: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: @requirement }
+      end
+    end
+  end
+
+  def remove_leader
+    opp = @requirement.opportunity
+    respond_to do |format|
+      if opp.user_has_mod_permissions(current_user.id)
+        if Role.remove_req_leader(@requirement.id)
+          format.html { redirect_to @requirement, notice: "Leader has been removed." }
+          format.json { render :show, status: :ok, location: @requirement }
+        else
+          format.html { redirect_to @requirement, alert: "Could not complete request." }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        end
+      else
+        format.html { redirect_to @requirement, notice: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: @requirement }
       end
     end
   end
@@ -163,11 +197,15 @@ class RequirementsController < ApplicationController
     params.require(:requirement).permit(:title, :description, :status, :complete, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
   end
 
+  def promote_params
+    params.require(:user_id)
+  end
+
   def participate_params
-    params.permit(:requirement_id)
+    params.require(:requirement_id)
   end
 
   def cancel_params
-    params.permit(:requirement_id)
+    params.require(:requirement_id)
   end
 end

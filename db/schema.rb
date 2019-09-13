@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_003805) do
+ActiveRecord::Schema.define(version: 2019_09_12_192354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_003805) do
 
   create_table "reported_errors", force: :cascade do |t|
     t.string "source"
-    t.text "errors"
+    t.text "errs"
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -178,6 +178,8 @@ ActiveRecord::Schema.define(version: 2019_09_12_003805) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "requirement_id"
+    t.uuid "opportunity_id"
+    t.index ["user_id", "opportunity_id"], name: "index_requirement_roles_on_user_id_and_opportunity_id"
     t.index ["user_id", "requirement_id"], name: "idx_one_role_per_user", unique: true
     t.index ["user_id"], name: "index_requirement_roles_on_user_id"
   end
@@ -189,7 +191,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_003805) do
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
+    t.integer "volunteer_count", default: 0
     t.integer "category"
     t.integer "subcategory"
     t.boolean "complete"

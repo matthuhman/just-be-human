@@ -27,7 +27,7 @@
 <div class="tab">
   <div class="opportunity-tab-links">
     <button class="tablinks hp" onclick="openTab(event, 'opportunity-requirements-tab')" id="defaultOpen">Requirements and Progress</button>
-    <button class="tablinks hp" onclick="openTab(event, 'opportunity-info-tab')">Posts and Discussion</button>
+    <button class="tablinks hp" onclick="openTab(event, 'opportunity-info-tab')">Discussion</button>
   </div>
 </div>
 <!-- Tab content -->
@@ -54,8 +54,8 @@
         </div>
       <% end %>
       <% if current_user && @role %>
-        <div class="add-post-button">
-          <%= link_to 'Add A Post', new_post_path(:opportunity => {:opportunity_id => @opportunity.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+        <div class="add-tabitem-button">
+          <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
         </div>
       <% end %>
     </div>
@@ -69,8 +69,8 @@
     <%= render 'requirement_row', requirement: requirement %>
   <%end%>
   <% if @is_mod %>
-    <div class="add-requirement-button">
-      <%= link_to 'Add a new requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg', data: { modal: true } %>
+    <div class="add-tabitem-button">
+      <%= link_to 'Add a new requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn', data: { modal: true } %>
     </div>
   <% end %>
 </div>

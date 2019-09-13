@@ -4,7 +4,14 @@
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Keep it short and sweet" %>
     <%= f.input :description, placeholder: "An in-depth description goes here." %>
-    <%= f.input :status, placeholder: "A short description of the current status." %>
+    <div class="form-group">
+      <%= f.label "Requirement status:" %>
+      <% if @planned %>
+        <%= f.select :status, @requirement.defined_statuses, label: "Status" %>
+      <% else %>
+        <%= f.select :status, @requirement.abstract_statuses, label: "Status" %>
+      <% end %>
+    </div>
     <% if @date %>
       <%= f.input :target_completion_date, :selected => @date, start_year: Date.today.year %>
     <% else %>
@@ -29,7 +36,7 @@
     <!--        
       this `if @planned` block will tell us if the parent opportunity is already defined or not. if the parent opportunity is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned opportunities.
     -->
-    <% if @opportunity_defined %>
+    <% if !@planned %>
       <div class="planned-selection">
         <%= f.input :defined, label: "This is everything I need!" %>
         <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>

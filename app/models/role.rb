@@ -44,7 +44,7 @@ class Role
     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
     req_role.level = 2
     req_role.title = "Volunteer"
-    req_role.opportunity_id = opp_id
+    req_role.requirement_id = req_id
 
     # if the user is currently a "follower", set their status to "volunteer"
 
@@ -78,7 +78,7 @@ class Role
       return false
     end
 
-    if RequirementRole.where(user_id: u_id, opportunity_id: opp_id).size == 0
+    if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
       opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
       if opp_role.level > 2
         opp_role.level = 4
@@ -138,8 +138,8 @@ class Role
   end
 
 
-  def self.remove_req_leader(u_id, req_id)
-    req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
+  def self.remove_req_leader(req_id)
+    req_role = RequirementRole.find_by(requirement_id: req_id, level: 1)
 
     if req_role
       req_role.level = 2

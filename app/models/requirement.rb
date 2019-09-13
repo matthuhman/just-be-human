@@ -19,6 +19,14 @@ class Requirement < ApplicationRecord
 
 
 
+  def display_description
+    if description.size > 100
+      description[0..100] << "..."
+    else
+      description
+    end
+  end
+
   def pct_done_display
     self.pct_done.round.to_s << "%"
   end
@@ -29,6 +37,14 @@ class Requirement < ApplicationRecord
 
   def leader
     RequirementRole.find_by(requirement_id: id, level: 1)
+  end
+
+  def abstract_statuses
+    ["Open", "In Progress", "Need Volunteers", "Ready", "Waiting", "Expertise Needed", "Planning"]
+  end
+
+  def defined_statuses
+    ["Need Volunteers", "Ready"]
   end
 
   def user_has_mod_permissions(u_id)

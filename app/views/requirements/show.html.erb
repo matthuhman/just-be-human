@@ -1,131 +1,176 @@
-<div class="container">
-  <div class="requirement-info">
-    <div class="requirement-info-categories">
-      <div class="requirement-info-category">
-        <small>Category:</small>
-        <strong><%= @requirement.category_title %></strong>
-      </div>
-      <div class="requirement-info-subcategory">
-        <small>Subcategory:</small>
-        <strong><%= @requirement.subcategory_title %></strong>
-      </div>
+<div class="requirement-info">
+  <div class="requirement-info-categories">
+    <div class="requirement-info-category">
+      <small class="category-header">Category:</small>
+      <strong><%= @requirement.category_title %></strong>
     </div>
-    <h2 class="requirement-title"><%= @requirement.title %></h2>
-    <div class="requirement-info-description">
-      <%= @requirement.description %>
+    <div class="requirement-info-subcategory">
+      <small class="category-header">Subcategory:</small>
+      <strong><%= @requirement.subcategory_title %></strong>
     </div>
-    <div class="requirement-info-grid">
-      <div class="requirement-info-left">
-        <% leader = @requirement.leader %>
-        <% if leader %>
-          <div class="requirement-info-row">
-            Led By 
-            <div class="requirement-info-content">
-              <%= leader.username %>
-            </div>
-          </div>
-        <% else %>
-          <div class="requirement-info-row needs-leader">
-            This requirement needs a leader!
-          </div>
-        <% end %>
+  </div>
+  <h2 class="requirement-title"><%= @requirement.title %></h2>
+  <div class="requirement-info-description">
+    <%= @requirement.description %>
+  </div>
+  <div class="requirement-info-grid">
+    <div class="requirement-info-left">
+      <% leader = @requirement.leader %>
+      <% if leader %>
         <div class="requirement-info-row">
-          Category 
+          Led By 
           <div class="requirement-info-content">
-            <%= @requirement.category_title %>
+            <%= leader.user.username %>
           </div>
         </div>
-        <div class="requirement-info-row">
-          Target Completion 
+      <% else %>
+        <div class="requirement-info-row needs-leader">
+          No Leader!
+        </div>
+      <% end %>
+      <div class="requirement-info-row">
+        Status 
+        <div class="requirement-info-content">
+          <%= @requirement.status %>
+        </div>
+      </div>
+      <div class="requirement-info-row">
+        Priority 
+        <div class="requirement-info-content">
+          <%= @requirement.priority %>
+        </div>
+      </div>
+      <div class="requirement-info-row">
+        Estimated Difficulty 
+        <div class="requirement-info-content">
+          <%= @requirement.estimated_work.round %>/10
+        </div>
+      </div>
+      <div class="requirement-info-row">
+        Completion Date
+        <% if @requirement.overdue? %>
+          <div class="requirement-info-content requirement-overdue">
+            <%= @requirement.target_completion_date %>
+          </div>
+        <% else %>
           <div class="requirement-info-content">
             <%= @requirement.target_completion_date %>
           </div>
-        </div>
-        <div class="requirement-info-row">
-          Volunteers 
-          <div class="requirement-info-content">
-            <%= @requirement.volunteer_count %> / <%= @requirement.volunteers_required %>
-          </div>
+        <% end %>
+      </div>
+      <div class="requirement-info-row">
+        Volunteers 
+        <div class="requirement-info-content">
+          <%= @requirement.volunteer_count %>
         </div>
       </div>
-      <div class="requirement-info-right">
-        <% if !@req_level && @opp_level %>
-          <a href="/requirements/participate?requirement_id=<%= @requirement.id %>">
-            <div class="volunteer-btn-div">
-              Volunteer to help!
+    </div>
+    <div class="requirement-info-right">
+      <% if !@req_level && @opp_level %>
+        <a href="/requirements/participate?id=<%= @requirement.id %>">
+          <div class="volunteer-btn-div">
+            Volunteer to help!
+          </div>
+        </a>
+      <% end %>
+      <div class="link-group d-flex flex-column">
+        <% if @req_level && @req_level == 1 %>
+          <a href="/requirements/demote?id=<%= @requirement.id %>">
+            <div class="req-option-btn-div cancel-btn-div">
+              Step Down as Leader
+            </div>
+          </a>
+        <% elsif @req_level && @req_level >= 2 %>
+          <a href="/requirements/cancel?id=<%= @requirement.id %>">
+            <div class="req-option-btn-div cancel-btn-div">
+              Cancel your Participation
             </div>
           </a>
         <% end %>
+        <% if @opp_level && (@opp_level <= 2 || (@req_level && @req_level < 2)) %>
+          <a href="<%= edit_requirement_path(@requirement) %>">
+            <div class="req-option-btn-div">
+              Edit this Requirement
+            </div>
+          </a>
+        <% end %>
+        <a href="/opportunities/<%= @requirement.opportunity.id %>">
+          <div class="req-option-btn-div">
+            Parent Opportunity
+          </div>
+        </a>
       </div>
     </div>
-    <div class="requirement-meta">
-      <p>Priority: <%= @requirement.priority %></p>
-      <p>Estimated difficulty: <%= @requirement.estimated_work.round %>/10</p>
+  </div>
+</div>
+<div class="tab">
+  <div class="opportunity-tab-links">
+    <button class="tablinks hp" onclick="openTab(event, 'requirement-posts-tab')" id="defaultOpen">Discussion</button>
+    <button class="tablinks hp" onclick="openTab(event, 'requirement-volunteers-tab')">Volunteers</button>
+  </div>
+</div>
+<div id="requirement-posts-tab" class="tabcontent">
+  <div class="posts-container">
+    <div class="tab-header d-flex align-items-center">
+      <h2 class="tab-heading posts-tab-heading"> Posts </h2>
     </div>
-  </div>
-  <% if @requirement.overdue? %>
-    <div class="overdue-warning">
-      This requirement is overdue!
-    </div>
-  <% end %>
-  <!--  This next part is so that we can use different progress bars based on the percentage. Green if it's < 40% work remaining, orange for 40-70, and red for 70+  -->
-  <% progress = @requirement.pct_done %>
-  <% progress_display = @requirement.pct_done_display %>
-  <div class="progress-title">
-    <h4>Current status:</h4>
-  </div>
-  <div class="progress">
-    <% if progress >= 60 %>
-      <div class="progress-bar progress-bar-striped bg-success" style="width:<%= progress_display %>">
-        <small class="work-remaining">
-          <%= @requirement.status %>
-        </small>
-      </div>
-    <% elsif progress >= 25 && progress < 60 %>
-      <div class="progress-bar progress-bar-striped bg-warning" style="width:<%= progress_display %>">
-        <small class="work-remaining">
-          <%= @requirement.status %>
-        </small>
-      </div>
-    <% else %>
-      <div class="progress-bar progress-bar-striped bg-danger" style="width:<%= progress_display %>">
-        <small class="work-remaining">
-          <%= @requirement.status %>
-        </small>
-      </div>
-    <% end %>
-  </div>
-  <div class="requirement-posts">
-    <div class="posts-container">
-      <div class="requirement-posts-title">Posts</div>
-      <div class="post-list">
+    <div class="post-list">
+      <% if @requirement.posts.size > 0 %>
         <% @requirement.posts.each do |post| %>
           <% post_user = User.find(post.user_id) %>
           <div class="post-container">
             <a href="/posts/<%= post.id %>" class="post-link">
               <p class="post-title"><%= post.title %></p>
               <p class="post-excerpt"><strong>Excerpt: <%= post.display_content %></strong></p>
-              <p class="post-author"><%= post_user.username %>
-                <div> on <%= post.created_at.strftime('%m/%d/%Y') %></div>
-              </p>
+              <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
             </a>
           </div>
         <% end %>
-        <% if current_user && (@req_level || (@opp_level && @opp_level <= 2)) %>
-          <div class="add-post-button">
-            <%= link_to 'Add A Post', new_post_path(:requirement => {:requirement_id => @requirement.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
-          </div>
-        <% end %>
-      </div>
+      <% else %>
+        <div class="no-posts-container">
+          There is currently no discussion about this requirement. If you have a comment or question, add it!
+        </div>
+      <% end %>
+      <% if current_user && ((@req_level && @req_level <= 2) || @opp_level <= 2) %>
+        <div class="add-post-button">
+          <%= link_to 'Add A Post', new_post_path(:opportunity => {:opportunity_id => @opportunity.id}), class: "btn btn-success btn-lg", data: { modal: true } %>
+        </div>
+      <% end %>
     </div>
   </div>
-  <div class="link-group d-flex flex-column">
-    <% if @req_level && @req_level >= 2 %>
-      <%= link_to 'Cancel your participation', controller: 'requirements', action: 'cancel_participation', requirement_id: @requirement.id %>
-    <% end %>
-    <% if @opp_level && (@opp_level <= 2 || (@req_level && @req_level < 2)) %>
-      <%= link_to 'Edit this requirement', edit_requirement_path(@requirement) %>
-    <% end %>
-    <%= link_to 'Back to parent opportunity', @opportunity %>
+</div>
+<div id="requirement-volunteers-tab" class="tabcontent">
+  <div class="volunteers-container">
+    <div class="tab-header d-flex align-items-center">
+      <h2 class="tab-heading posts-tab-heading"> Volunteers </h2>
+    </div>
+    <div class="volunteers-list">
+      <% if @volunteers.size > 0 %>
+        <% @volunteers.each do |vol| %>
+          <div class="volunteer-row">
+            <div class="volunteer-username">
+              <%= vol.username %>
+            </div>
+            <% if !leader && @requirement.user_has_mod_permissions(current_user.id) %>
+              <div class="volunteer-leader-btn">
+                <a href="/requirements/promote?id=<%= @requirement.id %>&user_id=<%=vol.id%>">
+                  <div class="promote-btn-div">
+                    Promote User to Leader
+                  </div>
+                </a>
+              </div>
+            <% elsif vol.id == leader.user_id %>
+              <div class="volunteer-leader-btn">
+                <a href="/requirements/demote?id=<%= @requirement.id %>">
+                  <div class="demote-btn-div">
+                    Remove User as Leader
+                  </div>
+                </a>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
