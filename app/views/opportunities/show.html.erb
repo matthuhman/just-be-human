@@ -55,7 +55,7 @@
       <% end %>
       <% if current_user && @role %>
         <div class="add-tabitem-button">
-          <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
+          <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
         </div>
       <% end %>
     </div>
@@ -70,7 +70,7 @@
   <%end%>
   <% if @is_mod %>
     <div class="add-tabitem-button">
-      <%= link_to 'Add a new requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn', data: { modal: true } %>
+      <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn', data: { modal: true } %>
     </div>
   <% end %>
 </div>

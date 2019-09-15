@@ -23,14 +23,11 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    # binding.pry
     if params[:opportunity]
       @post = Post.new(postable_id: params[:opportunity][:id], postable_type: "opportunity")
-      binding.pry
     else
       @post = Post.new(postable_id: params[:requirement][:id], postable_type: "requirement")
     end
-    # binding.pry
     respond_modal_with @post
   end
 
@@ -43,7 +40,6 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-    binding.pry
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)
       level = Role.opportunity_role_level(current_user.id, @post.postable_id)

@@ -8,12 +8,11 @@
     <%= f.input :content, placeholder: "Write your post here" %>
   </div>
   <% if params[:opportunity] %>
-    <%= f.hidden_field :postable_id, :value => params[:opportunity][:opportunity_id] %>
+    <%= f.hidden_field :postable_id, :value => params[:opportunity][:id] %>
     <%= f.hidden_field :postable_type, :value => 'Opportunity' %>
   <% elsif params[:requirement] %>
-    <%= f.hidden_field :postable_id, :value => params[:requirement][:requirement_id] %>
+    <%= f.hidden_field :postable_id, :value => params[:requirement][:id] %>
     <%= f.hidden_field :postable_type, :value => 'Requirement' %>
   <% end %>
-  <%= f.button :submit, class: "btn btn-primary"  %>
-  <% binding.pry %>
+  <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>

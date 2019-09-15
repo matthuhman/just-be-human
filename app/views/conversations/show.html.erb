@@ -1,15 +1,17 @@
-<h1>Chatting with <%= @conversation.with(current_user).username %></h1>
-
-<div id="conversation-main">
-  <div id="conversation-body">
+<div class="jbh-standard-title">Chatting with <%= @conversation.with(current_user).username %></div>
+<div class="conversation-main">
+  <div class="conversation-body">
     <%= render @conversation.personal_messages %>
   </div>
-
-  <%= form_for @personal_message do |f| %>
-    <%= hidden_field_tag 'conversation_id', @conversation.id %>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-
-    <%= f.submit %>
-  <% end %>
+  <div class="new-personal-msg-form">
+    <%= form_for @personal_message do |f| %>
+      <%= hidden_field_tag 'conversation_id', @conversation.id %>
+      <div class="new-msg-text-area">
+        <%= f.text_area :body, placeholder: "Add your message here", class: "new-message-textarea" %>
+      </div>
+      <div class="new-msg-submit">
+        <%= f.submit 'Send', class: "new-msg-submit-btn" %>
+      </div>
+    <% end %>
+  </div>
 </div>
