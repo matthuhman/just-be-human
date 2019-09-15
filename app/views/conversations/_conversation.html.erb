@@ -1,11 +1,19 @@
-<div class="conversation">
+<div class="conversation-container">
   <a href="/conversations/<%= conversation.id %>">
-    <div class="conversation-username">
-      <%= conversation.with(current_user).username %>
-    </div>
-    <div class="conversation-last-msg">
-      <em class="last-msg-header">Last message:</em><br>
-      <%= conversation.personal_messages.last.body.truncate(50) %>
+    <div class="conversation">
+      <span class="conversation-username">
+        <%= conversation.with(current_user).username %>
+      </span>
+      <span class="conversation-last-msg">
+        <em class="last-msg-header">Last Message: </em>
+        <span class="last-msg-content">
+          <%= conversation.personal_messages.last.body.truncate(50) %>
+        </span>
+        <em class="last-msg-time-header"> at: </em>
+        <span class="last-msg-time">
+          <%= conversation.personal_messages.last.created_at.strftime("%l:%M%P on %Y/%m/%d") %>
+        </span>
+      </span>
     </div>
   </a>
 </div>

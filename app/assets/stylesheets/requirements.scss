@@ -39,6 +39,8 @@
   font-size: 1.8em;
 }
 
+
+
 .category-header {
   font-size: .6em;
   color: $darkgrey;
@@ -162,6 +164,7 @@
 
 .requirement-info-description {
   margin: 4vh 0;
+  padding-left: 5vw;
   margin-right: 20vw;
   padding-top: 2vh;
   padding-bottom: 2vh;
@@ -232,6 +235,8 @@
 }
 
 .volunteer-row {
+  padding-left: 5vw;
+  padding-right: 5vw;
   width: 100%;
   height: 2.4em;
   display: inline-flex;  

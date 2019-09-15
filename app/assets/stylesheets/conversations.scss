@@ -10,29 +10,96 @@
 // INDEX PAGE
 //
 
-.conversation {
-  padding-left: 8vw;
-  color: black;
+.conversations {
+  width: 80%;
 
+}
+
+.conversation-container {
+  & a {
+    text-decoration: none;
+    color: black;
+  }
   &:hover {
     & a {
       text-decoration: none;
+      color: black;
     }
 
     & div {
-      transform: scale(.98);
+      transform: scale(1.1);
     }
   }
+}
+
+.conversation {
+  display: flex-inline;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 8vw;
+  border: 2px solid $lightgrey;
+  margin: 2vh;
+}
+
+.converstaion-last-msg {
+  display: flex-inline;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.last-msg-content {
+  font-size: 1.3em;
 }
 
 
 
 .conversation-username {
-  font-size: 1.6em;
+  font-size: 2em;
 
 }
 
 
-.last-msg-header {
-  font-size: 0.8em;
+
+//
+//
+//
+//
+//
+// SHOW PAGE
+//
+
+
+.message {
+  border-bottom: 1px solid $lightgrey;
+  margin-bottom: 2vh;
+}
+.conversation-body {
+  margin-left: 5vw;
+  margin-top: 5vh;
+}
+
+.message-body {
+  font-size: 1.6em;
+}
+
+.message-meta {
+  padding-left: 2vw;
+}
+
+.new-personal-msg-form {
+  padding-left: 15vw;
+}
+
+.new-message-textarea {
+  width: 70vw;
+  height: 20vh;
+}
+
+.new-msg-submit-btn {
+  width: 70vw;
+  height: 10vh;
+  background-color: $limegreen !important;
+  color: black !important;
+  font-size: 2em;
+  margin-bottom: 4vh;
 }
