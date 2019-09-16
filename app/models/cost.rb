@@ -35,7 +35,7 @@ class Cost < ApplicationRecord
 
     cost.mtd_cost = monthly_cost.round(2)
 
-    if most_recent_cost.fetch_date.month == Date.today.month
+    if most_recent_cost && most_recent_cost.fetch_date.month == Date.today.month
       daily_cost = monthly_cost - most_recent_cost.mtd_cost
     else
       daily_cost = monthly_cost
