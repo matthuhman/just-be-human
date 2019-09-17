@@ -12,9 +12,14 @@
   <h2 class="requirement-title"><%= @requirement.title %></h2>
   <div class="requirement-info-description">
     <%= @requirement.description %>
+    <% if @requirement.complete? %>
+      <div class="requirement-complete-marker">
+        Requirement is complete!
+      </div>
+    <% end %>
   </div>
-  <div class="requirement-info-grid">
-    <div class="requirement-info-left">
+  <div class="jbh-grid-container">
+    <div class="jbh-grid-first">
       <% leader = @requirement.leader %>
       <% if leader %>
         <div class="requirement-info-row">
@@ -40,12 +45,14 @@
           <%= @requirement.priority %>
         </div>
       </div>
-      <div class="requirement-info-row">
-        Estimated Difficulty 
-        <div class="requirement-info-content">
-          <%= @requirement.estimated_work.round %>/10
+      <% if @requirement.estimated_work > 0 %>
+        <div class="requirement-info-row">
+          Estimated Difficulty 
+          <div class="requirement-info-content">
+            <%= @requirement.estimated_work.round %>/10
+          </div>
         </div>
-      </div>
+      <% end %>
       <div class="requirement-info-row">
         Completion Date
         <% if @requirement.overdue? %>
@@ -65,11 +72,32 @@
         </div>
       </div>
     </div>
-    <div class="requirement-info-right">
+    <div class="jbh-grid-second">
       <% if !@req_level && @opp_level %>
         <a href="/requirements/participate?id=<%= @requirement.id %>">
           <div class="volunteer-btn-div">
             Volunteer to help!
+          </div>
+        </a>
+      <% end %>
+      <% if (@opp_level && @opp_level <= 2) || (@req_level && @req_level < 2) %>
+        <% if @requirement.can_complete? %>
+          <a href="complete?id=<%=@requirement.id%>">
+            <div class="req-option-btn-div">
+              Complete this Requirement
+            </div>
+          </a>
+        <% end %>
+        <% if @requirement.complete? %>
+          <a href="incomplete?id=<%=@requirement.id%>">
+            <div class="req-option-btn-div">
+              Requirement is not complete
+            </div>
+          </a>
+        <% end %>
+        <a href="<%= edit_requirement_path(@requirement) %>">
+          <div class="req-option-btn-div">
+            Edit this Requirement
           </div>
         </a>
       <% end %>
@@ -84,13 +112,6 @@
           <a href="/requirements/cancel?id=<%= @requirement.id %>">
             <div class="req-option-btn-div cancel-btn-div">
               Cancel your Participation
-            </div>
-          </a>
-        <% end %>
-        <% if @opp_level && (@opp_level <= 2 || (@req_level && @req_level < 2)) %>
-          <a href="<%= edit_requirement_path(@requirement) %>">
-            <div class="req-option-btn-div">
-              Edit this Requirement
             </div>
           </a>
         <% end %>
@@ -159,7 +180,7 @@
                   </div>
                 </a>
               </div>
-            <% elsif vol.id == leader.user_id %>
+            <% elsif leader && vol.id == leader.user_id %>
               <div class="volunteer-leader-btn">
                 <a href="/requirements/demote?id=<%= @requirement.id %>">
                   <div class="demote-btn-div">

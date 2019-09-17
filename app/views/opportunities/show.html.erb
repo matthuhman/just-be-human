@@ -1,14 +1,6 @@
 <div class="opportunity-header">
   <div class="opportunity-info-summary">
     <h1 class="opportunity-title"> <%= @opportunity.title %> </h1>
-    <% if !@role && current_user %>
-      <%= link_to 'Follow Opportunity', opportunities_follow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary follow-opportunity-button" %>
-    <% elsif !@role %>
-    <% elsif @role.level == 4 %>
-      <%= link_to 'Unfollow Opportunity', opportunities_unfollow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary unfollow-opportunity-button" %>
-    <% elsif @role.level == 2 %>
-      <%= link_to 'Step down as Supervisor', opportunities_demote_user_path(opportunity_id: @opportunity.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
-    <% end %>
   </div>
   <div class="opportunity-info">
     <div class="opportunity-info-row">
@@ -74,3 +66,11 @@
     </div>
   <% end %>
 </div>
+<% if !@role && current_user %>
+  <%= link_to 'Follow Opportunity', opportunities_follow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary follow-opportunity-button" %>
+<% elsif !@role %>
+<% elsif @role.level == 4 %>
+  <%= link_to 'Unfollow Opportunity', opportunities_unfollow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary unfollow-opportunity-button" %>
+<% elsif @role.level == 2 %>
+  <%= link_to 'Step down as Supervisor', opportunities_demote_user_path(opportunity_id: @opportunity.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
+<% end %>

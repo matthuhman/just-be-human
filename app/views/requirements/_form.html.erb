@@ -33,9 +33,6 @@
       <%= f.label "Priority- 1 is most important, 10 is least important" %>
       <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
     </div>
-    <!--        
-      this `if @planned` block will tell us if the parent opportunity is already defined or not. if the parent opportunity is defined, we don't want to offer the option for an "undefined" requirement. This should only be an option for unplanned opportunities.
-    -->
     <% if !@planned %>
       <div class="planned-selection">
         <%= f.input :defined, label: "This is everything I need!" %>

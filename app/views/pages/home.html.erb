@@ -57,12 +57,7 @@
 </div>
 <script>
   let map;
-  // var assignListener = function(markerObj, infoWindowObj){
-  //   console.log('Clicked on a marker')
-  //   return function() {
-  //          infoWindowObj.open(map, markerObj);
-  //           };
-  // };
+  
   function initMap(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},

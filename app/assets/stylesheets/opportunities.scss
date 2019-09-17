@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'theme.scss';
+@import 'grid.scss';
 
 .opportunity-title {
   text-transform: none;
@@ -68,6 +69,47 @@
   }
 }
 
+.requirement-row {
+  margin-bottom: 2px;
+  padding: 2vh;
+  border: 1px solid $lightgrey;
+  transition: all .2s linear;
+
+  & a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  &:hover {
+    // background-color: $lightgrey;
+    border: 1px solid black;
+    transform: scale(.98);
+    & a {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+}
+
+.requirement-row-complete {
+	border: 2px solid $darkgrey;
+	background-color: $limegreen-low-opacity;
+
+	.requirement-row-title {
+		font-weight: 700;
+	}
+}
+
+.requirement-row-title {
+	font-size: 2em;
+}
+
+.requirement-row-excerpt {
+	font-size: 1.3em;
+	@include respond-to(handhelds) {
+		text-align: center;
+	}
+}
 // .add-tabitem-button {
 //   padding-top: 3vh;
 //   text-align: center;
@@ -205,6 +247,10 @@
 
 // OPPORTUNITIES FORM
 
+
+.abstract-options-container {
+	display: none;
+}
 
 .basic-info-container {
   padding-bottom: 2vh;

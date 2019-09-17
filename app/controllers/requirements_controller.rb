@@ -2,7 +2,7 @@ class RequirementsController < ApplicationController
   respond_to :html, :xml, :json
 
 
-  before_action :set_requirement, only: [:show, :edit, :update, :destroy, :participate, :cancel_participation, :promote_leader, :remove_leader]
+  before_action :set_requirement, only: [:show, :edit, :update, :destroy, :participate, :cancel_participation, :promote_leader, :remove_leader, :mark_complete, :mark_incomplete]
   before_action :authenticate_user!
 
   # GET /requirements/new
@@ -19,8 +19,8 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/1
   def show
-    @volunteers = RequirementRole.where(requirement_id: @requirement.id).map {|r| r.user }
-    @opportunity = Opportunity.find(@requirement.opportunity_id)
+    @volunteers = @requirement.requirement_roles.map {|r| r.user }
+    @opportunity = Opportunity.includes(:opportunity_roles).find(@requirement.opportunity_id)
     @opp_level = Role.opportunity_role_level(current_user.id, @opportunity.id)
     @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
 
@@ -44,7 +44,7 @@ class RequirementsController < ApplicationController
     opportunity = Opportunity.find(@requirement.opportunity_id)
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
-    #respond_modal_with @requirement, location: @opportunity
+    # respond_modal_with @requirement, location: @opportunity
     respond_to do |format|
       # @tab = 'opportunity-requirements-tab'
       if opportunity.user_has_mod_permissions(current_user.id)
@@ -160,14 +160,13 @@ class RequirementsController < ApplicationController
     end
   end
 
-  def change_completion_status
-    @requirement = Requirement.find(:requirement_id)
-    status = @requirement.complete
+  def mark_complete
     @opportunity = @requirement.opportunity
     respond_to do |format|
-      if @requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions
-        requirement.complete = !status;
-        if requirement.save
+      if (@requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions(current_user.id)) && @requirement.can_complete?
+        @requirement.complete = true
+        @requirement.status = "Complete"
+        if @requirement.save
           format.html { redirect_to @requirement, success: "This requirement is complete!" }
           format.json { render :show, status: ok, location: @requirement }
         else
@@ -181,6 +180,25 @@ class RequirementsController < ApplicationController
     end
   end
 
+  def mark_incomplete
+    @opportunity = @requirement.opportunity
+    respond_to do |format|
+      if (@requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions(current_user.id)) && @requirement.complete?
+        @requirement.complete = false
+        @requirement.status = "In Progress"
+        if @requirement.save
+          format.html { redirect_to @requirement, success: "This requirement is now marked incomplete!" }
+          format.json { render :show, status: ok, location: @requirement }
+        else
+          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        end
+      else
+        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement as incomplete." }
+        format.json { render :show, status: :forbidden, location: @requirement }
+      end
+    end
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.
