@@ -22,7 +22,7 @@
 //= require Chart.bundle
 //= require local-time
 //= require introjs
-
+//= require trix/dist/trix
 
 let intro;
 

@@ -4,8 +4,8 @@
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Enter a post title" %>
   </div>
-  <div class="form-inputs">
-    <%= f.input :content, placeholder: "Write your post here" %>
+  <div class="trix-container">
+    <%= f.rich_text_area :content, placeholder: "Write your post here" %>
   </div>
   <% if params[:opportunity] %>
     <%= f.hidden_field :postable_id, :value => params[:opportunity][:id] %>
