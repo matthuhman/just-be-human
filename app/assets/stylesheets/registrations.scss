@@ -28,26 +28,6 @@
   margin-top: 2vh;
 }
 
-.requirement-row {
-  margin-bottom: 2px;
-  padding: 2vh;
-  background: $lightgrey;
-  transition: all .2s linear;
-
-  & a {
-    color: #000;
-  }
-
-  &:hover {
-    background-color: $midgrey;
-
-    & a {
-      color: #000;
-      text-decoration: none;
-    }
-  }
-}
-
 .edit-user-update-btn {
   background-color: $limegreen !important;
   height: 10vh;

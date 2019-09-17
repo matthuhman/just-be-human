@@ -61,7 +61,6 @@ function handleTextInput(e) {
 function handleCheckbox(e) {
   let attribute = attributes[e.target.id]
   filters[attribute] = e.target.checked;
-  console.log(filters);
 
   filterOpportunities()
 }

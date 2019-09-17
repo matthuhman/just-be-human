@@ -32,7 +32,11 @@ class Requirement < ApplicationRecord
   end
 
   def overdue?
-    target_completion_date < Date.today
+    (target_completion_date < Date.today) && !complete
+  end
+
+  def can_complete?
+    !complete && volunteer_count >= volunteers_required
   end
 
   def leader
@@ -44,7 +48,7 @@ class Requirement < ApplicationRecord
   end
 
   def defined_statuses
-    ["Need Volunteers", "Ready"]
+    ["Need Volunteers", "In Progress", "Ready"]
   end
 
   def user_has_mod_permissions(u_id)
@@ -54,7 +58,7 @@ class Requirement < ApplicationRecord
 
     level = Role.requirement_role_level(u_id, self.id)
 
-    if level < 2
+    if level && level < 2
       true
     else
       if Role.opportunity_role_level(u_id, self.opportunity_id) <= 2
@@ -71,6 +75,31 @@ class Requirement < ApplicationRecord
 
   def subcategory_title
     Category.req_subcat_titles(self.category.to_i)[self.subcategory.to_i]
+  end
+
+
+  def add_volunteer
+    self.volunteer_count += 1
+    if self.volunteer_count >= self.volunteers_required
+      self.status = "Ready"
+    end
+
+    self.save
+  end
+
+  def subtract_volunteer
+    # binding.pry
+    self.volunteer_count -= 1
+    if self.volunteer_count < self.volunteers_required && (self.status == "Ready" || self.complete?)
+      if self.status == "Ready"
+        self.status = "Need Volunters"
+      elsif self.complete
+        self.status = "Need Volunteers"
+        self.complete = false
+      end
+    end
+
+    self.save
   end
 
 

@@ -59,8 +59,7 @@ class Role
     end
 
     if req_role.save
-      Requirement.increment_counter(:volunteer_count, req_id)
-      true
+      Requirement.find(req_id).add_volunteer
     else
       ReportedError.report("Role.volunteer_req", req_role.errors, 1000)
       false
@@ -72,7 +71,7 @@ class Role
     req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
     if req_role
       req_role.destroy
-      Requirement.decrement_counter(:volunteer_count, req_id)
+      Requirement.find(req_id).subtract_volunteer
     else
       ReportedError.report("Role.cancel", "trying to cancel role that doesn't exist?? Framework logic error!!!", 1000)
       return false

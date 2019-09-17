@@ -38,7 +38,6 @@ $(function() {
 
 // and check for it when deciding whether to start. 
 window.addEventListener('load', function() {
-  console.log('how often does this get run?');
   var path = window.location.pathname;
   
   // return if path doesn't have an intro or if we've already shown it 
@@ -70,7 +69,7 @@ function hasIntro(path)
   switch (path) {
     case "/":
       return true;
-    case "/problems/new":
+    case "/opportunities/new":
       return true;
     default:
       return false;
@@ -111,7 +110,7 @@ function getSteps(path)
         ]
       }
       break;
-    case "/problems/new":
+    case "/opportunities/new":
       return 
       {
         steps: [
@@ -119,15 +118,15 @@ function getSteps(path)
             intro: "This page lets you define a new volunteer opportunity!"
           },
           {
-            element: '#new-problem-step1',
+            element: '#new-opportunity-step1',
             intro: "Specify a title, description, and category here. A simple title and informative description will be very helpful for finding volunteers!"
           },
           {
-            element: '#new-problem-step2',
+            element: '#new-opportunity-step2',
             intro: "If you know exactly what your opportunity requires, select 'defined'. If you're still figuring it out, leave the checkbox blank."
           },
           {
-            element: '#new-problem-step3',
+            element: '#new-opportunity-step3',
             intro: "Using a street address is much better than a postal code. If you don't know an exact address, pick a public park or landmark nearby!"
           }
         ]
