@@ -22,7 +22,7 @@ class Opportunity < ApplicationRecord
 
 
   def overdue?
-    target_completion_date < Date.today
+    target_completion_date? && target_completion_date < Date.today
   end
 
   def target_completion_date
