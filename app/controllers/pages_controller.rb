@@ -23,9 +23,9 @@ class PagesController < ApplicationController
       end
 
 
-      @my_opportunities = current_user.opportunity_roles.sort_by{ |r| r.level }
-      .map{ |role| role.opportunity }
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
+      @my_opportunities = current_user.opportunities
+      @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
       @roles = current_user.opportunity_roles
     else
       redirect_to :action => 'landing'

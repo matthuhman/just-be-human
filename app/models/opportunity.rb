@@ -25,6 +25,14 @@ class Opportunity < ApplicationRecord
     target_completion_date < Date.today
   end
 
+  def target_completion_date
+    if super && super.hour == 0 && super.min == 0
+      super.to_date
+    else
+      super
+    end
+  end
+
   def user_is_admin(u_id)
     u_id == user_id
   end

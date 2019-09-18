@@ -21,7 +21,7 @@ class OpportunitiesController < ApplicationController
 
   # GET /opportunities/new
   def new
-    @opportunity = Opportunity.new
+    @opportunity = Opportunity.new(target_completion_date: DateTime.current.next_month.at_midnight)
     @categories = Category.opportunity_titles
   end
 

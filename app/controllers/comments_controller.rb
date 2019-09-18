@@ -17,21 +17,27 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
-    @post = Post.find(@comment.post_id)
-
+    @post = Post.find(@comment.post_id) if @comment.post_id?
+    # binding.pry
     respond_to do |format|
-      if @post.user_can_comment(current_user.id)
-        if @comment.save
-          Post.increment_counter(:comment_count, @post.id)
-          format.html { redirect_to @post, notice: 'Comment was successfully created.' }
-          format.json { render :show, status: :created, location: @post }
+      if comment_params[:content] && !comment_params[:content].empty?
+        if @post.user_can_comment(current_user.id)
+
+          if @comment.save
+            format.html { redirect_to @post, notice: 'Comment was successfully created.' }
+            format.json { render :show, status: :created, location: @post }
+          else
+            format.html { render :new, post_id: @comment.post_id }
+            format.json { render json: @comment.errors, status: :unprocessable_entity }
+          end
         else
-          format.html { render :new }
-          format.json { render json: @comment.errors, status: :unprocessable_entity }
+          format.html { redirect_to @post, alert: 'You do not have permission to comment on this post. You must follow the opportunity first!' }
+          format.json { render :show, status: :forbidden, location: @post }
         end
       else
-        format.html { redirect_to @post, alert: 'You do not have permission to comment on this post. You must follow the opportunity first!' }
-        format.json { render :show, status: :forbidden, location: @post }
+        @comment.errors.add(:content, "Content cannot be empty")
+        format.html { render :new }
+        format.json { render json: @comment.errors, status: :bad_request }
       end
     end
   end
@@ -61,9 +67,8 @@ class CommentsController < ApplicationController
   def destroy
     @post = Post.find(@comment.post_id)
     @comment.destroy
-    Post.decrement_counter(:comment_count, @post.id)
     respond_to do |format|
-      format.html { redirect_to @parent, notice: 'Comment was successfully destroyed.' }
+      format.html { redirect_to @post, notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

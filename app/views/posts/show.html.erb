@@ -1,7 +1,7 @@
+<div class="jbh-standard-title">
+  <%= @post.title %>
+</div>
 <div class="original-post">
-  <div class="original-post-title">
-    <h3><%= @post.title %></h3>
-  </div>
   <div class="original-post-content">
     <p> <%= @post.content %> </p>
   </div>
@@ -9,36 +9,47 @@
     <p><%= User.find(@post.user_id).username %> at <%= local_time(@post.created_at, "%l:%M%P on %-m/%-d/%y") %></p>
   </div>
 </div>
-<div class="container">
-
+<div class="comments">
   <% if @post.comments.size == 0 %>
-    <h4>There are no comments on this post. Add a comment?</h4>
+    <div class="no-comments-note">
+      There are no comments on this post. Add a comment?
+    </div>
   <% else %>
     <div class="comments-container">
-      <% @post.comments.each do |comment| %>
+      <% @post.comments.sort_by { |c| c.created_at }.each do |comment| %>
         <div class="comment-card">
           <div class="comment-content">
             <p><%= comment.content %></p>
           </div>
-          <div class="comment-divider"><p></p></div>
+          <div class="comment-divider">
+            <p></p>
+          </div>
           <div class="comment-meta">
-            <p>Left by: <%= comment.user.username %>  |  At: <%= comment.created_at %></p>
+            <p>
+              <strong class="comment-username"><%= comment.user.username %></strong>  at <%= local_time(comment.created_at, "%l:%M%P on %-m/%-d/%y") %>
+            </p>
+            <% if current_user == comment.user %>
+              <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', @comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% else %>
+              <%= link_to 'Send a message', new_personal_message_path(receiver_id: comment.user) %>
+            <% end %>
           </div>
         </div>
       <% end %>
     </div>
   <% end %>
-
-  <h4><%= link_to 'Add a comment', new_comment_path(:post => {:post_id => @post.id}) %></h4>
-
+  <div class="add-comment-container jbh-green-btn-container">
+    <a href="/comments/new?post_id=<%=@post.id%>">
+      <div class="add-comment-btn jbh-btn-text">New Comment</div>
+    </a>
+  </div>
   <br>
   <br>
   <% if @post.user_has_permissions(current_user.id) %>
-  <%= link_to 'Edit', edit_post_path(@post) %>  |
-  <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
+    <%= link_to 'Edit', edit_post_path(@post) %>  |
+    <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
   <% end %>
-
   <br>
   <br>
-  <%= link_to 'Back to parent problem/requirement', @parent %>
+  <%= link_to 'Back to parent opportunity/requirement', @parent %>
 </div>

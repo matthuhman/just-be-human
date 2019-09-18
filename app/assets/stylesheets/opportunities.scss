@@ -73,6 +73,7 @@
   margin-bottom: 2px;
   padding: 2vh;
   border: 1px solid $lightgrey;
+  border-radius: 10px;
   transition: all .2s linear;
 
   & a {
@@ -93,7 +94,7 @@
 
 .requirement-row-complete {
 	border: 2px solid $darkgrey;
-	background-color: $limegreen-low-opacity;
+	background-color: $limegreen-low;
 
 	.requirement-row-title {
 		font-weight: 700;
@@ -105,10 +106,14 @@
 }
 
 .requirement-row-excerpt {
-	font-size: 1.3em;
+	font-size: 1.5em;
 	@include respond-to(handhelds) {
 		text-align: center;
 	}
+}
+
+.req-row-info {
+	font-size: 1.3em;
 }
 // .add-tabitem-button {
 //   padding-top: 3vh;
@@ -118,8 +123,7 @@
 
 .add-tabitem-btn {
   width: 100%;
-  height: 8vh;
-  padding-top: 2vh;
+  height: 1.8em;
   font-size: 2em !important;
 }
 
@@ -247,6 +251,10 @@
 
 // OPPORTUNITIES FORM
 
+
+#opportunity_volunteers_required {
+  width: 20vw;
+}
 
 .abstract-options-container {
 	display: none;

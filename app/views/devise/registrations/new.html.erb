@@ -1,13 +1,10 @@
 <div class="main container">
   <div class="">
-    <h1>Welcome to Just Be Human</h1>
+    <div class="jbh-standard-title">Welcome to Just Be Human</div>
     <h4>We're excited for you to join our community!</h4>
   </div>
-
-
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
-
     <div class="form-inputs">
       <%= f.input :username,
                   required: true,
@@ -53,8 +50,6 @@
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
     </div>
-
     <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
   <% end %>
-
 </div>

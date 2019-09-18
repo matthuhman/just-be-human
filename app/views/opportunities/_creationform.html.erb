@@ -20,8 +20,11 @@
     </div>
     <div class="defined-options-container" id="defined-options">
       <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
+      <div class="datetime-selection">
+        <label><input type="checkbox" name="datetime-or-date" checked value="" id="datetime-required" onclick="showOrHideTimeOptions()"> I know the specific time of day.</label>
+      </div>
       <div class="completion-date-selection">
-        <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute] %>
+        <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute], datetime_separator: '', time_separator: '' %>
       </div>
       <div class="volunteers-required-input">
         <%= f.input :volunteers_required %>
@@ -40,7 +43,7 @@
         </div>
         <div class="completion-date-selection">
           <%= f.label "This is when you would ideally have a solution figured out- don't worry, you can always change this later!" %>
-          <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute] %>
+          <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
         </div>
       </div>
     </div>

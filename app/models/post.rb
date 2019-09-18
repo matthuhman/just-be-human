@@ -5,7 +5,7 @@ class Post < ApplicationRecord
 
   belongs_to :postable, polymorphic: true
   has_many :comments
-  # has_rich_text :content
+  has_rich_text :content
 
   validates_presence_of :title, message: "must be present."
   validates_presence_of :content, message: "must be present."
@@ -19,16 +19,6 @@ class Post < ApplicationRecord
       return Requirement.find(self.postable_id).user_has_mod_permissions(user_id)
     else
       return Opportunity.find(self.postable_id).user_has_mod_permissions(user_id)
-    end
-  end
-
-  def display_content
-    if !content
-      nil
-    elsif content.size > 100
-      content[0, 100] << "..."
-    else
-      content
     end
   end
 

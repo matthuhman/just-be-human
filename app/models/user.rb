@@ -6,10 +6,12 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable, :confirmable,
     :lockable, :timeoutable, :trackable
 
-  has_many :opportunities
   has_many :opportunity_roles, :dependent => :destroy
-  has_many :requirements
+  has_many :opportunities, through: :opportunity_roles
+
   has_many :requirement_roles, :dependent => :destroy
+  has_many :requirements, through: :requirement_roles
+
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
