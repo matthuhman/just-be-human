@@ -5,9 +5,9 @@
 
 function showDefinedOrAbstractOptions()
 {
-  var checked = document.getElementById('defined-checkbox');
+  var checkbox = document.getElementById('defined-checkbox');
 
-  if (checked.checked)
+  if (checkbox.checked)
   {
     document.getElementById('defined-options').style.display = "block";
     document.getElementById('abstract-options').style.display = "none";
@@ -42,4 +42,29 @@ function clearOutAbstractOptions()
   }
 
   document.getElementById('opportunity_estimated_work').value = '';
+}
+
+
+function showOrHideTimeOptions() 
+{
+  var checkbox = document.getElementById('datetime-required');
+
+  if (checkbox.checked)
+  {
+    document.getElementById('opportunity_target_completion_date_4i').style.display = "block";
+    document.getElementById('opportunity_target_completion_date_5i').style.display = "block";
+  }
+  else
+  {
+    clearHourAndMinute();
+    document.getElementById('opportunity_target_completion_date_4i').style.display = "none";
+    document.getElementById('opportunity_target_completion_date_5i').style.display = "none";
+  }
+}
+
+
+function clearHourAndMinute() 
+{
+  document.getElementById('opportunity_target_completion_date_4i').value = '12';
+  document.getElementById('opportunity_target_completion_date_5i').value = '00';
 }

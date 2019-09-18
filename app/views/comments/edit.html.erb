@@ -1,5 +1,7 @@
-<h1>Editing Comment</h1>
-
+<div class="jbh-standard-title">Edit Comment</div>
 <%= render 'form', comment: @comment %>
-
-<%= link_to 'Go back to post', @post %>
+<div class="cancel-edit-container">
+  <a href="/posts/<%=@post.id%>">
+    <div class="cancel-edit-btn">Cancel</div>
+  </a>
+</div>

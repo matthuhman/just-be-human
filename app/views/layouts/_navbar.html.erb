@@ -6,7 +6,7 @@
     <div class="animated-icon2"><span class="navbar-toggler-icon"></span></div>
   </button>
   <div class="desktop-nav" >
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav">
       <% if current_user %>
         <li class="nav-item" id="home-step2">
           <%= link_to 'New Opportunity', new_opportunity_path, class: 'nav-link' %>
@@ -14,7 +14,7 @@
         <li class="nav-item">
           <%= link_to 'Conversations', conversations_path, class: 'nav-link' %>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown last-nav-item">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             User Actions
           </a>

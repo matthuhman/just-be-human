@@ -5,18 +5,22 @@
 @import 'mixins.scss';
 
 .comments-trix-container {
+  img {
+    max-width: 100% !important;
+    height: auto;
+  }
   margin-left: 10vw;
   margin-right: 10vw;
   width: 80vw;
   //min-height: 50vh;
 
-  margin-left: 5vw;
-  border: 2px solid $lightgrey;
+  margin-left: 10vw;
+  
 
   .trix-content {
     width: 100%;
     height: 50vh;
-    border: 2px solid $limegreen;
+    border: 2px solid $lightgrey;
   }
 
   @include respond-to(handhelds) {
@@ -35,14 +39,37 @@
   }
 }
 
-img {
-  max-width: 100% !important;
-  height: auto;
+.submit-comment-container {
+  text-align: center;
 }
+
+.submit-comment-btn {
+  margin-top: 5vh;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  height: 5vh;
+  font-size: 2em;
+  border: 1px solid $darkgrey;
+  border-radius: 10px;
+  background-color: $limegreen;
+
+  @include respond-to(handhelds) {
+    height: 10vh;
+  }
+}
+
+
 
 // this allows us to have a newline in the placeholder
 trix-editor {
   white-space: pre-line;
+  font-size: 1.6em;
+
+  @include respond-to(handhelds) {
+    font-size: 1.3em;
+  }
 }
 
 
@@ -51,7 +78,7 @@ trix-editor {
     background:#fff;
     overflow-x:scroll;
     white-space: nowrap;
-    width:100%;
+    width: 100%;
   }
 
   ::-webkit-scrollbar { 
@@ -62,4 +89,26 @@ trix-editor {
     font-size: 1.2em !important;
     border-right: 1px solid black;
   }
+}
+
+
+.cancel-edit-container {
+
+  
+}
+
+
+.cancel-edit-btn {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+  height: 2em;
+  text-align: center;
+  border: 1px solid $midgrey;
+  border-radius: 10px;
+  font-size: 2em;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 2vh;
+  vertical-align: middle;
 }

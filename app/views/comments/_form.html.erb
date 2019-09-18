@@ -6,10 +6,10 @@
 
     You can format your messages, paste in files, and much more! If you're on mobile, the toolbar above is scrollable left to right." %>
   </div>
-  <% if params[:post] %>
-    <%= f.hidden_field :post_id, :value => params[:post][:post_id] %>
+  <% if params[:post_id] %>
+    <%= f.hidden_field :post_id, :value => params[:post_id] %>
   <% end %>
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="submit-comment-container">
+    <%= f.submit 'Submit', class: "jbh-green-btn-container" %>
   </div>
 <% end %>

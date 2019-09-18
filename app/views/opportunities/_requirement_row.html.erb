@@ -4,13 +4,13 @@
       <div class="jbh-grid-first">
         <p class="requirement-row-title"><%= requirement.title %></p>
         <p class="requirement-row-excerpt"><%= requirement.display_description %></p>
-        <p class="requirement-row-author"><strong>Due date: </strong><%= requirement.target_completion_date %></p>
-        <p class="requirement-row-author"><strong>Priority: </strong><%= requirement.priority %></p>
+        <p class="requirement-row-date req-row-info"><strong>Due date: </strong><%= requirement.target_completion_date %></p>
+        <p class="requirement-row-author req-row-info"><strong>Priority: </strong><%= requirement.priority %></p>
       </div>
       <div class="jbh-grid-second">
-        <p class="requirement-row-category"><strong>Category: </strong><%= requirement.category_title %></p>
-        <p class="requirement-row-subcategory"><strong>Subcategory: </strong><%= requirement.subcategory_title %></p>
-        <p class="requirement-row-status"><strong>Status: </strong><%= requirement.status %></p>
+        <p class="requirement-row-category req-row-info"><strong>Category: </strong><%= requirement.category_title %></p>
+        <p class="requirement-row-subcategory req-row-info"><strong>Subcategory: </strong><%= requirement.subcategory_title %></p>
+        <p class="requirement-row-status req-row-info"><strong>Status: </strong><%= requirement.status %></p>
       </div>
     </div>
   </a>

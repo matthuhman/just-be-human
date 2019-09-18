@@ -1,4 +1,3 @@
-<% role_title = Role.opportunity_role_title(current_user.id, opportunity.id) %>
 <div class="opportunity-row" id="home-step5"
   data-category="<%= opportunity.category_title %>"
   data-volunteers="<%= opportunity.volunteers_required - opportunity.volunteer_count != 0 %>"
@@ -41,9 +40,9 @@
           <% end %>
           <div class="opportunity-row-data-header">Category: </div>
           <div class="opportunity-row-data-content"><%= opportunity.category_title %> </div>
-          <% if role_title %>
+          <% if @title_hash[opportunity.id] %>
             <div class="opportunity-row-data-header">Role: </div>
-            <div class="opportunity-row-data-content"><%= role_title %> </div>
+            <div class="opportunity-row-data-content"><%= @title_hash[opportunity.id] %> </div>
           <% end %>
         </div>
       </div>
