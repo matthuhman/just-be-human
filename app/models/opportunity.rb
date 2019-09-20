@@ -25,11 +25,11 @@ class Opportunity < ApplicationRecord
     target_completion_date? && target_completion_date < Date.today
   end
 
-  def target_completion_date
-    if super && super.hour == 0 && super.min == 0
-      super.to_date
+  def display_date
+    if target_completion_date && target_completion_date.hour == 0
+      target_completion_date.to_date
     else
-      super
+      target_completion_date
     end
   end
 

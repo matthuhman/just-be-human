@@ -31,11 +31,11 @@
           <div class="opportunity-row-data-header">Completion Date: </div>
           <% if opportunity.overdue? %>
             <div class="opportunity-row-data-content opportunity-row-overdue">
-              <%= opportunity.target_completion_date %> - behind schedule!
+              <%= opportunity.display_date %> - behind schedule!
             </div>
           <% else %>
             <div class="opportunity-row-data-content">
-              <%= opportunity.target_completion_date %>
+              <%= opportunity.display_date %>
             </div>
           <% end %>
           <div class="opportunity-row-data-header">Category: </div>
