@@ -151,7 +151,7 @@
           There is currently no discussion about this requirement. If you have a comment or question, add it!
         </div>
       <% end %>
-      <% if current_user && ((@req_level && @req_level <= 2) || @opp_level <= 2) %>
+      <% if current_user && ((@req_level && @req_level <= 2) || (@opp_level && @opp_level<= 2)) %>
         <div class="add-post-button">
           <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
         </div>

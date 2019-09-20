@@ -292,8 +292,11 @@
 }
 
 .no-open-opportunities {
-  padding-top: 3vh;
-  padding-left: 1vw;
+  padding-top: 5vh;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  text-align: center;
+  font-size: 1.8em;
 }
 
 .opportunity-title {
@@ -316,7 +319,7 @@
 }
 
 .volunteers-needed {
-  font-size: 0.13em;
+  font-size: 0.15em;
   text-align: right;
 }
 
@@ -348,8 +351,7 @@
 }
 
 .opportunity-volunteers-not-needed {
-  color: grey;
-  text-shadow: 1px 1px black;
+  color: $darkgrey;
 }
 
 .opportunity-defined-wrapper {

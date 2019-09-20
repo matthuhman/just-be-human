@@ -67,16 +67,16 @@
       fullscreenControl: false
     });
   
-    let json = <%= raw @opportunities.map.to_json {|opportunity|}.html_safe %>;
-  
+    let oppos = <%= raw @opportunities.map.to_json {|o|}.html_safe %>;
+    let myOppos = <%= raw @my_opportunities.map.to_json {|o|}.html_safe %>;
   
   
   
     let infoWindow = new google.maps.InfoWindow();
   
-    for (let i = 0, length = json.length; i < length; i++)
+    for (let i = 0, length = oppos.length; i < length; i++)
     {
-      let data = json[i],
+      let data = oppos[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
         // @MATT -- fix the parse float issue
   
@@ -93,8 +93,60 @@
       let marker = new google.maps.Marker({
         position: LatLng,
         map: map,
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
+        icon: "http://maps.google.com/mapfiles/ms/icons/green.png"
       });
+  
+  
+      (function (marker, data) {
+        google.maps.event.addListener(marker, "click", function (e) {
+          infoWindow.setContent(data.contentString);
+          infoWindow.open(map, marker);
+          event.stopPropagation(); // this prevents propagation of marker click to map click
+        });
+      })(marker, data);
+  
+      //marker.addListener('click', assignListener(marker, infoWindow));
+    }
+  
+    let blueIcon = "http://maps.google.com/mapfiles/ms/icons/blue.png";
+    let redIcon = "http://maps.google.com/mapfiles/ms/icons/red.png"
+    for (let i = 0, length = myOppos.length; i < length; i++)
+    {
+      let data = myOppos[i],
+        LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
+  
+      let overdue = data['overdue?'];
+  
+      data.contentString =
+        `<div id="marker-content">
+          <div id="siteNotice"></div>
+          <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
+          <p id="marker-participants" class="marker-participants">Participant status: ${data.volunteer_count} / ${data.volunteers_required}</p>
+          <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
+          <p id="marker-category" class="marker_category">Category: ${data.category_title}</p>
+          <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
+         </div>`;
+  
+      let marker;
+  
+      if (!overdue) {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: blueIcon
+        });
+      } else {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: redIcon
+        });
+      }
+  
+  
   
   
       (function (marker, data) {

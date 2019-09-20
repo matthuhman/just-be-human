@@ -132,7 +132,7 @@ class Opportunity < ApplicationRecord
     # just in case someone says as_json(nil) and bypasses
     # our default...
     super((options || { }).merge({
-                                   :methods => [:category_title]
+                                   :methods => [:category_title, :overdue?, :pct_done]
     }))
   end
 

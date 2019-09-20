@@ -40,7 +40,7 @@ class Requirement < ApplicationRecord
   end
 
   def leader
-    RequirementRole.find_by(requirement_id: id, level: 1)
+    requirement_roles.find_by(requirement_id: id, level: 1)
   end
 
   def abstract_statuses

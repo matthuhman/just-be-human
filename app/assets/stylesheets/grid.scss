@@ -8,7 +8,6 @@
   display: grid;
   grid-template-columns: 50% 50%;
   height: auto;
-  margin-bottom: 3vh;
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;
