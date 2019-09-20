@@ -51,24 +51,6 @@ class Requirement < ApplicationRecord
     ["Need Volunteers", "In Progress", "Ready"]
   end
 
-  def user_has_mod_permissions(u_id)
-    if u_id == self.user_id
-      return true
-    end
-
-    level = Role.requirement_role_level(u_id, self.id)
-
-    if level && level < 2
-      true
-    else
-      if Role.opportunity_role_level(u_id, self.opportunity_id) <= 2
-        true
-      else
-        false
-      end
-    end
-  end
-
   def category_title
     Category.req_titles[self.category.to_i]
   end

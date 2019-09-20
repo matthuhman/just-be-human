@@ -257,24 +257,26 @@
 
 .post-container {
   padding: 2vh;
-  border-radius: 2px;
+  border-radius: 10px;
   border-bottom: 1px solid #fff;
-  background: $lightgrey;
+  background: white;
   transition: all .2s linear;
   cursor: pointer;
   color: black;
   &:hover {
-    background: $midgrey;
+    background: $lightgrey;
+    border: 1px solid $limegreen;
   }
 
   &:last-of-type {
     border-bottom: none;
   }
+  margin-bottom: 1vh;
 }
 
 
 .post-author {
-  color: $limegreen;
+  color: black;
   margin: 0;
   font-weight: 1000;
   font-size: 1.2rem;
@@ -282,7 +284,7 @@
   letter-spacing: 2.2px;
 
   & span {
-    color: white;
+    color: $darkgrey;
     font-weight: 300;
   }
 

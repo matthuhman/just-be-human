@@ -31,7 +31,6 @@ Rails.application.routes.draw do
   get '/requirements/complete' => 'requirements#mark_complete'
   get '/requirements/incomplete' => 'requirements#mark_incomplete'
 
-  resources :personal_messages, only: [:create]
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
 

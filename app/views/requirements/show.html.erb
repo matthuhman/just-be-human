@@ -20,12 +20,11 @@
   </div>
   <div class="jbh-grid-container">
     <div class="jbh-grid-first">
-      <% leader = @requirement.leader %>
-      <% if leader %>
+      <% if @leader %>
         <div class="requirement-info-row">
           Led By 
           <div class="requirement-info-content">
-            <%= leader.user.username %>
+            <%= @leader.user.username %>
           </div>
         </div>
       <% else %>
@@ -73,14 +72,14 @@
       </div>
     </div>
     <div class="jbh-grid-second">
-      <% if !@req_level && @opp_level %>
+      <% if !@is_volunteer && @is_follower %>
         <a href="/requirements/participate?id=<%= @requirement.id %>">
           <div class="volunteer-btn-div">
             Volunteer to help!
           </div>
         </a>
       <% end %>
-      <% if (@opp_level && @opp_level <= 2) || (@req_level && @req_level < 2) %>
+      <% if @is_mod %>
         <% if @requirement.can_complete? %>
           <a href="complete?id=<%=@requirement.id%>">
             <div class="req-option-btn-div">
@@ -91,7 +90,7 @@
         <% if @requirement.complete? %>
           <a href="incomplete?id=<%=@requirement.id%>">
             <div class="req-option-btn-div">
-              Requirement is not complete
+              Mark As Incomplete
             </div>
           </a>
         <% end %>
@@ -102,13 +101,13 @@
         </a>
       <% end %>
       <div class="link-group d-flex flex-column">
-        <% if @req_level && @req_level == 1 %>
+        <% if @leader && @leader.user == current_user %>
           <a href="/requirements/demote?id=<%= @requirement.id %>">
             <div class="req-option-btn-div cancel-btn-div">
               Step Down as Leader
             </div>
           </a>
-        <% elsif @req_level && @req_level >= 2 %>
+        <% elsif @is_volunteer %>
           <a href="/requirements/cancel?id=<%= @requirement.id %>">
             <div class="req-option-btn-div cancel-btn-div">
               Cancel your Participation
@@ -151,9 +150,9 @@
           There is currently no discussion about this requirement. If you have a comment or question, add it!
         </div>
       <% end %>
-      <% if current_user && ((@req_level && @req_level <= 2) || (@opp_level && @opp_level<= 2)) %>
+      <% if current_user && @is_follower %>
         <div class="add-post-button">
-          <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
+          <%= link_to 'New Post', new_post_path(:requirement => {:id => @requirement.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
         </div>
       <% end %>
     </div>
@@ -171,7 +170,7 @@
             <div class="volunteer-username">
               <%= vol.username %>
             </div>
-            <% if !leader && @requirement.user_has_mod_permissions(current_user.id) %>
+            <% if !@leader && @is_mod %>
               <div class="volunteer-leader-btn">
                 <a href="/requirements/promote?id=<%= @requirement.id %>&user_id=<%=vol.id%>">
                   <div class="promote-btn-div">
@@ -179,7 +178,7 @@
                   </div>
                 </a>
               </div>
-            <% elsif leader && vol.id == leader.user_id %>
+            <% elsif @leader && vol.id == @leader.user_id %>
               <div class="volunteer-leader-btn">
                 <a href="/requirements/demote?id=<%= @requirement.id %>">
                   <div class="demote-btn-div">

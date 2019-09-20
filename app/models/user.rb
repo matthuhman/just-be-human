@@ -41,52 +41,54 @@ class User < ApplicationRecord
 
   def is_admin?(type, type_id)
     if type == "opportunity"
-      lvl = Role.opportunity_role_level(id, type_id)
+      role = opportunity_roles.find_by(opportunity_id: type_id)
 
-      (lvl && lvl < 2)
+      role && role.level == 1
     else
-      lvl = Role.requirement_role_level(id, type_id)
+      role = requirement_roles.find_by(requirement_id: type_id)
 
-      if lvl && lvl < 2
+      if (role && role.level == 1)
         true
       else
         parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
-        lvl = Role.opportunity_role_level(id, parent.id)
+        lvl = opportunity_roles.find_by(opportunity_id: parent.id)
 
-        (lvl && lvl < 2)
+        (lvl && lvl == 1)
       end
     end
   end
 
   def is_mod?(type, type_id)
     if type == "opportunity"
-      lvl = Role.opportunity_role_level(id, type_id)
+      role = opportunity_roles.find_by(opportunity_id: type_id)
 
-      (lvl && lvl <= 2)
+      role && role.level <= 2
     else
-      lvl = Role.requirement_role_level(id, type_id)
+      role = requirement_roles.find_by(requirement_id: type_id)
 
-      if lvl && lvl <= 2
+      if role && role.level == 1
         true
       else
         parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
-        lvl = Role.opportunity_role_level(id, parent.id)
+        role = opportunity_roles.find_by(opportunity_id: type_id)
 
-        (lvl && lvl <= 2)
+        role && role.level <= 2
       end
     end
   end
 
 
-  def is_opp_volunteer?(opp_id)
-    Role.opportunity_role_level <= 3
+  def is_volunteer?(req_id)
+    role = requirement_roles.find_by(requirement_id: req_id)
+
+    role && role.level <= 3
   end
 
 
-  def is_follower?(type, type_id)
+  def is_follower?(opp_id)
+    role = opportunity_roles.find_by(opportunity_id: opp_id)
 
-
-
+    role && role.level <= 4
   end
 
 

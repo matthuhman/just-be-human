@@ -21,9 +21,11 @@ class RequirementsController < ApplicationController
   def show
     @volunteers = @requirement.requirement_roles.map {|r| r.user }
     @opportunity = Opportunity.includes(:opportunity_roles).find(@requirement.opportunity_id)
-    @opp_level = Role.opportunity_role_level(current_user.id, @opportunity.id)
-    @req_level = Role.requirement_role_level(current_user.id, @requirement.id)
-
+    @is_mod = current_user.is_mod?("requirement", @requirement.id)
+    @is_admin = current_user.is_admin?("requirement", @requirement.id)
+    @is_volunteer = current_user.is_volunteer?(@requirement.id)
+    @is_follower = current_user.is_follower?(@requirement.opportunity_id)
+    @leader = @requirement.requirement_roles.find_by(level: 1)
     respond_modal_with @requirement
   end
 

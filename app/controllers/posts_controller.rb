@@ -18,7 +18,6 @@ class PostsController < ApplicationController
     else
       @parent = Requirement.find(@post.postable_id)
     end
-    respond_modal_with @post
   end
 
   # GET /posts/new
@@ -28,7 +27,6 @@ class PostsController < ApplicationController
     else
       @post = Post.new(postable_id: params[:requirement][:id], postable_type: "requirement")
     end
-    respond_modal_with @post
   end
 
   # GET /posts/1/edit
