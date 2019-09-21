@@ -23,6 +23,7 @@
 //= require local-time
 //= require introjs
 //= require trix/dist/trix
+//= require conversations
 
 let intro;
 
@@ -33,18 +34,18 @@ $(function() {
   }, 4000);
 });
 
-document.addEventListener('click', function(e) { 
+document.addEventListener('click', function(e) {
   if (document.activeElement.toString() == '[object HTMLButtonElement]') {
    document.activeElement.blur();
- } 
+ }
 });
 
 
-// and check for it when deciding whether to start. 
+// and check for it when deciding whether to start.
 window.addEventListener('load', function() {
   var path = window.location.pathname;
-  
-  // return if path doesn't have an intro or if we've already shown it 
+
+  // return if path doesn't have an intro or if we've already shown it
   // on this browser
   if (!hasIntro(path)) return;
   if (localStorage.getItem(path) === 'done') return;
@@ -81,11 +82,11 @@ function hasIntro(path)
 }
 
 
-function getSteps(path) 
+function getSteps(path)
 {
   switch (path) {
     case "/":
-      return 
+      return
       {
         steps: [
           {
@@ -115,7 +116,7 @@ function getSteps(path)
       }
       break;
     case "/opportunities/new":
-      return 
+      return
       {
         steps: [
           {
