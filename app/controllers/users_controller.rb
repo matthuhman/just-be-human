@@ -65,18 +65,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def step_down
-    @opportunity = Opportunity.find(step_down_params[:id]).includes(:opportunity_roles)
-    if @opportunity.opportunity_roles.size > 1
-
-
-    else
-
-
-
-    end
-  end
-
 
   private
 
@@ -92,3 +80,4 @@ class UsersController < ApplicationController
   def step_down_params
     params.require(:id)
   end
+end
