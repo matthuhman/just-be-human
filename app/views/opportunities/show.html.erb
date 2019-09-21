@@ -19,7 +19,7 @@
         <div class="opportunity-info-right opportunity-info-container">
           <div class="opportunity-info-row">
             <span class="opportunity-info-row-data">
-              <%= link_to "Followers: #{@opportunity.follower_count}", opportunities_followers_path(:id => @opportunity.id) %>
+              <%= link_to "Followers: #{@opportunity.follower_count}", opportunities_followers_path(id: @opportunity.id) %>
             </span>
           </div>
           <div class="opportunity-info-row">Volunteers

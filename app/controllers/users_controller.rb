@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :step_down]
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery with: :exception
@@ -65,9 +65,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def step_down
+    @opportunity = Opportunity.find(step_down_params[:id]).includes(:opportunity_roles)
+    if @opportunity.opportunity_roles.size > 1
+
+
+    else
+
+
+
+    end
+  end
 
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -77,11 +89,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country)
   end
 
-  def contact_params
-    params.require(:contact_request).permit(:requesting_user_id, :requested_user_id, :opportunity_id)
+  def step_down_params
+    params.require(:id)
   end
-
-  def contact_response_params
-    params.require(:contact_response).(:id, :accepted)
-  end
-end

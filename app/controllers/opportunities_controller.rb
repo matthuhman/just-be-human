@@ -14,7 +14,7 @@ class OpportunitiesController < ApplicationController
     @requirements = @opportunity.requirements.sort_by(&:priority).sort_by(&:target_completion_date)
     if current_user
       @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
-      @is_mod = current_user.is_mod?("opportunity", @opportunity.id)
+      @is_mod = current_user.is_mod?(@opportunity.id)
       @is_admin = current_user.is_admin?(@opportunity.id)
     end
   end
@@ -89,12 +89,46 @@ class OpportunitiesController < ApplicationController
   # DELETE /opportunities/1
   # DELETE /opportunities/1.json
   def destroy
-    @opportunity.destroy
     respond_to do |format|
-      format.html { redirect_to opportunities_url, notice: 'Opportunity was successfully destroyed.' }
-      format.json { head :no_content }
+      if @opportunity.opportunity_roles.size > 1
+        sorted_roles = @opportunity.opportunity_roles.sort_by { |r| [r.level, r.created_at] }
+        curr_leader = sorted_roles.first
+
+        sorted_roles.delete_at(0)
+
+        new_leader = sorted_roles.first
+
+        new_leader.level = 1
+        new_leader.title = "Leader"
+        new_leader.save
+
+        @opportunity.user_id = new_leader.user_id
+        @opportunity.save
+
+        curr_leader.level = 3
+        curr_leader.title = "Volunteer"
+        curr_leader.save
+
+        format.html { redirect_to @opportunity, alert: "You are no longer the leader of this Opportunity." }
+        format.json { render :show, status: :ok, location: @opportunity }
+      else
+        @opportunity.destroy
+        format.html { redirect_to "/", alert: "You were the only user, the Opportunity has been deleted." }
+      end
+      # @opportunity.destroy
+      # respond_to do |format|
+      #   format.html { redirect_to opportunities_url, notice: 'Opportunity was successfully destroyed.' }
+      #   format.json { head :no_content }
+      # end
     end
   end
+
+  def followers
+    @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
+    @is_admin = current_user.is_admin?(@opportunity.id)
+    @is_volunteer = current_user.is_volunteer?(@opportunity.id)
+  end
+
 
   #
   # GET /opportunities/follow

@@ -7,15 +7,15 @@
         | <%= role.title %>
         <% if @is_admin %>
           <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
-            | <%= link_to 'Step down as Leader', "/" %>
+            | <%= link_to 'Step down as Leader', @opportunity, method: :delete, data: {confirm: "Are you sure? This cannot be undone. \n\n IF YOU ARE THE ONLY USER, THIS WILL DELETE THE OPPORTUNITY." }, class: "step-down-btn" %>
           <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-            | <%= link_to 'Promote User', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
+            | <%= link_to 'Promote User', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn" %>
           <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
-            | <%= link_to 'Demote User', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
+            | <%= link_to 'Demote User', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn" %>
           <% end %>
         <% end %>
-        <% if @opportunity.users_are_volunteers(current_user.id, role.user.id, @opportunity.id) %>
-          |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user) %>
+        <% if @is_volunteer && role.level <= 3 %>
+          |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "start-conversation-btn" %>
         <% end %>
       </span>
     </p>
