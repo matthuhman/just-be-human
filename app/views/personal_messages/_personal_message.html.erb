@@ -1,7 +1,7 @@
-<div class="message">
+<div class="message <%= personal_message.user == current_user ? 'message-author' : 'message-receiver' %>">
   <p class="message-body"><%= emojify personal_message.body %></p>
   <div class="message-meta">
     <p class="message-time">at <strong><%= local_time(personal_message.created_at, "%l:%M%P on %-m/%-d/%y") %></strong>
-      by <strong class="message-username"><%= personal_message.user.username %></strong></p>
+    </p>
   </div>
 </div>

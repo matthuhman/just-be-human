@@ -37,8 +37,9 @@
   flex-direction: row;
   justify-content: space-between;
   padding-left: 8vw;
-  border: 2px solid $lightgrey;
+  border-bottom: 1px solid $lightgrey;
   margin: 2vh;
+  padding-bottom: 1vh;
 }
 
 .converstaion-last-msg {
@@ -72,18 +73,63 @@
 .message {
   border-bottom: 1px solid $lightgrey;
   margin-bottom: 2vh;
+
 }
+
+.message-author {
+	text-align: right;
+	color: $darkgrey;
+
+	.message-meta {
+		margin-right: -3vw;
+	}
+	
+	.message-body {
+		margin-left: 10vw;
+		font-style: italic;
+
+		@include respond-to(handhelds) {
+			margin-left: 0vw;
+		}
+	}
+}
+
+.message-receiver {
+	text-align: left;
+
+	.message-body {
+		margin-right: 10vw;
+
+		@include respond-to(handhelds) {
+	      margin-right: 0vw;
+		}
+	}
+
+	.message-meta {
+		margin-left: -3vw;
+	}
+}
+
 .conversation-body {
-  margin-left: 5vw;
+  margin-left: 15vw;
+  margin-right: 15vw;
   margin-top: 5vh;
+
+  @include respond-to(handhelds) {
+  	margin-left: 5vw;
+  	margin-right: 5vw;
+  }
 }
 
 .message-body {
-  font-size: 1.6em;
+  font-size: 1.5em;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 .message-meta {
   padding-left: 2vw;
+
 }
 
 .new-personal-msg-form {
@@ -102,4 +148,15 @@
   color: black !important;
   font-size: 2em;
   margin-bottom: 4vh;
+}
+
+
+.message-username-author {
+	font-size: 1.4em;
+	color: $midgrey;
+}
+
+
+.message-username-receiver {
+	font-size: 1.4em;
 }

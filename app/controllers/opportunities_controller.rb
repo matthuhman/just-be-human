@@ -2,7 +2,7 @@ class OpportunitiesController < ApplicationController
   respond_to :html, :xml, :json
 
 
-  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers]
+  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete]
   before_action :authenticate_user!, except: [:show]
 
   before_action :set_time_options, only: [:create, :edit, :new]
@@ -105,6 +105,7 @@ class OpportunitiesController < ApplicationController
 
   #
   # GET /opportunities/follow
+  # takes opportunity_id query param
   def follow
     @opportunity = Opportunity.find(params[:opportunity_id])
 
@@ -119,23 +120,9 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  # def volunteer
-  #   @opportunity = Opportunity.find(params[:opportunity_id])
-  #   req_id = params[:requirement_id]
-  #   respond_to do |format|
-  #     if Role.volunteer(current_user.id, req_id, @opportunity.id)
-  #       format.html { redirect_to @opportunity, notice: 'You have volunteered!' }
-  #       format.json { render :show, status: :created, location: @opportunity }
-  #     else
-  #       format.html { redirect_to @opportunity, notice: 'You have not volunteered for this opportunity successfully' }
-  #       format.json { render :show, status: :unprocessable_entity, location: @opportunity }
-  #     end
-  #   end
-  # end
-
-
   #
   # GET /opportunities/unfollow
+  # takes opportunity_id query param
   def unfollow
     @opportunity = Opportunity.find(unfollow_params[:opportunity_id])
 
@@ -152,7 +139,8 @@ class OpportunitiesController < ApplicationController
 
 
   #
-  #
+  # GET /opportunities/promote
+  # takes opportunity_id and target_user_id query params
   def promote_user
     @opportunity = Opportunity.find(promotion_params[:opportunity_id])
     respond_to do |format|
@@ -197,9 +185,29 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-
-
-
+  def complete
+    completion_post = Post.new(postable_id: @opportunity.id, postable_type: "opportunity", )
+    respond_to do |format|
+      if current_user.is_admin?(@opportunity.id)
+        if @opportunity.can_complete?
+          @opportunity.completed = true
+          if @opportunity.save
+            format.html { redirect_to edit_posts_path(completion_post) }
+            format.json { render :new, status: :ok, location: completion_post }
+          else
+            format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
+            format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+          end
+        else
+          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet." }
+          format.json { render :show, status: :bad_request, location: @opportunity }
+        end
+      else
+        format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: @opportunity }
+      end
+    end
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.

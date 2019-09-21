@@ -76,7 +76,7 @@
   @include respond-to(handhelds) {
     font-size: 0.7em;
   }
-  
+
   font-size: 0.8em;
   margin-top: 1vh;
 }
@@ -139,7 +139,7 @@
 
 .home-page {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 45% 55%;
   height: 90vh;
 
   @include respond-to(handhelds) {
@@ -198,7 +198,7 @@
 }
 
 .filter.floater {
-  left: 52%;
+  left: 47%;
   margin-top: 3vh;
   cursor: pointer;
 
@@ -325,7 +325,7 @@
   padding-top: 1vh;
 
   //float:right;
-  text-align: center; 
+  text-align: center;
 }
 
 .opportunity-row-data {

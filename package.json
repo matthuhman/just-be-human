@@ -7,10 +7,12 @@
     "@rails/webpacker": "^4.0.7",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "intro.js": "^2.9.3",
+    "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react_ujs": "^2.5.0",
+    "stylelint": "^11.0.0",
     "trix": "^1.0.0"
   },
   "devDependencies": {
