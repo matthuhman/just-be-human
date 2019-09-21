@@ -35,7 +35,6 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    binding.pry
     @post = Post.new(post_params)
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)

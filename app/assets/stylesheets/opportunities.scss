@@ -307,7 +307,7 @@
   letter-spacing: 2px;
   margin: 0;
   font-size: 1.8rem;
-
+  margin-left: 2vw;
   @include respond-to(handhelds){
     font-size: 1.4rem;
   };
