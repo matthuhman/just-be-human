@@ -33,7 +33,11 @@ $(function() {
   }, 4000);
 });
 
-
+document.addEventListener('click', function(e) { 
+  if (document.activeElement.toString() == '[object HTMLButtonElement]') {
+   document.activeElement.blur();
+ } 
+});
 
 
 // and check for it when deciding whether to start. 

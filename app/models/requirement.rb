@@ -13,7 +13,7 @@ class Requirement < ApplicationRecord
 
   validates :title, obscenity: true
   validates :status, obscenity: true
-  validates :description, obscenity: { sanitize: true, replacement: '[censored]' }
+  validates :description, obscenity: true
 
   validate :completion_date_limit, :field_length
 

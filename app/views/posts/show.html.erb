@@ -45,11 +45,9 @@
   </div>
   <br>
   <br>
-  <% if @post.user_has_permissions(current_user.id) %>
+  <% oppo = @post.postable_type == "Opportunity" ? @parent : @parent.opportunity %>
+  <% if current_user.is_mod?(oppo.id) %>
     <%= link_to 'Edit', edit_post_path(@post) %>  |
     <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
   <% end %>
-  <br>
-  <br>
-  <%= link_to 'Back to parent opportunity/requirement', @parent %>
 </div>

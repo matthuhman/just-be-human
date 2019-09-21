@@ -14,7 +14,6 @@ class RequirementsController < ApplicationController
       @date = params[:requirement][:target_date].to_date
       @planned = params[:requirement][:defined]
     end
-    respond_modal_with @requirement
   end
 
   # GET /requirements/1
@@ -22,11 +21,10 @@ class RequirementsController < ApplicationController
     @volunteers = @requirement.requirement_roles.map {|r| r.user }
     @opportunity = Opportunity.includes(:opportunity_roles).find(@requirement.opportunity_id)
     @is_mod = current_user.is_mod?("requirement", @requirement.id)
-    @is_admin = current_user.is_admin?("requirement", @requirement.id)
+    @is_admin = current_user.is_admin?(@requirement.opportunity.id)
     @is_volunteer = current_user.is_volunteer?(@requirement.id)
     @is_follower = current_user.is_follower?(@requirement.opportunity_id)
     @leader = @requirement.requirement_roles.find_by(level: 1)
-    respond_modal_with @requirement
   end
 
   # GET /requirements/1/edit
@@ -35,7 +33,6 @@ class RequirementsController < ApplicationController
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
     @planned = @opportunity.defined
-    respond_modal_with @requirement, title: "Editing requirement"
   end
 
   # POST /requirements
@@ -45,16 +42,15 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.new(requirement_params)
     opportunity = Opportunity.find(@requirement.opportunity_id)
     @categories = Category.req_titles
-    @sub_categories = Category.req_subcats
-    # respond_modal_with @requirement, location: @opportunity
     respond_to do |format|
       # @tab = 'opportunity-requirements-tab'
-      if opportunity.user_has_mod_permissions(current_user.id)
+      if current_user.is_mod?(opportunity.id)
         if @requirement.save
-          format.html { redirect_to opportunity, notice: 'Requirement was successfully created.' }
-          format.json { render :show, status: :created, location: opportunity }
+          format.html { redirect_to @requirement, notice: 'Requirement was successfully created.' }
+          format.json { render :show, status: :created, location: @requirement }
         else
-          respond_modal_with @requirement
+          format.html { redirect_to opportunity, alert: "An unexpected error occurred." }
+          format.json { render :show, status: :unprocessable_entity, location: opportunity}
         end
       else
         format.html { rerdirect_to opportunity, alert: "You do not have permission to create a requirement for this opportunity." }
@@ -70,7 +66,7 @@ class RequirementsController < ApplicationController
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
     respond_to do |format|
-      if current_user.id == @requirement.user_id || @opportunity.user_has_mod_permissions(current_user.id) || @requirement.user_has_mod_permissions(current_user.id)
+      if current_user.id == @requirement.user_id || current_user.is_mod?(@opportunity.id)
         if @requirement.update(update_params)
           format.html { redirect_to @opportunity, notice: "The requirement '#{@requirement.title}' was updated successfully" }
           format.json { render :show, status: :ok, location: @opportunity }
@@ -91,7 +87,7 @@ class RequirementsController < ApplicationController
     @opportunity = Opportunity.find(@requirement.opportunity_id)
 
     respond_to do |format|
-      if @opportunity.user_has_mod_permissions(current_user.id) || @requirement.user_has_mod_permissions(current_user.id)
+      if current_user.is_admin?(@opportunity.id)
         @requirement.destroy
         format.html { redirect_to @opportunity, notice: 'Requirement.was successfully destroyed.' }
         format.json { head :no_content }
@@ -129,7 +125,7 @@ class RequirementsController < ApplicationController
   def promote_leader
     opp = @requirement.opportunity
     respond_to do |format|
-      if opp.user_has_mod_permissions(current_user.id)
+      if current_user.is_mod?(opp.id)
         if Role.make_req_leader(promote_params, @requirement.id)
           format.html { redirect_to @requirement, notice: "#{@requirement.title} has a new leader!" }
           format.json { render :show, status: :ok, location: @requirement }
@@ -147,7 +143,7 @@ class RequirementsController < ApplicationController
   def remove_leader
     opp = @requirement.opportunity
     respond_to do |format|
-      if opp.user_has_mod_permissions(current_user.id)
+      if current_user.is_mod?(opp.id)
         if Role.remove_req_leader(@requirement.id)
           format.html { redirect_to @requirement, notice: "Leader has been removed." }
           format.json { render :show, status: :ok, location: @requirement }
@@ -165,7 +161,7 @@ class RequirementsController < ApplicationController
   def mark_complete
     @opportunity = @requirement.opportunity
     respond_to do |format|
-      if (@requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions(current_user.id)) && @requirement.can_complete?
+      if current_user.is_mod?(@opportunity.id) && @requirement.can_complete?
         @requirement.complete = true
         @requirement.status = "Complete"
         if @requirement.save
@@ -185,7 +181,7 @@ class RequirementsController < ApplicationController
   def mark_incomplete
     @opportunity = @requirement.opportunity
     respond_to do |format|
-      if (@requirement.user_has_mod_permissions(current_user.id) || @opportunity.user_has_mod_permissions(current_user.id)) && @requirement.complete?
+      if current_user.is_mod?(@opportunity.id) && @requirement.complete?
         @requirement.complete = false
         @requirement.status = "In Progress"
         if @requirement.save

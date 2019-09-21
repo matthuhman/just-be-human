@@ -22,7 +22,9 @@ class Conversation < ApplicationRecord
       u1_role = OpportunityRole.find_by(user_id: u1.id, opportunity_id: p_id)
       u2_role = OpportunityRole.find_by(user_id: u2.id, opportunity_id: p_id)
 
-      u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3
+      both_over16 = u1.over_16? && u2.over_16?
+
+      u1_role && u2_role && u1_role.level <= 3 && u2_role.level <= 3 && both_over16
     else
       u1_roles = OpportunityRole.where(user_id: u1.id).map { |r| r.level <= 3 ? r.opportunity_id : nil }
       u2_roles = OpportunityRole.where(user_id: u2.id).map{ |r| r.level <= 3 ? r.opportunity_id : nil }

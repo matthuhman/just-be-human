@@ -1,25 +1,23 @@
-<div class="modal-inner">
-  <h2>Followers</h2>
-  <% @opportunity.opportunity_roles.sort_by {|r| r.level }.each do |role| %>
-    <div class="post-container">
-      <p class="post-author">
-        <%= role.user.username %>
-        <span>
-          | <%= role.title %>
-          <% if @is_admin %>
-            <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
-              | <%= link_to 'Step down as Leader', "/" %>
-            <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-              | <%= link_to 'Promote User', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
-            <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
-              | <%= link_to 'Demote User', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
-            <% end %>
+<div class="jbh-standard-title">Followers</div>
+<% @opportunity.opportunity_roles.sort_by {|r| r.level }.each do |role| %>
+  <div class="follower-container">
+    <p class="follower-info">
+      <%= role.user.username %>
+      <span>
+        | <%= role.title %>
+        <% if @is_admin %>
+          <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
+            | <%= link_to 'Step down as Leader', "/" %>
+          <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
+            | <%= link_to 'Promote User', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
+          <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
+            | <%= link_to 'Demote User', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id %>
           <% end %>
-          <% if @role && @role.level <= 3 && role.level <= 3 && current_user.id != role.user_id %>
-            |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user) %>
-          <% end %>
-        </span>
-      </p>
-    </div>
-  <% end %>
-</div>
+        <% end %>
+        <% if @opportunity.users_are_volunteers(current_user.id, role.user.id, @opportunity.id) %>
+          |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user) %>
+        <% end %>
+      </span>
+    </p>
+  </div>
+<% end %>
