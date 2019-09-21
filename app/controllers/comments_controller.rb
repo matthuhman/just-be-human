@@ -18,10 +18,12 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
     @post = Post.find(@comment.post_id) if @comment.post_id?
+
+    oppo = @post.postable_type == "Opportunity" ? @post.opportunity : @post.requirement.opportunity
     # binding.pry
     respond_to do |format|
       if comment_params[:content] && !comment_params[:content].empty?
-        if @post.user_can_comment(current_user.id)
+        if current_user.is_follower?(oppo.id)
 
           if @comment.save
             format.html { redirect_to @post, notice: 'Comment was successfully created.' }
@@ -47,7 +49,7 @@ class CommentsController < ApplicationController
   def update
     @post = Post.find(@comment.post_id)
     respond_to do |format|
-      if (current_user.id == @comment.user_id || @post.user_has_permissions(current_user.id))
+      if (current_user.id == @comment.user_id)
         if @comment.update(comment_params)
           format.html { redirect_to @post, notice: 'Comment was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }

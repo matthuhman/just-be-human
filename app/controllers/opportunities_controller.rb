@@ -14,8 +14,8 @@ class OpportunitiesController < ApplicationController
     @requirements = @opportunity.requirements.sort_by(&:priority).sort_by(&:target_completion_date)
     if current_user
       @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
-      @is_mod = @opportunity.user_has_mod_permissions(current_user.id)
-      @is_admin = @opportunity.user_is_admin(current_user.id)
+      @is_mod = current_user.is_mod?("opportunity", @opportunity.id)
+      @is_admin = current_user.is_admin?(@opportunity.id)
     end
   end
 

@@ -38,16 +38,16 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)
-      level = Role.opportunity_role_level(current_user.id, @post.postable_id)
+      role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.postable_id)
     else
       @parent = Requirement.find(@post.postable_id)
-      level = Role.requirement_role_level(current_user.id, @post.postable_id)
+      role = RequirementRole.find_by(user_id: current_user.id, requirement_id: @post.postable_id)
     end
 
     @post.user_id = current_user.id
 
     respond_to do |format|
-      if level
+      if role
         if @post.save
           format.html { redirect_to @parent, notice: 'Post was successfully created.' }
           format.json { render :show, status: :created, location: @parent }
@@ -65,8 +65,14 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    if @post.postable_type == "Opportunity"
+      oppo = Opportunity.find(@post.postable_id)
+    else
+      oppo = Requirement.find(@post.postable_id).opportunity
+    end
+
     respond_to do |format|
-      if @post.user_has_permissions(current_user.id)
+      if current_user.is_follower?(oppo.id)
         if @post.update(post_params)
           format.html { redirect_to @post, notice: 'Post was successfully updated.' }
           format.json { render :show, status: :ok, location: @post }
@@ -86,12 +92,14 @@ class PostsController < ApplicationController
   def destroy
     if @post.postable_type == "Opportunity"
       @parent = Opportunity.find(@post.postable_id)
+      oppo_id = @parent.id
     else
       @parent = Requirement.find(@post.postable_id)
+      oppo_id = @parent.opportunity.id
     end
 
     respond_to do |format|
-      if @post.user_has_permissions(current_user.id)
+      if current_user == @post.user || current_user.is_mod?(oppo_id)
         @post.destroy
         format.html { redirect_to @parent, notice: 'Post was successfully destroyed.' }
         format.json { head :no_content }
