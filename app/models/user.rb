@@ -45,27 +45,14 @@ class User < ApplicationRecord
     role && role.level == 1
   end
 
-  def is_mod?(type, type_id)
-    if type == "opportunity"
-      role = opportunity_roles.find_by(opportunity_id: type_id)
+  def is_mod?(oppo_id)
+    role = opportunity_roles.find_by(opportunity_id: type_id)
 
-      role && role.level <= 2
-    else
-      role = requirement_roles.find_by(requirement_id: type_id)
-
-      if role && role.level == 1
-        true
-      else
-        parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
-        role = opportunity_roles.find_by(opportunity_id: type_id)
-
-        role && role.level <= 2
-      end
-    end
+    role && role.level <= 2
   end
 
 
-  def is_volunteer?(req_id)
+  def is_req_volunteer?(req_id)
     role = requirement_roles.find_by(requirement_id: req_id)
 
     role && role.level <= 3
