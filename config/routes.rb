@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get '/opportunities/promote_user' => 'opportunities#promote_user'
   get '/opportunities/demote_user' => 'opportunities#demote_user'
   get '/opportunities/followers' => 'opportunities#followers'
+  get '/opportunities/complete' => 'opportunities#complete'
+  get '/opportunities/uncomplete' => 'opportunities#uncomplete'
 
   get '/requirements/participate' => 'requirements#participate'
   get '/requirements/cancel' => 'requirements#cancel_participation'

@@ -6,10 +6,10 @@
     <div class="jbh-grid-first">
       <div class="opportunity-info">
         <div class="opportunity-info-left opportunity-info-container">
-          <div class="opportunity-info-row">Created By: 
+          <div class="opportunity-info-row">Created By:
             <span class="opportunity-info-row-data"><%= @opportunity.user.username %></span>
           </div>
-          <div class="opportunity-info-row">Category: 
+          <div class="opportunity-info-row">Category:
             <span class="opportunity-info-row-data black"><%= @opportunity.category_title %></span>
           </div>
           <div class="opportunity-info-row">Target Completion Date:
@@ -19,11 +19,25 @@
         <div class="opportunity-info-right opportunity-info-container">
           <div class="opportunity-info-row">
             <span class="opportunity-info-row-data">
-              <%= link_to "Followers: #{@opportunity.follower_count}", opportunities_followers_path(:id => @opportunity.id), data: { modal: true } %>
+              <%= link_to "Followers: #{@opportunity.follower_count}", opportunities_followers_path(:id => @opportunity.id) %>
             </span>
           </div>
-          <div class="opportunity-info-row">Volunteers 
+          <div class="opportunity-info-row">Volunteers
             <span class="opportunity-info-row-data info"><%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %></span>
+          </div>
+          <div class="opportunity-complete-container">
+            <a href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="complete-opportunity-btn">
+                Mark Complete
+              </div>
+            </a>
+          </div>
+          <div class="opportunity-uncomplete-container">
+            <a href="/opportunities/uncomplete?id=<%=@opportunity.id%>">
+              <div class="uncomplete-opportunity-btn">
+                Undo Completion
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -60,7 +74,7 @@
         <% if @opportunity.posts.size > 0 %>
           <% @opportunity.posts.each do |post| %>
             <% post_user = User.find(post.user_id) %>
-            <div class="post-container">
+            <div class="post-container <%= post.completion_post ? "completion-post" : "" %>">
               <a href="/posts/<%= post.id %>" class="post-link">
                 <p class="post-title"><%= post.title %></p>
                 <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
@@ -74,7 +88,7 @@
         <% end %>
         <% if current_user && @role %>
           <div class="add-tabitem-button">
-            <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
+            <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn"%>
           </div>
         <% end %>
       </div>
@@ -89,7 +103,7 @@
     <%end%>
     <% if @is_mod %>
       <div class="add-tabitem-button">
-        <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn', data: { modal: true } %>
+        <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn' %>
       </div>
     <% end %>
   </div>

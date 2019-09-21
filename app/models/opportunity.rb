@@ -21,6 +21,47 @@ class Opportunity < ApplicationRecord
   validates :description, obscenity: { sanitize: true, replacement: '[censored]' }
 
 
+  # marks the Opportunity as complete and archives all existing posts
+  def mark_complete
+    completed = true
+    posts.each do |p|
+      p.archived = true
+      p.save
+    end
+
+    save
+  end
+
+  def mark_uncompleted
+    completed = false
+    posts.each do |p|
+      p.archived = false
+      p.save
+    end
+
+    posts.where(completion_post: true).last.destroy
+
+    save
+  end
+
+
+  def can_complete?
+    enough_volunteers = volunteer_count >= volunteers_required
+
+    if enough_volunteers
+      requirements.each do |r|
+        if !r.complete
+          return false
+        end
+      end
+      true
+    else
+      false
+    end
+  end
+
+
+
   def overdue?
     target_completion_date? && target_completion_date < Date.today
   end
@@ -31,20 +72,6 @@ class Opportunity < ApplicationRecord
     else
       target_completion_date
     end
-  end
-
-  def user_is_admin(u_id)
-    u_id == user_id
-  end
-
-  def user_has_mod_permissions(u_id)
-    if u_id == user_id
-      return true
-    end
-
-    role = OpportunityRole.find_by(user_id: u_id, opportunity_id: id)
-
-    role && role.level <= 2
   end
 
   def display_title

@@ -142,6 +142,11 @@
 
     @include respond-to(handhelds) {
       grid-template-columns: 100%;
+      .jbh-grid-second {
+        display: none;
+      }
+
+      // .mobile-
     }
   }
 }
@@ -272,6 +277,10 @@
     border-bottom: none;
   }
   margin-bottom: 1vh;
+}
+
+.completion-post {
+  background-color: $limegreen-low;
 }
 
 

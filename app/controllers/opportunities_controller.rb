@@ -33,7 +33,6 @@ class OpportunitiesController < ApplicationController
   # POST /opportunities
   # POST /opportunities.json
   def create
-
     @categories = Category.opportunity_titles
     @opportunity = Opportunity.new(opportunity_params)
     @opportunity.user = current_user
@@ -97,12 +96,6 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  def followers
-    @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
-    @is_admin = @opportunity.user_is_admin(current_user.id)
-    respond_modal_with @post, @is_admin, {}, { title: 'hello' }
-  end
-
   #
   # GET /opportunities/follow
   # takes opportunity_id query param
@@ -159,6 +152,9 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  #
+  # GET /opportunities/demote
+  # takes in a
   def demote_user
     @opportunity = Opportunity.find(promotion_params[:opportunity_id])
     target_user_id = promotion_params[:target_user_id]
@@ -186,20 +182,43 @@ class OpportunitiesController < ApplicationController
   end
 
   def complete
-    completion_post = Post.new(postable_id: @opportunity.id, postable_type: "opportunity", )
+    completion_post = Post.new(postable_id: @opportunity.id, postable_type: "Opportunity", completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
     respond_to do |format|
-      if current_user.is_admin?(@opportunity.id)
+      if current_user.is_admin?("opportunity", @opportunity.id)
         if @opportunity.can_complete?
-          @opportunity.completed = true
-          if @opportunity.save
-            format.html { redirect_to edit_posts_path(completion_post) }
+          if @opportunity.mark_complete
+            binding.pry
+            completion_post.save
+            format.html { redirect_to edit_post_path(completion_post) }
             format.json { render :new, status: :ok, location: completion_post }
           else
             format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
             format.json { render :show, status: :unprocessable_entity, location: @opportunity }
           end
         else
-          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet." }
+          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
+          format.json { render :show, status: :bad_request, location: @opportunity }
+        end
+      else
+        format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: @opportunity }
+      end
+    end
+  end
+
+  def uncomplete
+    respond_to do |format|
+      if current_user.is_admin?("opportunity", @opportunity.id)
+        if !@opportunity.completed
+          if @opportunity.mark_uncompleted
+            format.html { redirect_to @opportunity, notice: "This opportunity is open again." }
+            format.json { render :new, status: :ok, location: @opportunity }
+          else
+            format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
+            format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+          end
+        else
+          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
           format.json { render :show, status: :bad_request, location: @opportunity }
         end
       else

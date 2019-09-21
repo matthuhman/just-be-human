@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  respond_to :html, :xml, :json
 
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
@@ -31,13 +30,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
-    respond_modal_with @post
   end
 
   # POST /posts
   # POST /posts.json
   def create
-    binding.pry
     @post = Post.new(post_params)
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)

@@ -22,7 +22,7 @@
     <div class="jbh-grid-first">
       <% if @leader %>
         <div class="requirement-info-row">
-          Led By 
+          Led By
           <div class="requirement-info-content">
             <%= @leader.user.username %>
           </div>
@@ -33,20 +33,20 @@
         </div>
       <% end %>
       <div class="requirement-info-row">
-        Status 
+        Status
         <div class="requirement-info-content">
           <%= @requirement.status %>
         </div>
       </div>
       <div class="requirement-info-row">
-        Priority 
+        Priority
         <div class="requirement-info-content">
           <%= @requirement.priority %>
         </div>
       </div>
       <% if @requirement.estimated_work > 0 %>
         <div class="requirement-info-row">
-          Estimated Difficulty 
+          Estimated Difficulty
           <div class="requirement-info-content">
             <%= @requirement.estimated_work.round %>/10
           </div>
@@ -65,7 +65,7 @@
         <% end %>
       </div>
       <div class="requirement-info-row">
-        Volunteers 
+        Volunteers
         <div class="requirement-info-content">
           <%= @requirement.volunteer_count %>
         </div>
@@ -152,7 +152,7 @@
       <% end %>
       <% if current_user && @is_follower %>
         <div class="add-post-button">
-          <%= link_to 'New Post', new_post_path(:requirement => {:id => @requirement.id}), class: "btn btn-success btn-lg add-tabitem-btn", data: { modal: true } %>
+          <%= link_to 'New Post', new_post_path(:requirement => {:id => @requirement.id}), class: "btn btn-success btn-lg add-tabitem-btn" %>
         </div>
       <% end %>
     </div>

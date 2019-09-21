@@ -14,7 +14,6 @@ class RequirementsController < ApplicationController
       @date = params[:requirement][:target_date].to_date
       @planned = params[:requirement][:defined]
     end
-    respond_modal_with @requirement
   end
 
   # GET /requirements/1
@@ -26,7 +25,6 @@ class RequirementsController < ApplicationController
     @is_volunteer = current_user.is_volunteer?(@requirement.id)
     @is_follower = current_user.is_follower?(@requirement.opportunity_id)
     @leader = @requirement.requirement_roles.find_by(level: 1)
-    respond_modal_with @requirement
   end
 
   # GET /requirements/1/edit
@@ -35,7 +33,6 @@ class RequirementsController < ApplicationController
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
     @planned = @opportunity.defined
-    respond_modal_with @requirement, title: "Editing requirement"
   end
 
   # POST /requirements
@@ -45,16 +42,15 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.new(requirement_params)
     opportunity = Opportunity.find(@requirement.opportunity_id)
     @categories = Category.req_titles
-    @sub_categories = Category.req_subcats
-    # respond_modal_with @requirement, location: @opportunity
     respond_to do |format|
       # @tab = 'opportunity-requirements-tab'
       if opportunity.user_has_mod_permissions(current_user.id)
         if @requirement.save
-          format.html { redirect_to opportunity, notice: 'Requirement was successfully created.' }
-          format.json { render :show, status: :created, location: opportunity }
+          format.html { redirect_to @requirement, notice: 'Requirement was successfully created.' }
+          format.json { render :show, status: :created, location: @requirement }
         else
-          respond_modal_with @requirement
+          format.html { redirect_to opportunity, alert: "An unexpected error occurred." }
+          format.json { render :show, status: :unprocessable_entity, location: opportunity}
         end
       else
         format.html { rerdirect_to opportunity, alert: "You do not have permission to create a requirement for this opportunity." }
