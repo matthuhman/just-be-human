@@ -39,23 +39,10 @@ class User < ApplicationRecord
   end
 
 
-  def is_admin?(type, type_id)
-    if type == "opportunity"
-      role = opportunity_roles.find_by(opportunity_id: type_id)
+  def is_admin?(oppo_id)
+    role = opportunity_roles.find_by(opportunity_id: oppo_id)
 
-      role && role.level == 1
-    else
-      role = requirement_roles.find_by(requirement_id: type_id)
-
-      if (role && role.level == 1)
-        true
-      else
-        parent = Opportunity.find(Requirement.find(type_id).opportunity_id)
-        lvl = opportunity_roles.find_by(opportunity_id: parent.id)
-
-        (lvl && lvl == 1)
-      end
-    end
+    role && role.level == 1
   end
 
   def is_mod?(type, type_id)

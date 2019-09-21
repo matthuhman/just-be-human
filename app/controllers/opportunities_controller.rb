@@ -184,7 +184,7 @@ class OpportunitiesController < ApplicationController
   def complete
     completion_post = Post.new(postable_id: @opportunity.id, postable_type: "Opportunity", completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
     respond_to do |format|
-      if current_user.is_admin?("opportunity", @opportunity.id)
+      if current_user.is_admin?(@opportunity.id)
         if @opportunity.can_complete?
           if @opportunity.mark_complete
             binding.pry
@@ -208,7 +208,7 @@ class OpportunitiesController < ApplicationController
 
   def uncomplete
     respond_to do |format|
-      if current_user.is_admin?("opportunity", @opportunity.id)
+      if current_user.is_admin?(@opportunity.id)
         if !@opportunity.completed
           if @opportunity.mark_uncompleted
             format.html { redirect_to @opportunity, notice: "This opportunity is open again." }
