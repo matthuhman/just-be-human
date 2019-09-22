@@ -47,8 +47,9 @@ class Opportunity < ApplicationRecord
 
   def can_complete?
     enough_volunteers = volunteer_count >= volunteers_required
+    at_completion_date = Time.now >= target_completion_date
 
-    if enough_volunteers
+    if enough_volunteers && at_completion_date
       requirements.each do |r|
         if !r.complete
           return false
