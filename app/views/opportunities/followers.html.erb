@@ -14,7 +14,7 @@
             | <%= link_to 'Demote User', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn" %>
           <% end %>
         <% end %>
-        <% if @is_volunteer && role.level <= 3 %>
+        <% if @is_volunteer && role.level <= 3 && current_user != role.user %>
           |  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "start-conversation-btn" %>
         <% end %>
       </span>

@@ -1,0 +1,28 @@
+        
+<div class="btn-group-vertical options-btn-group">
+  <% if !@role && current_user %>
+    <%= link_to 'Follow Opportunity', opportunities_follow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary follow-opportunity-button", type: "button" %>
+  <% elsif @role&.level == 4 %>
+    <%= link_to 'Unfollow Opportunity', opportunities_unfollow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary unfollow-opportunity-button", type: "button" %>
+  <% elsif @role&.level == 2 %>
+    <%= link_to 'Step down as Supervisor', opportunities_demote_user_path(opportunity_id: @opportunity.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
+  <% elsif @role&.level == 1 %>
+    <% if !@opportunity.completed %>
+      <div class="opportunity-complete-container">
+        <a href="/opportunities/complete?id=<%= @opportunity.id %>">
+          <div class="complete-opportunity-btn btn options-btn-group-btn">
+            Mark Complete
+          </div>
+        </a>
+      </div>
+    <% else %>
+      <div class="opportunity-uncomplete-container options-btn-group-btn">
+        <a href="/opportunities/uncomplete?id=<%=@opportunity.id%>">
+          <div class="uncomplete-opportunity-btn btn">
+            Undo Completion
+          </div>
+        </a>
+      </div>
+    <% end %>
+  <% end %>
+</div>

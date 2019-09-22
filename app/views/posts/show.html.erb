@@ -46,7 +46,7 @@
   <br>
   <br>
   <% oppo = @post.postable_type == "Opportunity" ? @parent : @parent.opportunity %>
-  <% if current_user.is_mod?(oppo.id) %>
+  <% if current_user.is_mod?(oppo.id) || current_user == @post.user %>
     <%= link_to 'Edit', edit_post_path(@post) %>  |
     <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
   <% end %>

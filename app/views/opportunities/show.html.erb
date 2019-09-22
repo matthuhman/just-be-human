@@ -1,60 +1,44 @@
-<div class="jbh-standard-title">
-  <%= @opportunity.title %>
-</div>
-<div class="opportunity-container">
-  <div class="jbh-grid-container">
-    <div class="jbh-grid-first">
-      <div class="opportunity-info">
-        <div class="opportunity-info-left opportunity-info-container">
-          <div class="opportunity-info-row">Created By:
-            <span class="opportunity-info-row-data"><%= @opportunity.user.username %></span>
+<div class="opportunity-show-page">
+  <div class="jbh-standard-title">
+    <%= @opportunity.title %>
+  </div>
+  <div class="opportunity-container">
+    <div class="jbh-grid-container">
+      <div class="jbh-grid-first">
+        <div class="opportunity-info">
+          <div class="opportunity-info-left opportunity-info-container">
+            <div class="opportunity-info-row">CREATED BY
+              <div class="opportunity-info-row-data"><%= @opportunity.user.username %></div>
+            </div>
+            <div class="opportunity-info-row">CATEGORY
+              <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
+            </div>
+            <div class="opportunity-info-row">COMPLETION DATE
+              <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+            </div>
           </div>
-          <div class="opportunity-info-row">Category:
-            <span class="opportunity-info-row-data black"><%= @opportunity.category_title %></span>
-          </div>
-          <div class="opportunity-info-row">Target Completion Date:
-            <span class="opportunity-info-row-data">  <%= @opportunity.display_date %></span>
+          <div class="opportunity-info-right opportunity-info-container">
+            <div class="opportunity-info-row">VOLUNTEERS
+              <div class="opportunity-info-row-data info">
+                <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
+              </div>
+            </div>
+            <div class="opportunity-info-row">
+              <div class="opportunity-info-row-data">
+                <% if current_user&.is_follower?(@opportunity.id) %>
+                  <%= link_to "See Followers", opportunities_followers_path(id: @opportunity.id), class: "see-followers-btn btn", type: "button" %>
+                <% end %>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="opportunity-info-right opportunity-info-container">
-          <div class="opportunity-info-row">
-            <span class="opportunity-info-row-data">
-              <%= link_to "Followers: #{@opportunity.follower_count}", opportunities_followers_path(id: @opportunity.id) %>
-            </span>
-          </div>
-          <div class="opportunity-info-row">Volunteers
-            <span class="opportunity-info-row-data info"><%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %></span>
-          </div>
-          <div class="opportunity-complete-container">
-            <a href="/opportunities/complete?id=<%= @opportunity.id %>">
-              <div class="complete-opportunity-btn">
-                Mark Complete
-              </div>
-            </a>
-          </div>
-          <div class="opportunity-uncomplete-container">
-            <a href="/opportunities/uncomplete?id=<%=@opportunity.id%>">
-              <div class="uncomplete-opportunity-btn">
-                Undo Completion
-              </div>
-            </a>
-          </div>
-        </div>
+        <div class="opportunity-description"><%= @opportunity.description %></div>
       </div>
-      <div class="opportunity-description"><%= @opportunity.description %></div>
-    </div>
-    <div class="jbh-grid-second">
-      <div class="opportunity-buttons-container">
-        <div class="opportunity-buttons-label">
-          Options
+      <div class="jbh-grid-second">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=340x340&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+        <div class="opportunity-address-below-map">
+          <%= @opportunity.address %>
         </div>
-        <% if !@role && current_user %>
-          <%= link_to 'Follow Opportunity', opportunities_follow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary follow-opportunity-button" %>
-        <% elsif @role&.level == 4 %>
-          <%= link_to 'Unfollow Opportunity', opportunities_unfollow_path(opportunity_id: @opportunity.id), class: "btn btn-outline-primary unfollow-opportunity-button" %>
-        <% elsif @role&.level == 2 %>
-          <%= link_to 'Step down as Supervisor', opportunities_demote_user_path(opportunity_id: @opportunity.id, target_user_id: @role.user_id), class: "btn btn-outline-primary step-down-button" %>
-        <% end %>
       </div>
     </div>
   </div>
@@ -67,9 +51,6 @@
   <!-- Tab content -->
   <div id="opportunity-info-tab" class="tabcontent">
     <div class="posts-container">
-      <div class="tab-header d-flex align-items-center">
-        <h2 class="tab-heading"> Posts </h2>
-      </div>
       <div class="post-list">
         <% if @opportunity.posts.size > 0 %>
           <% @opportunity.posts.each do |post| %>
@@ -95,9 +76,6 @@
     </div>
   </div>
   <div id="opportunity-requirements-tab" class="tabcontent">
-    <div class="d-flex align-items-center">
-      <h2 class="tab-heading">Requirements</h2>
-    </div>
     <% @requirements.each do |requirement| %>
       <%= render 'requirement_row', requirement: requirement %>
     <%end%>
