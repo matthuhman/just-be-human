@@ -65,7 +65,7 @@
           <%= f.input :volunteers_required %>
         </div>
         <div class="oppo-next-btn-container">
-          <label onclick="showStepTwo(true)" class="oppo-form-next-btn oppo-form-direction-btn">NEXT</label>
+          <label onclick="showStepThree(true)" class="oppo-form-next-btn oppo-form-direction-btn">NEXT</label>
         </div>
         <div class="oppo-back-btn-container">
           <label onclick="showStepOne(false)" class="oppo-form-back-btn  oppo-form-direction-btn">BACK</label>
@@ -79,17 +79,20 @@
     -->
       <div class="abstract-options-form-container" id="abstract-options" >
         <div class="difficulty-container">
-          <h5 class="difficulty-subheader">How much help do you need?</h5>
+          <div class="abstract-options-explanation oppo-form-explanation">How much help do you need?</div>
           <div class="difficulty-selection">
             <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
             <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
           </div>
+          <div class="volunteers-required-input">
+            <%= f.input :volunteers_required %>
+          </div>
           <div class="plan-by-selection">
-            <%= f.label "If you would like, you can set a date you want to have your Opportunity defined by." %>
+            <%= f.label "This is the target date for planning the Opportunity." %>
             <%= f.input :planned_by_date, order: [:month, :day, :year], id: "planned-by-date" %>
           </div>
           <div class="completion-date-selection">
-            <%= f.label "This is when you would ideally have a solution figured out- don't worry, you can always change this later!" %>
+            <%= f.label "This is the target date for completing the Opportunity- don't worry, you can always change it later!" %>
             <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
           </div>
         </div>
@@ -106,12 +109,15 @@
       STEP 3
     -->
       <div class="location-form-container" id="oppo-creation-step-3">
-        <h5 class="location-subheader">Where is your opportunity located?</h5>
+        <div class="oppo-form-explanation">Where is your opportunity located?</div>
         <div class="location-selection">
-          <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
+          <%= f.input :address, placeholder: "ex. 'City Park, Denver, CO'" %>
         </div>
-        <div class="submit-opportunity">
-          <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-opportunity-btn'%>
+        <div class="location-disclaimer">
+          If possible, please enter a specific location; an address, intersection, or public place is perfect!
+        </div>
+        <div class="submit-post-container">
+          <%= f.button :submit, "Create", class: 'submit-post-btn'%>
         </div>
         <div class="oppo-back-btn-container">
           <label onclick="showStepTwo(false)" class="oppo-form-back-btn  oppo-form-direction-btn">BACK</label>

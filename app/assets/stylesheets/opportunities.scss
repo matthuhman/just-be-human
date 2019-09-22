@@ -655,12 +655,28 @@
   text-align: center;
 }
 
+.volunteers-required-input {
+  text-align: center;
+
+  #opportunity_volunteers_required {
+    width: 30vw !important;
+    font-size: 2.1rem !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+  }
+}
+
+
+
 .defined-options-form-container {
   display: none;
 }
 
 .abstract-options-form-container {
   display: none;
+
+  text-align: center;
 }
 
 .location-form-container {
@@ -669,6 +685,17 @@
 
 .opportunity-form-category-label {
   margin-left: -2vw;
+}
+
+
+.opportunity_planned_by_date {
+
+  @include respond-to(handhelds) {
+    .d-flex {
+      display: flex;
+      flex-wrap: wrap !important;
+    }
+  }
 }
 
 .opportunity_target_completion_date {
@@ -717,6 +744,14 @@
 
 .difficulty-selection {
   padding-left: 2vw;
+  text-align: center;
+  #opportunity_estimated_work {
+    font-size: 2.1rem !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+  }
+
 }
 
 .recurring-selection {
