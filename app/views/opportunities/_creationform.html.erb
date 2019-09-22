@@ -1,113 +1,128 @@
 <%= content_tag :div, class: "sub_categories", data: {sub_categories: @sub_categories} do %>
 <% end %>
-<%= simple_form_for(@opportunity) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="form-inputs">
-    <!--
+<div class="opportunity-creation-form">
+  <%= simple_form_for(@opportunity) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <div class="form-inputs">
+      <!--
       This is the first step- give us the basic info. Title, description, and category.
 
       STEP 1
     -->
-    <div class="basic-info-form-container" id="oppo-creation-step-1">
-      <h5 class="title-subheader">What are the basics?</h5>
-      <div class="title-selection">
-        <%= f.input :title, placeholder: "60-character limit" %>
-        <%= f.input :description, placeholder: "A good description will go a long way." %>
-        <div class="form-group">
-          <%= f.label :category, class: 'opportunity-form-category-label' %>
-          <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+      <div class="basic-info-form-container" id="oppo-creation-step-1">
+        <div class="oppo-form-explanation">What are the basics?</div>
+        <div class="title-selection">
+          <%= f.input :title, placeholder: "60-character limit" %>
+          <%= f.input :description, placeholder: "A good description will go a long way." %>
+          <div class="form-group">
+            <%= f.label :category, class: 'opportunity-form-category-label' %>
+            <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+          </div>
+        </div>
+        <div class="oppo-next-btn-container">
+          <label onclick="showStepTwo(true)" class="oppo-form-next-btn oppo-form-direction-btn">NEXT</label>
         </div>
       </div>
-      <div class="oppo-next-btn-container">
-        <label onclick="showStepTwo(true)" class="oppo-form-next-btn">NEXT</label>
-      </div>
-    </div>
-    <!--
+      <!--
       This is the second step of the creation process- asking the user if it is defined or not.
 
       STEP 2
     -->
-    <div class="defined-selection-form-container" id="oppo-creation-step-2">
-      <%= f.check_box :defined, id: "defined-checkbox", class: "hidden-defined-input" %>
-      <label onclick="chooseDefined()">My Opportunity is Defined</label>
-      <label onclick="chooseAbstract()"> My Opportunity is Abstract</label>
-      <!--       <label><input type="checkbox" -->
-      <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
-    </div>
-    <!--
-      @MATT HAVE TWO DIFFERENT SELECTORS- DEFINED AND ABSTRACT
-      https://stackoverflow.com/questions/4639572/check-html-checkbox-using-a-button
-    -->
-    <!--
+      <div class="defined-selection-form-container" id="oppo-creation-step-2">
+        <%= f.check_box :defined, id: "defined-checkbox", class: "hidden-defined-input" %>
+        <div class="definition-selection-explanation oppo-form-explanation">
+          If you know the what/when/how of your Opportunity, select Defined.
+        </div>
+        <div class="select-defined-container">
+          <label onclick="chooseDefined()" class="select-definition-label">Defined</label>
+        </div>
+        <div class="definition-selection-explanation oppo-form-explanation">
+          If you're still figuring out the details, select Planning.
+        </div>
+        <div class="select-abstract-container">
+          <label onclick="chooseAbstract()" class="select-definition-label">Planning</label>
+        </div>
+        <div class="oppo-back-btn-container">
+          <label onclick="showStepOne(false)" class="oppo-form-back-btn  oppo-form-direction-btn">BACK</label>
+        </div>
+      </div>
+      <!--
       These options are shown for Defined opportunities that already know time/date and
       what is going to be needed to complete the opportunity
 
       PART OF STEP 2
-    -->
-    <div class="defined-options-form-container" id="defined-options">
-      <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
-      <div class="datetime-selection">
-        <label><input type="checkbox" name="datetime-or-date" checked value="" id="datetime-required" onclick="showOrHideTimeOptions()"> I know the specific time of day.</label>
+      -->
+      <div class="defined-options-form-container" id="defined-options">
+        <div class="defined-options-explanation oppo-form-explanation">When is it and how many people do you need?</div>
+        <div class="completion-date-selection">
+          <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute], datetime_separator: '', time_separator: '' %>
+        </div>
+        <div class="oppo-datetime-selection">
+          <label><input type="checkbox" name="datetime-or-date" checked value="" id="datetime-required" onclick="showOrHideTimeOptions()">Toggle time of day options</label>
+        </div>
+        <div class="volunteers-required-input">
+          <%= f.input :volunteers_required %>
+        </div>
+        <div class="oppo-next-btn-container">
+          <label onclick="showStepThree(true)" class="oppo-form-next-btn oppo-form-direction-btn">NEXT</label>
+        </div>
+        <div class="oppo-back-btn-container">
+          <label onclick="showStepOne(false)" class="oppo-form-back-btn  oppo-form-direction-btn">BACK</label>
+        </div>
       </div>
-      <div class="completion-date-selection">
-        <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute], datetime_separator: '', time_separator: '' %>
-      </div>
-      <div class="volunteers-required-input">
-        <%= f.input :volunteers_required %>
-      </div>
-      <div class="oppo-next-btn-container">
-        <label onclick="showStepTwo(true)" class="oppo-form-next-btn">NEXT</label>
-      </div>
-      <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
-      <!-- @MATT ADD GO TO STEP 3 BUTTON -->
-      <!-- @MATT ADD GO BACK TO STEP 1 BUTTON -->
-    </div>
-    <!--
+      <!--
       These options are shown for Abstract opportunities that still need planning
       they are not shown if defined == true
 
       PART OF STEP 2
     -->
-    <div class="abstract-options-form-container" id="abstract-options" >
-      <div class="difficulty-container">
-        <h5 class="difficulty-subheader">How much help do you need?</h5>
-        <div class="difficulty-selection">
-          <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
-          <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
+      <div class="abstract-options-form-container" id="abstract-options" >
+        <div class="difficulty-container">
+          <div class="abstract-options-explanation oppo-form-explanation">How much help do you need?</div>
+          <div class="difficulty-selection">
+            <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
+            <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
+          </div>
+          <div class="volunteers-required-input">
+            <%= f.input :volunteers_required %>
+          </div>
+          <div class="plan-by-selection">
+            <%= f.label "This is the target date for planning the Opportunity." %>
+            <%= f.input :planned_by_date, order: [:month, :day, :year], id: "planned-by-date" %>
+          </div>
+          <div class="completion-date-selection">
+            <%= f.label "This is the target date for completing the Opportunity- don't worry, you can always change it later!" %>
+            <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
+          </div>
         </div>
-        <div class="plan-by-selection">
-          <%= f.label "If you would like, you can set a date you want to have your Opportunity defined by." %>
-          <%= f.input :planned_by_date, order: [:month, :day, :year], id: "planned-by-date" %>
+        <div class="oppo-next-btn-container">
+          <label onclick="showStepThree(true)" class="oppo-form-next-btn oppo-form-direction-btn">NEXT</label>
         </div>
-        <div class="completion-date-selection">
-          <%= f.label "This is when you would ideally have a solution figured out- don't worry, you can always change this later!" %>
-          <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
+        <div class="oppo-back-btn-container">
+          <label onclick="showStepOne(false)" class="oppo-form-back-btn oppo-form-direction-btn">BACK</label>
         </div>
       </div>
-      <div class="oppo-next-btn-container">
-        <label onclick="showStepThree(true)" class="oppo-form-next-btn">NEXT</label>
-      </div>
-      <div class="oppo-back-btn-container">
-        <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
-      </div>
-    </div>
-    <!--
+      <!--
       Last, we'll get the location and timing information. Pretty straightforward.
 
       STEP 3
     -->
-    <div class="location-form-container" id="oppo-creation-step-3">
-      <h5 class="location-subheader">Where is your opportunity located?</h5>
-      <div class="location-selection">
-        <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
-      </div>
-      <div class="submit-opportunity">
-        <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-opportunity-btn'%>
-      </div>
-      <div class="oppo-back-btn-container">
-        <label onclick="showStepTwo(false)" class="oppo-form-back-btn">BACK</label>
+      <div class="location-form-container" id="oppo-creation-step-3">
+        <div class="oppo-form-explanation">Where is your opportunity located?</div>
+        <div class="location-selection">
+          <%= f.input :address, placeholder: "ex. 'City Park, Denver, CO'" %>
+        </div>
+        <div class="location-disclaimer">
+          If possible, please enter a specific location; an address, intersection, or public place is perfect!
+        </div>
+        <div class="submit-post-container">
+          <%= f.button :submit, "Create", class: 'submit-post-btn'%>
+        </div>
+        <div class="oppo-back-btn-container">
+          <label onclick="showStepTwo(false)" class="oppo-form-back-btn  oppo-form-direction-btn">BACK</label>
+        </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
