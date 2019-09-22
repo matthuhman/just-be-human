@@ -546,6 +546,13 @@
 // OPPORTUNITIES FORM
 
 
+// .opportunity-creation-form {
+
+//   #select {
+//     text-align: center;
+//   }
+// }
+
 #opportunity_volunteers_required {
   width: 20vw;
 }
@@ -558,12 +565,94 @@
   padding-bottom: 2vh;
 }
 
+.oppo-form-explanation {
+  color: $midgrey;
+  font-size: 2rem;
+  margin-top: 5vh;
+
+
+  @include respond-to(handhelds) {
+    font-size: 1.5rem;
+  }
+}
+
+.oppo-back-btn-container {
+  text-align: center;
+}
+
+.oppo-next-btn-container {
+  text-align: center;
+}
+
+.oppo-form-direction-btn {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: $darkgrey;
+  border-bottom: 1px solid $lightgrey;
+}
+
 .defined-selection-form-container {
   display: none;
+
+  text-align: center;
+
+  .definition-selection-explanation {
+    color: $midgrey;
+    font-size: 2rem;
+    margin-top: 5vh;
+
+
+    @include respond-to(handhelds) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .select-defined-container {
+    width: 50vw;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $limegreen-low;
+    border: 1px solid $darkgrey;
+  }
+
+  .select-abstract-container {
+    margin-bottom: 5vh;
+
+    width: 50vw;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $lightpink-low;
+    border: 1px solid $darkgrey;
+  }
+
+  .select-definition-label {
+    height: 100%;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: 600;
+
+
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+
+    @include respond-to(handhelds) {
+      font-size: 2rem;
+    }
+  }
 
   #defined {
     display: none;
   }
+}
+
+.oppo-datetime-selection {
+  color: $midgrey;
+  font-size: 1.3rem;
+  text-align: center;
 }
 
 .defined-options-form-container {
@@ -580,6 +669,25 @@
 
 .opportunity-form-category-label {
   margin-left: -2vw;
+}
+
+.opportunity_target_completion_date {
+
+
+
+  @include respond-to(handhelds) {
+    .d-flex {
+      display: flex;
+      flex-wrap: wrap !important;
+    }
+  }
+}
+
+
+.oppo-datetime-selection {
+  #datetime-required {
+    display: none;
+  }
 }
 
 
