@@ -27,6 +27,7 @@ class OpportunitiesController < ApplicationController
 
   # GET /opportunities/1/edit
   def edit
+    @categories = Category.opportunity_titles
   end
 
 
