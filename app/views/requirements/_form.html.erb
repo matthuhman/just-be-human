@@ -5,7 +5,7 @@
     <%= f.input :title, placeholder: "Keep it short and sweet" %>
     <%= f.input :description, placeholder: "An in-depth description goes here." %>
     <div class="form-group">
-      <%= f.label "Requirement status:" %>
+      <%= f.label "Status:" %>
       <% if @planned %>
         <%= f.select :status, @requirement.defined_statuses, label: "Status" %>
       <% else %>
@@ -20,10 +20,12 @@
     <% if params[:action] == "edit" %>
       <%= f.input :pct_done, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
     <% end %>
-    <div class="form-group">
-      <%= f.label :category %>
-      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-    </div>
+    <% if !request.env["PATH_INFO"].include?("edit") %>
+      <div class="form-group">
+        <%= f.label :category %>
+        <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+      </div>
+    <% end %>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
     <div class="form-group">
       <%= f.label "Priority- 1 is most important, 10 is least important" %>
@@ -43,5 +45,7 @@
     <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
-  <%= f.button :submit, class: "btn btn-primary" %>
+  <div class="submit-post-container">
+    <%= f.button :submit, "Edit", class: "submit-post-btn" %>
+  </div>
 <% end %>

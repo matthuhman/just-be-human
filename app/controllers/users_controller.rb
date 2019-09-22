@@ -4,12 +4,6 @@ class UsersController < ApplicationController
 
   protect_from_forgery with: :exception
 
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
-  end
-
   # GET /users/1
   # GET /users/1.json
   def show

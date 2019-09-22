@@ -4,7 +4,12 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
-    <div class="basic-info-container" id="new-opportunity-step1">
+    <!--
+      This is the first step- give us the basic info. Title, description, and category.
+
+      STEP 1
+    -->
+    <div class="basic-info-form-container" id="oppo-creation-step-1">
       <h5 class="title-subheader">What are the basics?</h5>
       <div class="title-selection">
         <%= f.input :title, placeholder: "60-character limit" %>
@@ -14,11 +19,33 @@
           <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
         </div>
       </div>
-      <div class="defined-selection">
-        <label><input type="checkbox" name="defined" value="" checked id="defined-checkbox" onclick="showDefinedOrAbstractOptions()"> My Opportunity is Defined</label>
+      <div class="oppo-next-btn-container">
+        <label onclick="showStepTwo(true)" class="oppo-form-next-btn">NEXT</label>
       </div>
     </div>
-    <div class="defined-options-container" id="defined-options">
+    <!--
+      This is the second step of the creation process- asking the user if it is defined or not.
+
+      STEP 2
+    -->
+    <div class="defined-selection-form-container" id="oppo-creation-step-2">
+      <%= f.check_box :defined, id: "defined-checkbox", class: "hidden-defined-input" %>
+      <label onclick="chooseDefined()">My Opportunity is Defined</label>
+      <label onclick="chooseAbstract()"> My Opportunity is Abstract</label>
+      <!--       <label><input type="checkbox" -->
+      <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
+    </div>
+    <!--
+      @MATT HAVE TWO DIFFERENT SELECTORS- DEFINED AND ABSTRACT
+      https://stackoverflow.com/questions/4639572/check-html-checkbox-using-a-button
+    -->
+    <!--
+      These options are shown for Defined opportunities that already know time/date and
+      what is going to be needed to complete the opportunity
+
+      PART OF STEP 2
+    -->
+    <div class="defined-options-form-container" id="defined-options">
       <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
       <div class="datetime-selection">
         <label><input type="checkbox" name="datetime-or-date" checked value="" id="datetime-required" onclick="showOrHideTimeOptions()"> I know the specific time of day.</label>
@@ -29,9 +56,21 @@
       <div class="volunteers-required-input">
         <%= f.input :volunteers_required %>
       </div>
+      <div class="oppo-next-btn-container">
+        <label onclick="showStepTwo(true)" class="oppo-form-next-btn">NEXT</label>
+      </div>
+      <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
+      <!-- @MATT ADD GO TO STEP 3 BUTTON -->
+      <!-- @MATT ADD GO BACK TO STEP 1 BUTTON -->
     </div>
-    <div class="abstract-options-container" id="abstract-options" >
-      <div class="difficulty-container" id="new-opportunity-step2">
+    <!--
+      These options are shown for Abstract opportunities that still need planning
+      they are not shown if defined == true
+
+      PART OF STEP 2
+    -->
+    <div class="abstract-options-form-container" id="abstract-options" >
+      <div class="difficulty-container">
         <h5 class="difficulty-subheader">How much help do you need?</h5>
         <div class="difficulty-selection">
           <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
@@ -46,16 +85,29 @@
           <%= f.input :target_completion_date, as: :date, order: [:month, :day, :year] %>
         </div>
       </div>
+      <div class="oppo-next-btn-container">
+        <label onclick="showStepThree(true)" class="oppo-form-next-btn">NEXT</label>
+      </div>
+      <div class="oppo-back-btn-container">
+        <label onclick="showStepOne(false)" class="oppo-form-back-btn">BACK</label>
+      </div>
     </div>
-    <div class="location-container" id="new-opportunity-step3">
+    <!--
+      Last, we'll get the location and timing information. Pretty straightforward.
+
+      STEP 3
+    -->
+    <div class="location-form-container" id="oppo-creation-step-3">
       <h5 class="location-subheader">Where is your opportunity located?</h5>
       <div class="location-selection">
         <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
       </div>
+      <div class="submit-opportunity">
+        <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-opportunity-btn'%>
+      </div>
+      <div class="oppo-back-btn-container">
+        <label onclick="showStepTwo(false)" class="oppo-form-back-btn">BACK</label>
+      </div>
     </div>
-    <h5 class="completion-date-subheader">When do you want to complete it?</h5>
-  </div>
-  <div class="submit-opportunity">
-    <%= f.button :submit, class: 'btn btn-success btn-lg btn-block submit-opportunity-btn'%>
   </div>
 <% end %>

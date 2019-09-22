@@ -19,17 +19,39 @@
           </div>
           <div class="opportunity-info-right opportunity-info-container">
             <div class="opportunity-info-row">VOLUNTEERS
-              <div class="opportunity-info-row-data info">
+              <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
                 <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
               </div>
             </div>
-            <div class="opportunity-info-row">
-              <div class="opportunity-info-row-data">
-                <% if current_user&.is_follower?(@opportunity.id) %>
-                  <%= link_to "See Followers", opportunities_followers_path(id: @opportunity.id), class: "see-followers-btn btn", type: "button" %>
-                <% end %>
+            <% if current_user&.is_follower?(@opportunity.id) %>
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  OPTIONS
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+                    Unfollow
+                  </a>
+                  <a class="dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
+                    Followers
+                  </a>
+                  <% if @is_mod %>
+                    <a class="dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
+                      Edit
+                    </a>
+                  <% end %>
+                  <% if @is_admin %>
+                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/complete?id=<%= @opportunity.id %>">
+                      COMPLETE
+                    </a>
+                  <% end %>
+                </div>
               </div>
-            </div>
+            <% else %>
+              <a class="follow-btn btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+                JOIN
+              </a>
+            <% end %>
           </div>
         </div>
         <div class="opportunity-description"><%= @opportunity.description %></div>

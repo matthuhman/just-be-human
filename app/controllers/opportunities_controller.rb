@@ -2,7 +2,7 @@ class OpportunitiesController < ApplicationController
   respond_to :html, :xml, :json
 
 
-  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete]
+  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow]
   before_action :authenticate_user!, except: [:show]
 
   before_action :set_time_options, only: [:create, :edit, :new]
@@ -134,8 +134,6 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/follow
   # takes opportunity_id query param
   def follow
-    @opportunity = Opportunity.find(params[:opportunity_id])
-
     respond_to do |format|
       if Role.follow_opportunity(current_user.id, @opportunity.id)
         format.html { redirect_to @opportunity, notice: 'You have successfully followed this opportunity.' }
@@ -151,8 +149,6 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/unfollow
   # takes opportunity_id query param
   def unfollow
-    @opportunity = Opportunity.find(unfollow_params[:opportunity_id])
-
     respond_to do |format|
       if (Role.unfollow_opportunity(current_user.id, @opportunity.id))
         format.html { redirect_to @opportunity, notice: "You have unfollowed this opportunity" }
@@ -271,14 +267,6 @@ class OpportunitiesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
     params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status)
-  end
-
-  def follow_params
-    params.permit(:opportunity_id)
-  end
-
-  def unfollow_params
-    params.permit(:opportunity_id)
   end
 
   def promotion_params

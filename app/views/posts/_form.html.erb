@@ -14,5 +14,7 @@
     <%= f.hidden_field :postable_id, :value => params[:requirement][:id] %>
     <%= f.hidden_field :postable_type, :value => 'Requirement' %>
   <% end %>
-  <%= f.button :submit, class: "btn btn-primary" %>
+  <div class="submit-post-container">
+    <%= f.button :submit, "Post", class: "submit-post-btn"%>
+  </div>
 <% end %>

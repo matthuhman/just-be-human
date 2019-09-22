@@ -28,7 +28,7 @@
             <p>
               <strong class="comment-username"><%= comment.user.username %></strong>  at <%= local_time(comment.created_at, "%l:%M%P on %-m/%-d/%y") %>
             </p>
-            <% if current_user == comment.user %>
+            <% if current_user == comment.user && @can_comment %>
               <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', @comment, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% else %>
               <%= link_to 'Send a message', new_personal_message_path(receiver_id: comment.user) %>
@@ -38,16 +38,27 @@
       <% end %>
     </div>
   <% end %>
-  <div class="add-comment-container jbh-green-btn-container">
-    <a href="/comments/new?post_id=<%=@post.id%>">
-      <div class="add-comment-btn jbh-btn-text">New Comment</div>
+  <div class="submit-post-container">
+    <a href="/comments/new?post_id=<%=@post.id%>" class="submit-post-btn">
+      Comment
     </a>
   </div>
-  <br>
-  <br>
-  <% oppo = @post.postable_type == "Opportunity" ? @parent : @parent.opportunity %>
-  <% if current_user.is_mod?(oppo.id) || current_user == @post.user %>
-    <%= link_to 'Edit', edit_post_path(@post) %>  |
-    <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
-  <% end %>
+  <div class="post-options-container">
+    <% oppo = @post.postable_type == "Opportunity" ? @parent : @parent.opportunity %>
+    <% if current_user.is_mod?(oppo.id) || current_user == @post.user %>
+      <div class="edit-post-btn-container">
+        <a href="<%= @post.id %>/edit" class="edit-post-btn">Edit</a>
+      </div>
+      <div class="delete-post-btn-container">
+        <%= link_to 'Delete post', @post, method: :delete, data: { confirm: 'Are you sure?' }  %>
+      </div>
+    <% end %>
+    <div class="parent-return-btn-container">
+      <% if @post.postable_type == "Opportunity" %>
+        <a href="/opportunities/<%= @post.postable_id %>">Return</a>
+      <% else %>
+        <a href="/requirements/<%= @post.postable_id %>">Return</a>
+      <% end %>
+    </div>
+  </div>
 </div>

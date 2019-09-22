@@ -1,6 +1,5 @@
-<h1>Editing Post</h1>
-
+<div class="jbh-standard-title">Editing Post</div>
 <%= render 'form', post: @post %>
-
-<%= link_to 'Show', @post %> |
-<%= link_to 'Back', posts_path %>
+<div class="post-edit-return">
+  <a href="/posts/<%= @post.id %>" class="post-edit-return-btn">return to parent</a>
+</div>

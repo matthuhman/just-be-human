@@ -14,8 +14,10 @@ class PostsController < ApplicationController
   def show
     if @post.postable_type == 'Opportunity'
       @parent = Opportunity.find(@post.postable_id)
+      @can_comment = current_user.is_follower?(@parent.id)
     else
       @parent = Requirement.find(@post.postable_id)
+      @can_comment = current_user.is_follower?(@parent.opportunity.id)
     end
   end
 

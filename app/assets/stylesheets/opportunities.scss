@@ -95,6 +95,14 @@
   & a {
     color: #000;
     text-decoration: none;
+    text-transform: none !important;
+  }
+
+  & p {
+    @include respond-to(handhelds) {
+      margin-bottom: 0px;
+    }
+
   }
 
   &:hover {
@@ -121,17 +129,27 @@
 .requirement-row-title {
 	font-size: 2.3em;
   padding-left: 1vw;
+
+  @include respond-to(handhelds) {
+    font-size: 1.8em;
+  }
 }
 
 .requirement-row-excerpt {
 	font-size: 1.5em;
 	@include respond-to(handhelds) {
 		text-align: center;
+    font-size: 1.2em;
 	}
 }
 
 .req-row-info {
 	font-size: 1.3em;
+
+  @include respond-to(handhelds) {
+    text-align: center;
+    font-size: 1.1em;
+  }
 }
 // .add-tabitem-button {
 //   padding-top: 3vh;
@@ -153,6 +171,10 @@
   font-size: 2.2em !important;
   font-weight: 650 !important;
   text-transform: uppercase;
+
+  @include respond-to(handhelds) {
+    font-size: 1.7em !important;
+  }
 }
 
 .tab-heading {
@@ -202,12 +224,60 @@
 }
 
 .opportunity-info-right {
+  //padding-bottom: 2vh;
   grid-column: 2;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .follow-btn {
+    font-size: 2.1rem;
+    font-weight: 650;
+    border-top: 1px solid $lightgrey;
+    background-color: $limegreen-low;
+
+    @include respond-to(handhelds) {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.opportunity-info-volunteers-count {
+  font-size: 3.5rem !important;
+  font-weight: 650;
 }
 
 .opportunity-info-container {
 
+  .dropdown {
+
+    .dropdown-item {
+      font-size: 1.9rem;
+      color: $midgrey;
+
+      @include respond-to(handhelds) {
+        font-size: 1.4rem;
+      }
+    }
+
+    .dropdown-menu {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .dropdown-toggle {
+    font-size: 2.3rem;
+    color: $darkgrey;
+    border-top: 1px solid $lightgrey;
+    width: 100%;
+    background-color: $limegreen-low;
+
+    @include respond-to(handhelds) {
+      font-size: 1.8rem;
+    }
+  }
 }
 
 .opportunity-info-row {
@@ -235,6 +305,7 @@
   @include respond-to(handhelds) {
     margin-left: 2vw;
     margin-right: 2vw;
+    padding-bottom: 2vh;
   }
 }
 // .opportunity-info-row {
@@ -269,6 +340,13 @@
   @include respond-to(handhelds) {
     border: 2px solid $midgrey;
   }
+}
+
+.opportunity-address-below-map {
+  padding-top: 1vh;
+  font-size: 1.5rem;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
 
 .opportunity-buttons-container {
@@ -306,6 +384,56 @@
   display: flex;
   vertical-align: middle;
 }
+
+
+
+.followers-show-page {
+  height: 100% !important;
+
+  .followers-body {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .followers-container {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    font-size: 2rem;
+
+    @include respond-to(handhelds) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .follower-container {
+    border-bottom: 1px solid $lightgrey;
+  }
+
+  .follower-info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .follower-action-btn {
+    border-left: 1px solid $lightgrey;
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+
+  .follow-return-to-parent {
+    text-align: center;
+    padding-top: 5vh;
+    font-size: 2rem;
+
+    @include respond-to(handhelds) {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+
+
 
 
 
@@ -426,12 +554,37 @@
 	display: none;
 }
 
-.basic-info-container {
+.basic-info-form-container {
   padding-bottom: 2vh;
+}
+
+.defined-selection-form-container {
+  display: none;
+
+  #defined {
+    display: none;
+  }
+}
+
+.defined-options-form-container {
+  display: none;
+}
+
+.abstract-options-form-container {
+  display: none;
+}
+
+.location-form-container {
+  display: none;
 }
 
 .opportunity-form-category-label {
   margin-left: -2vw;
+}
+
+
+.hidden-defined-input {
+  display: none;
 }
 
 .difficulty-container {
@@ -470,6 +623,7 @@
 .location-subheader {
   padding-top: 3vh;
 }
+
 
 .location-selection {
   padding-left: 2vw;
