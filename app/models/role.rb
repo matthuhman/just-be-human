@@ -26,6 +26,7 @@ class Role
 
     if follow_role
       follow_role.destroy
+      should_decrement_volunteer_count = false
       Opportunity.find(opp_id).requirements.each do |req|
         role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
         if role
@@ -33,8 +34,9 @@ class Role
           should_decrement_volunteer_count = true
         end
       end
+
       Opportunity.decrement_counter(:follower_count, opp_id)
-      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count
+      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count?
       true
     else
       ReportedError.report("Role.unfollow_opportunity", "framework logic error", 1000)
