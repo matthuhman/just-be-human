@@ -40,6 +40,9 @@
                     <a class="dropdown-item" href="/requirements/<%= @requirement.id %>/edit">
                       Edit
                     </a>
+                    <a data-confirm="Are you sure? This cannot be undone." rel="nofollow" data-method="delete" href="/requirements/<%= @requirement.id %>" class="dropdown-item">
+                      DELETE
+                    </a>
                   <% end %>
                   <% if @is_admin && @requirement.defined %>
                     <a class="dropdown-item dropdown-item-complete" href="/requirements/complete?id=<%= @requirement.id %>">
