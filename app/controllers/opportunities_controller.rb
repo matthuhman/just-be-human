@@ -218,7 +218,6 @@ class OpportunitiesController < ApplicationController
       if current_user.is_admin?(@opportunity.id)
         if @opportunity.can_complete?
           if @opportunity.mark_complete
-            binding.pry
             completion_post.save
             format.html { redirect_to edit_post_path(completion_post) }
             format.json { render :new, status: :ok, location: completion_post }
@@ -267,7 +266,7 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status)
+    params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status, :planned_by_date)
   end
 
   def promotion_params

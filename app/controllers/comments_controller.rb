@@ -20,7 +20,6 @@ class CommentsController < ApplicationController
     @post = Post.find(@comment.post_id) if @comment.post_id?
 
     oppo = @post.postable_type == "Opportunity" ? @post.opportunity : @post.requirement.opportunity
-    # binding.pry
     respond_to do |format|
       if comment_params[:content] && !comment_params[:content].empty?
         if current_user.is_follower?(oppo.id)

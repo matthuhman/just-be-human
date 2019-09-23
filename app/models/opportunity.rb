@@ -46,12 +46,13 @@ class Opportunity < ApplicationRecord
 
 
   def can_complete?
+    return unless defined
     enough_volunteers = volunteer_count >= volunteers_required
     at_completion_date = Time.now >= target_completion_date
 
     if enough_volunteers && at_completion_date
       requirements.each do |r|
-        if !r.complete
+        if !r.defined
           return false
         end
       end
@@ -61,17 +62,35 @@ class Opportunity < ApplicationRecord
     end
   end
 
+  def can_define?
+    return if defined
 
+
+    requirements.each do |r|
+      if !r.defined
+        return false
+      end
+    end
+    true
+  end
 
   def overdue?
-    target_completion_date? && target_completion_date < Date.today
+    if defined
+      target_completion_date? && target_completion_date < Date.today
+    else
+      planned_by_date? && planned_by_date < Date.today
+    end
   end
 
   def display_date
-    if target_completion_date && target_completion_date.hour == 0
-      target_completion_date.to_date
+    if defined
+      if target_completion_date && target_completion_date.hour == 0
+        target_completion_date.to_date
+      else
+        target_completion_date
+      end
     else
-      target_completion_date
+      planned_by_date
     end
   end
 

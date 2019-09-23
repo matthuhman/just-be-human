@@ -62,7 +62,7 @@ class Category
       { title: "Cleanup", desc: "Clean up in your community- examples include trash pickups, park cleanups, beautification projects, etc." },
       { title: "Fundraising", desc: "Organize people to help fundraise for an individual, cause, or organization." },
       { title: "Outreach", desc: "Spread the word about something important to you." },
-      { title: "Collections", desc: "Organize a food/clothing/goods collection in your community." },
+      { title: "Goods", desc: "Organize a food/clothing/goods collection in your community." },
       { title: "Caregiving", desc: "Organize help for specific individuals or groups in your neighborhood who need it." }
     ]
   end

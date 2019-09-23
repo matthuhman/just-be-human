@@ -13,7 +13,7 @@
             <div class="opportunity-info-row">CATEGORY
               <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
             </div>
-            <div class="opportunity-info-row">COMPLETION DATE
+            <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
               <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
             </div>
           </div>
@@ -40,9 +40,13 @@
                       Edit
                     </a>
                   <% end %>
-                  <% if @is_admin %>
+                  <% if @is_admin && @opportunity.defined %>
                     <a class="dropdown-item dropdown-item-complete" href="/opportunities/complete?id=<%= @opportunity.id %>">
                       COMPLETE
+                    </a>
+                  <% elsif @is_admin && !@opportunity.defined %>
+                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+                      PLANNED
                     </a>
                   <% end %>
                 </div>
@@ -103,7 +107,7 @@
     <%end%>
     <% if @is_mod %>
       <div class="add-tabitem-button">
-        <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.target_completion_date}), class: 'btn btn-success btn-lg add-tabitem-btn' %>
+        <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'btn btn-success btn-lg add-tabitem-btn' %>
       </div>
     <% end %>
   </div>

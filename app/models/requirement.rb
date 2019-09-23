@@ -17,6 +17,9 @@ class Requirement < ApplicationRecord
 
   validate :completion_date_limit, :field_length
 
+  geocoded_by :address
+  after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
+
 
 
   def display_description
@@ -32,16 +35,33 @@ class Requirement < ApplicationRecord
   end
 
   def overdue?
-    (target_completion_date < Date.today) && !complete
+    target_completion_date < Date.today && !complete
   end
 
   def can_complete?
     !complete && volunteer_count >= volunteers_required
   end
 
+  def volunteers_needed?
+    volunteer_count < volunteers_needed ? volunteers_needed - volunteer_count : 0
+  end
+
   def leader
     requirement_roles.find_by(requirement_id: id, level: 1)
   end
+
+  def latitude
+    if address?
+      super
+    else
+      opportunity.latitude
+    end
+  end
+
+  def longitude
+    address? ? super : opportunity.longitude
+  end
+
 
   def abstract_statuses
     ["Open", "In Progress", "Need Volunteers", "Ready", "Waiting", "Expertise Needed", "Planning"]
@@ -70,7 +90,6 @@ class Requirement < ApplicationRecord
   end
 
   def subtract_volunteer
-    # binding.pry
     self.volunteer_count -= 1
     if self.volunteer_count < self.volunteers_required && (self.status == "Ready" || self.complete?)
       if self.status == "Ready"
@@ -91,9 +110,6 @@ class Requirement < ApplicationRecord
   def field_length
     if title.size > 60
       errors.add(:title, "must be less than 60 characters")
-    end
-    if status.size > 60
-      errors.add(:status, "must be less than 60 characters")
     end
   end
 

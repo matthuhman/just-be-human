@@ -30,8 +30,11 @@ Rails.application.routes.draw do
   get '/requirements/promote' => 'requirements#promote_leader'
   get '/requirements/demote' => 'requirements#remove_leader'
 
+
   get '/requirements/complete' => 'requirements#mark_complete'
   get '/requirements/incomplete' => 'requirements#mark_incomplete'
+  get '/requirements/define' => 'requirements#mark_defined'
+
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
