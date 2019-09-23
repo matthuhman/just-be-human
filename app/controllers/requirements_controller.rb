@@ -59,6 +59,7 @@ class RequirementsController < ApplicationController
     end
   end
 
+
   # PATCH/PUT /requirements/1
   # PATCH/PUT /requirements/1.json
   def update
