@@ -60,6 +60,7 @@ gem 'whenever'
 gem 'simple_calendar'
 gem 'recurring_select'
 gem 'ice_cube'
+gem 'ahoy_matey'
 
 gem "actiontext", "6.0.0"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’

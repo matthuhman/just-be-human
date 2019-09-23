@@ -27,15 +27,15 @@
       </div>
     <% end %>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
-    <div class="form-group">
-      <%= f.label "Priority- 1 is most important, 10 is least important" %>
-      <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
-    </div>
     <% if !@planned %>
       <div class="planned-selection">
         <% if !request.env["PATH_INFO"].include? "edit" %>
           <%= f.input :defined, label: "This is everything I need!" %>
         <% end %>
+        <div class="form-group">
+          <%= f.label "Priority- 1 is most important, 10 is least important" %>
+          <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
+        </div>
         <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>
       </div>
     <% else %>

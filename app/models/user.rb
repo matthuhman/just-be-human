@@ -6,6 +6,8 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable, :confirmable,
     :lockable, :timeoutable, :trackable
 
+  # has_many :visits, class_name: "Ahoy::Visit"
+
   has_many :opportunity_roles, :dependent => :destroy
   has_many :opportunities, through: :opportunity_roles
 

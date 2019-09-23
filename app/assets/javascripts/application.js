@@ -24,6 +24,9 @@
 //= require introjs
 //= require trix/dist/trix
 //= require conversations
+//= require ahoy
+
+import ahoy from "ahoy.js";
 
 let intro;
 
