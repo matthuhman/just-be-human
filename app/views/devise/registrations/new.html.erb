@@ -1,8 +1,5 @@
-<div class="main container">
-  <div class="">
-    <div class="jbh-standard-title">Welcome to Just Be Human</div>
-    <h4>We're excited for you to join our community!</h4>
-  </div>
+<div class="registration-page">
+  <div class="jbh-standard-title">Welcome!</div>
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
     <div class="form-inputs">
@@ -50,6 +47,8 @@
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
     </div>
-    <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
+    <div class="submit-registration-container">
+      <%= f.button :submit, "REGISTER", class: "submit-registration-button" %>
+    </div>
   <% end %>
 </div>

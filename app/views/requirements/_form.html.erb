@@ -33,7 +33,9 @@
     </div>
     <% if !@planned %>
       <div class="planned-selection">
-        <%= f.input :defined, label: "This is everything I need!" %>
+        <% if !request.env["PATH_INFO"].include? "edit" %>
+          <%= f.input :defined, label: "This is everything I need!" %>
+        <% end %>
         <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>
       </div>
     <% else %>
@@ -44,8 +46,9 @@
       <%= f.hidden_field :opportunity_id, :value => params[:requirement][:opportunity_id] %>
     <% end %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.input :address, placeholder: "Leave blank if the same as opportunity address" %>
   </div>
   <div class="submit-post-container">
-    <%= f.button :submit, "Edit", class: "submit-post-btn" %>
+    <%= f.button :submit, "Submit", class: "submit-post-btn" %>
   </div>
 <% end %>

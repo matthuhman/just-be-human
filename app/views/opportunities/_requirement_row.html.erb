@@ -1,15 +1,15 @@
-<div class="requirement-row <%= 'requirement-row-complete' if requirement.complete %>">
+<div class="requirement-row <%= 'requirement-row-complete' if requirement.complete %> <%= 'requirement-row-overdue' if requirement.overdue? %>">
   <a href="/requirements/<%= requirement.id %>">
+    <div class="requirement-row-title"><span class="req-row-title-span"><%= requirement.title %></span><span class="req-row-status-span"><%= requirement.status %></span></div>
     <div class="jbh-grid-container">
       <div class="jbh-grid-first">
-        <p class="requirement-row-title"><%= requirement.title %></p>
-        <p class="requirement-row-excerpt"><%= requirement.display_description %></p>
-        <p class="requirement-row-date req-row-info"><strong>Due date: </strong><%= requirement.target_completion_date %></p>
-        <p class="requirement-row-author req-row-info"><strong>Priority: </strong><%= requirement.priority %></p>
+        <div class="requirement-row-excerpt"><%= requirement.display_description %></div>
+        <div class="requirement-row-date req-row-info"><strong>Due date: </strong><%= requirement.target_completion_date %></div>
+        <div class="requirement-row-author req-row-info"><strong>Priority: </strong><%= requirement.priority %></div>
       </div>
       <div class="jbh-grid-second">
-        <p class="requirement-row-category req-row-info"><strong>Category: </strong><%= requirement.category_title %></p>
-        <p class="requirement-row-status req-row-info"><strong>Status: </strong><%= requirement.status %></p>
+        <div class="requirement-row-category req-row-info"><strong>Category: </strong><%= requirement.category_title %></div>
+        <div class="requirement-row-status req-row-info"><strong>Status: </strong><%= requirement.status %></div>
       </div>
     </div>
   </a>

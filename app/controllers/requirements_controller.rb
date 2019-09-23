@@ -2,7 +2,7 @@ class RequirementsController < ApplicationController
   respond_to :html, :xml, :json
 
 
-  before_action :set_requirement, only: [:show, :edit, :update, :destroy, :participate, :cancel_participation, :promote_leader, :remove_leader, :mark_complete, :mark_incomplete]
+  before_action :set_requirement, only: [:show, :edit, :update, :destroy, :participate, :cancel_participation, :promote_leader, :remove_leader, :mark_complete, :mark_incomplete, :mark_defined]
   before_action :authenticate_user!
 
   # GET /requirements/new
@@ -12,7 +12,7 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.new
     if params[:requirement]
       @date = params[:requirement][:target_date].to_date
-      @planned = params[:requirement][:defined]
+      @planned = params[:requirement][:defined] == "true"
     end
   end
 
@@ -193,6 +193,26 @@ class RequirementsController < ApplicationController
         end
       else
         format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement as incomplete." }
+        format.json { render :show, status: :forbidden, location: @requirement }
+      end
+    end
+  end
+
+  def mark_defined
+    @opportunity = @requirement.opportunity
+    respond_to do |format|
+      if current_user.is_mod?(@opportunity.id)
+        @requirement.defined = true
+        @requirement.status = "Defined"
+        if @requirement.save
+          format.html { redirect_to @requirement, success: "This requirement is now defined!" }
+          format.json { render :show, status: ok, location: @requirement }
+        else
+          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        end
+      else
+        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement as defined." }
         format.json { render :show, status: :forbidden, location: @requirement }
       end
     end
