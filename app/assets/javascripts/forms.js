@@ -46,7 +46,7 @@ function setShownOption(showIndex, isForward)
 function chooseDefined()
 {
   hideStepTwo();
-  document.getElementById('defined-checkbox').checked = true
+  document.getElementById('defined-checkbox').checked = true;
   showDefinedOptions();
 }
 
