@@ -151,7 +151,7 @@ class OpportunitiesController < ApplicationController
   # takes opportunity_id query param
   def unfollow
     respond_to do |format|
-      if (Role.unfollow_opportunity(current_user.id, @opportunity.id))
+      if Role.unfollow_opportunity(current_user.id, @opportunity.id)
         format.html { redirect_to @opportunity, notice: "You have unfollowed this opportunity" }
         format.json { render :show, status: :ok, location: @opportunity}
       else
