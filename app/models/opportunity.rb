@@ -65,7 +65,6 @@ class Opportunity < ApplicationRecord
   def can_define?
     return if defined
 
-
     requirements.each do |r|
       if !r.defined
         return false
@@ -84,11 +83,7 @@ class Opportunity < ApplicationRecord
 
   def display_date
     if defined
-      if target_completion_date && target_completion_date.hour == 0
-        target_completion_date.to_date
-      else
-        target_completion_date
-      end
+      target_completion_date
     else
       planned_by_date
     end
