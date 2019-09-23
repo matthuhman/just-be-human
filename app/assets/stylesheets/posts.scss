@@ -54,6 +54,11 @@
   text-transform: uppercase !important;
   color: $darkgrey;
 
+  &:hover {
+    text-decoration: none;
+    color: $darkgrey;
+  }
+
   @include respond-to(handhelds) {
     font-size: 1.6rem !important;
   }

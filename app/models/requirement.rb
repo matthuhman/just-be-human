@@ -7,7 +7,7 @@ class Requirement < ApplicationRecord
   has_many :posts, as: :postable, :dependent => :destroy
   has_many :requirement_roles, :dependent => :destroy
 
-
+  validates_uniqueness_of :username, message: 'is already taken.'
   validates_presence_of :title, message: 'must be entered.'
   validates_presence_of :description, message: 'must be entered.'
 
