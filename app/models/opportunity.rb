@@ -83,7 +83,7 @@ class Opportunity < ApplicationRecord
 
   def display_date
     if defined
-      target_completion_date
+      target_completion_date.to_date
     else
       planned_by_date
     end
