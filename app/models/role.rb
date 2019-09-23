@@ -36,7 +36,7 @@ class Role
       end
 
       Opportunity.decrement_counter(:follower_count, opp_id)
-      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count?
+      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count
       true
     else
       ReportedError.report("Role.unfollow_opportunity", "framework logic error", 1000)
