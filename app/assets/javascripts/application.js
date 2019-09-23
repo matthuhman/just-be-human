@@ -26,8 +26,6 @@
 //= require conversations
 //= require ahoy
 
-import ahoy from "ahoy.js";
-
 let intro;
 
 // this will make flash messages disappear after a few seconds on-screen
