@@ -14,7 +14,7 @@
               <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
             </div>
             <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
-              <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+              <div class="opportunity-info-row-data">  <%= local_time(@opportunity.display_date) %></div>
             </div>
           </div>
           <div class="opportunity-info-right opportunity-info-container">
