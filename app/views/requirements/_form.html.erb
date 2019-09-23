@@ -20,12 +20,10 @@
     <% if params[:action] == "edit" %>
       <%= f.input :pct_done, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
     <% end %>
-    <% if !request.env["PATH_INFO"].include?("edit") %>
-      <div class="form-group">
-        <%= f.label :category %>
-        <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-      </div>
-    <% end %>
+    <div class="form-group">
+      <%= f.label :category %>
+      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
+    </div>
     <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
     <% if !@planned %>
       <div class="planned-selection">
