@@ -28,7 +28,11 @@ class PagesController < ApplicationController
       @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
       @roles = current_user.opportunity_roles
     else
-      redirect_to :action => 'landing'
+      @my_opportunities = []
+      @title_hash = {}
+      @geopoint = Geopoint.find_by(zip: '80202')
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date }
+      @roles = []
     end
   end
 
