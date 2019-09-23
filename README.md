@@ -5,9 +5,9 @@ Ruby 2.6.2
 Rails 5.2
 
 # CURRENT DEPLOYMENT STATUS
-* deployed to EC2 t2.micro instance with postgres db
-  * Ruby 2.6.3
-  * Rails 5.2
+* deployed to EC2 t3a.large instance with postgres RDS db
+  * Ruby 2.6.2
+  * Rails 6.0.0
   * rvm used for install
 
 
@@ -64,8 +64,6 @@ Rails 5.2
 
 
 * I don't want to automatically delete a user's problems when that user deletes their account - what do I want to do to make sure we don't end up with orphaned problems that have no leader? And *how* do I do this?
-* What is the best way to efficiently limit db calls while still maintaining permissions for edit/delete of posts and comments?
-* User.edit_delete_permissions that accepts the comment/post ID and a type identifier?
 * what logging/metric framework do I want to use? What's the process to get set up with grafana in ruby/rails?
 
 
@@ -75,31 +73,10 @@ Rails 5.2
 * identify and test all permissions requirements
   * added: 20190811
   * completed:
+  * checkin- 20190922 still not done, unfortunately... hopefully once we're released 
 
-* milestones as a model need to be dramatically improved
-  * probably need to add a /show page back in
-  * need participant count, due date (which must be <= problem due date)
-  * added: 20190811
-  * completed:
 
-# Known small bugs/changes needed
-* devise user registration handlers redirect to /users and need to be overridden somehow
-  * 20190812
-* nginx does not start on system startup for current AMI
-  * 20190815
 
-# Arren todo:
- * home page design
-  <!-- - update style -->
-  <!-- - clickable problem cards (remove links) -->
-    <!-- - edit and delete from show page -->
-  <!-- - tabs for near me / my problems -->
-    <!-- - near me tab has filter by category -->
- * fix up problem show page for mobile
- * active zip on home page editable and get rid of the search form
- <!-- * sticky footer -- DONE -->
- <!-- * open specific problem tab on load and after modal submit -->
- <!-- * get rid of my problems page -->
- <!-- * filters on hp by problem title, category, defined t/f, volunteers needed t/f -->
-
- * Action Mailer Design -- wait for later
+ * Action Mailer setup
+  * added: 20190922
+  * completed: 
