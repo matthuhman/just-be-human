@@ -30,6 +30,10 @@ class Requirement < ApplicationRecord
     end
   end
 
+  def display_date
+    target_completion_date.to_date
+  end
+
   def pct_done_display
     self.pct_done.round.to_s << "%"
   end
