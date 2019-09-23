@@ -1,6 +1,6 @@
-<div class="opportunity-show-page">
+<div class="requirement-show-page">
   <div class="jbh-standard-title">
-    <%= @requirement.title %>
+    <%= @requirement.title %> <span class="requirement-marker">REQUIREMENT</span>
   </div>
   <div class="opportunity-container">
     <div class="jbh-grid-container">
@@ -62,9 +62,11 @@
             <% end %>
           </div>
         </div>
-        <div class="opportunity-description"><%= @requirement.description %></div>
+        <div class="opportunity-description"><%= @requirement.description %>
+        </div>
       </div>
       <div class="jbh-grid-second">
+        <a href="/opportunities/<%= @requirement.opportunity.id %>" class="req-return-to-oppo-btn">Return to Opportunity</a>
         <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @requirement.latitude %>,<%= @requirement.longitude %>&zoom=14&size=340x340&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:yellow%7Clabel:R%7C<%= @requirement.latitude%>,<%= @requirement.longitude%>" class="opportunity-mapimage">
         <div class="opportunity-address-below-map">
           <%= @requirement.address %>

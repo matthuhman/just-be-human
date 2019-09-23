@@ -4,9 +4,27 @@
 
 
 
-.requirement-title {
-  margin-top: 2vh;
-  margin-left: 2vw;
+
+
+.requirement-show-page {
+	.jbh-standard-title {
+		margin-right: 0vw;
+		padding-right: 5vw;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.requirement-marker {
+			font-weight: 600;
+			color: $limegreen;
+		}
+
+		@include respond-to(handhelds) {
+			.requirement-marker {
+				display: none;
+			}
+		}
+	}
 }
 
 
@@ -39,7 +57,13 @@
   font-size: 1.8em;
 }
 
+.req-return-to-oppo-btn {
+	font-size: 1.8em;
 
+	@include respond-to(handhelds) {
+		font-size: 1.2em;
+	}
+}
 
 .category-header {
   font-size: .6em;
@@ -214,6 +238,10 @@
   justify-content: space-between;
   border-bottom: 1px solid $lightgrey;
   font-size: 1.7em;
+
+  @include respond-to(handhelds) {
+  	font-size: 1em;
+  }
 }
 
 .volunteer-leader-btn {
