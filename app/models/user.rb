@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
 
   # profanity validations
+  validates_uniqueness_of :username, message: 'is already taken.'
   validates :username, obscenity: true
   validates :first_name, obscenity: true
   validates :last_name, obscenity: true
