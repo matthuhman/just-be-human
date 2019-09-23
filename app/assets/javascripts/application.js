@@ -342,8 +342,8 @@ $(document).on("turbolinks:load", init)
 
 
 
-let myProbs;
-let nearProbs;
+// let myProbs;
+// let nearProbs;
 
 let attributes = {
   "opportunity_volunteers": "volunteers",
