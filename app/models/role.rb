@@ -1,12 +1,12 @@
 class Role
 
   #
-  # this creates a OpportunityRole with a level of 4 for the given user/opportunity
+  # this creates a OpportunityRole with a level of 5 for the given user/opportunity
   # returns true if it saves successfully
   def self.follow_opportunity(u_id, opp_id)
     follow_role = OpportunityRole.new(user_id: u_id, opportunity_id: opp_id)
 
-    follow_role.level = 4
+    follow_role.level = 5
     follow_role.title = "Follower"
 
     if follow_role.save
@@ -23,6 +23,7 @@ class Role
   # returns true if a role exists and was deleted
   def self.unfollow_opportunity(u_id, opp_id)
     follow_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+    return false unless follow_role?
 
     if follow_role
       follow_role.destroy
@@ -44,7 +45,18 @@ class Role
     end
   end
 
+  def self.confirm(u_id, oppo_id)
+    oppo_role = OpportuntiyRole.find_by(user_id: u_id, opportunity_id: oppo_id)
+    return false unless oppo_role?
 
+    if
+
+
+    end
+
+
+
+  end
   #
   # creates a RequirementRole for a given user/requirement
   # sets the OpportunityRole level/title to 3/Volunteer if it isn't already
@@ -58,7 +70,7 @@ class Role
 
     # if the user is currently a "follower", set their status to "volunteer"
 
-    if opp_role.level == 4
+    if opp_role.level > 3
       opp_role.level = 3
       opp_role.title = "Volunteer"
       if !opp_role.save
@@ -89,8 +101,8 @@ class Role
 
     if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
       opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
-      if opp_role.level > 2
-        opp_role.level = 4
+      if opp_role.level > 3
+        opp_role.level = 5
         opp_role.title = "Follower"
         if !opp_role.save
           ReportedError.report("Role.cancel", opp_role.errors, 1000)
@@ -108,7 +120,7 @@ class Role
     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
 
     if opp_role
-      if opp_role.level == 4
+      if opp_role.level == 5
         increment_vol_counter = true
       end
       opp_role.level = 2
@@ -164,7 +176,7 @@ class Role
 
     if opp_role
       if RequirementRole.where(user_id: u_id, opportunity_id: opp_id).size == 0
-        opp_role.level = 4
+        opp_role.level = 5
         opp_role.title = "Follower"
         decrement_volunteer_counter = true
       else
