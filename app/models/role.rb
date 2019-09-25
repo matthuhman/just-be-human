@@ -57,18 +57,37 @@ class Role
     end
   end
 
-  def self.rsvp(u_id, oppo_id, addl_volunteers, is_coming)
-    oppo_role = OpportuntiyRole.find_by(user_id: u_id, opportunity_id: oppo_id)
-    return false unless oppo_role?
+  def self.rsvp(user, role, params)
+    oppo = role.opportunity
 
-    if oppo_role.level == 5
+    first_response = !role.has_responded
 
-
+    if !first_response
+      old_addl_vols = role.additional_vols
     end
 
+    role.has_responded = true
+    role.is_coming = true
+    role.additional_vols = params[:additional_vols]
 
+    if (role.level == 5)
+      role.level = 4
+      role.title = "Confirmed"
+      oppo.volunteer_count += role.additional_vols + 1
+    elsif !first_response
+      if role.additional_vols > old_addl_vols
+        oppo.volunteer_count += (role.additional_vols - old_addl_vols)
+      elsif role.additional_vols < old_addl_vols
+        oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
+      end
+    else
+      oppo.volunteer_count += role.additional_vols
+    end
 
+    role.save && oppo.save
   end
+
+
   #
   # creates a RequirementRole for a given user/requirement
   # sets the OpportunityRole level/title to 3/Volunteer if it isn't already

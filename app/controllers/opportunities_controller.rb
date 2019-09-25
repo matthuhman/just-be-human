@@ -170,29 +170,7 @@ class OpportunitiesController < ApplicationController
       if role && role.user == current_user
         rsvp = params[:rsvp]
 
-        first_response = !role.has_responded
-
-        if !first_response
-          old_addl_vols = role.additional_vols
-        end
-
-        role.has_responded = true
-        role.is_coming = true
-        role.additional_vols = rsvp[:additional_vols]
-
-        if (role.level == 5)
-          role.level = 4
-          role.title = "Confirmed"
-          oppo.volunteer_count += role.additional_vols + 1
-        else
-          if role.additional_vols > old_addl_vols
-            oppo.volunteer_count += (role.additional_vols - old_addl_vols)
-          elsif role.additional_vols < old_addl_vols
-            oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
-          end
-        end
-
-        if role.save && oppo.save
+        if Role.rsvp(current_user, role, rsvp)
           format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully!" }
           format.json { render :show, status: :ok, location: role.opportunity }
         else
@@ -327,7 +305,7 @@ class OpportunitiesController < ApplicationController
   end
 
   def handle_old_token
-    ReportedError.report('RSVP', errors, 100)
+    ReportedError.report('RSVP', "unexpected invalid authenticity token", 100)
     redirect_back fallback_location: @opportunity,
       alert: 'Please refresh your page and try again'
   end

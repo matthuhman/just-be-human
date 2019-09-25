@@ -455,6 +455,10 @@
     border-left: 1px solid $lightgrey;
     padding-left: 1vw;
     padding-right: 1vw;
+
+    @include respond-to(handhelds) {
+      font-size: .9rem;
+    }
   }
 
   .follow-return-to-parent {

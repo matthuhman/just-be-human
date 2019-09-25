@@ -5,10 +5,16 @@
       <% @opportunity.opportunity_roles.sort_by {|r| r.level }.each do |role| %>
         <div class="follower-container">
           <p class="follower-info">
-            <span class="follower-info-meta">
-              <%= role.user.username %> | <span class="follower-info-title"><%= role.title %></span>
-            </span>
-            <span class="follower-actions-span">
+            <div class="follower-info-meta">
+              <%= role.user.username %> | <span class="follower-info-title"><%= role.title %></span> | <span class="follower-info-confirmed">
+                <% if !role.has_responded %>
+                  Unconfirmed
+                <% else %>
+                  <%= role.is_coming ? "Attending" : "Not Attending" %>
+                <% end %>
+              </span>
+            </div>
+            <div class="follower-actions">
               <% if @is_admin %>
                 <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
                   <%= link_to 'Step down as Leader', @opportunity, method: :delete, data: {confirm: "Are you sure? This cannot be undone. \n\n IF YOU ARE THE ONLY USER, THIS WILL DELETE THE OPPORTUNITY." }, class: "step-down-btn follower-action-btn" %>
@@ -21,7 +27,7 @@
               <% if @is_volunteer && role.level <= 3 && current_user != role.user %>
                 <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "start-conversation-btn follower-action-btn" %>
               <% end %>
-            </span>
+            </div>
           </p>
         </div>
       <% end %>
