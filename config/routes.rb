@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/opportunities/followers' => 'opportunities#followers'
   get '/opportunities/complete' => 'opportunities#complete'
   get '/opportunities/uncomplete' => 'opportunities#uncomplete'
+  post 'opportunities/rsvp' => 'opportunities#rsvp'
 
   get '/requirements/participate' => 'requirements#participate'
   get '/requirements/cancel' => 'requirements#cancel_participation'
@@ -38,7 +39,6 @@ Rails.application.routes.draw do
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
-
 
   resources :opportunities, :comments, :posts, :requirements
 

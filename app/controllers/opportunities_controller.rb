@@ -1,6 +1,8 @@
 class OpportunitiesController < ApplicationController
   respond_to :html, :xml, :json
 
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_old_token
+
 
   before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow]
   before_action :authenticate_user!, except: [:show]
@@ -161,6 +163,49 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  def rsvp
+    role = OpportunityRole.find(params[:rsvp][:role_id])
+    oppo = role.opportunity
+    respond_to do |format|
+      if role && role.user == current_user
+        rsvp = params[:rsvp]
+
+        first_response = !role.has_responded
+
+        if !first_response
+          old_addl_vols = role.additional_vols
+        end
+
+        role.has_responded = true
+        role.is_coming = true
+        role.additional_vols = rsvp[:additional_vols]
+
+        if (role.level == 5)
+          role.level = 4
+          role.title = "Confirmed"
+          oppo.volunteer_count += role.additional_vols + 1
+        else
+          if role.additional_vols > old_addl_vols
+            oppo.volunteer_count += (role.additional_vols - old_addl_vols)
+          elsif role.additional_vols < old_addl_vols
+            oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
+          end
+        end
+
+        if role.save && oppo.save
+          format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully!" }
+          format.json { render :show, status: :ok, location: role.opportunity }
+        else
+          format.html { redirect_to role.opportunity, alert: "An unexpected error occurred." }
+          format.json { render :show, status: :unprocessable_entity, location: role.opportunity }
+        end
+      else
+        format.html { redirect_to role.opportunity, alert: "That role does not exist or you cannot edit it." }
+        format.json { render :show, status: :bad_request, location: role.opportunity }
+      end
+    end
+  end
+
 
   #
   # GET /opportunities/promote
@@ -273,8 +318,18 @@ class OpportunitiesController < ApplicationController
     params.permit(:opportunity_id, :target_user_id)
   end
 
+  def rsvp_params
+    params.require(:rsvp).permit(:role_id, :additional_vols)
+  end
+
   def set_time_options
     @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
+  end
+
+  def handle_old_token
+    ReportedError.report('RSVP', errors, 100)
+    redirect_back fallback_location: @opportunity,
+      alert: 'Please refresh your page and try again'
   end
   # def add_follower_role
   #   role = Role.new

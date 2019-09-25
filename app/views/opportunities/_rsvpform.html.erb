@@ -1,0 +1,19 @@
+<div class="rsvp-form">
+  <div class="rsvp-form-title">
+    Tell people you're coming!
+  </div>
+  <form action="/opportunities/rsvp" method="post">
+    <div class="rsvp-form-additional-vols">
+      <label for="additonal_vols">Is anyone coming with you who isn't signed up already?</label>
+      <input type="number" step="1" value="<%= role.has_responded ? role.additional_vols.to_s : '0' %>" name="rsvp[additional_vols]" id="rsvp_additional_vols" class="<%= role.has_responded ? 'rsvp-form-responded' : '' %>">
+    </div>
+    <input type="hidden" name="rsvp[role_id]" value="<%= role.id %>" id="rsvp_role_id">
+    <input type="hidden" name="authenticity_token" value="<%= current_user.authenticatable_salt %>" id="rsvp_role_id">
+    <% if role.has_responded %>
+      <div class="rsvp-has-responded-note">
+        Your response has already been submitted. You may resubmit at any time if something changes.
+      </div>
+    <% end %>
+    <input type="submit" name="commit" value="RSVP" data-disable-with="RSVP" class="submit-post-btn <%= role.has_responded ? 'rsvp-submit-btn-has-responded' : '' %>">
+  </form>
+</div>

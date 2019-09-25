@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_045639) do
+ActiveRecord::Schema.define(version: 2019_09_24_192225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -175,6 +175,9 @@ ActiveRecord::Schema.define(version: 2019_09_23_045639) do
     t.uuid "opportunity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "has_responded", default: false
+    t.boolean "is_coming", default: false
+    t.integer "additional_vols", default: 0
     t.index ["opportunity_id"], name: "index_opportunity_roles_on_opportunity_id"
     t.index ["user_id", "opportunity_id"], name: "index_opportunity_roles_on_user_id_and_opportunity_id", unique: true
     t.index ["user_id"], name: "index_opportunity_roles_on_user_id"

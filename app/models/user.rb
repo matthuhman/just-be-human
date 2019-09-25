@@ -62,9 +62,7 @@ class User < ApplicationRecord
   end
 
   def is_req_volunteer?(req_id)
-    role = requirement_roles.find_by(requirement_id: req_id)
-
-    role && role.level <= 3
+    !requirement_roles.find_by(requirement_id: req_id).nil?
   end
 
   def is_confirmed?(oppo_id)

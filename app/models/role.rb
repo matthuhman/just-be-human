@@ -23,11 +23,18 @@ class Role
   # returns true if a role exists and was deleted
   def self.unfollow_opportunity(u_id, opp_id)
     follow_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
-    return false unless follow_role?
+    return false unless follow_role
 
     if follow_role
-      follow_role.destroy
       should_decrement_volunteer_count = false
+      if follow_role.has_responded
+        should_decrement_volunteer_count = true
+        decrement_by = follow_role.additional_vols + 1
+      end
+
+      follow_role.destroy
+
+
       Opportunity.find(opp_id).requirements.each do |req|
         role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
         if role
@@ -36,20 +43,25 @@ class Role
         end
       end
 
+
+
       Opportunity.decrement_counter(:follower_count, opp_id)
-      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count
-      true
+      if should_decrement_volunteer_count
+        oppo = Opportunity.find(opp_id)
+        oppo.volunteer_count -= decrement_by
+        oppo.save
+      end
     else
       ReportedError.report("Role.unfollow_opportunity", "framework logic error", 1000)
       false
     end
   end
 
-  def self.confirm(u_id, oppo_id)
+  def self.rsvp(u_id, oppo_id, addl_volunteers, is_coming)
     oppo_role = OpportuntiyRole.find_by(user_id: u_id, opportunity_id: oppo_id)
     return false unless oppo_role?
 
-    if
+    if oppo_role.level == 5
 
 
     end
@@ -72,7 +84,7 @@ class Role
 
     if opp_role.level > 3
       opp_role.level = 3
-      opp_role.title = "Volunteer"
+      opp_role.title = "Requirement Volunteer"
       if !opp_role.save
         ReportedError.report("Role.volunteer_prob", opp_role.errors, 1000)
         return false

@@ -1,0 +1,11 @@
+<div class="rsvp-container">
+  <% if @role.has_responded %>
+    <div class="rsvp-confirmed-container">
+      <%= render 'rsvpform', role: @role %>
+    </div>
+  <% else %>
+    <div class="rsvp-unconfirmed-container">
+      <%= render 'rsvpform', role: @role %>
+    </div>
+  <% end %>
+</div>
