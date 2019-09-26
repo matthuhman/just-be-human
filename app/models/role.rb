@@ -72,7 +72,7 @@ class Role
 
     if (role.level == 5)
       role.level = 4
-      role.title = "Confirmed"
+      role.title = "Volunteer"
       oppo.volunteer_count += role.additional_vols + 1
     elsif !first_response
       if role.additional_vols > old_addl_vols
@@ -103,7 +103,7 @@ class Role
 
     if opp_role.level > 3
       opp_role.level = 3
-      opp_role.title = "Requirement Volunteer"
+      opp_role.title = "Volunteer+"
       if !opp_role.save
         ReportedError.report("Role.volunteer_prob", opp_role.errors, 1000)
         return false
@@ -212,7 +212,7 @@ class Role
         decrement_volunteer_counter = true
       else
         opp_role.level = 3
-        opp_role.title = "Volunteer"
+        opp_role.title = "Volunteer+"
       end
 
       if opp_role.save
