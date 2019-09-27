@@ -1,0 +1,21 @@
+<li>
+  <%= link_to notification.notifiable, 'data-behavior': 'notification-link', id: notification.id do %>
+    <div class="media">
+      <div class="media-body">
+        <span class="small text-muted">
+          <%= notification.created_at %>
+        </span>
+        <div class="post-notification-body">
+          <span class="post-notification-username">
+            <%= notification.actor.username %>
+          </span>
+          <%= t("notifications.actions.#{notification.action}") %>
+          <span class="post-notification-title">
+            <%= notification.notifiable.title %>
+          </span>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</li>
+<li class="divider"></li>

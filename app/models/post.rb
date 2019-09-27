@@ -38,7 +38,9 @@ class Post < ApplicationRecord
 
   def notify_create
     recipients.each do |rec|
-      Notification.create(recipient: rec, actor: self.user, action: 'posted', notifiable: self)
+      if rec != self.user
+        Notification.create(recipient: rec, actor: self.user, action: 'posted', notifiable: self)
+      end
     end
   end
 end
