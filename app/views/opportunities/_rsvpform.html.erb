@@ -3,6 +3,15 @@
     Tell people you're coming!
   </div>
   <form action="/opportunities/rsvp" method="post">
+    <div class="rsvp-form-is-coming">
+      <label for="is_coming">I'm coming!</label>
+      <input type="hidden" value="0" name="rsvp[is_coming]">
+      <% if !role.has_responded || role.is_coming %>
+        <input type="checkbox" checked value="1" name="rsvp[is_coming]">
+      <% elsif role.has_responded && !role.is_coming %>
+        <input type="checkbox" value="1" name="rsvp[is_coming]">
+      <% end %>
+    </div>
     <div class="rsvp-form-additional-vols">
       <label for="additonal_vols">Is anyone coming with you who isn't signed up already?</label>
       <input type="number" step="1" value="<%= role.has_responded ? role.additional_vols.to_s : '0' %>" name="rsvp[additional_vols]" id="rsvp_additional_vols" class="<%= role.has_responded ? 'rsvp-form-responded' : '' %>">

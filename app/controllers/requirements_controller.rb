@@ -11,6 +11,7 @@ class RequirementsController < ApplicationController
     @sub_categories = Category.req_subcats
     @requirement = Requirement.new
     if params[:requirement]
+      @requirement.opportunity_id = params[:requirement][:opportunity_id]
       @date = params[:requirement][:target_date].to_date
       @planned = params[:requirement][:defined] == "true"
     end

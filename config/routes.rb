@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :personal_messages, only: [:new, :create]
 
   resources :opportunities, :comments, :posts, :requirements
+  resources :notifications, only: [:index]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 

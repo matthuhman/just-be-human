@@ -14,14 +14,12 @@
         <li class="nav-item" id="home-step2">
           <%= link_to 'New Opportunity', new_opportunity_path, class: 'nav-link' %>
         </li>
-        <li class="nav-item">
-          <%= link_to 'Conversations', conversations_path, class: 'nav-link' %>
-        </li>
         <li class="nav-item dropdown last-nav-item">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            User Actions
+            Options
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Conversations', conversations_path, class: 'dropdown-item' %>
             <a class="dropdown-item" href="/users/edit">Settings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/users/sign_out" data-method="delete">Sign Out</a>

@@ -4,6 +4,7 @@ class Role
   # this creates a OpportunityRole with a level of 5 for the given user/opportunity
   # returns true if it saves successfully
   def self.follow_opportunity(u_id, opp_id)
+    return unless OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id).nil?
     follow_role = OpportunityRole.new(user_id: u_id, opportunity_id: opp_id)
 
     follow_role.level = 5
@@ -64,24 +65,59 @@ class Role
 
     if !first_response
       old_addl_vols = role.additional_vols
+      old_is_coming = role.is_coming
+    else
+      role.has_responded = true
     end
 
-    role.has_responded = true
-    role.is_coming = true
+    role.is_coming = params[:is_coming] == "1" ? true : false
     role.additional_vols = params[:additional_vols]
 
-    if (role.level == 5)
-      role.level = 4
-      role.title = "Volunteer"
-      oppo.volunteer_count += role.additional_vols + 1
-    elsif !first_response
-      if role.additional_vols > old_addl_vols
-        oppo.volunteer_count += (role.additional_vols - old_addl_vols)
-      elsif role.additional_vols < old_addl_vols
-        oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
+
+    if first_response
+      # if it's their first response, check to see if they're already a Volunteer
+      # if they're not, mark them as such, and add their additional PLUS ONE for them
+      # if they're already a volunteer, just add their additionals
+      if role.is_coming && role.level == 5
+        role.level = 4
+        role.title = "Volunteer"
+        oppo.volunteer_count += role.additional_vols + 1
+      elsif role.is_coming
+        oppo.volunteer_count += role.additional_vols
       end
     else
-      oppo.volunteer_count += role.additional_vols
+      # if this is not their first response, we're going to have to
+      # if they're now NOT coming, if they don't have any Requirement roles, knock
+      # their level back to Follower, level to 5, and remove them and their addl's
+      # from the volunteer count
+      if !role.is_coming && old_is_coming
+        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+          role.level = 5
+          role.title = "Follower"
+          oppo.volunteer_count -= (role.additional_vols + 1)
+        else
+          oppo.volunteer_count -= role.additional_vols
+        end
+        # if they now ARE coming and weren't before, cehck to see if they have any RR's
+        # if they do, just add addl vols, if they don't, level to 4, title to Volunteer
+      elsif role.is_coming && !old_is_coming
+        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+          role.level = 4
+          role.title = "Volunteer"
+          oppo.volunteer_count += (role.additional_vols + 1)
+        else
+          oppo.volunteer_count += role.additional_vols
+        end
+
+        # if they ARE coming and were before, just compare the number of addl vols and
+        # add or subtract as necessary
+      elsif role.is_coming && old_is_coming
+        if role.additional_vols > old_addl_vols
+          oppo.volunteer_count += (role.additional_vols - old_addl_vols)
+        elsif role.additional_vols < old_addl_vols
+          oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
+        end
+      end
     end
 
     role.save && oppo.save
