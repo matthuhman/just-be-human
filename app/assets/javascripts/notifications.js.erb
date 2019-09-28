@@ -57,7 +57,8 @@ function getNewNotifications() {
 
 function addClassName(aTag) {
 	aTag = aTag.replace("<a ", "<a class=\"notification-item\" ");
-	return aTag;
+
+	return "<li>" + aTag + "</li>";
 }
 
 function markAsRead(noNotifications) {
