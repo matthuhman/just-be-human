@@ -21,6 +21,9 @@
   flex-wrap: nowrap; /* assumes you only want one row */
 }
 
+.notification-item {
+	white-space: nowrap;
+}
 .navbar-brand {
   font-size: 2.2em;
   margin-right: auto;

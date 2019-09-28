@@ -36,12 +36,13 @@ Rails.application.routes.draw do
   get '/requirements/incomplete' => 'requirements#mark_incomplete'
   get '/requirements/define' => 'requirements#mark_defined'
 
+  get '/notifications/mark_as_read' => 'notifications#mark_as_read'
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
 
   resources :opportunities, :comments, :posts, :requirements
-  resources :notifications, only: [:index]
+  resources :notifications, only: [:index, :mark_as_read]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 

@@ -5,6 +5,10 @@ class NotificationsController < ApplicationController
   def index
   end
 
+  def mark_as_read
+    @notifications.update_all(read_at: Time.current)
+  end
+
   private
 
   def set_notifications
