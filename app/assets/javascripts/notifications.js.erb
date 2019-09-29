@@ -1,0 +1,69 @@
+
+
+$(document).on('ready turbolinks:load', function() {
+  var notifications = getNewNotifications();
+  if (notifications.length > 0)
+  {
+  	console.log(notifications);
+  	console.log("we have notifications!!!");
+  }
+
+});
+
+// $(function() {
+//   console.log('in notifications function?');
+//   return Notifications = (function() {
+//     function Notifications() {
+//       this.handleSuccess = bind(this.handleSuccess, this);
+
+
+//       getNewNotifications();
+//       console.log("wtf");
+//       console.log(this.notifications);
+//       this.notifications = $("[data-behavior='notifications']");
+//       if (this.notifications.length > 0) {
+//         this.handleSuccess(this.notifications.data('notifications'));
+//       }
+//     }
+
+
+
+
+
+//     return Notifications;
+
+//   })();
+// });
+
+function handleSuccess(notifications) {
+      var items;
+      console.log(notifications);
+      items = $.map(notifications, function(notification) {
+        return addClassName(notification.url);
+      });
+      console.log('items.length = ' + items.length);
+      $("[data-behavior='unread-count']").text(items.length);
+      return $("[data-behavior='notification-items']").append(items);
+    };
+
+function getNewNotifications() {
+      return $.ajax({
+        url: '/notifications.json?authenticity_token=' + gon.auth_token,
+        dataType: 'JSON',
+        method: 'GET',
+        success: this.handleSuccess
+      });
+    };
+
+function addClassName(aTag) {
+	aTag = aTag.replace("<a ", "<a class=\"notification-item\" ");
+
+	return "<li>" + aTag + "</li>";
+}
+
+function markAsRead(noNotifications) {
+	$.ajax({
+		url: 'notifications/mark_as_read?authenticity_token=' + gon.auth_token,
+		method: 'GET'
+	})
+}

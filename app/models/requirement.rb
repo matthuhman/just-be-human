@@ -8,6 +8,7 @@ class Requirement < ApplicationRecord
   has_many :requirement_roles, :dependent => :destroy
 
 
+
   validates_presence_of :title, message: 'must be entered.'
   validates_presence_of :description, message: 'must be entered.'
 
@@ -20,7 +21,8 @@ class Requirement < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
-
+  after_create :notify_create
+  after_update :notify_update
 
   def display_description
     if description.size > 100
@@ -111,6 +113,27 @@ class Requirement < ApplicationRecord
 
   ## BEGIN PRIVATE METHODS
   private
+
+  def recipients
+    opportunity.opportunity_roles.map {|r| r.user}
+  end
+
+  def notify_create
+    recipients.each do |r|
+      if r.id != self.user_id
+        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'created', notifiable: self)
+      end
+    end
+  end
+
+  def notify_update
+    recipients.each do |r|
+      if r.id != self.user_id
+        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'updated', notifiable: self)
+      end
+    end
+  end
+
   def field_length
     if title.size > 60
       errors.add(:title, "must be less than 60 characters")

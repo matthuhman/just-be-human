@@ -1,12 +1,13 @@
 class Role
 
   #
-  # this creates a OpportunityRole with a level of 4 for the given user/opportunity
+  # this creates a OpportunityRole with a level of 5 for the given user/opportunity
   # returns true if it saves successfully
   def self.follow_opportunity(u_id, opp_id)
+    return unless OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id).nil?
     follow_role = OpportunityRole.new(user_id: u_id, opportunity_id: opp_id)
 
-    follow_role.level = 4
+    follow_role.level = 5
     follow_role.title = "Follower"
 
     if follow_role.save
@@ -23,10 +24,18 @@ class Role
   # returns true if a role exists and was deleted
   def self.unfollow_opportunity(u_id, opp_id)
     follow_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+    return false unless follow_role
 
     if follow_role
-      follow_role.destroy
       should_decrement_volunteer_count = false
+      if follow_role.has_responded
+        should_decrement_volunteer_count = true
+        decrement_by = follow_role.additional_vols + 1
+      end
+
+      follow_role.destroy
+
+
       Opportunity.find(opp_id).requirements.each do |req|
         role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
         if role
@@ -35,13 +44,89 @@ class Role
         end
       end
 
+
+
       Opportunity.decrement_counter(:follower_count, opp_id)
-      Opportunity.decrement_counter(:volunteer_count, opp_id) if should_decrement_volunteer_count
-      true
+      if should_decrement_volunteer_count
+        oppo = Opportunity.find(opp_id)
+        oppo.volunteer_count -= decrement_by
+        oppo.save
+      end
     else
       ReportedError.report("Role.unfollow_opportunity", "framework logic error", 1000)
       false
     end
+  end
+
+  def self.rsvp(user, role, params)
+    oppo = role.opportunity
+
+    first_response = !role.has_responded
+
+    if !first_response
+      old_addl_vols = role.additional_vols
+      old_is_coming = role.is_coming
+    else
+      role.has_responded = true
+    end
+
+    role.is_coming = params[:is_coming] == "1" ? true : false
+    role.additional_vols = params[:additional_vols]
+
+
+    if first_response
+      # if it's their first response, check to see if they're already a Volunteer
+      # if they're not, mark them as such, and add their additional PLUS ONE for them
+      # if they're already a volunteer, just add their additionals
+      if role.is_coming && role.level == 5
+        role.level = 4
+        role.title = "Volunteer"
+        oppo.volunteer_count += role.additional_vols + 1
+      elsif role.is_coming
+        oppo.volunteer_count += role.additional_vols
+      end
+    else
+      # if this is not their first response, we're going to have to
+      # if they're now NOT coming, if they don't have any Requirement roles, knock
+      # their level back to Follower, level to 5, and remove them and their addl's
+      # from the volunteer count
+      if !role.is_coming && old_is_coming
+        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+          role.level = 5
+          role.title = "Follower"
+          oppo.volunteer_count -= (role.additional_vols + 1)
+        else
+          oppo.volunteer_count -= role.additional_vols
+        end
+        # if they now ARE coming and weren't before, cehck to see if they have any RR's
+        # if they do, just add addl vols, if they don't, level to 4, title to Volunteer
+      elsif role.is_coming && !old_is_coming
+        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+          role.level = 4
+          role.title = "Volunteer"
+          oppo.volunteer_count += (role.additional_vols + 1)
+        else
+          oppo.volunteer_count += role.additional_vols
+        end
+
+        # if they ARE coming and were before, just compare the number of addl vols and
+        # add or subtract as necessary
+      elsif role.is_coming && old_is_coming
+        if role.additional_vols > old_addl_vols
+          oppo.volunteer_count += (role.additional_vols - old_addl_vols)
+        elsif role.additional_vols < old_addl_vols
+          oppo.volunteer_count -= (old_addl_vols - role.additional_vols)
+        end
+      end
+    end
+
+    oppo.opportunity_roles.each do |r|
+      if r.user != role.user
+        Notification.create(recipient: r.user, actor: role.user, action: "RSVP'd with #{role.additional_vols} people", notifiable: oppo)
+      end
+    end
+
+    role.save && oppo.save
   end
 
 
@@ -58,9 +143,9 @@ class Role
 
     # if the user is currently a "follower", set their status to "volunteer"
 
-    if opp_role.level == 4
+    if opp_role.level > 3
       opp_role.level = 3
-      opp_role.title = "Volunteer"
+      opp_role.title = "Volunteer+"
       if !opp_role.save
         ReportedError.report("Role.volunteer_prob", opp_role.errors, 1000)
         return false
@@ -89,8 +174,8 @@ class Role
 
     if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
       opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
-      if opp_role.level > 2
-        opp_role.level = 4
+      if opp_role.level > 3
+        opp_role.level = 5
         opp_role.title = "Follower"
         if !opp_role.save
           ReportedError.report("Role.cancel", opp_role.errors, 1000)
@@ -108,7 +193,7 @@ class Role
     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
 
     if opp_role
-      if opp_role.level == 4
+      if opp_role.level == 5
         increment_vol_counter = true
       end
       opp_role.level = 2
@@ -164,12 +249,12 @@ class Role
 
     if opp_role
       if RequirementRole.where(user_id: u_id, opportunity_id: opp_id).size == 0
-        opp_role.level = 4
+        opp_role.level = 5
         opp_role.title = "Follower"
         decrement_volunteer_counter = true
       else
         opp_role.level = 3
-        opp_role.title = "Volunteer"
+        opp_role.title = "Volunteer+"
       end
 
       if opp_role.save

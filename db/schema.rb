@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_045639) do
+ActiveRecord::Schema.define(version: 2019_09_28_210026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -139,6 +139,17 @@ ActiveRecord::Schema.define(version: 2019_09_23_045639) do
     t.index ["zip"], name: "index_geopoints_on_zip"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.uuid "recipient_id"
+    t.uuid "actor_id"
+    t.datetime "read_at"
+    t.string "action"
+    t.uuid "notifiable_id"
+    t.string "notifiable_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "opportunities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -162,6 +173,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_045639) do
     t.boolean "planned", default: true
     t.string "status"
     t.date "planned_by_date"
+    t.uuid "last_edited_by"
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["planned", "category"], name: "index_opportunities_on_planned_and_category"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
@@ -175,6 +187,9 @@ ActiveRecord::Schema.define(version: 2019_09_23_045639) do
     t.uuid "opportunity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "has_responded", default: false
+    t.boolean "is_coming", default: false
+    t.integer "additional_vols", default: 0
     t.index ["opportunity_id"], name: "index_opportunity_roles_on_opportunity_id"
     t.index ["user_id", "opportunity_id"], name: "index_opportunity_roles_on_user_id_and_opportunity_id", unique: true
     t.index ["user_id"], name: "index_opportunity_roles_on_user_id"
@@ -250,6 +265,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_045639) do
     t.float "pct_done", default: 100.0
     t.date "target_completion_date"
     t.boolean "defined", default: true
+    t.uuid "last_edited_by"
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"

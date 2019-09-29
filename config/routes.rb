@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/opportunities/followers' => 'opportunities#followers'
   get '/opportunities/complete' => 'opportunities#complete'
   get '/opportunities/uncomplete' => 'opportunities#uncomplete'
+  post 'opportunities/rsvp' => 'opportunities#rsvp'
 
   get '/requirements/participate' => 'requirements#participate'
   get '/requirements/cancel' => 'requirements#cancel_participation'
@@ -35,12 +36,13 @@ Rails.application.routes.draw do
   get '/requirements/incomplete' => 'requirements#mark_incomplete'
   get '/requirements/define' => 'requirements#mark_defined'
 
+  get '/notifications/mark_as_read' => 'notifications#mark_as_read'
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
 
-
   resources :opportunities, :comments, :posts, :requirements
+  resources :notifications, only: [:index, :mark_as_read]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 

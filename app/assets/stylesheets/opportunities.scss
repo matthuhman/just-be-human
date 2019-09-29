@@ -455,6 +455,10 @@
     border-left: 1px solid $lightgrey;
     padding-left: 1vw;
     padding-right: 1vw;
+
+    @include respond-to(handhelds) {
+      font-size: .9rem;
+    }
   }
 
   .follow-return-to-parent {
@@ -731,6 +735,51 @@
       display: flex;
       flex-wrap: wrap !important;
     }
+  }
+}
+
+
+.rsvp-form {
+  border: 2px solid $limegreen;
+  margin: 5px;
+  padding: 3px;
+  font-size: 1.2rem;
+  @include respond-to(handhelds) {
+    padding-top: 2vh;
+
+    #rsvp_additional_vols {
+      border: 1px solid $lightgrey;
+    }
+  }
+
+  .rsvp-form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: $limegreen;
+
+    @include respond-to(handhelds) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .rsvp-form-responded {
+    border: 2px solid $limegreen !important;
+  }
+
+  .rsvp-submit-btn-has-responded {
+    background-color: $lightgrey !important;
+    color: black !important;
+  }
+
+  #rsvp_additional_vols {
+    margin-bottom: 2vh;
+  }
+
+  .submit-post-btn {
+    background-color: $limegreen-low;
+    border: 1px solid $midgrey;
+    // margin-left: 2vw;
+    // margin-right: 2vw;
   }
 }
 
