@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_27_153205) do
+ActiveRecord::Schema.define(version: 2019_09_28_210026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_153205) do
     t.boolean "planned", default: true
     t.string "status"
     t.date "planned_by_date"
+    t.uuid "last_edited_by"
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["planned", "category"], name: "index_opportunities_on_planned_and_category"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
@@ -264,6 +265,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_153205) do
     t.float "pct_done", default: 100.0
     t.date "target_completion_date"
     t.boolean "defined", default: true
+    t.uuid "last_edited_by"
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"

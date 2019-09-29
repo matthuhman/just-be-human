@@ -120,6 +120,12 @@ class Role
       end
     end
 
+    oppo.opportunity_roles.each do |r|
+      if r.user != role.user
+        Notification.create(recipient: r.user, actor: role.user, action: "RSVP'd with #{role.additional_vols} people", notifiable: oppo)
+      end
+    end
+
     role.save && oppo.save
   end
 
