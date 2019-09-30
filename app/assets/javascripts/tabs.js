@@ -21,9 +21,10 @@ function openTab(evt, cityName) {
 
 function init() {
   const opener = document.getElementById("defaultOpen");
+  if (opener) console.log('defaultOpen element found');
   if (opener) opener.click();
 }
 
 document.addEventListener('DOMContentLoaded', init)
 
-$(document).on("turbolinks:load", init)
+$(document).on("ready turbolinks:load", init)

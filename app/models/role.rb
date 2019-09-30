@@ -189,6 +189,35 @@ class Role
   end
 
 
+  def self.set_opp_leader(outgoing_id, incoming_id, oppo)
+    outgoing_role = OpportunityRole.find_by(user_id: outgoing_id, opportunity_id: oppo.id)
+    return false unless outgoing_role&.level == 1
+
+    incoming_role = OpportunityRole.find_by(user_id: incoming_id, opportunity_id: oppo.id)
+
+    if outgoing_role.is_coming
+      if RequirementRole.where(user_id: outgoing_id, opportunity_id: oppo.id).size == 0
+        outgoing_role.level = 4
+        outgoing_role.title = "Volunteer"
+      else
+        outgoing_role.level = 3
+        outgoing_role.title = "Volunteer+"
+      end
+    else
+      outgoing_role.level = 5
+      outgoing_role.title = "Follower"
+      Opportunity.decrement_counter(:volunteer_count, oppo.id)
+    end
+
+    incoming_role.level = 1
+    incoming_role.title = "Leader"
+
+    oppo.user = incoming_role.user
+
+    outgoing_role.save && incoming_role.save && oppo.save
+  end
+
+
   def self.make_opp_supervisor(u_id, opp_id)
     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
 

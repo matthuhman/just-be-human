@@ -14,7 +14,7 @@ let filters = {
 }
 
 document.addEventListener('DOMContentLoaded', getProbs)
-$(document).on("turbolinks:load", getProbs)
+$(document).on("ready turbolinks:load", getProbs)
 
 
 function getProbs(){

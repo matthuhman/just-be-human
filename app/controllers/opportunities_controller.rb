@@ -184,6 +184,27 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  #
+  # GET /opportunities/leader
+  # takes opportunity_id and target_user_id query params
+  def leader
+    @opportunity = Opportunity.find(promotion_params[:opportunity_id])
+    respond_to do |format|
+      if (current_user == @opportunity.user)
+        if Role.set_opp_leader(current_user.id, params[:target_user_id], @opportunity.id)
+          format.html { redirect_to @opportunity, notice: "User promoted to Supervisor." }
+          format.json { render :show, status: :ok, location: @opportunity}
+        else
+          format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
+          format.json { render :show, status: :unprocessable_entity, location: @opportunity}
+        end
+      else
+        format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
+        format.json { render :show, status: :forbidden, location: @opportunity }
+      end
+    end
+  end
+
 
   #
   # GET /opportunities/promote
@@ -192,7 +213,7 @@ class OpportunitiesController < ApplicationController
     @opportunity = Opportunity.find(promotion_params[:opportunity_id])
     respond_to do |format|
       if (current_user == @opportunity.user)
-        if Role.make_supervisor(params[:target_user_id], @opportunity.id)
+        if Role.make_opp_supervisor(params[:target_user_id], @opportunity.id)
           format.html { redirect_to @opportunity, notice: "User promoted to Supervisor." }
           format.json { render :show, status: :ok, location: @opportunity}
         else
