@@ -190,13 +190,13 @@ class Role
 
 
   def self.set_opp_leader(outgoing_id, incoming_id, oppo)
-    outgoing_role = OpportunityRole.find_by(user_id: outgoing_id, opportunity_id: oppo.id)
+    outgoing_role = OpportunityRole.find_by(user_id: outgoing_id, opportunity_id: oppo)
     return false unless outgoing_role&.level == 1
 
-    incoming_role = OpportunityRole.find_by(user_id: incoming_id, opportunity_id: oppo.id)
+    incoming_role = OpportunityRole.find_by(user_id: incoming_id, opportunity_id: oppo)
 
     if outgoing_role.is_coming
-      if RequirementRole.where(user_id: outgoing_id, opportunity_id: oppo.id).size == 0
+      if RequirementRole.where(user_id: outgoing_id, opportunity_id: oppo).size == 0
         outgoing_role.level = 4
         outgoing_role.title = "Volunteer"
       else
@@ -206,15 +206,15 @@ class Role
     else
       outgoing_role.level = 5
       outgoing_role.title = "Follower"
-      Opportunity.decrement_counter(:volunteer_count, oppo.id)
+      Opportunity.decrement_counter(:volunteer_count, outgoing_role.opportunity)
     end
 
     incoming_role.level = 1
     incoming_role.title = "Leader"
 
-    oppo.user = incoming_role.user
+    incoming_role.opportunity.user = incoming_role.user
 
-    outgoing_role.save && incoming_role.save && oppo.save
+    outgoing_role.save && incoming_role.save && incoming_role.opportunity.save
   end
 
 

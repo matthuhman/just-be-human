@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get '/opportunities/follow' => 'opportunities#follow'
   get '/opportunities/unfollow' => 'opportunities#unfollow'
+  get '/opportunities/leader' => 'opportunities#leader'
   get '/opportunities/promote_user' => 'opportunities#promote_user'
   get '/opportunities/demote_user' => 'opportunities#demote_user'
   get '/opportunities/followers' => 'opportunities#followers'
