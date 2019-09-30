@@ -448,7 +448,20 @@
 
   .follower-info {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+  }
+
+  .follower-actions {
+    text-align: right;
+  }
+
+  .follower-options-btn {
+    border: 1px solid $lightgrey;
+    background-color: none !important;
+    text-transform: uppercase;
+    color: $darkgrey;
+    margin-bottom: 2vh;
   }
 
   .follower-action-btn {

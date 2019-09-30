@@ -25,13 +25,13 @@ class PagesController < ApplicationController
 
       @my_opportunities = current_user.opportunities.sort_by { |o| o.target_completion_date }
       @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
       @roles = current_user.opportunity_roles
     else
       @my_opportunities = []
       @title_hash = {}
       @geopoint = Geopoint.find_by(zip: '80202')
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 10).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date }
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date }
       @roles = []
     end
   end

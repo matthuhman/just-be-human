@@ -2,11 +2,6 @@
 
 $(document).on('ready turbolinks:load', function() {
   var notifications = getNewNotifications();
-  if (notifications.length > 0)
-  {
-  	console.log(notifications);
-  	console.log("we have notifications!!!");
-  }
 
 });
 
@@ -37,11 +32,9 @@ $(document).on('ready turbolinks:load', function() {
 
 function handleSuccess(notifications) {
       var items;
-      console.log(notifications);
       items = $.map(notifications, function(notification) {
         return addClassName(notification.url);
       });
-      console.log('items.length = ' + items.length);
       $("[data-behavior='unread-count']").text(items.length);
       return $("[data-behavior='notification-items']").append(items);
     };

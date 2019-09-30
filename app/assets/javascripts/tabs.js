@@ -26,4 +26,4 @@ function init() {
 
 document.addEventListener('DOMContentLoaded', init)
 
-$(document).on("turbolinks:load", init)
+$(document).on("ready turbolinks:load", init)
