@@ -21,7 +21,6 @@ function openTab(evt, cityName) {
 
 function init() {
   const opener = document.getElementById("defaultOpen");
-  if (opener) console.log('defaultOpen element found');
   if (opener) opener.click();
 }
 

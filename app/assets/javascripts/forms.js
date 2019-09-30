@@ -60,7 +60,6 @@ function chooseAbstract()
 
 function hideStepTwo()
 {
-  console.log('should be hiding step 2');
   document.getElementById('oppo-creation-step-2').style.display = "none";
 }
 
@@ -72,7 +71,6 @@ function showDefinedOptions()
 
 function showAbstractOptions()
 {
-  console.log('showing abstract options')
   document.getElementById('abstract-options').style.display = "block";
 }
 
