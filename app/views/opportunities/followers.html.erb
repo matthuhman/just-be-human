@@ -4,36 +4,36 @@
     <div class="followers-container">
       <% @opportunity.opportunity_roles.sort_by {|r| r.level }.each do |role| %>
         <div class="follower-container">
-          <p class="follower-info">
-            <div class="follower-info-meta">
-              <%= role.user.username %> | <span class="follower-info-title"><%= role.title %></span> | <span class="follower-info-confirmed">
-                <% if !role.has_responded %>
-                  Unconfirmed
-                <% else %>
-                  <%= role.is_coming ? "Attending" : "Not Attending" %>
-                <% end %>
-              </span>
-            </div>
+          <div class="follower-info-meta">
+            <%= role.user.username %> | <span class="follower-info-title"><%= role.title %></span> | <span class="follower-info-confirmed">
+              <% if !role.has_responded %>
+                Unconfirmed
+              <% else %>
+                <%= role.is_coming ? "Attending" : "Not Attending" %>
+              <% end %>
+            </span>
             <div class="follower-actions dropdown">
-              <button class="options-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="follower-options-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Options
               </button>
-              <% if @is_admin %>
-                <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
-                  <%= link_to 'Step down as Leader', @opportunity, method: :delete, data: {confirm: "Are you sure? This cannot be undone. \n\n IF YOU ARE THE ONLY USER, THIS WILL DELETE THE OPPORTUNITY." }, class: "step-down-btn follower-action-btn dropdown-item" %>
-                <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-                  <%= link_to 'Make Supervisor', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn follower-action-btn dropdown-item" %>
-                <% elsif current_user == @opportunity.user && role.user != current_user %>
-                  <%= link_to 'Make Leader', controller: "opportunities", action: "leader", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn dropdown-item" %>
-                <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
-                  <%= link_to 'Demote', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn follower-action-btn dropdown-item" %>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% if @is_admin %>
+                  <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
+                    <%= link_to 'Step down as Leader', @opportunity, method: :delete, data: {confirm: "Are you sure? This cannot be undone. \n\n IF YOU ARE THE ONLY USER, THIS WILL DELETE THE OPPORTUNITY." }, class: "step-down-btn follower-action-btn dropdown-item" %>
+                  <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
+                    <%= link_to 'Make Supervisor', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn follower-action-btn dropdown-item" %>
+                  <% elsif current_user == @opportunity.user && role.user != current_user %>
+                    <%= link_to 'Make Leader', controller: "opportunities", action: "leader", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn dropdown-item" %>
+                  <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
+                    <%= link_to 'Demote', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn follower-action-btn dropdown-item" %>
+                  <% end %>
                 <% end %>
-              <% end %>
-              <% if @is_volunteer && role.level <= 3 && current_user != role.user %>
-                <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "start-conversation-btn follower-action-btn dropdown-item" %>
-              <% end %>
+                <% if @is_volunteer && role.level <= 3 && current_user != role.user %>
+                  <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "follower-action-btn dropdown-item" %>
+                <% end %>
+              </div>
             </div>
-          </p>
+          </div>
         </div>
       <% end %>
     </div>
