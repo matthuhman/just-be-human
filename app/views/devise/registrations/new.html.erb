@@ -23,8 +23,10 @@
       <%= f.input :birth_date,
                   order: [:month, :day, :year],
                   start_year: Date.today.year - 110,
-                  end_year: Date.today.year,
+                  end_year: Date.today.year - 10,
                   required: true %>
+      <%= f.label 'Time Zone:' %>
+      <%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones, default: 'Mountain Time (US & Canada)') %>
       <%= f.input :city,
                   placeholder: 'What city do you live in?',
                   required: true %>
