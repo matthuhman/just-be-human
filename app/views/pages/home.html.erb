@@ -48,8 +48,14 @@
       <% end %>
     </div>
     <div id="my-opps" class="tabcontent hp">
-      <% @my_opportunities.each do |opportunity| %>
-        <%= render 'opportunity_row', opportunity: opportunity %>
+      <% if @my_opportunities.size > 0 %>
+        <% @my_opportunities.each do |opportunity| %>
+          <%= render 'opportunity_row', opportunity: opportunity %>
+        <% end %>
+      <% else %>
+        <div class="no-active-opportunities">
+          Opportunities you're participating in will show up here.
+        </div>
       <% end %>
     </div>
   </aside>
