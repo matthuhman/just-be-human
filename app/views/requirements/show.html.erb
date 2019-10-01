@@ -101,7 +101,7 @@
         <% end %>
         <% if @is_follower %>
           <div class="add-tabitem-button">
-            <%= link_to 'New Post', new_post_path(:opportunity => {:id => @requirement.id}), class: "btn btn-success btn-lg add-tabitem-btn"%>
+            <%= link_to 'New Post', new_post_path(:requirement => {:id => @requirement.id}), class: "btn btn-success btn-lg add-tabitem-btn"%>
           </div>
         <% end %>
       </div>

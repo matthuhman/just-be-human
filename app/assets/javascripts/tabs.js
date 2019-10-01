@@ -1,4 +1,4 @@
-function openTab(evt, cityName) {
+function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -14,16 +14,22 @@ function openTab(evt, cityName) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
 
+  console.log('running openTab');
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
 
 function init() {
+	console.log('in tabs init function');
   const opener = document.getElementById("defaultOpen");
   if (opener) opener.click();
 }
 
-document.addEventListener('DOMContentLoaded', init)
 
-$(document).on("ready turbolinks:load", init)
+document.addEventListener('turbolinks:load', ready);
+
+
+function ready() {
+	init();
+}

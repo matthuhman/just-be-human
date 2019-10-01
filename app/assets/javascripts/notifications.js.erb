@@ -40,12 +40,15 @@ function handleSuccess(notifications) {
     };
 
 function getNewNotifications() {
-      return $.ajax({
+	if (gon != undefined) {
+		      return $.ajax({
         url: '/notifications.json?authenticity_token=' + gon.auth_token,
         dataType: 'JSON',
         method: 'GET',
         success: this.handleSuccess
       });
+	}
+
     };
 
 function addClassName(aTag) {
