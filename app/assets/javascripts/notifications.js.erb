@@ -1,34 +1,12 @@
 
 
-$(document).on('ready turbolinks:load', function() {
-  var notifications = getNewNotifications();
 
-});
+document.addEventListener('turbolinks:load', getNewNotifications);
 
-// $(function() {
-//   console.log('in notifications function?');
-//   return Notifications = (function() {
-//     function Notifications() {
-//       this.handleSuccess = bind(this.handleSuccess, this);
-
-
-//       getNewNotifications();
-//       console.log("wtf");
-//       console.log(this.notifications);
-//       this.notifications = $("[data-behavior='notifications']");
-//       if (this.notifications.length > 0) {
-//         this.handleSuccess(this.notifications.data('notifications'));
-//       }
-//     }
-
-
-
-
-
-//     return Notifications;
-
-//   })();
+// $(document).on('ready turbolinks:load', function() {
+//   var notifications = getNewNotifications();
 // });
+
 
 function handleSuccess(notifications) {
       var items;
@@ -40,7 +18,8 @@ function handleSuccess(notifications) {
     };
 
 function getNewNotifications() {
-	if (gon != undefined) {
+
+	if (gon.auth_token !== 'NONE') {
 		      return $.ajax({
         url: '/notifications.json?authenticity_token=' + gon.auth_token,
         dataType: 'JSON',

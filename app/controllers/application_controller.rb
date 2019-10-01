@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
   def set_auth_token
     if current_user
       gon.auth_token = current_user.authenticatable_salt
+    else
+      gon.auth_token = 'NONE'
     end
   end
 
