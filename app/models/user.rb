@@ -91,10 +91,10 @@ class User < ApplicationRecord
     forbidden = ["admin", "administrator", "mod", "moderator", "leader", "matthuhman", "owner", "founder", "root", "employee"]
 
     forbidden.each do |f|
-      if f.casecmp(username)
-        errors.add(:username, "is forbidden.")
-        return
-      end
+      # if f.casecmp(username)
+      #   errors.add(:username, "is forbidden.")
+      #   return
+      # end
     end
   end
 end
