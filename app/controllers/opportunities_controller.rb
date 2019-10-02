@@ -23,7 +23,7 @@ class OpportunitiesController < ApplicationController
 
   # GET /opportunities/new
   def new
-    @opportunity = Opportunity.new(target_completion_date: Date.tomorrow)
+    @opportunity = Opportunity.new()
     @categories = Category.opportunity_titles
   end
 
@@ -54,6 +54,8 @@ class OpportunitiesController < ApplicationController
     @role.user_id = current_user.id
     @role.level = 1
     @role.title = "Leader"
+
+    binding.pry
 
     respond_to do |format|
       if @opportunity.save
@@ -310,7 +312,8 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status, :planned_by_date)
+    binding.pry
+    params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status, :planned_by_date, :time_zone)
   end
 
   def promotion_params

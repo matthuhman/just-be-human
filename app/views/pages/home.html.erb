@@ -48,8 +48,14 @@
       <% end %>
     </div>
     <div id="my-opps" class="tabcontent hp">
-      <% @my_opportunities.each do |opportunity| %>
-        <%= render 'opportunity_row', opportunity: opportunity %>
+      <% if @my_opportunities.size > 0 %>
+        <% @my_opportunities.each do |opportunity| %>
+          <%= render 'opportunity_row', opportunity: opportunity %>
+        <% end %>
+      <% else %>
+        <div class="no-active-opportunities">
+          Opportunities you're participating in will show up here.
+        </div>
       <% end %>
     </div>
   </aside>
@@ -71,6 +77,22 @@
     let myOppos = <%= raw @my_opportunities.map.to_json {|o|}.html_safe %>;
   
   
+    let greenIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/green.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let blueIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/blue.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let redIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/red.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let yellowIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
   
     let infoWindow = new google.maps.InfoWindow();
   
@@ -90,12 +112,30 @@
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
   
-      let marker = new google.maps.Marker({
-        position: LatLng,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        icon: {url: "http://maps.google.com/mapfiles/ms/icons/green.png", scaledSize: new google.maps.Size(42,42)}
-      });
+      let overdue = data['overdue?'];
+      let defined = data['defined'];
+  
+      let marker;
+  
+  
+      if (defined)
+      {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: greenIcon
+        });
+      }
+      else
+      {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: yellowIcon
+        });
+      }
   
   
       (function (marker, data) {
@@ -109,20 +149,13 @@
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
   
-    let blueIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/blue.png",
-      size: new google.maps.Size(42,42)
-    };
-    let redIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/red.png",
-      scaledSize: new google.maps.Size(42,42)
-    };
     for (let i = 0, length = myOppos.length; i < length; i++)
     {
       let data = myOppos[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
   
       let overdue = data['overdue?'];
+      let defined = data['defined'];
   
       data.contentString =
         `<div id="marker-content">
@@ -136,14 +169,17 @@
   
       let marker;
   
-      if (!overdue) {
+      if (!overdue)
+      {
         marker = new google.maps.Marker({
           position: LatLng,
           map: map,
           animation: google.maps.Animation.DROP,
           icon: blueIcon
         });
-      } else {
+      }
+      else
+      {
         marker = new google.maps.Marker({
           position: LatLng,
           map: map,

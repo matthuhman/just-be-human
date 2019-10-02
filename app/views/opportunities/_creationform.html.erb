@@ -94,7 +94,8 @@
     -->
       <div class="location-form-container" id="oppo-creation-step-3">
         <div class="oppo-form-explanation">When, where, and how many people do you need?</div>
-        <%= f.input :target_completion_date, order: [:month, :day, :year], datetime_separator: '', time_separator: '' %>
+        <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute], datetime_separator: '', time_separator: '' %>
+        <%= f.hidden_field :time_zone, value: current_user.time_zone %>
         <div class="location-selection">
           <%= f.input :address, placeholder: "ex. 'City Park, Denver, CO'" %>
         </div>

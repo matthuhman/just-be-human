@@ -83,9 +83,13 @@ class Opportunity < ApplicationRecord
 
   def display_date
     if defined
-      target_completion_date.to_date
+      target_completion_date.strftime('%Y/%m/%d - %l:%M%P')
     else
-      planned_by_date
+      if planned_by_date != nil
+        planned_by_date.strftime('%Y/%m/%d')
+      else
+        nil
+      end
     end
   end
 
