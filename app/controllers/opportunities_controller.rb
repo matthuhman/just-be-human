@@ -55,8 +55,6 @@ class OpportunitiesController < ApplicationController
     @role.level = 1
     @role.title = "Leader"
 
-    binding.pry
-
     respond_to do |format|
       if @opportunity.save
         @role.opportunity_id = @opportunity.id
@@ -132,6 +130,7 @@ class OpportunitiesController < ApplicationController
     @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
     @is_admin = current_user.is_admin?(@opportunity.id)
     @is_volunteer = current_user.is_volunteer?(@opportunity.id)
+    @is_follower = current_user.is_follower(@opportunity.id)
   end
 
 
@@ -312,7 +311,6 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    binding.pry
     params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status, :planned_by_date, :time_zone)
   end
 
