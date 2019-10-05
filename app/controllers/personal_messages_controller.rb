@@ -17,7 +17,7 @@ class PersonalMessagesController < ApplicationController
         redirect_to conversation_path(@conversation)
       end
     else
-      flash[:alert] = "You cannot have a private conversation with #{@receiver.username}"
+      flash[:alert] = "#{@receiver.username} is not accepting private messages at this time."
       redirect_to root_path
     end
   end

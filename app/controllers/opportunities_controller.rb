@@ -130,7 +130,7 @@ class OpportunitiesController < ApplicationController
     @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
     @is_admin = current_user.is_admin?(@opportunity.id)
     @is_volunteer = current_user.is_volunteer?(@opportunity.id)
-    @is_follower = current_user.is_follower(@opportunity.id)
+    @is_follower = current_user.is_follower?(@opportunity.id)
   end
 
 
