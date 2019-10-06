@@ -64,7 +64,9 @@
 <script>
   let map;
   
-  function initMap(){
+  
+  function initMap()
+  {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
       zoom: 14,
@@ -161,9 +163,9 @@
         `<div id="marker-content">
           <div id="siteNotice"></div>
           <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
-          <p id="marker-participants" class="marker-participants">Volunteers: ${data.volunteer_count} / ${data.volunteers_required}</p>
-          <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
-          <p id="marker-category" class="marker_category">Category: ${data.category_title}</p>
+          <div id="marker-participants" class="marker-participants">Volunteers: ${data.volunteer_count} / ${data.volunteers_required}</div>
+          <div id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</div>
+          <div id="marker-category" class="marker_category">Category: ${data.category_title}</div>
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
   

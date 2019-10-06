@@ -92,6 +92,10 @@ GEM
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     bcrypt (3.1.13)
+    better_errors (2.5.1)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
     bindex (0.8.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
@@ -134,6 +138,8 @@ GEM
       countries (~> 3.0)
       sort_alphabetical (~> 1.0)
     crass (1.0.4)
+    css_parser (1.7.0)
+      addressable
     device_detector (1.0.2)
     devise (4.7.0)
       bcrypt (~> 3.0)
@@ -167,6 +173,7 @@ GEM
     groupdate (4.1.2)
       activesupport (>= 4.2)
     htmlbeautifier (1.3.1)
+    htmlentities (4.3.4)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
@@ -220,6 +227,10 @@ GEM
       ast (~> 2.4.0)
     pg (1.1.4)
     popper_js (1.14.5)
+    premailer (1.11.1)
+      addressable
+      css_parser (>= 1.6.0)
+      htmlentities (>= 4.0.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -393,6 +404,7 @@ DEPENDENCIES
   ahoy_matey
   aws-sdk-costexplorer (= 1.29.0)
   aws-sdk-s3
+  better_errors
   bootsnap (>= 1.1.0)
   bootstrap
   byebug
@@ -421,6 +433,7 @@ DEPENDENCIES
   obscenity
   pg
   popper_js
+  premailer
   pry
   puma (~> 3.11)
   rails (= 6.0.0)

@@ -22,3 +22,8 @@
 every 1.days do
   runner "Cost.get_monthly_costs"
 end
+
+
+every 1.days, at: '12:00 pm' do
+  rake 'notifications:daily_email_task'
+end
