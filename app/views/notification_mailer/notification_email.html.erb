@@ -3,15 +3,72 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif !important;
+      text-align: center;
+    }
+    
+    .email-subtitle {
+      font-size: 2em;
+      padding-top: 2vh;
+      padding-bottom: 1vh;
+      font-weight: 600;
+      color: #FFC609;
+      /*text-transform: uppercase;*/
+    }
+    
+    .email-item {
+      font-size: 1.3em;
+      color: black;
+      padding-top: 1vh;
+    }
+    
+    .divider {
+      margin-top: 3vh;
+      height: 6vh;
+      margin-left: 15vw;
+      margin-right: 15vw;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .no-notifications {
+      padding-top: 5vh;
+      font-size: .9em;
+      color: #666666;
+    }
+    
+    .jbh-greeting {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 10vh;
+      padding-top: 1vh;
+      margin-left: 20vw;
+      margin-right: 20vw;
+      text-align: center;
+      font-size: .8em;
+    }
+  </style>
   <body>
-    <h1>Welcome to example.com, <%= @user.name %></h1>
-    <p>
-      You have successfully signed up to example.com,
-      your username is: <%= @user.login %>.<br>
-    </p>
-    <p>
-      To login to the site, just follow this link: <%= @url %>.
-    </p>
-    <p>Thanks for joining and have a great day!</p>
+    <div class="divider"></div>
+    <% if @reminders.size > 0 %>
+      <div class="email-subtitle">You Have Upcoming Opportunities</div>
+      <% @reminders.each do |r| %>
+        <div class="email-item"> <%= r[:message] %> </div>
+      <% end %>
+    <% else %>
+      <div class="no-reminders">You have no reminders at this time.</div>
+    <% end %>
+    <div class="divider"></div>
+    <% if @notifications.size > 0 %>
+      <div class="email-subtitle">Recent Notifications</div>
+      <% @notifications.each do |n| %>
+        <div class="email-item"> <%= n.stringify %> </div>
+      <% end %>
+    <% else %>
+      <div class="no-notifications">You have no new notifications at this time.</div>
+    <% end %>
+    <div class="jbh-greeting">
+      Thanks again for volunteering with Just Be Human! We're really excited to have you. If you want to be kept in the loop with updates to the platform, bug reports, and common questions, come by the Just Be Human subreddit <a href='https://reddit.com/r/justbehuman'>here!</a>
+    </div>
   </body>
 </html>
