@@ -88,13 +88,9 @@ class User < ApplicationRecord
 
 
   def username_allowed
-    forbidden = ["admin", "administrator", "mod", "moderator", "leader", "matthuhman", "owner", "founder", "root", "employee"]
+    forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator", #
+                 "leader", "matthuhman", "owner", "founder", "root", "employee"]
 
-    forbidden.each do |f|
-      # if f.casecmp(username)
-      #   errors.add(:username, "is forbidden.")
-      #   return
-      # end
-    end
+    forbidden.include? username.downcase
   end
 end
