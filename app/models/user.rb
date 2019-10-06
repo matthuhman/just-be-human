@@ -80,7 +80,6 @@ class User < ApplicationRecord
   end
 
 
-
   def as_json(options = {})
     options[:except] ||= [:last_name, :email, :phone_number, :birth_date]
     super(options)
@@ -89,8 +88,10 @@ class User < ApplicationRecord
 
   def username_allowed
     forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator", #
-                 "leader", "matthuhman", "owner", "founder", "root", "employee"]
-
-    forbidden.include? username.downcase
+                 "leader", "matthuhman", "owner", "founder", "root", "employee", "test", "tester"]
+    if forbidden.include? username.downcase
+      errors.add(:username, 'is forbidden.')
+    end
   end
+
 end
