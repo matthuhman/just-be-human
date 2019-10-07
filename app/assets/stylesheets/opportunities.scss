@@ -337,8 +337,8 @@
   font-size: 1.3em;
   padding-top: 3vh;
   border-top: 1px solid $lightgrey;
-  padding-left: 2vw;
-  padding-right: 2vw;
+  padding-left: 4vw;
+  padding-right: 4vw;
 
   @include respond-to(handhelds) {
     margin-left: 2vw;
