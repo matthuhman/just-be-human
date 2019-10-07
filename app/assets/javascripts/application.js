@@ -43,13 +43,15 @@ document.addEventListener('click', function(e) {
 
 
 // and check for it when deciding whether to start.
-window.addEventListener('load', function() {
+window.addEventListener('ready turbolinks:load', function() {
   var path = window.location.pathname;
+
+  console.log('in introjs method, path: ' + path);
 
   // return if path doesn't have an intro or if we've already shown it
   // on this browser
   if (!hasIntro(path)) return;
-  if (localStorage.getItem(path) === 'done') return;
+  //if (localStorage.getItem(path) === 'done') return;
 
   intro = introJs();
 

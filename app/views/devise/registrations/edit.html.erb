@@ -16,6 +16,7 @@
                   hint: "This is the postal code your home page will default to." %>
       <%= f.input :region,
                   hint: "You can leave this blank if you're in the United States" %>
+      <%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones) %>
       <div class="user-password-change">
         <%= f.input :password,
                 hint: "Leave it blank if you don't want to change your password.",

@@ -4,7 +4,7 @@
   </div>
   <form action="/opportunities/rsvp" method="post">
     <div class="rsvp-form-is-coming">
-      <label for="is_coming">I'm coming!</label>
+      <label for="is_coming">I'll be there!</label>
       <input type="hidden" value="0" name="rsvp[is_coming]">
       <% if !role.has_responded || role.is_coming %>
         <input type="checkbox" checked value="1" name="rsvp[is_coming]">
