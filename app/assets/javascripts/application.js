@@ -46,8 +46,6 @@ document.addEventListener('click', function(e) {
 window.addEventListener('ready turbolinks:load', function() {
   var path = window.location.pathname;
 
-  console.log('in introjs method, path: ' + path);
-
   // return if path doesn't have an intro or if we've already shown it
   // on this browser
   if (!hasIntro(path)) return;
