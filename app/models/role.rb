@@ -190,6 +190,7 @@ class Role
 
 
   def self.set_opp_leader(outgoing_id, incoming_id, oppo)
+    binding.pry
     outgoing_role = OpportunityRole.find_by(user_id: outgoing_id, opportunity_id: oppo)
     return false unless outgoing_role&.level == 1
 
@@ -213,6 +214,8 @@ class Role
     incoming_role.title = "Leader"
 
     incoming_role.opportunity.user = incoming_role.user
+
+    binding.pry
 
     outgoing_role.save && incoming_role.save && incoming_role.opportunity.save
   end
