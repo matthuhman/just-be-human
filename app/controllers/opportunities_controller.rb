@@ -193,7 +193,7 @@ class OpportunitiesController < ApplicationController
     respond_to do |format|
       if (current_user == @opportunity.user)
         if Role.set_opp_leader(current_user.id, params[:target_user_id], @opportunity.id)
-          format.html { redirect_to @opportunity, notice: "User promoted to Supervisor." }
+          format.html { redirect_to @opportunity, notice: "User promoted to Leader." }
           format.json { render :show, status: :ok, location: @opportunity}
         else
           format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }

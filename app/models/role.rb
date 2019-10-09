@@ -91,7 +91,7 @@ class Role
       # their level back to Follower, level to 5, and remove them and their addl's
       # from the volunteer count
       if !role.is_coming && old_is_coming
-        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+        if RequirementRole.where(user_id: user.id, opportunity_id: oppo.id).size == 0
           role.level = 5
           role.title = "Follower"
           oppo.volunteer_count -= (role.additional_vols + 1)
@@ -101,7 +101,7 @@ class Role
         # if they now ARE coming and weren't before, cehck to see if they have any RR's
         # if they do, just add addl vols, if they don't, level to 4, title to Volunteer
       elsif role.is_coming && !old_is_coming
-        if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+        if RequirementRole.where(user_id: user.id, opportunity_id: oppo.id).size == 0
           role.level = 4
           role.title = "Volunteer"
           oppo.volunteer_count += (role.additional_vols + 1)

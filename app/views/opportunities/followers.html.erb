@@ -23,7 +23,7 @@
                   <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
                     <%= link_to 'Make Supervisor', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn follower-action-btn dropdown-item" %>
                   <% elsif current_user == @opportunity.user && role.user != current_user %>
-                    <%= link_to 'Make Leader', controller: "opportunities", action: "leader", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn dropdown-item" %>
+                    <a href="/opportunities/leader?opportunity_id=<%=@opportunity.id%>&target_user_id=<%=role.user.id%>" class="promote-user-btn dropdown-item follower-action-btn">Make Leader</a>
                   <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
                     <%= link_to 'Demote', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn follower-action-btn dropdown-item" %>
                   <% end %>

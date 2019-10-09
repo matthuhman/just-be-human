@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country)
+    params.require(:user).permit(:first_name, :last_name, :username, :email, :city, :state, :postal_code, :country, :allow_email)
   end
 
   def step_down_params
