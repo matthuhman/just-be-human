@@ -238,7 +238,7 @@ class OpportunitiesController < ApplicationController
     respond_to do |format|
       if (current_user == @opportunity.user || current_user == target_user_id)
         ## remove the target user as a supervisor
-        if Role.remove_supervisor(target_user_id, @opportunity.id)
+        if Role.remove_opp_supervisor(target_user_id, @opportunity.id)
           if (target_user_id != current_user.id)
             format.html { redirect_to @opportunity, notice: "User is no longer a Supervisor." }
             format.json { render :show, status: :ok, location: @opportunity}

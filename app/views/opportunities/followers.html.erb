@@ -21,12 +21,13 @@
                   <% if role.level == 1 && role.user == current_user && @opportunity.user == current_user %>
                     <%= link_to 'Step down as Leader', @opportunity, method: :delete, data: {confirm: "Are you sure? This cannot be undone. \n\n IF YOU ARE THE ONLY USER, THIS WILL DELETE THE OPPORTUNITY." }, class: "step-down-btn follower-action-btn dropdown-item" %>
                   <% elsif (current_user == @opportunity.user) && (role.user != current_user) && (role.level == 4 || role.level == 3) %>
-                    <%= link_to 'Make Supervisor', controller: "opportunities", action: "promote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "promote-user-btn follower-action-btn dropdown-item" %>
-                  <% elsif current_user == @opportunity.user && role.user != current_user %>
-                    <a href="/opportunities/leader?opportunity_id=<%=@opportunity.id%>&target_user_id=<%=role.user.id%>" class="promote-user-btn dropdown-item follower-action-btn">Make Leader</a>
+                    <a href="/opportunities/promote_user?opportunity_id=<%= @opportunity.id %>&target_user_id=<%=role.user.id%>" class="promote-user-btn follower-action-btn dropdown-item">Make Supervisor</a>
                   <% elsif (current_user == @opportunity.user) && (role.user != current_user) && role.level < 3 %>
-                    <%= link_to 'Demote', controller: "opportunities", action: "demote_user", opportunity_id: @opportunity.id, target_user_id: role.user.id, class: "demote-user-btn follower-action-btn dropdown-item" %>
+                    <a href="/opportunities/demote_user?opportunity_id=<%= @opportunity.id %>&target_user_id=<%= role.user.id %>" class="demote-user-btn follower-action-btn dropdown-item">Demote</a>
                   <% end %>
+                <% end %>
+                <% if current_user == @opportunity.user && role.user != current_user %>
+                  <a href="/opportunities/leader?opportunity_id=<%=@opportunity.id%>&target_user_id=<%=role.user.id%>" class="promote-user-btn dropdown-item follower-action-btn">Make Leader</a>
                 <% end %>
                 <% if @is_follower && current_user != role.user %>
                   <%= link_to 'Send a message', new_personal_message_path(receiver_id: role.user), class: "follower-action-btn dropdown-item" %>
