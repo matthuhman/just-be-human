@@ -106,7 +106,7 @@
             <span class="requirement-row-title"><%= requirement.title %></span>
             <span class="requirement-row-status">
               <% if requirement.user && requirement.user != current_user %>
-                <%= requirement.user.username %>
+                <span class="requirement-status-user"><%= requirement.user.username %></span>
               <% elsif requirement.user && requirement.user == current_user %>
                 <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn">Cancel</a>
               <% elsif !requirement.user && @role %>
