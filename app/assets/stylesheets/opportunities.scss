@@ -164,6 +164,37 @@
 		grid-row: 3;
 		grid-column: 1;
 	}
+
+	.requirements-container {
+		border-top: 1px solid $lightgrey;
+	}
+
+	.requirements-container-header {
+		font-size: 1.8rem;
+		text-transform: uppercase;
+		color: $darkgrey;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		padding-left: 2vw;
+		padding-right: 2vw;
+		padding-top: 2vh;
+
+		@include respond-to(handhelds) {
+			padding-top: 1vh;
+			font-size: 1.4rem;
+		}
+
+		.add-req-btn {
+			font-size: 1.8rem !important;
+			color: $limegreen !important;
+			font-weight: 600;
+
+			@include respond-to(handhelds) {
+				font-size: 1.4rem !important;
+			}
+		}
+	}
 }
 
 .oppo-main-grid-bottomright {

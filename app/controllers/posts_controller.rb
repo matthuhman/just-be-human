@@ -23,7 +23,6 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    binding.pry
     @post = Post.new(post_params)
     @parent = @post.opportunity
     role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.opportunity_id)

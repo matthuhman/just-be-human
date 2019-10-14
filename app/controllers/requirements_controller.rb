@@ -17,16 +17,16 @@ class RequirementsController < ApplicationController
     end
   end
 
-  # GET /requirements/1
-  def show
-    @volunteers = @requirement.requirement_roles.map {|r| r.user }
-    @opportunity = Opportunity.includes(:opportunity_roles).find(@requirement.opportunity_id)
-    @is_mod = current_user.is_mod?(@opportunity.id)
-    @is_admin = current_user.is_admin?(@requirement.opportunity.id)
-    @is_volunteer = current_user.is_req_volunteer?(@requirement.id)
-    @is_follower = current_user.is_follower?(@requirement.opportunity_id)
-    @leader = @requirement.requirement_roles.find_by(level: 1)
-  end
+  # # GET /requirements/1
+  # def show
+  #   @volunteers = @requirement.requirement_roles.map {|r| r.user }
+  #   @opportunity = Opportunity.includes(:opportunity_roles).find(@requirement.opportunity_id)
+  #   @is_mod = current_user.is_mod?(@opportunity.id)
+  #   @is_admin = current_user.is_admin?(@requirement.opportunity.id)
+  #   @is_volunteer = current_user.is_req_volunteer?(@requirement.id)
+  #   @is_follower = current_user.is_follower?(@requirement.opportunity_id)
+  #   @leader = @requirement.requirement_roles.find_by(level: 1)
+  # end
 
   # GET /requirements/1/edit
   def edit
@@ -47,7 +47,7 @@ class RequirementsController < ApplicationController
       # @tab = 'opportunity-requirements-tab'
       if current_user.is_mod?(opportunity.id)
         if @requirement.save
-          format.html { redirect_to @requirement, notice: 'Requirement was successfully created.' }
+          format.html { redirect_to opportunity, notice: 'Requirement was successfully created.' }
           format.json { render :show, status: :created, location: @requirement }
         else
           format.html { redirect_to opportunity, alert: "An unexpected error occurred." }
@@ -76,7 +76,7 @@ class RequirementsController < ApplicationController
           format.json { render json: @requirement.errors, status: :unprocessable_entity }
         end
       else
-        format.html { rerdirect_to opportunity, alert: "You do not have permission to edit a requirement for this opportunity." }
+        format.html { redirect_to opportunity, alert: "You do not have permission to edit a requirement for this opportunity." }
         format.json { render :show, status: :forbidden, location: opportunity }
       end
     end
@@ -102,11 +102,11 @@ class RequirementsController < ApplicationController
   def participate
     respond_to do |format|
       if Role.volunteer(current_user.id, @requirement.id, @requirement.opportunity_id)
-        format.html { redirect_to @requirement, notice: "You are now a volunteer in #{@requirement.title}" }
-        format.json { render :show, status: :created, location: @requirement }
+        format.html { redirect_to @requirement.opportunity, notice: "You are now a volunteer in #{@requirement.title}" }
+        format.json { render :show, status: :created, location: @requirement.opportunity }
       else
-        format.html { redirect_to @requirement, notice: 'There was an unexpected issue when volunteering to participate in this requirement.' }
-        format.json { render :show, status: :unprocessable_entity, location: @requirement }
+        format.html { redirect_to @requirement.opportunity, notice: 'There was an unexpected issue when volunteering to participate in this requirement.' }
+        format.json { render :show, status: :unprocessable_entity, location: @requirement.opportunity }
       end
     end
   end
@@ -114,11 +114,11 @@ class RequirementsController < ApplicationController
   def cancel_participation
     respond_to do |format|
       if Role.cancel(current_user.id, @requirement.id, @requirement.opportunity_id)
-        format.html { redirect_to @requirement, notice: "You have cancelled your participation." }
-        format.json { render :show, status: :ok, location: @requirement}
+        format.html { redirect_to @requirement.opportunity, notice: "You have cancelled your participation." }
+        format.json { render :show, status: :ok, location: @requirement.opportunity}
       else
-        format.html { redirect_to @requirement, alert: "You were not a volunteer."}
-        format.json { render :show, status: :unprocessable_entity, location: @requirement}
+        format.html { redirect_to @requirement.opportunity, alert: "You were not a volunteer."}
+        format.json { render :show, status: :unprocessable_entity, location: @requirement.opportunity}
       end
     end
   end
@@ -128,15 +128,15 @@ class RequirementsController < ApplicationController
     respond_to do |format|
       if current_user.is_mod?(opp.id)
         if Role.make_req_leader(promote_params, @requirement.id)
-          format.html { redirect_to @requirement, notice: "#{@requirement.title} has a new leader!" }
-          format.json { render :show, status: :ok, location: @requirement }
+          format.html { redirect_to opp, notice: "#{@requirement.title} has a new leader!" }
+          format.json { render :show, status: :ok, location: opp }
         else
-          format.html { redirect_to @requirement, alert: "Could not complete request." }
-          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+          format.html { redirect_to opp, alert: "Could not complete request." }
+          format.json { render :show, status: :unprocessable_entity, location: opp }
         end
       else
-        format.html { redirect_to @requirement, notice: "You do not have permission to do this." }
-        format.json { render :show, status: :forbidden, location: @requirement }
+        format.html { redirect_to opp, notice: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: opp }
       end
     end
   end
@@ -146,11 +146,11 @@ class RequirementsController < ApplicationController
     respond_to do |format|
       if current_user.is_mod?(opp.id)
         if Role.remove_req_leader(@requirement.id)
-          format.html { redirect_to @requirement, notice: "Leader has been removed." }
-          format.json { render :show, status: :ok, location: @requirement }
+          format.html { redirect_to opp, notice: "Leader has been removed." }
+          format.json { render :show, status: :ok, location: opp }
         else
-          format.html { redirect_to @requirement, alert: "Could not complete request." }
-          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+          format.html { redirect_to opp, alert: "Could not complete request." }
+          format.json { render :show, status: :unprocessable_entity, location: opp }
         end
       else
         format.html { redirect_to @requirement, notice: "You do not have permission to do this." }
@@ -166,15 +166,15 @@ class RequirementsController < ApplicationController
         @requirement.complete = true
         @requirement.status = "Complete"
         if @requirement.save
-          format.html { redirect_to @requirement, success: "This requirement is complete!" }
-          format.json { render :show, status: ok, location: @requirement }
+          format.html { redirect_to @opportunity, success: "#{@requirement.title} is complete!" }
+          format.json { render :show, status: ok, location: @opportunity }
         else
-          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
-          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+          format.html { redirect_to @opportunity, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @opportunity }
         end
       else
-        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement complete." }
-        format.json { render :show, status: :forbidden, location: @requirement }
+        format.html { redirect_to @opportunity, alert: "You do not have permission to mark this requirement complete." }
+        format.json { render :show, status: :forbidden, location: @opportunity }
       end
     end
   end
@@ -186,15 +186,15 @@ class RequirementsController < ApplicationController
         @requirement.complete = false
         @requirement.status = "In Progress"
         if @requirement.save
-          format.html { redirect_to @requirement, success: "This requirement is now marked incomplete!" }
-          format.json { render :show, status: ok, location: @requirement }
+          format.html { redirect_to @opportunity, success: "This requirement is now marked incomplete!" }
+          format.json { render :show, status: ok, location: @opportunity }
         else
-          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
-          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+          format.html { redirect_to @opportunity, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @opportunity }
         end
       else
-        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement as incomplete." }
-        format.json { render :show, status: :forbidden, location: @requirement }
+        format.html { redirect_to @opportunity, alert: "You do not have permission to mark this requirement as incomplete." }
+        format.json { render :show, status: :forbidden, location: @opportunity }
       end
     end
   end
@@ -206,15 +206,15 @@ class RequirementsController < ApplicationController
         @requirement.defined = true
         @requirement.status = "Defined"
         if @requirement.save
-          format.html { redirect_to @requirement, success: "This requirement is now defined!" }
-          format.json { render :show, status: ok, location: @requirement }
+          format.html { redirect_to @opportunity, success: "This requirement is now defined!" }
+          format.json { render :show, status: ok, location: @opportunity }
         else
-          format.html { redirect_to @requirement, alert: "Something went wrong. An error has been logged, please try again later." }
-          format.json { render :show, status: :unprocessable_entity, location: @requirement }
+          format.html { redirect_to @opportunity, alert: "Something went wrong. An error has been logged, please try again later." }
+          format.json { render :show, status: :unprocessable_entity, location: @opportunity }
         end
       else
-        format.html { redirect_to @requirement, alert: "You do not have permission to mark this requirement as defined." }
-        format.json { render :show, status: :forbidden, location: @requirement }
+        format.html { redirect_to @opportunity, alert: "You do not have permission to mark this requirement as defined." }
+        format.json { render :show, status: :forbidden, location: @opportunity }
       end
     end
   end
