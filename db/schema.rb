@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_183155) do
+ActiveRecord::Schema.define(version: 2019_10_14_230408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -256,7 +256,7 @@ ActiveRecord::Schema.define(version: 2019_10_14_183155) do
     t.boolean "complete"
     t.string "status"
     t.uuid "opportunity_id"
-    t.uuid "user_id"
+    t.uuid "creator_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "priority", default: 1
@@ -266,10 +266,11 @@ ActiveRecord::Schema.define(version: 2019_10_14_183155) do
     t.boolean "defined", default: true
     t.uuid "last_edited_by"
     t.string "time_zone"
+    t.uuid "leader_id"
     t.index ["category", "subcategory"], name: "index_requirements_on_category_and_subcategory"
+    t.index ["creator_id"], name: "index_requirements_on_creator_id"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"
-    t.index ["user_id"], name: "index_requirements_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

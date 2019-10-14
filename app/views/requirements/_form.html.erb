@@ -3,48 +3,9 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
     <%= f.input :title, placeholder: "Keep it short and sweet" %>
-    <%= f.input :description, placeholder: "An in-depth description goes here." %>
-    <div class="form-group">
-      <%= f.label "Status:" %>
-      <% if @planned %>
-        <%= f.select :status, @requirement.defined_statuses, label: "Status" %>
-      <% else %>
-        <%= f.select :status, @requirement.abstract_statuses, label: "Status" %>
-      <% end %>
-    </div>
-    <% if @date %>
-      <%= f.input :target_completion_date, :selected => @date, start_year: Date.today.year %>
-    <% else %>
-      <%= f.input :target_completion_date, :value => @requirement.opportunity.target_completion_date %>
-    <% end %>
-    <% if params[:action] == "edit" %>
-      <%= f.input :pct_done, label: 'Estimate the % of work that remains!', min: 0, max: 100 %>
-    <% end %>
-    <div class="form-group">
-      <%= f.label :category %>
-      <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-    </div>
-    <%= f.input :volunteers_required, placeholder: "How many people do you need?" %>
-    <% if !@planned %>
-      <div class="planned-selection">
-        <% if !request.env["PATH_INFO"].include? "edit" %>
-          <%= f.input :defined, label: "This is everything I need!" %>
-        <% end %>
-        <div class="form-group">
-          <%= f.label "Priority- 1 is most important, 10 is least important" %>
-          <%= f.select :priority, [1,2,3,4,5,6,7,8,9,10], label: "Priority" %>
-        </div>
-        <%= f.input :estimated_work, label: "Estimate the difficulty (1 is lowest)", min: 1, max: 10 %>
-      </div>
-    <% else %>
-      <%= f.hidden_field :defined, value: true %>
-      <%= f.hidden_field :estimated_work, value: 0 %>
-    <% end %>
     <% if params[:requirement] %>
       <%= f.hidden_field :opportunity_id, :value => params[:requirement][:opportunity_id] %>
     <% end %>
-    <%= f.hidden_field :user_id, :value => current_user.id %>
-    <%= f.input :address, placeholder: "Leave blank if the same as opportunity address" %>
   </div>
   <div class="submit-post-container">
     <%= f.button :submit, "Submit", class: "submit-post-btn" %>

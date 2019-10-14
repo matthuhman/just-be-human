@@ -7,8 +7,8 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/new
   def new
-    @categories = Category.req_titles
-    @sub_categories = Category.req_subcats
+    # @categories = Category.req_titles
+    # @sub_categories = Category.req_subcats
     @requirement = Requirement.new
     if params[:requirement]
       @requirement.opportunity_id = params[:requirement][:opportunity_id]
@@ -42,7 +42,6 @@ class RequirementsController < ApplicationController
 
     @requirement = Requirement.new(requirement_params)
     opportunity = Opportunity.find(@requirement.opportunity_id)
-    @categories = Category.req_titles
     respond_to do |format|
       # @tab = 'opportunity-requirements-tab'
       if current_user.is_mod?(opportunity.id)
@@ -100,13 +99,20 @@ class RequirementsController < ApplicationController
   end
 
   def participate
+
     respond_to do |format|
-      if Role.volunteer(current_user.id, @requirement.id, @requirement.opportunity_id)
-        format.html { redirect_to @requirement.opportunity, notice: "You are now a volunteer in #{@requirement.title}" }
-        format.json { render :show, status: :created, location: @requirement.opportunity }
+      if current_user.is_follower?(@requirement.opportunity.id)
+        @requirement.leader = current_user
+        if @requirement.save
+          format.html { redirect_to @requirement.opportunity, notice: "You are now a volunteer in #{@requirement.title}" }
+          format.json { render :show, status: :created, location: @requirement.opportunity }
+        else
+          format.html { redirect_to @requirement.opportunity, notice: 'There was an unexpected issue when volunteering to participate in this requirement.' }
+          format.json { render :show, status: :unprocessable_entity, location: @requirement.opportunity }
+        end
       else
-        format.html { redirect_to @requirement.opportunity, notice: 'There was an unexpected issue when volunteering to participate in this requirement.' }
-        format.json { render :show, status: :unprocessable_entity, location: @requirement.opportunity }
+        format.html { redirect_to @requirement.opportunity, notice: 'You must follow this problem to volunteer for a requirement.' }
+        format.json { render :show, status: :forbidden, location: @requirement.opportunity }
       end
     end
   end
