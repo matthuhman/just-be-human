@@ -20,8 +20,8 @@
           <div class="oppo-topleft-grid-right">
             <% if current_user&.is_follower?(@opportunity.id) %>
               <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  OPTIONS
+                <button class="oppo-options-btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  ACTIONS
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
@@ -48,7 +48,7 @@
               </div>
             <% else %>
               <a class="follow-btn btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
-                FOLLOW
+                Join
               </a>
             <% end %>
             <div class="opportunity-info-row">VOLUNTEERS
@@ -92,11 +92,12 @@
           <% end %>
         </div>
       </div>
-      <div class="oppo-main-grid-bottomleft">
-        bottom left
-      </div>
-      <div class="oppo-main-grid-bottomright">
-        bottom right
-      </div>
+    </div>
+    <div class="oppo-main-grid-bottomleft">
+      bottom left
+    </div>
+    <div class="oppo-main-grid-bottomright">
+      bottom right
     </div>
   </div>
+</div>

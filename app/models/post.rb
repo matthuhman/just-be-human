@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   after_create :notify_create
 
   belongs_to :user
-  belongs_to :postable, polymorphic: true
+  belongs_to :opportunity
   has_many :comments, dependent: :destroy
   has_rich_text :content
 
@@ -29,14 +29,8 @@ class Post < ApplicationRecord
   private
 
   def recipients
-    if self.postable_type == "Opportunity"
-      roles = OpportunityRole.where(opportunity_id: self.postable_id)
-      roles.map { |r| r.user }
-    else
-      req = Requirement.find(self.postable_id)
-      roles = req.opportunity.opportunity_roles
-      roles.map { |r| r.user }
-    end
+    roles = OpportunityRole.where(opportunity_id: self.postable_id)
+    roles.map { |r| r.user }
   end
 
 
