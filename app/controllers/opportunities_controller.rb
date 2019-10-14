@@ -258,7 +258,7 @@ class OpportunitiesController < ApplicationController
   end
 
   def complete
-    completion_post = Post.new(postable_id: @opportunity.id, postable_type: "Opportunity", completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
+    completion_post = Post.new(opportunity_id: @opportunity.id, completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
     respond_to do |format|
       if current_user.is_admin?(@opportunity.id)
         if @opportunity.can_complete?

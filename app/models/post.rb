@@ -29,7 +29,7 @@ class Post < ApplicationRecord
   private
 
   def recipients
-    roles = OpportunityRole.where(opportunity_id: self.postable_id)
+    roles = OpportunityRole.where(opportunity_id: self.opportunity_id)
     roles.map { |r| r.user }
   end
 

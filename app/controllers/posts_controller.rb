@@ -25,7 +25,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @parent = @post.opportunity
-    role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.postable_id)
+    role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.opportunity_id)
 
     @post.user_id = current_user.id
 
@@ -69,7 +69,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    @parent = Opportunity.find(@post.postable_id)
+    @parent = @post.opportunity
     oppo_id = @parent.id
 
     respond_to do |format|
