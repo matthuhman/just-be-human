@@ -13,7 +13,7 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new(opportunity_id: params[:opportunity][:id])
+    @post = Post.new
   end
 
   # GET /posts/1/edit
@@ -23,6 +23,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    binding.pry
     @post = Post.new(post_params)
     @parent = @post.opportunity
     role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.opportunity_id)
@@ -92,7 +93,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :content, opportunity: [:id])
+    params.require(:post).permit(:title, :content, :opportunity_id)
   end
 
   def create_params

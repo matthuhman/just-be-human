@@ -29,7 +29,7 @@
               <strong class="comment-username"><%= comment.user.username %></strong>  at <%= local_time(comment.created_at, "%l:%M%P on %-m/%-d/%y") %>
             </p>
             <% if current_user == comment.user && @can_comment %>
-              <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', @comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% else %>
               <%= link_to 'Send a message', new_personal_message_path(receiver_id: comment.user) %>
             <% end %>
