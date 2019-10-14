@@ -4,6 +4,7 @@ require 'obscenity/active_model'
 class Requirement < ApplicationRecord
 
   belongs_to :opportunity
+  belongs_to :user
   has_many :requirement_roles, :dependent => :destroy
 
 

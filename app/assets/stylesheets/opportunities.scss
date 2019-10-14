@@ -206,6 +206,7 @@
 	@include respond-to(handhelds) {
 		grid-row: 4;
 		grid-column: 1;
+		margin-bottom: 2vh;
 	}
 }
 

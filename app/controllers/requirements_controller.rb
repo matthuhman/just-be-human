@@ -153,8 +153,8 @@ class RequirementsController < ApplicationController
           format.json { render :show, status: :unprocessable_entity, location: opp }
         end
       else
-        format.html { redirect_to @requirement, notice: "You do not have permission to do this." }
-        format.json { render :show, status: :forbidden, location: @requirement }
+        format.html { redirect_to opp, notice: "You do not have permission to do this." }
+        format.json { render :show, status: :forbidden, location: opp }
       end
     end
   end
