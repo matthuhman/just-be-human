@@ -94,10 +94,28 @@
       </div>
     </div>
     <div class="oppo-main-grid-bottomleft">
-      bottom left
+      <div class="requirements-container">
+        <div class="requirements-container-header">
+          <span class="requirements-container-title">Requirements</span>
+          <% if current_user&.is_mod?(@opportunity.id) %>
+            <%= link_to 'Add A Requirement', new_requirement_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
+          <% end %>
+          <% @requirements.each do |requirement| %>
+            <div class="requirement-title"><%= requirement.title %></div>
+          <%end%>
+          <% if @is_mod %>
+            <div class="add-tabitem-button">
+              <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'btn btn-success btn-lg add-tabitem-btn' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
     <div class="oppo-main-grid-bottomright">
-      bottom right
+      <div class="opportunity-address-below-map">
+        <%= @opportunity.address %>
+      </div>
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=340x340&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
     </div>
   </div>
 </div>

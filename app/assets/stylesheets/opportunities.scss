@@ -160,8 +160,6 @@
 	grid-row: 2;
 	grid-column: 1;
 
-	border: 1px solid green;
-
 	@include respond-to(handhelds) {
 		grid-row: 3;
 		grid-column: 1;
@@ -172,8 +170,7 @@
 	grid-row: 2;
 	grid-column: 2;
 
-
-	border: 1px solid blue;
+	text-align: center;
 
 	@include respond-to(handhelds) {
 		grid-row: 4;
