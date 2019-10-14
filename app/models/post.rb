@@ -21,6 +21,10 @@ class Post < ApplicationRecord
     self.created_at.strftime("%l:%M%P on %-m/%-d/%y")
   end
 
+  def display_title
+    title.size > 30 ? title[0..30] + "..." : title
+  end
+
 
   private
 

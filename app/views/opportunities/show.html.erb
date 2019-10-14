@@ -2,91 +2,44 @@
   <div class="jbh-standard-title">
     <%= @opportunity.title %>
   </div>
-  <div class="opportunity-container">
-    <div class="jbh-grid-container">
-      <div class="jbh-grid-first">
-        <div class="opportunity-info">
-          <div class="opportunity-info-left opportunity-info-container">
-            <div class="opportunity-info-row">CREATED BY
-              <div class="opportunity-info-row-data"><%= @opportunity.user.username %></div>
-            </div>
-            <div class="opportunity-info-row">CATEGORY
-              <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
-            </div>
-            <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
-              <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
-            </div>
+  <div class="opportunity-main-grid">
+    <div class="oppo-main-grid-topleft">
+      <div class="oppo-topleft-grid">
+        <div class="oppo-topleft-grid-top">
+          <div class="opportunity-info-row">CREATED BY
+            <div class="opportunity-info-row-data"><%= @opportunity.user.username %></div>
           </div>
-          <div class="opportunity-info-right opportunity-info-container">
-            <div class="opportunity-info-row">VOLUNTEERS
-              <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
-                <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
-              </div>
-            </div>
-            <% if current_user&.is_follower?(@opportunity.id) %>
-              <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  OPTIONS
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-                    Unfollow
-                  </a>
-                  <a class="dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
-                    Followers
-                  </a>
-                  <% if @is_mod %>
-                    <a class="dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
-                      Edit
-                    </a>
-                  <% end %>
-                  <% if @is_admin && @opportunity.defined %>
-                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/complete?id=<%= @opportunity.id %>">
-                      COMPLETE
-                    </a>
-                  <% elsif @is_admin && !@opportunity.defined %>
-                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-                      PLANNED
-                    </a>
-                  <% end %>
-                </div>
-              </div>
-            <% else %>
-              <a class="follow-btn btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
-                FOLLOW
-              </a>
-            <% end %>
+          <div class="opportunity-info-row">CATEGORY
+            <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
+          </div>
+          <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
+            <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
           </div>
         </div>
-        <div class="opportunity-description"><%= @opportunity.description %></div>
-      </div>
-      <div class="jbh-grid-second">
-        <% if @role %>
-          <%= render 'rsvp', opportunity: @opportunity, role: @role %>
-        <% end %>
-        <div class="opportunity-address-below-map">
-          <%= @opportunity.address %>
+        <div class="oppo-topleft-grid-bottom">
+          Bottom
         </div>
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=340x340&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
       </div>
     </div>
-    <div class="tab">
-      <div class="opportunity-tab-links">
-        <button class="tablinks hp" onclick="openTab(event, 'opportunity-requirements-tab')" id="defaultOpen">Requirements and Progress</button>
-        <button class="tablinks hp" onclick="openTab(event, 'opportunity-info-tab')">Discussion</button>
-      </div>
-    </div>
-    <!-- Tab content -->
-    <div id="opportunity-info-tab" class="tabcontent">
+    <div class="oppo-main-grid-topright">
+      <% if @role %>
+        <%= render 'rsvp', opportunity: @opportunity, role: @role %>
+      <% end %>
       <div class="posts-container">
+        <div class="posts-container-header">
+          <span class="posts-container-title">Posts</span>
+          <% if current_user && @role %>
+            <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
+          <% end %>
+        </div>
         <div class="post-list">
           <% if @opportunity.posts.size > 0 %>
             <% @opportunity.posts.each do |post| %>
               <% post_user = User.find(post.user_id) %>
-              <div class="post-container <%= post.completion_post ? "completion-post" : "" %>">
+              <div class="post-listitem <%= post.completion_post ? "completion-post" : "" %>">
                 <a href="/posts/<%= post.id %>" class="post-link">
-                  <p class="post-title"><%= post.title %></p>
-                  <p class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></p>
+                  <span class="post-title"><%= post.display_title %> </span> -
+                  <span class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></span>
                 </a>
               </div>
             <% end %>
@@ -95,22 +48,11 @@
               There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
             </div>
           <% end %>
-          <% if current_user && @role %>
-            <div class="add-tabitem-button">
-              <%= link_to 'New Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "btn btn-success btn-lg add-tabitem-btn"%>
-            </div>
-          <% end %>
         </div>
       </div>
-    </div>
-    <div id="opportunity-requirements-tab" class="tabcontent">
-      <% @requirements.each do |requirement| %>
-        <%= render 'requirement_row', requirement: requirement %>
-      <%end%>
-      <% if @is_mod %>
-        <div class="add-tabitem-button">
-          <%= link_to 'New Requirement', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'btn btn-success btn-lg add-tabitem-btn' %>
-        </div>
-      <% end %>
+      <div class="oppo-main-grid-bottomleft">
+      </div>
+      <div class="oppo-main-grid-bottomright">
+      </div>
     </div>
   </div>
