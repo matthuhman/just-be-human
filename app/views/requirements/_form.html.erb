@@ -6,6 +6,7 @@
     <% if params[:requirement] %>
       <%= f.hidden_field :opportunity_id, :value => params[:requirement][:opportunity_id] %>
     <% end %>
+    <%= f.hidden_field :creator_id, :value => current_user.id %>
   </div>
   <div class="submit-post-container">
     <%= f.button :submit, "Submit", class: "submit-post-btn" %>

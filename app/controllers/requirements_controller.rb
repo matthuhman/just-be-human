@@ -66,7 +66,7 @@ class RequirementsController < ApplicationController
     @categories = Category.req_titles
     @sub_categories = Category.req_subcats
     respond_to do |format|
-      if current_user.id == @requirement.user_id || current_user.is_mod?(@opportunity.id)
+      if current_user == @requirement.leader || current_user == @requirement.creator || current_user.is_mod?(@opportunity.id)
         if @requirement.update(update_params)
           format.html { redirect_to @opportunity, notice: "The requirement '#{@requirement.title}' was updated successfully" }
           format.json { render :show, status: :ok, location: @opportunity }
@@ -99,7 +99,6 @@ class RequirementsController < ApplicationController
   end
 
   def participate
-
     respond_to do |format|
       if current_user.is_follower?(@requirement.opportunity.id)
         @requirement.leader = current_user
@@ -119,7 +118,9 @@ class RequirementsController < ApplicationController
 
   def cancel_participation
     respond_to do |format|
-      if Role.cancel(current_user.id, @requirement.id, @requirement.opportunity_id)
+      if current_user == @requirement.leader
+        @requirement.leader = nil
+        @requirement.save = nil
         format.html { redirect_to @requirement.opportunity, notice: "You have cancelled your participation." }
         format.json { render :show, status: :ok, location: @requirement.opportunity}
       else
@@ -233,7 +234,7 @@ class RequirementsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def requirement_params
-    params.require(:requirement).permit(:title, :description, :status, :complete, :opportunity_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
+    params.require(:requirement).permit(:title, :description, :status, :complete, :opportunity_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :creator_id, :priority, :pct_done, :estimated_work)
   end
 
   def update_params

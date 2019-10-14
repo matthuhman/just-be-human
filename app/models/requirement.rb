@@ -4,8 +4,8 @@ require 'obscenity/active_model'
 class Requirement < ApplicationRecord
 
   belongs_to :opportunity
-  belongs_to :creator, class: "User", foreign_key: 'creator_id', optional: true
-  belongs_to :leader, class: "User", foreign_key: 'leader_id', optional: true
+  belongs_to :creator, class_name: "User", foreign_key: 'creator_id', optional: true
+  belongs_to :leader, class_name: "User", foreign_key: 'leader_id', optional: true
   has_many :requirement_roles, :dependent => :destroy
 
 
@@ -46,10 +46,6 @@ class Requirement < ApplicationRecord
 
   def volunteers_needed?
     volunteer_count < volunteers_needed ? volunteers_needed - volunteer_count : 0
-  end
-
-  def leader
-    requirement_roles.find_by(requirement_id: id, level: 1)
   end
 
   def latitude
@@ -117,16 +113,16 @@ class Requirement < ApplicationRecord
   def notify_create
     recipients.each do |r|
       binding.pry
-      if r.id != self.user_id
-        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'created', notifiable: self)
+      if r.id != self.creator_id
+        Notification.create(recipient: r, actor: User.find(self.creator_id), action: 'created', notifiable: self)
       end
     end
   end
 
   def notify_update
     recipients.each do |r|
-      if r.id != self.user_id
-        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'updated', notifiable: self)
+      if r.id != self.creator_id
+        Notification.create(recipient: r, actor: User.find(self.creator_id), action: 'updated', notifiable: self)
       end
     end
   end

@@ -105,11 +105,11 @@
           <div class="requirement-row">
             <span class="requirement-row-title"><%= requirement.title %></span>
             <span class="requirement-row-status">
-              <% if requirement.user && requirement.user != current_user %>
-                <span class="requirement-status-user"><%= requirement.user.username %></span>
-              <% elsif requirement.user && requirement.user == current_user %>
+              <% if requirement.leader && requirement.leader != current_user %>
+                <span class="requirement-status-user"><%= requirement.leader.username %></span>
+              <% elsif requirement.leader == current_user %>
                 <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn">Cancel</a>
-              <% elsif !requirement.user && @role %>
+              <% elsif !requirement.leader && @role %>
                 <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn">Volunteer</a>
               <% end %>
             </span>
