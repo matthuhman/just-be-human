@@ -5,7 +5,7 @@ class Opportunity < ApplicationRecord
   belongs_to :user
   has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements, :dependent => :destroy
-  has_many :posts, as: :postable, :dependent => :destroy
+  has_many :posts
 
   geocoded_by :address
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }

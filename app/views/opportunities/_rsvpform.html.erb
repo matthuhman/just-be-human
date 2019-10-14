@@ -1,6 +1,10 @@
 <div class="rsvp-form">
   <div class="rsvp-form-title">
-    Tell people you're coming!
+    <% if !role.has_responded %>
+      Tell people you're coming!
+    <% else %>
+      Need to update your RSVP?
+    <% end %>
   </div>
   <form action="/opportunities/rsvp" method="post">
     <div class="rsvp-form-is-coming">

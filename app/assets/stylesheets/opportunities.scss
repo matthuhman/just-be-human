@@ -20,6 +20,196 @@
   }
 }
 
+
+.opportunity-main-grid {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: 2;
+
+
+	@include respond-to(handhelds) {
+		grid-template-columns: 100%;
+		grid-template-rows: 4;
+	}
+}
+
+.oppo-main-grid-topleft {
+	grid-row: 1;
+	grid-column: 1;
+
+	.oppo-topleft-grid {
+		display: grid;
+		height: 100%;
+		grid-template-rows: 2;
+		grid-template-columns: 1;
+
+		@include respond-to(handhelds) {
+			height: auto;
+		}
+
+		.oppo-topleft-grid-left {
+			grid-column: 1;
+		}
+
+		.oppo-topleft-grid-right {
+			grid-column: 2;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		.oppo-topleft-grid-top {
+			grid-row: 1;
+			display: grid;
+			grid-template-columns: 60% 40%;
+		}
+
+		.oppo-topleft-grid-bottom {
+			grid-row: 2;
+		}
+	}
+
+	.opportunity-info-row {
+		padding-left: 1vw;
+	}
+
+	.dropdown-item {
+		width: 100%;
+		font-size: 1.8rem;
+		font-weight: 500;
+		border-bottom: 1px solid $lightgrey;
+
+		@include respond-to(handhelds) {
+			font-size: 1.3rem;
+		}
+	}
+
+
+	.oppo-options-btn, .follow-btn {
+		width: 100%;
+		background-color: $limegreen-low;
+		border: 1px solid $midgrey;
+		font-size: 1.8rem;
+		font-weight: 600;
+
+		@include respond-to(handhelds) {
+			font-size: 1.3rem;
+		}
+	}
+
+}
+
+.oppo-main-grid-topright {
+	grid-row: 1;
+	grid-column: 2;
+
+	@include respond-to(handhelds) {
+		grid-row: 2;
+		grid-column: 1;
+	}
+
+	.posts-container-header {
+		font-size: 1.8rem;
+		text-transform: uppercase;
+		color: $darkgrey;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		padding-left: 2vw;
+		padding-right: 2vw;
+		padding-top: 2vh;
+
+		@include respond-to(handhelds) {
+			padding-top: 1vh;
+			font-size: 1.4rem;
+		}
+
+		.add-post-btn {
+			font-size: 1.8rem !important;
+			color: $limegreen !important;
+			font-weight: 600;
+
+			@include respond-to(handhelds) {
+				font-size: 1.4rem !important;
+			}
+		}
+	}
+
+	.post-list {
+		max-height: 30vh;
+		overflow-y: scroll;
+	}
+
+	.post-title {
+	  color: black;
+	  letter-spacing: 2px;
+	  margin: 0;
+	  font-size: 1.5rem;
+	  padding-left: 1vw;
+	  @include respond-to(handhelds){
+	    font-size: 1rem;
+	  };
+	}
+
+	.post-listitem {
+		border-bottom: 1px solid $lightgrey;
+	}
+}
+
+.oppo-main-grid-bottomleft {
+	grid-row: 2;
+	grid-column: 1;
+
+	@include respond-to(handhelds) {
+		grid-row: 3;
+		grid-column: 1;
+	}
+
+	.requirements-container {
+		border-top: 1px solid $lightgrey;
+	}
+
+	.requirements-container-header {
+		font-size: 1.8rem;
+		text-transform: uppercase;
+		color: $darkgrey;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		padding-left: 2vw;
+		padding-right: 2vw;
+		padding-top: 2vh;
+
+		@include respond-to(handhelds) {
+			padding-top: 1vh;
+			font-size: 1.4rem;
+		}
+
+		.add-req-btn {
+			font-size: 1.8rem !important;
+			color: $limegreen !important;
+			font-weight: 600;
+
+			@include respond-to(handhelds) {
+				font-size: 1.4rem !important;
+			}
+		}
+	}
+}
+
+.oppo-main-grid-bottomright {
+	grid-row: 2;
+	grid-column: 2;
+
+	text-align: center;
+
+	@include respond-to(handhelds) {
+		grid-row: 4;
+		grid-column: 1;
+		margin-bottom: 2vh;
+	}
+}
+
 .opportunity-title {
   text-transform: none;
   font-weight: 700;
@@ -756,8 +946,9 @@
 
 .rsvp-form {
   border: 2px solid $limegreen;
-  margin: 5px;
   padding: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
   font-size: 1.2rem;
   @include respond-to(handhelds) {
     padding-top: 2vh;

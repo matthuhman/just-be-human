@@ -29,7 +29,7 @@
               <strong class="comment-username"><%= comment.user.username %></strong>  at <%= local_time(comment.created_at, "%l:%M%P on %-m/%-d/%y") %>
             </p>
             <% if current_user == comment.user && @can_comment %>
-              <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', @comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= link_to 'Edit Comment', edit_comment_path(comment) %> | <%= link_to 'Delete Comment', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% else %>
               <%= link_to 'Send a message', new_personal_message_path(receiver_id: comment.user) %>
             <% end %>
@@ -44,7 +44,7 @@
     </a>
   </div>
   <div class="post-options-container">
-    <% oppo = @post.postable_type == "Opportunity" ? @parent : @parent.opportunity %>
+    <% oppo = @post.opportunity %>
     <% if current_user.is_mod?(oppo.id) || current_user == @post.user %>
       <div class="edit-post-btn-container">
         <a href="<%= @post.id %>/edit" class="edit-post-btn">Edit</a>
@@ -54,11 +54,7 @@
       </div>
     <% end %>
     <div class="parent-return-btn-container">
-      <% if @post.postable_type == "Opportunity" %>
-        <a href="/opportunities/<%= @post.postable_id %>">Return</a>
-      <% else %>
-        <a href="/requirements/<%= @post.postable_id %>">Return</a>
-      <% end %>
+      <a href="/opportunities/<%= @post.opportunity_id %>">Return</a>
     </div>
   </div>
 </div>

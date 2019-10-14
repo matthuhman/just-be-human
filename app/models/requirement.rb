@@ -4,22 +4,18 @@ require 'obscenity/active_model'
 class Requirement < ApplicationRecord
 
   belongs_to :opportunity
-  has_many :posts, as: :postable, :dependent => :destroy
+  belongs_to :creator, class_name: "User", foreign_key: 'creator_id', optional: true
+  belongs_to :leader, class_name: "User", foreign_key: 'leader_id', optional: true
   has_many :requirement_roles, :dependent => :destroy
 
 
 
   validates_presence_of :title, message: 'must be entered.'
-  validates_presence_of :description, message: 'must be entered.'
 
   validates :title, obscenity: true
-  validates :status, obscenity: true
-  validates :description, obscenity: true
 
-  validate :completion_date_limit, :field_length
-
-  geocoded_by :address
-  after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
+  # geocoded_by :address
+  # after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
 
   after_create :notify_create
   after_update :notify_update
@@ -50,10 +46,6 @@ class Requirement < ApplicationRecord
 
   def volunteers_needed?
     volunteer_count < volunteers_needed ? volunteers_needed - volunteer_count : 0
-  end
-
-  def leader
-    requirement_roles.find_by(requirement_id: id, level: 1)
   end
 
   def latitude
@@ -99,7 +91,7 @@ class Requirement < ApplicationRecord
     self.volunteer_count -= 1
     if self.volunteer_count < self.volunteers_required && (self.status == "Ready" || self.complete?)
       if self.status == "Ready"
-        self.status = "Need Volunters"
+        self.status = "Need Volunteers"
       elsif self.complete
         self.status = "Need Volunteers"
         self.complete = false
@@ -120,16 +112,17 @@ class Requirement < ApplicationRecord
 
   def notify_create
     recipients.each do |r|
-      if r.id != self.user_id
-        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'created', notifiable: self)
+      binding.pry
+      if r.id != self.creator_id
+        Notification.create(recipient: r, actor: User.find(self.creator_id), action: 'created', notifiable: self)
       end
     end
   end
 
   def notify_update
     recipients.each do |r|
-      if r.id != self.user_id
-        Notification.create(recipient: r, actor: User.find(self.user_id), action: 'updated', notifiable: self)
+      if r.id != self.creator_id
+        Notification.create(recipient: r, actor: User.find(self.creator_id), action: 'updated', notifiable: self)
       end
     end
   end

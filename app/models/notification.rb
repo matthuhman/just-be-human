@@ -7,8 +7,14 @@ class Notification < ApplicationRecord
 
 
   def stringify
+    puts self
+    puts "wtf is happening here"
+    puts ""
+    puts ""
+    puts ""
+    puts "--------------------------"
     if notifiable.class.name == "Post"
-      "#{actor.username} #{action} a post in #{notifiable.postable.title}"
+      "#{actor.username} #{action} a post in #{notifiable.opportunity.title}"
     elsif notifiable.class.name == "Requirement"
       "#{actor.username} #{action} a requirement in #{notifiable.opportunity.title}"
     elsif notifiable.class.name == "Opportunity"
