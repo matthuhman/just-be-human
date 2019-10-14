@@ -42,12 +42,25 @@
 	.oppo-topleft-grid {
 		display: grid;
 		height: 100%;
-		grid-template-rows: 50% 50%;
+		grid-template-rows: 2;
 		grid-template-columns: 1;
 
+		@include respond-to(handhelds) {
+			height: auto;
+		}
+
+		.oppo-topleft-grid-left {
+			grid-column: 1;
+		}
+
+		.oppo-topleft-grid-right {
+			grid-column: 2;
+		}
 
 		.oppo-topleft-grid-top {
 			grid-row: 1;
+			display: grid;
+			grid-template-columns: 60% 40%;
 		}
 
 		.oppo-topleft-grid-bottom {

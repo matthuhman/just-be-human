@@ -6,18 +6,60 @@
     <div class="oppo-main-grid-topleft">
       <div class="oppo-topleft-grid">
         <div class="oppo-topleft-grid-top">
-          <div class="opportunity-info-row">CREATED BY
-            <div class="opportunity-info-row-data"><%= @opportunity.user.username %></div>
+          <div class="oppo-topleft-grid-left">
+            <div class="opportunity-info-row">LED BY
+              <div class="opportunity-info-row-data"><%= @opportunity.user.username %></div>
+            </div>
+            <div class="opportunity-info-row">CATEGORY
+              <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
+            </div>
+            <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
+              <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+            </div>
           </div>
-          <div class="opportunity-info-row">CATEGORY
-            <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
-          </div>
-          <div class="opportunity-info-row"><%= @opportunity.defined ? 'COMPLETION DATE' : 'PLAN BY DATE' %>
-            <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+          <div class="oppo-topleft-grid-right">
+            <% if current_user&.is_follower?(@opportunity.id) %>
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  OPTIONS
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+                    Unfollow
+                  </a>
+                  <a class="dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
+                    Followers
+                  </a>
+                  <% if @is_mod %>
+                    <a class="dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
+                      Edit
+                    </a>
+                  <% end %>
+                  <% if @is_admin && @opportunity.defined %>
+                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/complete?id=<%= @opportunity.id %>">
+                      COMPLETE
+                    </a>
+                  <% elsif @is_admin && !@opportunity.defined %>
+                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+                      PLANNED
+                    </a>
+                  <% end %>
+                </div>
+              </div>
+            <% else %>
+              <a class="follow-btn btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+                FOLLOW
+              </a>
+            <% end %>
+            <div class="opportunity-info-row">VOLUNTEERS
+              <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
+                <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
+              </div>
+            </div>
           </div>
         </div>
         <div class="oppo-topleft-grid-bottom">
-          Bottom
+          <div class="opportunity-description"><%= @opportunity.description %></div>
         </div>
       </div>
     </div>
@@ -51,8 +93,10 @@
         </div>
       </div>
       <div class="oppo-main-grid-bottomleft">
+        bottom left
       </div>
       <div class="oppo-main-grid-bottomright">
+        bottom right
       </div>
     </div>
   </div>

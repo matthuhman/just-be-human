@@ -31,6 +31,8 @@ class Role
       if follow_role.has_responded
         should_decrement_volunteer_count = true
         decrement_by = follow_role.additional_vols + 1
+      else
+        decrement_by = 0
       end
 
       follow_role.destroy
