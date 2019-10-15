@@ -120,7 +120,7 @@ class RequirementsController < ApplicationController
     respond_to do |format|
       if current_user == @requirement.leader
         @requirement.leader = nil
-        @requirement.save = nil
+        @requirement.save
         format.html { redirect_to @requirement.opportunity, notice: "You have cancelled your participation." }
         format.json { render :show, status: :ok, location: @requirement.opportunity}
       else

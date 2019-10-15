@@ -108,6 +108,10 @@
 		grid-column: 1;
 	}
 
+  .posts-container {
+    padding-top: 1vh;
+  }
+
 	.posts-container-header {
 		font-size: 1.8rem;
 		text-transform: uppercase;
@@ -126,8 +130,12 @@
 
 		.add-post-btn {
 			font-size: 1.8rem !important;
-			color: $limegreen !important;
+      color: black !important;
+      padding-left: 2vw;
+      padding-right: 2vw;
 			font-weight: 600;
+      border: 1px solid $darkgrey;
+      background-color: $limegreen-low;
 
 			@include respond-to(handhelds) {
 				font-size: 1.4rem !important;
@@ -139,6 +147,8 @@
 		max-height: 30vh;
 		overflow-y: scroll;
 	}
+
+
 
 	.post-title {
 	  color: black;
@@ -156,6 +166,17 @@
 	}
 }
 
+.no-posts-container, .no-requirements-container {
+    margin-top: 2vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    font-size: 1.1rem;
+
+    @include respond-to(handhelds) {
+      font-size: .9rem;
+    }
+  }
+
 .oppo-main-grid-bottomleft {
 	grid-row: 2;
 	grid-column: 1;
@@ -167,6 +188,11 @@
 
 	.requirements-container {
 		border-top: 1px solid $lightgrey;
+    border-bottom: 1px solid $lightgrey;
+    margin-top: 2vh;
+    padding-top: 1vh;
+    padding-bottom: 3vh;
+    margin-bottom: 2vh;
 	}
 
 	.requirements-container-header {
@@ -186,13 +212,17 @@
 		}
 
 		.add-req-btn {
-			font-size: 1.8rem !important;
-			color: $limegreen !important;
-			font-weight: 600;
+      font-size: 1.8rem !important;
+      color: black !important;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      font-weight: 600;
+      border: 1px solid $darkgrey;
+      background-color: $limegreen-low;
 
-			@include respond-to(handhelds) {
-				font-size: 1.4rem !important;
-			}
+      @include respond-to(handhelds) {
+        font-size: 1.4rem !important;
+      }
 		}
 	}
 }
@@ -277,33 +307,27 @@
 
 .requirement-row {
   margin-bottom: 2px;
+  margin-left: 1vw;
+  margin-right: 1vw;
   padding: 2vh;
-  border: 1px solid $lightgrey;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid $orange;
+  border-radius: 5px;
   transition: all .2s linear;
+
 
   & a {
     color: #000;
     text-decoration: none;
     text-transform: none !important;
   }
+}
 
-  & p {
-    @include respond-to(handhelds) {
-      margin-bottom: 0px;
-    }
-
-  }
-
-  &:hover {
-    // background-color: $lightgrey;
-    border: 1px solid black;
-    transform: scale(.98);
-    & a {
-      color: #000;
-      text-decoration: none;
-    }
-  }
+.req-has-volunteer {
+  border: 1px solid $limegreen;
+  color: $limegreen;
 }
 
 
@@ -536,20 +560,6 @@
     padding-bottom: 2vh;
   }
 }
-// .opportunity-info-row {
-//   display: flex;
-//   border-radius: 1rem;
-
-//   @include respond-to(handhelds) {
-//     flex-direction: column;
-//   }
-// }
-
-// .opportunity-requirements-tab {
-//   .jbh-grid-container {
-//     grid-template-columns: 50% 50% !important;
-//   }
-// }
 
 .jbh-grid-second {
   text-align: center;
@@ -677,49 +687,9 @@
   }
 }
 
-
-
-
-
-
-// .follower-count {
-//   display: flex;
-//   align-items: center;
-//   font-size: 1.0em;
-//   text-transform: uppercase;
-//   letter-spacing: 2px;
-//   height: 8vh;
-//   margin-right: 25px;
-
-//   @include respond-to(handhelds){
-//     height: 6vh;
-//     margin-right: 0;
-//   };
-// }
-
-// .follower-count-span {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: .8em;
-//   text-transform: uppercase;
-//   letter-spacing: 2px;
-//   margin: 0 .4vw;
-//   padding: 1vh;
-//   background-color: $darkgrey;
-//   min-height: 4vh;
-//   min-width: 4vh;
-//   border-radius: 1rem;
-//   color: #fff;
-
-//   @include respond-to(handhelds){
-//     margin-left: auto;
-//   };
-// }
-
 .post-container {
   padding: 2vh;
-  border-radius: 10px;
+  border-radius: 5px;
   border-bottom: 1px solid #fff;
   background: white;
   transition: all .2s linear;
@@ -790,13 +760,6 @@
 
 // OPPORTUNITIES FORM
 
-
-// .opportunity-creation-form {
-
-//   #select {
-//     text-align: center;
-//   }
-// }
 
 #opportunity_volunteers_required {
   width: 20vw;
