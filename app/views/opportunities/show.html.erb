@@ -101,6 +101,7 @@
             <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
           <% end %>
         </div>
+        <% if @requirements.size > 0 %>
         <% @requirements.each do |requirement| %>
           <div class="requirement-row <%= requirement.leader == nil ? "" : "req-has-volunteer" %>">
             <span class="requirement-row-title"><%= requirement.title %></span>
@@ -115,6 +116,11 @@
             </span>
           </div>
         <%end%>
+        <% else %>
+        	<div class="no-requirements-container">
+        		There are currently no requirements defined. Should there be?
+        	</div>
+        <% end %>
       </div>
     </div>
     <div class="oppo-main-grid-bottomright">
