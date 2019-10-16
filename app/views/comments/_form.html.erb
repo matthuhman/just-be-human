@@ -6,9 +6,7 @@
 
     You can format your messages, paste in files, and much more! If you're on mobile, the toolbar above is scrollable left to right." %>
   </div>
-  <% if params[:post_id] %>
-    <%= f.hidden_field :post_id, :value => params[:post_id] %>
-  <% end %>
+  <%= f.hidden_field :post_id, :value => post_id %>
   <div class="submit-comment-container">
     <%= f.submit 'Submit', class: "jbh-green-btn-container" %>
   </div>

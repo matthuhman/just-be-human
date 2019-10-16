@@ -38,11 +38,7 @@
       <% end %>
     </div>
   <% end %>
-  <div class="submit-post-container">
-    <a href="/comments/new?post_id=<%=@post.id%>" class="submit-post-btn">
-      Comment
-    </a>
-  </div>
+    <%= render '/comments/form', comment: @comment, post_id: @post.id %>
   <div class="post-options-container">
     <% oppo = @post.opportunity %>
     <% if current_user.is_mod?(oppo.id) || current_user == @post.user %>

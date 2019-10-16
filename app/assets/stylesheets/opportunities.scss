@@ -313,8 +313,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border: 1px solid $orange;
-  border-radius: 5px;
+  border: 2px solid $orange;
   transition: all .2s linear;
 
 
@@ -323,41 +322,52 @@
     text-decoration: none;
     text-transform: none !important;
   }
+
+  .requirement-row-title {
+    font-size: 2.3rem;
+  }
+
+  .requirement-row-status {
+    font-size: 1.9rem;
+  }
+
+  .requirement-status-user {
+    font-style: italic;
+    color: $darkgrey;
+  }
+
+  .requirement-btn {
+    border: 2px solid $darkgrey;
+    padding: 5px;
+  }
+
+  .req-cancel-btn {
+    border: 2px solid $orange;
+    color: $orange;
+    font-weight: 600;
+    text-transform: uppercase !important;
+    background-color: $darkgrey;
+  }
+
+  .req-volunteer-btn {
+    border: 2px solid $limegreen;
+    color: $limegreen;
+    background-color: $darkgrey;
+    font-weight: 600;
+    text-transform: uppercase !important;
+  }
 }
 
 .req-has-volunteer {
   border: 1px solid $limegreen;
   color: $limegreen;
-}
 
-
-.requirement-row-complete {
-	border: 2px solid $darkgrey;
-	background-color: $limegreen-low;
-
-	.requirement-row-title {
-		font-weight: 700;
-
-	}
 }
 
 
 .requirement-row-overdue {
   border: 2px solid $darkgrey;
   background-color: $lightpink-low;
-}
-
-.requirement-row-title {
-	font-size: 2.3rem;
-  padding-left: 1vw;
-  display: grid;
-  grid-template-columns: 70% 30%;
-
-
-  @include respond-to(handhelds) {
-    font-size: 1.8rem;
-    grid-template-columns: 100%;
-  }
 }
 
 .req-row-title-span {

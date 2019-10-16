@@ -109,9 +109,9 @@
               <% if requirement.leader && requirement.leader != current_user %>
                 <span class="requirement-status-user"><%= requirement.leader.username %></span>
               <% elsif requirement.leader == current_user %>
-                <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn">Cancel</a>
+                <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
               <% elsif !requirement.leader && @role %>
-                <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn">Volunteer</a>
+                <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
               <% end %>
             </span>
           </div>
