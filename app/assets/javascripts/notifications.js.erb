@@ -9,7 +9,6 @@ document.addEventListener('turbolinks:load', getNewNotifications);
 
 
 function handleSuccess(notifications) {
-  console.log("in handleSuccess");
   var items;
   items = $.map(notifications, function(notification) {
     return addClassName(notification.url);
@@ -21,13 +20,9 @@ function handleSuccess(notifications) {
 
 function handleError(notifications)
 {
-  console.log('handling error');
-  console.log('wtf?');
 }
 
 function getNewNotifications() {
-  console.log('getting new notifications?');
-  console.log("localhost:3000/notifications.json?authenticity_token=" + gon.auth_token);
 	if (gon.auth_token !== 'NONE') {
 		      return $.ajax({
         url: '/notifications.json?authenticity_token=' + gon.auth_token,
