@@ -16,7 +16,9 @@
   height: 100%;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid $lightgrey;
+
+  font-size: 1.3rem;
+
 }
 
 .trix-container {
@@ -38,10 +40,10 @@
 
 .post-options-container {
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 1.6rem !important;
 
   @include respond-to(handhelds) {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
 }
 
@@ -71,7 +73,11 @@
 }
 
 .original-post-content {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
+
+  @include respond-to(handhelds) {
+    font-size: 1.2rem;
+  }
 
 }
 
@@ -86,12 +92,9 @@
 }
 
 .comment-card {
-  &:nth-of-type(even) {
-    background: $lightgrey;
-  }
   border-bottom: 2px solid $darkgrey;
   width: 80vw;
-  margin-bottom: 1vh;
+  padding-bottom: 1vh;
 }
 
 .comment-divider {
@@ -108,6 +111,11 @@
 .comment-content:after {
   background-color: #000;
   height: 1vh;
+  font-size: 1.3rem !important;
+
+  @include respond-to(handhelds) {
+    font-size: .9rem;
+  }
 }
 
 

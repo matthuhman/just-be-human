@@ -9,6 +9,7 @@ class PostsController < ApplicationController
   def show
     @parent = @post.opportunity
     @can_comment = current_user.is_follower?(@parent.id)
+    @comment = Comment.new(post_id: @post.id)
   end
 
   # GET /posts/new
