@@ -9,26 +9,35 @@ document.addEventListener('turbolinks:load', getNewNotifications);
 
 
 function handleSuccess(notifications) {
-      var items;
-      items = $.map(notifications, function(notification) {
-        return addClassName(notification.url);
-      });
-      $("[data-behavior='unread-count']").text(items.length);
-      return $("[data-behavior='notification-items']").append(items);
-    };
+  console.log("in handleSuccess");
+  var items;
+  items = $.map(notifications, function(notification) {
+    return addClassName(notification.url);
+  });
+  console.log(items);
+  $("[data-behavior='unread-count']").text(items.length);
+  return $("[data-behavior='notification-items']").append(items);
+};
+
+function handleError(notifications)
+{
+  console.log('handling error');
+  console.log('wtf?');
+}
 
 function getNewNotifications() {
-
+  console.log('getting new notifications?');
+  console.log("localhost:3000/notifications.json?authenticity_token=" + gon.auth_token);
 	if (gon.auth_token !== 'NONE') {
 		      return $.ajax({
         url: '/notifications.json?authenticity_token=' + gon.auth_token,
         dataType: 'JSON',
         method: 'GET',
-        success: this.handleSuccess
+        success: handleSuccess,
+        error: handleError
       });
 	}
-
-    };
+};
 
 function addClassName(aTag) {
 	aTag = aTag.replace("<a ", "<a class=\"notification-item\" ");

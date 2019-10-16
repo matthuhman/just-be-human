@@ -14,9 +14,9 @@ class Notification < ApplicationRecord
     puts ""
     puts "--------------------------"
     if notifiable.class.name == "Post"
-      "#{actor.username} #{action} a post in #{notifiable.opportunity.title}"
+      "#{actor.username} #{action} a post in #{notifiable.opportunity.display_title}"
     elsif notifiable.class.name == "Requirement"
-      "#{actor.username} #{action} a requirement in #{notifiable.opportunity.title}"
+      "#{actor.username} #{action} a requirement in #{notifiable.opportunity.display_title}"
     elsif notifiable.class.name == "Opportunity"
       "#{actor.username} #{action} for #{notifiable.title}"
     end

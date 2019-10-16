@@ -12,7 +12,7 @@ class NotificationsController < ApplicationController
   private
 
   def set_notifications
-    @notifications = Notification.where(recipient: current_user).unread
+    @notifications = Notification.where(recipient: current_user, created_at: (Time.current - 24.hours)..Time.current)
   end
 
 end
