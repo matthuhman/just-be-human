@@ -40,7 +40,7 @@ class NotificationMailer < ApplicationMailer
       tcd = tcd.to_date
 
       if (tcd + 2.weeks) > two_weeks_away
-        user_reminders = add_reminders(o, user_reminders, (two_weeks_away - tcd).to_i)
+        user_reminders = add_reminders(o, user_reminders, (tcd - Date.today).to_i)
       end
     end
 
