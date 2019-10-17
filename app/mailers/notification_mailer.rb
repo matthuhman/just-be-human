@@ -77,7 +77,7 @@ class NotificationMailer < ApplicationMailer
     puts "in send_emails method"
     puts "in send_emails, user notifications size: #{user_notifications.size} && user reminders size: #{user_reminders.size}"
 
-    binding.pry
+    puts "first user_notification: #{user_notifications.first}"
     user_notifications.each do |user|
       puts "sending email to #{user.username} - #{user.email}"
       notifications = user_notifications.delete(user)
