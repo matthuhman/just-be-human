@@ -41,17 +41,17 @@ class DailyEmailCron
       tcd = tcd.to_date
 
       if (tcd + 2.weeks) > two_weeks_away
-        user_reminders = self.add_reminders(o, user_reminders, (tcd - Date.today).to_i)
+        user_reminders = DailyEmailCron.add_reminders(o, user_reminders, (tcd - Date.today).to_i)
       end
     end
 
     puts "user reminders count: #{user_reminders.size}"
 
-    self.send_emails(user_notifications, user_reminders)
+    DailyEmailCron.send_emails(user_notifications, user_reminders)
 
   end
 
-  def add_reminders(oppo, user_reminders, days_away)
+  def self.add_reminders(oppo, user_reminders, days_away)
 
     puts "We are #{days_away} days away from #{oppo.title}"
 
@@ -75,7 +75,7 @@ class DailyEmailCron
   end
 
 
-  def send_emails(user_notifications, user_reminders)
+  def self.send_emails(user_notifications, user_reminders)
 
     puts "in send_emails method"
     puts "in send_emails, user notifications size: #{user_notifications.size} && user reminders size: #{user_reminders.size}"
