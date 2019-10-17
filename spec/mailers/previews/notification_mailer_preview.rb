@@ -3,7 +3,7 @@ class NotificationMailerPreview < ActionMailer::Preview
 
 
   def notification_email
-    NotificationMailer.notification_email(User.first, [], [{id: 1, message: "Don't forget about the Trash Pickup opportunity in #{((Date.today + 10.days) - Date.today).to_i} days!"}])
+    NotificationMailer.notification_email(User.first, [], [{id: 1, message: "Don't forget about the Trash Pickup opportunity in #{((Date.today + 7.days) - Date.today).to_i} days!"}])
   end
 
 end

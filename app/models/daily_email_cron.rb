@@ -86,7 +86,7 @@ class DailyEmailCron
       notifications = user_notifications.delete(email)
       reminders = user_reminders.delete(email)
 
-      NotificationMailer.with(user: email, notifications: notifications, reminders: reminders).notification_email.deliver_now
+      NotificationMailer.notification_email(user: email, notifications: notifications, reminders: reminders).deliver_now
     end
 
     puts "done with user notifications"
@@ -96,7 +96,7 @@ class DailyEmailCron
       notifications = user_notifications.delete(email)
       reminders = user_reminders.delete(email)
 
-      NotificationMailer.with(user: email, notifications: notifications, reminders: reminders).notification_email.deliver_now
+      NotificationMailer.notification_email(user: email, notifications: notifications, reminders: reminders).deliver_now
     end
 
   end
