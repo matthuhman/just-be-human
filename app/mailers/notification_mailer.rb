@@ -27,6 +27,8 @@ class NotificationMailer < ApplicationMailer
 
     end
 
+    puts "user notifications count: #{user_notifications.size}"
+
 
     current_opportunities = Opportunity.where('target_completion_date > ?', Time.current)
 
@@ -42,6 +44,7 @@ class NotificationMailer < ApplicationMailer
       end
     end
 
+    puts "user reminders count: #{user_reminders.size}"
 
     send_emails(user_notifications, user_reminders)
 
@@ -70,13 +73,17 @@ class NotificationMailer < ApplicationMailer
   def send_emails(user_notifications, user_reminders)
 
     user_notifications.each do |user|
+      puts "sending email to #{user.username} - #{user.email}"
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
       notification_email(user, notifications, reminders)
     end
 
+    puts "done with user notifications"
+    puts "------------------------------------"
     user_reminders.each do |user|
+      puts "sending email to #{user.username} - #{user.email}"
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
@@ -89,6 +96,8 @@ class NotificationMailer < ApplicationMailer
   def notification_email(user, notifications, reminders)
     @notifications = notifications
     @reminders = reminders
+
+    puts "Is this sending??"
 
     mail(to: user.email, subject: "Your Daily Update")
   end

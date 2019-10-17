@@ -36,6 +36,8 @@
 .oppo-main-grid-topleft {
 	grid-row: 1;
 	grid-column: 1;
+  border-bottom: 1px solid $lightgrey;
+
 
 	.oppo-topleft-grid {
 		display: grid;
@@ -102,6 +104,7 @@
 .oppo-main-grid-topright {
 	grid-row: 1;
 	grid-column: 2;
+  border-bottom: 1px solid $lightgrey;
 
 	@include respond-to(handhelds) {
 		grid-row: 2;
@@ -110,6 +113,7 @@
 
   .posts-container {
     padding-top: 1vh;
+
   }
 
 	.posts-container-header {
@@ -122,6 +126,7 @@
 		padding-left: 2vw;
 		padding-right: 2vw;
 		padding-top: 2vh;
+
 
 		@include respond-to(handhelds) {
 			padding-top: 1vh;
@@ -313,7 +318,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border: 2px solid $orange;
+  border: 2px solid $lightgrey;
   transition: all .2s linear;
 
 
@@ -359,9 +364,9 @@
 }
 
 .req-has-volunteer {
-  border: 1px solid $limegreen;
+  border: 2px solid $limegreen;
   color: $limegreen;
-
+  font-weight: 550;
 }
 
 
@@ -559,7 +564,8 @@
 .opportunity-description {
   text-align: center;
   font-size: 1.3em;
-  padding-top: 3vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
   border-top: 1px solid $lightgrey;
   padding-left: 4vw;
   padding-right: 4vw;
