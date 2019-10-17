@@ -91,6 +91,8 @@ class DailyEmailCron
 
     puts "done with user notifications"
     puts "------------------------------------"
+    puts user_notifications
+    puts "------------------------------------"
     user_reminders.each do |arr|
       user = arr.first
       reminders = arr[1]
