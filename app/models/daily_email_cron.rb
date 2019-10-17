@@ -83,7 +83,7 @@ class DailyEmailCron
       user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
-      NotificationMailer.notification_email(user: user, notifications: notifications, reminders: reminders).deliver_now
+      NotificationMailer.notification_email(user, notifications, reminders).deliver_now
     end
 
 
@@ -93,7 +93,7 @@ class DailyEmailCron
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
-      NotificationMailer.notification_email(user: user, notifications: notifications, reminders: reminders).deliver_now
+      NotificationMailer.notification_email(user, notifications, reminders).deliver_now
     end
 
     puts "is user_notifications empty? #{user_notifications.size}"
