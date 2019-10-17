@@ -17,7 +17,7 @@ class NotificationMailer < ApplicationMailer
     last_24h_notifications = Notification.where('created_at > ?', (Time.current - 24.hours - 15.minutes))
 
     last_24h_notifications.each do |n|
-      u = n.recipient
+      u = n.recipient.email
 
       if user_notifications[u] == nil
         user_notifications[u] = [n]
@@ -78,22 +78,22 @@ class NotificationMailer < ApplicationMailer
     puts "in send_emails, user notifications size: #{user_notifications.size} && user reminders size: #{user_reminders.size}"
 
     puts "first user_notification: #{user_notifications.first}"
-    user_notifications.each do |user|
-      puts "sending email to #{user.username} - #{user.email}"
-      notifications = user_notifications.delete(user)
-      reminders = user_reminders.delete(user)
+    user_notifications.each do |email|
+      puts "sending email to #{email}"
+      notifications = user_notifications.delete(email)
+      reminders = user_reminders.delete(email)
 
-      notification_email(user, notifications, reminders).deliver_now
+      notification_email(email, notifications, reminders).deliver_now
     end
 
     puts "done with user notifications"
     puts "------------------------------------"
-    user_reminders.each do |user|
-      puts "sending email to #{user.username} - #{user.email}"
-      notifications = user_notifications.delete(user)
-      reminders = user_reminders.delete(user)
+    user_reminders.each do |email|
+      puts "sending email to #{email}"
+      notifications = user_notifications.delete(email)
+      reminders = user_reminders.delete(email)
 
-      self.notification_email(user, notifications, reminders).deliver_now
+      self.notification_email(email, notifications, reminders).deliver_now
     end
 
   end
