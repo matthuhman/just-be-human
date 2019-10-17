@@ -75,6 +75,7 @@ class NotificationMailer < ApplicationMailer
   def send_emails(user_notifications, user_reminders)
 
     puts "in send_emails method"
+    puts "in send_emails, user notifications size: #{user_notifications.size} && user reminders size: #{user_reminders.size}"
 
     user_notifications.each do |user|
       puts "sending email to #{user.username} - #{user.email}"
@@ -91,7 +92,7 @@ class NotificationMailer < ApplicationMailer
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
-      notification_email(user, notifications, reminders).deliver_now
+      self.notification_email(user, notifications, reminders).deliver_now
     end
 
   end
