@@ -4,7 +4,7 @@ namespace :notifications do
   task daily_email_task: :environment do
 
     puts 'Running daily email task!'
-    NotificationMailer.send_daily_notification_emails
+    DailyEmailCron.send_daily_notification_emails
     puts "#{Time.current} email send was a success!"
 
   end
