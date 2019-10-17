@@ -76,7 +76,16 @@ class DailyEmailCron
 
 
   def self.send_emails(user_notifications, user_reminders)
+    puts "user_notifications below -----------------------------------"
+    puts user_notifications
+    puts "user_reminders below -----------------------------------"
+    puts user_reminders
+    puts "------------------------------------------------------------------------------------"
     user_notifications.each do |user|
+      puts "user is....................................."
+      puts "#{user.first}"
+      puts "second......................................"
+      puts "#{user[1]}"
       puts "sending email to #{user.email}"
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
