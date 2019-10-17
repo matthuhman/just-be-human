@@ -83,26 +83,32 @@ class DailyEmailCron
 
       user = arr.first
       notifications = arr[1]
-      puts "user is..................................... #{user.email}"
       user_notifications.delete(arr)
       reminders = user_reminders.delete(user)
-
-      puts "notifications: #{notifications}"
-      puts "------------------------------------"
-      puts "reminders: #{reminders}"
 
       #NotificationMailer.notification_email(user: user, notifications: notifications, reminders: reminders).deliver_now
     end
 
     puts "done with user notifications"
     puts "------------------------------------"
-    user_reminders.each do |user|
+    user_reminders.each do |arr|
+      user = arr.first
+      reminders = arr[1]
       puts "sending email to #{user.email}"
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
+      puts "notifications:"
+      puts notifications
+      puts "---------------------------------------------"
+      puts "reminders:"
+      puts reminders
+
       #NotificationMailer.notification_email(user: user, notifications: notifications, reminders: reminders).deliver_now
     end
+
+    puts "is user_notifications empty? #{user_notifications.size}"
+    puts "is user_reminders empty? #{user_reminders.size}"
 
   end
 end
