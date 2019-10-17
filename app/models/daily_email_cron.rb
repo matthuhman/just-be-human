@@ -1,6 +1,6 @@
 class DailyEmailCron
 
-  def send_daily_notification_emails
+  def self.send_daily_notification_emails
 
     ## these maps will hold our notifications and reminders in an array for each user
     user_notifications = Hash.new
