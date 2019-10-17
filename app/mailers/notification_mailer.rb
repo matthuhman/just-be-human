@@ -79,7 +79,7 @@ class NotificationMailer < ApplicationMailer
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
-      notification_email(user, notifications, reminders)
+      notification_email(user, notifications, reminders).deliver_now
     end
 
     puts "done with user notifications"
@@ -89,7 +89,7 @@ class NotificationMailer < ApplicationMailer
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
-      notification_email(user, notifications, reminders)
+      notification_email(user, notifications, reminders).deliver_now
     end
 
   end
