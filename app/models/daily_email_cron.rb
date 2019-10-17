@@ -17,8 +17,6 @@ class DailyEmailCron
 
     last_24h_notifications.each do |n|
       u = n.recipient
-      puts "what is n?"
-      puts n
 
       if user_notifications[u] == nil
         user_notifications[u] = [n]
@@ -79,23 +77,29 @@ class DailyEmailCron
 
   def self.send_emails(user_notifications, user_reminders)
 
+
+    puts "at beginning of send_emails, user_reminders is: #{user_reminders.size}"
     user_notifications.each do |arr|
 
       user = arr.first
       notifications = arr[1]
-      user_notifications.delete(arr)
+      user_notifications.delete(user)
       reminders = user_reminders.delete(user)
 
       #NotificationMailer.notification_email(user: user, notifications: notifications, reminders: reminders).deliver_now
     end
 
-    puts "done with user notifications"
-    puts "------------------------------------"
-    puts user_notifications
-    puts "------------------------------------"
+
+
+
+    puts "done with user notifications, user_reminders is: #{user_reminders.size}"
+
     user_reminders.each do |arr|
       user = arr.first
       reminders = arr[1]
+      puts ""
+      puts ""
+      puts ""
       puts "sending email to #{user.email}"
       notifications = user_notifications.delete(user)
       reminders = user_reminders.delete(user)
