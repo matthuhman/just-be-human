@@ -22,7 +22,9 @@ class NotificationMailer < ApplicationMailer
       if user_notifications[u] == nil
         user_notifications[u] = [n]
       else
-        user_notifications[u].push(n)
+        arr = user_notifications[u]
+        arr.push(n)
+        user_notifications[u] = arr
       end
 
     end
@@ -62,7 +64,9 @@ class NotificationMailer < ApplicationMailer
         if user_reminders[u] == nil
           user_reminders[u] = [{id: oppo.id, message: "#{oppo.title} is #{days_away} days away- is it on your calendar?"}]
         else
-          user_reminders[u].push({id: oppo.id, message: "#{oppo.title} is #{days_away} days away - is it on your calendar?"})
+          r = user_reminders[u]
+          r.push({id: oppo.id, message: "#{oppo.title} is #{days_away} days away - is it on your calendar?"})
+          user_reminders[u] = r
         end
       end
 
