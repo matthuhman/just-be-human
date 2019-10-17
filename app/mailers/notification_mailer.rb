@@ -52,11 +52,13 @@ class NotificationMailer < ApplicationMailer
 
   def add_reminders(oppo, user_reminders, days_away)
 
+    puts "We are #{days_away} days away from #{oppo.title}"
+
     oppo.opportunity_roles.each do |r|
 
       u = r.user
 
-      if [1, 2, 3, 7, 10, 14].include? days_away
+      if [1, 2, 3, 4, 7, 10, 14].include? days_away
         if user_reminders[u] == nil
           user_reminders[u] = [{id: oppo.id, message: "#{oppo.title} is #{days_away} days away- is it on your calendar?"}]
         else
