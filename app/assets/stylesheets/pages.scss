@@ -349,6 +349,10 @@
   font-size: 4em;
   padding-right: 1vw;
   padding-left: 3vw;
+
+  @include respond-to(handhelds) {
+    font-size: 3.3em;
+  }
 }
 
 .opportunity-meta {
@@ -364,6 +368,11 @@
 
 .opportunity-row-data-content {
   text-transform: none !important;
+  font-size: 1.9rem !important;
+
+  @include respond-to(handhelds) {
+    font-size: 1.6rem !important;
+  }
 }
 
 .opportunity-volunteers-needed {
