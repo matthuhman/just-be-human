@@ -74,6 +74,8 @@ class NotificationMailer < ApplicationMailer
 
   def send_emails(user_notifications, user_reminders)
 
+    puts "in send_emails method"
+
     user_notifications.each do |user|
       puts "sending email to #{user.username} - #{user.email}"
       notifications = user_notifications.delete(user)
