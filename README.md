@@ -47,7 +47,7 @@ Rails 5.2
   * used for storing daily/monthly cost data for display on /costs page
 * Geopoint (unrelated to other models)
   * used for looking up the Lat/Lng of a given zip code (basically a cache)
-```  
+```
 
 
 # Technical Questions
@@ -73,10 +73,76 @@ Rails 5.2
 * identify and test all permissions requirements
   * added: 20190811
   * completed:
-  * checkin- 20190922 still not done, unfortunately... hopefully once we're released 
+  * checkin- 20190922 still not done, unfortunately... hopefully once we're released
 
 
 
  * Action Mailer setup
   * added: 20190922
-  * completed: 
+  * completed:
+
+
+
+
+
+
+
+
+
+I've definitely reduced the amount of gems I use compared to last year.
+
+Base rails
+
+dotenv-rails
+puma
+webpacker
+turbolinks
+Users
+
+devise
+omniauth
+pundit
+valid_email2
+ActiveStorage
+
+aws-sdk-s3
+vips (Instead of the default image_processing gem)
+ActiveJob
+
+sidekiq
+sidekiq-cron
+Logging and exception tracking
+
+lograge
+sentry-raven
+Making SEO easier
+
+meta-tags
+friendly_id
+Encouraging I18n usage.
+
+http_accept_language
+Cleaner views
+
+draper
+simple_form
+premailer-rails
+For Development
+
+powder
+puma-dev - Not really a gem, but I love using it to turn on my rails projects.
+puma-ngrok-tunnel
+rubocop
+rack-mini-profiler
+For Testing
+
+rspec-rails
+factory_bot_rails
+faker
+webmock
+simplecov
+pig-ci-rails
+formulaic
+Admin tools
+
+ActiveAdmin

@@ -63,22 +63,22 @@
 </div>
 <script>
   let map;
-  
-  
+
+
   function initMap()
   {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
-      zoom: 14,
+      zoom: 13,
       streetViewControl: false,
       mapTypeControl: false,
       fullscreenControl: false
     });
-  
+
     let oppos = <%= raw @opportunities.map.to_json {|o|}.html_safe %>;
     let myOppos = <%= raw @my_opportunities.map.to_json {|o|}.html_safe %>;
-  
-  
+
+
     let greenIcon = {
       url: "http://maps.google.com/mapfiles/ms/icons/green.png",
       scaledSize: new google.maps.Size(42,42)
@@ -95,15 +95,15 @@
       url: "http://maps.google.com/mapfiles/ms/icons/yellow.png",
       scaledSize: new google.maps.Size(42,42)
     };
-  
+
     let infoWindow = new google.maps.InfoWindow();
-  
+
     for (let i = 0, length = oppos.length; i < length; i++)
     {
       let data = oppos[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
         // @MATT -- fix the parse float issue
-  
+
       data.contentString =
         `<div id="marker-content">
           <div id="siteNotice"></div>
@@ -113,13 +113,13 @@
           <p id="marker-category" class="marker_category">Category: ${data.category_title}</p>
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
-  
+
       let overdue = data['overdue?'];
       let defined = data['defined'];
-  
+
       let marker;
-  
-  
+
+
       if (defined)
       {
         marker = new google.maps.Marker({
@@ -138,8 +138,8 @@
           icon: yellowIcon
         });
       }
-  
-  
+
+
       (function (marker, data) {
         google.maps.event.addListener(marker, "click", function (e) {
           infoWindow.setContent(data.contentString);
@@ -147,18 +147,18 @@
           event.stopPropagation(); // this prevents propagation of marker click to map click
         });
       })(marker, data);
-  
+
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
-  
+
     for (let i = 0, length = myOppos.length; i < length; i++)
     {
       let data = myOppos[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
-  
+
       let overdue = data['overdue?'];
       let defined = data['defined'];
-  
+
       data.contentString =
         `<div id="marker-content">
           <div id="siteNotice"></div>
@@ -168,9 +168,9 @@
           <div id="marker-category" class="marker_category">Category: ${data.category_title}</div>
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
-  
+
       let marker;
-  
+
       if (!overdue)
       {
         marker = new google.maps.Marker({
@@ -189,10 +189,10 @@
           icon: redIcon
         });
       }
-  
-  
-  
-  
+
+
+
+
       (function (marker, data) {
         google.maps.event.addListener(marker, "click", function (e) {
           infoWindow.setContent(data.contentString);
@@ -200,10 +200,10 @@
           event.stopPropagation(); // this prevents propagation of marker click to map click
         });
       })(marker, data);
-  
+
       //marker.addListener('click', assignListener(marker, infoWindow));
     }
-  
+
     map.addListener("click", function() {
       infoWindow.close();
     });
