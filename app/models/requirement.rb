@@ -112,7 +112,6 @@ class Requirement < ApplicationRecord
 
   def notify_create
     recipients.each do |r|
-      binding.pry
       if r.id != self.creator_id
         Notification.create(recipient: r, actor: User.find(self.creator_id), action: 'created', notifiable: self)
       end
