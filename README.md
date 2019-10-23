@@ -77,9 +77,31 @@ Rails 5.2
 
 
 
- * Action Mailer setup
-  * added: 20190922
-  * completed:
+
+TODO LIST - 20191021
+
+  - still need to write some tests
+  - redesign opportunity page to be a single list with different types
+    - requirements
+    - posts
+    - "ideas" - need a better name for this
+    - SCHEMA???
+  - there are some styling things that need to be cleaned up
+    - personal messages are pretty ugly
+    - posts are too busy and are hard to read
+    - opportunity metadata needs to be presented in a better way- meeting time and place?
+  - requirements need to be fixed so that Oppos can be marked complete
+    - just mark them all as complete, fuck it
+    - this is not an acceptable long-term solution though... lol
+  - COMPLETION PAGE NEEDS TO BE DONE!!!
+    - oppo#show controller checks to see if oppo is complete
+    - if so, redirect to completion post for that oppo
+  - need ability for users to have statistics- NEED TO MAKE A WAY to mark that "yes, a user attended" or vice versa
+  - need ability to see lists of completed opportunities
+    - how does this work?? broken down by area?
+  - "CANCEL" requirement button should not be visible to guests
+  - INTROJS NEEDS TO FUCKING WORK, NOBODY KNOWS WHAT THEYRE DOING
+
 
 
 
