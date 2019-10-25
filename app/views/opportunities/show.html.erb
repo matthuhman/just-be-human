@@ -79,7 +79,7 @@
 		<div class="desktop-center-div">
 			<div class="opportunity-info-container" id="info-container">
 				<div class="opportunity-center-title">
-					Opportunity Info
+					General Information
 				</div>
 	      <div class="opportunity-info-row">CATEGORY
 	        <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
@@ -101,11 +101,8 @@
 	      	</div>
 	      </div>
 	      <div class="requirements-container">
-	        <div class="requirements-container-header">
-	          <span class="requirements-container-title">Requirements</span>
-	          <% if current_user&.is_mod?(@opportunity.id) %>
-	            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
-	          <% end %>
+	        <div class="opportunity-center-title">
+	          Requirements
 	        </div>
 	        <% if @requirements.size > 0 %>
 	          <% @requirements.each do |requirement| %>
@@ -114,27 +111,32 @@
 	              <span class="requirement-row-status">
 	                <% if requirement.leader && requirement.leader != current_user %>
 	                  <span class="requirement-status-user"><%= requirement.leader.username %></span>
-	                <% elsif requirement.leader == current_user %>
+	                <% elsif current_user && requirement.leader == current_user %>
 	                  <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
 	                <% elsif !requirement.leader && @role %>
 	                  <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
+	                <% elsif !current_user && !requirement.leader %>
+	                	<span class="requirement-status-user">Open</span>
 	                <% end %>
 	              </span>
 	            </div>
 	          <% end %>
 	        <% else %>
 	          <div class="no-requirements-container">
-	            There are currently no requirements defined. Should there be?
+	            The only requirement is to show up!
 	          </div>
 	        <% end %>
+          <% if current_user&.is_mod?(@opportunity.id) %>
+            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
+          <% end %>
 	      </div>
 	    </div>
 	    <div class="oppo-map-container" id="map-container">
 	    	<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
 	    </div>
 	    <div class="oppo-posts-container" id="posts-container">
-        <div class="posts-container-header">
-          <span class="posts-container-title">Posts</span>
+        <div class="opportunity-center-title">
+          Posts
         </div>
         <div class="post-list">
           <% if @opportunity.posts.size > 0 %>

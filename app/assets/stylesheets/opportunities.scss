@@ -23,6 +23,10 @@
   .opportunity-show-main-grid {
     display: grid;
     grid-template-columns: 20% 60% 20%;
+
+    @include respond-to(handhelds) {
+      grid-template-columns: 100%;
+    }
   }
 
   .desktop-left-div {
@@ -42,7 +46,9 @@
 
     text-align: left;
 
-
+    @include respond-to(handhelds) {
+      grid-column: 1;
+    }
   }
 
   .desktop-right-div {
@@ -75,6 +81,10 @@
     .navigation-btn {
       cursor: pointer;
     }
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
   }
 
   .follow-oppo-menu-bar {
@@ -89,6 +99,12 @@
   .opportunity-info-container {
     margin-left: 3vw;
 
+    .opportunity-info-row {
+      padding-top: 1.5vh;
+    }
+    .opportunity-info-row-data {
+      margin-left: 3vw;
+    }
 
     .requirements-container {
       margin-top: 2vh;
@@ -104,9 +120,23 @@
       margin-right: 5vw;
     }
 
+    .opportunity-center-title {
+      text-align: center !important;
+      font-size: 2.0rem;
+      font-weight: 600;
+      color: $midgrey;
+
+      @include respond-to(handhelds) {
+        font-size: 1.2rem;
+      }
+    }
 
   .oppo-posts-container {
     display: none;
+
+    @include respond-to(handhelds) {
+      display: block;
+    }
   }
 
   .oppo-map-container {
