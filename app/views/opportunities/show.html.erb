@@ -1,84 +1,146 @@
 <div class="opportunity-show-page">
-  <div class="jbh-standard-title">
-    <%= @opportunity.title %>
-  </div>
-  <div class="opportunity-main-grid">
-    <div class="oppo-main-grid-topleft">
-      <div class="oppo-topleft-grid">
-        <div class="oppo-topleft-grid-top">
-          <div class="oppo-topleft-grid-left">
-            <div class="opportunity-info-row">CATEGORY
-              <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
-            </div>
-            <div class="opportunity-info-row"><%= @opportunity.defined ? 'MEETING TIME' : 'PLAN BY DATE' %>
-              <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
-            </div>
-            <div class="opportunity-info-row">MEETING POINT
-            	<div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
-            </div>
-          </div>
-          <div class="oppo-topleft-grid-right">
-            <% if current_user&.is_follower?(@opportunity.id) %>
-              <div class="dropdown">
-                <button class="oppo-options-btn btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  ACTIONS
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-                    Unfollow
-                  </a>
-                  <a class="dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
-                    Followers
-                  </a>
-                  <% if @is_mod %>
-                    <a class="dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
-                      Edit
-                    </a>
-                  <% end %>
-                  <% if @is_admin && @opportunity.defined %>
-                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/complete?id=<%= @opportunity.id %>">
-                      COMPLETE
-                    </a>
-                  <% elsif @is_admin && !@opportunity.defined %>
-                    <a class="dropdown-item dropdown-item-complete" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-                      PLANNED
-                    </a>
-                  <% end %>
-                </div>
-              </div>
-            <% else %>
-              <a class="follow-btn btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
-                Join
-              </a>
-            <% end %>
-            <div class="opportunity-info-row">VOLUNTEERS
-              <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
-                <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="oppo-topleft-grid-bottom">
-          <div class="opportunity-description"><%= @opportunity.description %></div>
-        </div>
-      </div>
-    </div>
-    <div class="oppo-main-grid-topright">
-      <% if @role %>
-        <%= render 'rsvp', opportunity: @opportunity, role: @role %>
-      <% end %>
-      <div class="posts-container">
+	<div class="jbh-standard-title">
+		<%= @opportunity.title %>
+	</div>
+
+	<div class="opportunity-show-main-grid">
+
+		<div class="desktop-left-div">
+			<div class="desktop-left-menu-bar desktop-menu-bar">
+				<div class="menu-bar-title">
+					Navigation
+				</div>
+				<a class="menu-bar-option">
+					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityInfo()">
+						Info
+					</div>
+				</a>
+				<a class="menu-bar-option">
+					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityPosts()">
+						Posts
+					</div>
+				</a>
+				<a class="menu-bar-option">
+					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityMap()">
+						Map
+					</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="desktop-right-div">
+		   <% if current_user&.is_follower?(@opportunity.id) %>
+		    <div class="desktop-right-menu-bar desktop-menu-bar">
+		    	<div class="menu-bar-title">
+		    		Options
+		    	</div>
+	        <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+	        	<div class="menu-bar-btn">
+	        		Unfollow
+	        	</div>
+	        </a>
+	        <a class="menu-bar-btn" href="/opportunities/followers?id=<%= @opportunity.id %>">
+	        	<div class="menu-bar-btn">
+	        		Followers
+	        	</div>
+	        </a>
+	        <% if @is_mod %>
+	          <a class="menu-bar-btn" href="/opportunities/<%= @opportunity.id %>/edit">
+		        	<div class="menu-bar-btn">
+		        		Edit
+		        	</div>
+	          </a>
+	        <% end %>
+	        <% if @is_admin && @opportunity.defined %>
+	          <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
+	            <div class="menu-bar-btn">
+	        			Completed
+	        		</div>
+	          </a>
+	        <% elsif @is_admin && !@opportunity.defined %>
+	          <a class="menu-bar-btn" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+	          	<div class="menu-bar-btn">
+		        		Planned
+		        	</div>
+	          </a>
+	        <% end %>
+	        </div>
+		    <% else %>
+		    <div class="desktop-menu-bar follow-oppo-menu-bar">
+		      <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+		        Join
+		      </a>
+		    </div>
+		    <% end %>
+
+		</div>
+
+
+		<div class="desktop-center-div">
+			<div class="opportunity-info-container" id="info-container">
+				<div class="opportunity-center-title">
+					Opportunity Info
+				</div>
+	      <div class="opportunity-info-row">CATEGORY
+	        <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
+	      </div>
+	      <div class="opportunity-info-row"><%= @opportunity.defined ? 'MEETING TIME' : 'PLAN BY DATE' %>
+	        <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+	      </div>
+	      <div class="opportunity-info-row">MEETING POINT
+	        <div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
+	      </div>
+	      <div class="opportunity-info-row">VOLUNTEERS
+	        <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
+	          <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
+	        </div>
+	      </div>
+	      <div class="oppo-description-container">
+	      	<div class="oppo-description">
+	      		<%= @opportunity.description %>
+	      	</div>
+	      </div>
+	      <div class="requirements-container">
+	        <div class="requirements-container-header">
+	          <span class="requirements-container-title">Requirements</span>
+	          <% if current_user&.is_mod?(@opportunity.id) %>
+	            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
+	          <% end %>
+	        </div>
+	        <% if @requirements.size > 0 %>
+	          <% @requirements.each do |requirement| %>
+	            <div class="requirement-row <%= requirement.leader == nil ? '' : 'req-has-volunteer' %>">
+	              <span class="requirement-row-title"><%= requirement.title %></span>
+	              <span class="requirement-row-status">
+	                <% if requirement.leader && requirement.leader != current_user %>
+	                  <span class="requirement-status-user"><%= requirement.leader.username %></span>
+	                <% elsif requirement.leader == current_user %>
+	                  <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
+	                <% elsif !requirement.leader && @role %>
+	                  <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
+	                <% end %>
+	              </span>
+	            </div>
+	          <% end %>
+	        <% else %>
+	          <div class="no-requirements-container">
+	            There are currently no requirements defined. Should there be?
+	          </div>
+	        <% end %>
+	      </div>
+	    </div>
+	    <div class="oppo-map-container" id="map-container">
+	    	<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+	    </div>
+	    <div class="oppo-posts-container" id="posts-container">
         <div class="posts-container-header">
           <span class="posts-container-title">Posts</span>
-          <% if current_user && @role %>
-            <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
-          <% end %>
         </div>
         <div class="post-list">
           <% if @opportunity.posts.size > 0 %>
             <% @opportunity.posts.each do |post| %>
               <% post_user = User.find(post.user_id) %>
-              <div class="post-listitem <%= post.completion_post ? "completion-post" : "" %>">
+              <div class="post-listitem <%= post.completion_post ? 'completion-post' : '' %>">
                 <a href="/posts/<%= post.id %>" class="post-link">
                   <span class="post-title"><%= post.display_title %> </span> -
                   <span class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></span>
@@ -90,44 +152,15 @@
               There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
             </div>
           <% end %>
-        </div>
-      </div>
-    </div>
-    <div class="oppo-main-grid-bottomleft">
-      <div class="requirements-container">
-        <div class="requirements-container-header">
-          <span class="requirements-container-title">Requirements</span>
-          <% if current_user&.is_mod?(@opportunity.id) %>
-            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
+                    <% if current_user && @role %>
+            <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
           <% end %>
         </div>
-        <% if @requirements.size > 0 %>
-        <% @requirements.each do |requirement| %>
-          <div class="requirement-row <%= requirement.leader == nil ? "" : "req-has-volunteer" %>">
-            <span class="requirement-row-title"><%= requirement.title %></span>
-            <span class="requirement-row-status">
-              <% if requirement.leader && requirement.leader != current_user %>
-                <span class="requirement-status-user"><%= requirement.leader.username %></span>
-              <% elsif requirement.leader == current_user %>
-                <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
-              <% elsif !requirement.leader && @role %>
-                <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
-              <% end %>
-            </span>
-          </div>
-        <%end%>
-        <% else %>
-        	<div class="no-requirements-container">
-        		There are currently no requirements defined. Should there be?
-        	</div>
-        <% end %>
-      </div>
-    </div>
-    <div class="oppo-main-grid-bottomright">
-      <div class="opportunity-address-below-map">
-        <%= @opportunity.address %>
-      </div>
-      <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=300x300&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
-    </div>
-  </div>
+			</div>
+      <% if @role %>
+        <%= render 'rsvp', opportunity: @opportunity, role: @role %>
+      <% end %>
+
+		</div>
+	</div>
 </div>

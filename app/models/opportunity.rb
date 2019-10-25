@@ -23,25 +23,25 @@ class Opportunity < ApplicationRecord
 
   # marks the Opportunity as complete and archives all existing posts
   def mark_complete
-    completed = true
+    self.completed = true
     posts.each do |p|
       p.archived = true
       p.save
     end
 
-    save
+    self.save
   end
 
   def mark_uncompleted
-    completed = false
+    self.completed = false
     posts.each do |p|
       p.archived = false
       p.save
     end
 
-    posts.where(completion_post: true).last.destroy
+    self.posts.where(completion_post: true).last.destroy
 
-    save
+    self.save
   end
 
 

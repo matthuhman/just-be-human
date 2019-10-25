@@ -26,3 +26,27 @@ function init() {
 
 
 document.addEventListener('turbolinks:load', init);
+
+
+
+
+
+
+
+function showOpportunityInfo() {
+  document.getElementById("info-container").style.display = "block";
+  document.getElementById("map-container").style.display = "none";
+  document.getElementById("posts-container").style.display = "none";
+}
+
+function showOpportunityMap() {
+  document.getElementById("info-container").style.display = "none";
+  document.getElementById("posts-container").style.display = "none";
+  document.getElementById("map-container").style.display = "block";
+}
+
+function showOpportunityPosts() {
+  document.getElementById("info-container").style.display = "none";
+  document.getElementById("map-container").style.display = "none";
+  document.getElementById("posts-container").style.display = "block";
+}
