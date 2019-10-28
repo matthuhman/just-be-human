@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_180517) do
+ActiveRecord::Schema.define(version: 2019_10_28_184241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_180517) do
     t.date "planned_by_date"
     t.uuid "last_edited_by"
     t.string "time_zone"
+    t.uuid "organization_id"
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["planned", "category"], name: "index_opportunities_on_planned_and_category"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
@@ -194,6 +195,16 @@ ActiveRecord::Schema.define(version: 2019_10_16_180517) do
     t.index ["opportunity_id"], name: "index_opportunity_roles_on_opportunity_id"
     t.index ["user_id", "opportunity_id"], name: "index_opportunity_roles_on_user_id_and_opportunity_id", unique: true
     t.index ["user_id"], name: "index_opportunity_roles_on_user_id"
+  end
+
+  create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "city"
+    t.string "region"
+    t.string "country"
+    t.string "website"
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 
   create_table "personal_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -271,6 +282,13 @@ ActiveRecord::Schema.define(version: 2019_10_16_180517) do
     t.index ["creator_id"], name: "index_requirements_on_creator_id"
     t.index ["latitude", "longitude"], name: "index_requirements_on_latitude_and_longitude"
     t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"
+  end
+
+  create_table "user_organizations", force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "organization_id"
+    t.index ["organization_id"], name: "index_user_organizations_on_organization_id"
+    t.index ["user_id"], name: "index_user_organizations_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
