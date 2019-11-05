@@ -108,6 +108,7 @@
 
     .requirements-container {
       margin-top: 2vh;
+      display: none;
     }
   }
 
@@ -136,6 +137,17 @@
 
     @include respond-to(handhelds) {
       display: block;
+      margin-top: 4vh;
+      border-top: 1px solid $lightgrey;
+      padding-top: 1vh;
+    }
+    .add-post-btn-container {
+      padding-top: 3vh;
+      text-align: center;
+    }
+
+    .add-post-btn {
+      font-size: 2.4rem;
     }
   }
 

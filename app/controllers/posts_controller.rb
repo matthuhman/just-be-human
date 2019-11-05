@@ -34,7 +34,6 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if role
-        #@post.images.attach(post_params[:images])
         if @post.save
           format.html { redirect_to @post, notice: 'Post was successfully created.' }
           format.json { render :show, status: :created, location: @post }

@@ -154,8 +154,10 @@
               There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
             </div>
           <% end %>
-                    <% if current_user && @role %>
+          <% if current_user && @role %>
+          <div class="add-post-btn-container">
             <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
+          </div>
           <% end %>
         </div>
 			</div>
