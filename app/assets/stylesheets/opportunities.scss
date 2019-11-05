@@ -19,6 +19,51 @@
     }
   }
 
+  .mobile-actions-container {
+    display: none;
+    text-align: center;
+
+
+    @include respond-to(handhelds) {
+      display: block;
+    }
+
+    .mobile-actions-btn {
+      width: 60vw;
+      height: 14vw;
+      font-size: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: $limegreen-low;
+      border: 1px solid $lightgrey;
+      margin-bottom: 4vh;
+    }
+  }
+
+  .mobile-follow-btn-container {
+    margin-top: -2vh;
+    padding-bottom: 2vh;
+    display: none;
+    text-align: center;
+
+    @include respond-to(handhelds) {
+      display: block;
+    }
+
+    .mobile-follow-btn {
+      font-size: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 10vw;
+      padding-right: 10vw;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: $limegreen-low;
+      border: 1px solid $lightgrey;
+      margin-bottom: 4vh;
+    }
+  }
+
 
   .opportunity-show-main-grid {
     display: grid;
@@ -309,6 +354,7 @@
 	}
 
 	.post-listitem {
+    margin-top: 10vh;
 		border-bottom: 1px solid $lightgrey;
 	}
 }
@@ -886,10 +932,32 @@
   }
 
   @include respond-to(handhelds){
-    font-size: .9rem;
+    /*font-size: .9rem;*/
+    display: none;
   };
 }
 
+.post-author-mobile {
+  color: black;
+  margin: 0;
+  font-weight: 1000;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2.2px;
+  display: none;
+  text-align: right;
+  padding-right: 2vw;
+
+  & span {
+    color: $darkgrey;
+    font-weight: 300;
+  }
+
+  @include respond-to(handhelds){
+    font-size: .9rem;
+    display: block;
+  };
+}
 .post-title {
   color: black;
   letter-spacing: 2px;
@@ -905,6 +973,7 @@
   &:hover {
     text-decoration: none;
   }
+
 }
 
 .post-excerpt {
