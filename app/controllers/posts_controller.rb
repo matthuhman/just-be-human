@@ -28,13 +28,16 @@ class PostsController < ApplicationController
     @parent = @post.opportunity
     role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @post.opportunity_id)
 
+
+
     @post.user_id = current_user.id
 
     respond_to do |format|
       if role
+        #@post.images.attach(post_params[:images])
         if @post.save
-          format.html { redirect_to @parent, notice: 'Post was successfully created.' }
-          format.json { render :show, status: :created, location: @parent }
+          format.html { redirect_to @post, notice: 'Post was successfully created.' }
+          format.json { render :show, status: :created, location: @post }
         else
           format.html { render :new }
           format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -93,7 +96,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :content, :opportunity_id)
+    params.require(:post).permit(:title, :content, :opportunity_id, images: [])
   end
 
   def create_params

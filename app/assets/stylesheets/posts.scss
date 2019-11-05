@@ -30,7 +30,21 @@
   height: 50vh;
 }
 
+.original-post-images {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  width: 100%;
 
+  .post-image {
+    max-width: 20%;
+    height: auto;
+
+    @include respond-to(handhelds) {
+      max-width: 40%;
+    }
+  }
+}
 .submit-post-container {
   text-align: center;
   margin-top: 5vh;

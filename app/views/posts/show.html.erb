@@ -7,6 +7,17 @@
   </div>
   <div class="original-post-meta">
     <p><%= User.find(@post.user_id).username %> at <%= local_time(@post.created_at, "%l:%M%P on %-m/%-d/%y") %></p>
+    <div class="original-post-images">
+      <ul>
+        <% @post.images.each do |img| %>
+          <span class="post-image-container">
+            <a href="<%= url_for(img) %>">
+              <img src="<%= url_for(img) %>" class="post-image">
+            </a>
+          </span>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 <div class="comments">

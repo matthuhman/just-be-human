@@ -7,6 +7,9 @@
   <div class="post-textarea-container">
     <textarea class="post-content-textarea" placeholder="Write your post here" name="post[content]" id="post_content"></textarea>
   </div>
+  <div class="post-attachments-container">
+    <%= f.file_field :images, multiple: true %>
+  </div>
   <% if params[:opportunity] %>
     <%= f.hidden_field :opportunity_id, :value => params[:opportunity][:id] %>
   <% end %>
