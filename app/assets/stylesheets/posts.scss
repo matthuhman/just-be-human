@@ -11,21 +11,40 @@
   border-bottom: 1px solid $lightgrey;
 }
 
-.trix-content {
+.post-textarea-container {
+  text-align: center;
+  height: 50vh;
+}
+
+.post-content-textarea {
   width: 90vw;
   height: 100%;
   margin-left: auto;
   margin-right: auto;
 
   font-size: 1.3rem;
-
+  border: 1px solid $lightgrey;
 }
 
 .trix-container {
   height: 50vh;
 }
 
+.original-post-images {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  width: 100%;
 
+  .post-image {
+    max-width: 20%;
+    height: auto;
+
+    @include respond-to(handhelds) {
+      max-width: 40%;
+    }
+  }
+}
 .submit-post-container {
   text-align: center;
   margin-top: 5vh;

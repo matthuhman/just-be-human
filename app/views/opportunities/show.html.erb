@@ -2,9 +2,54 @@
 	<div class="jbh-standard-title">
 		<%= @opportunity.title %>
 	</div>
-
+	<% if current_user&.is_follower?(@opportunity.id) %>
+		<div class="mobile-actions-container">
+			<div class="mobile-actions dropdown">
+				<button class="mobile-actions-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Actions
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	        <a class="mobile-action dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+	        	<div class="mobile-action-btn">
+	        		Unfollow
+	        	</div>
+	        </a>
+	        <a class="mobile-action dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
+	        	<div class="mobile-action-btn">
+	        		Volunteer List
+	        	</div>
+	        </a>
+	        <% if @is_mod %>
+	          <a class="mobile-action dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
+		        	<div class="mobile-action-btn">
+		        		Edit
+		        	</div>
+	          </a>
+	        <% end %>
+	        <% if @is_admin && @opportunity.defined %>
+	          <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
+	            <div class="mobile-action-btn">
+	        			Completed
+	        		</div>
+	          </a>
+	        <% elsif @is_admin && !@opportunity.defined %>
+	          <a class="mobile-action dropdown-item" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+	          	<div class="mobile-action-btn">
+		        		Planned
+		        	</div>
+	          </a>
+	        <% end %>
+				</div>
+			</div>
+		</div>
+	<% elsif current_user %>
+		<div class="mobile-follow-btn-container">
+      <a class="mobile-follow-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+        Follow
+      </a>
+    </div>
+	<% end %>
 	<div class="opportunity-show-main-grid">
-
 		<div class="desktop-left-div">
 			<div class="desktop-left-menu-bar desktop-menu-bar">
 				<div class="menu-bar-title">
@@ -34,14 +79,9 @@
 		    	<div class="menu-bar-title">
 		    		Options
 		    	</div>
-	        <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-	        	<div class="menu-bar-btn">
-	        		Unfollow
-	        	</div>
-	        </a>
 	        <a class="menu-bar-btn" href="/opportunities/followers?id=<%= @opportunity.id %>">
 	        	<div class="menu-bar-btn">
-	        		Followers
+	        		Volunteer List
 	        	</div>
 	        </a>
 	        <% if @is_mod %>
@@ -64,14 +104,19 @@
 		        	</div>
 	          </a>
 	        <% end %>
-	        </div>
-		    <% else %>
+	        <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+	        	<div class="menu-bar-btn unfollow-btn">
+	        		Unfollow
+	        	</div>
+	        </a>
+        </div>
+	    <% else %>
 		    <div class="desktop-menu-bar follow-oppo-menu-bar">
 		      <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
 		        Join
 		      </a>
 		    </div>
-		    <% end %>
+	    <% end %>
 
 		</div>
 
@@ -146,6 +191,7 @@
                 <a href="/posts/<%= post.id %>" class="post-link">
                   <span class="post-title"><%= post.display_title %> </span> -
                   <span class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></span>
+                  <div class="post-author-mobile"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></div>
                 </a>
               </div>
             <% end %>
@@ -154,8 +200,10 @@
               There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
             </div>
           <% end %>
-                    <% if current_user && @role %>
+          <% if current_user && @role %>
+          <div class="add-post-btn-container">
             <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
+          </div>
           <% end %>
         </div>
 			</div>

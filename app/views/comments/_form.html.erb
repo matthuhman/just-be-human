@@ -1,10 +1,10 @@
 <%= simple_form_for(@comment) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="comments-trix-container">
-    <%= f.rich_text_area :content, placeholder: "This text editor is powerful!
-
-    You can format your messages, paste in files, and much more! If you're on mobile, the toolbar above is scrollable left to right." %>
+  <div class="comments-textarea-container">
+    <div class="post-textarea-container">
+      <textarea class="post-content-textarea" placeholder="Write your post here" name="comment[content]" id="comment_content"></textarea>
+  </div>
   </div>
   <%= f.hidden_field :post_id, :value => post_id %>
   <div class="submit-comment-container">
