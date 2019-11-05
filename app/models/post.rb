@@ -8,7 +8,6 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :opportunity
   has_many :comments, dependent: :destroy
-  has_rich_text :content
 
   validates_presence_of :title, message: "must be present."
   validates_presence_of :content, message: "must be present."
