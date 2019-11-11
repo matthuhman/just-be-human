@@ -2,6 +2,7 @@ class OpportunityMailer < ApplicationMailer
   default from: 'mailer@justbehuman.io'
 
   def follow_email(user, opportunity)
+    binding.pry
     @user = user
     @opportunity = opportunity
     @cal = build_ical_file(opportunity)
