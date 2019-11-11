@@ -5,8 +5,14 @@ class NotificationMailer < ApplicationMailer
     @notifications = notifications
     @reminders = reminders
 
-    puts "Is this sending??"
-
     mail(to: user.email, subject: "Your Daily Volunteering Update")
+  end
+
+
+  def local_oppos_email(user, opportunities)
+    @user = user
+    @opportunities = opportunities
+
+    mail(to: user.email, subject: "New Opportunities Near You")
   end
 end
