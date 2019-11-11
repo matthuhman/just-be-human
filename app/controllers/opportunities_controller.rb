@@ -168,7 +168,6 @@ class OpportunitiesController < ApplicationController
   end
 
   def rsvp
-    binding.pry
     role = OpportunityRole.find(params[:rsvp][:role_id])
 
     oppo = role.opportunity
