@@ -91,16 +91,10 @@
               </div>
             </a>
           <% end %>
-          <% if @is_admin && @opportunity.defined %>
+          <% if @is_admin && !@opportunity.completed? %>
             <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
               <div class="menu-bar-btn">
-                Completed
-              </div>
-            </a>
-          <% elsif @is_admin && !@opportunity.defined %>
-            <a class="menu-bar-btn" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-              <div class="menu-bar-btn">
-                Planned
+                Complete
               </div>
             </a>
           <% end %>
@@ -141,36 +135,6 @@
           <div class="oppo-description">
             <%= @opportunity.description %>
           </div>
-        </div>
-        <div class="requirements-container">
-          <div class="opportunity-center-title">
-            Requirements
-          </div>
-          <% if @requirements.size > 0 %>
-            <% @requirements.each do |requirement| %>
-              <div class="requirement-row <%= requirement.leader == nil ? '' : 'req-has-volunteer' %>">
-                <span class="requirement-row-title"><%= requirement.title %></span>
-                <span class="requirement-row-status">
-                  <% if requirement.leader && requirement.leader != current_user %>
-                    <span class="requirement-status-user"><%= requirement.leader.username %></span>
-                  <% elsif current_user && requirement.leader == current_user %>
-                    <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
-                  <% elsif !requirement.leader && @role %>
-                    <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
-                  <% elsif !current_user && !requirement.leader %>
-                    <span class="requirement-status-user">Open</span>
-                  <% end %>
-                </span>
-              </div>
-            <% end %>
-          <% else %>
-            <div class="no-requirements-container">
-              The only requirement is to show up!
-            </div>
-          <% end %>
-          <% if current_user&.is_mod?(@opportunity.id) %>
-            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
-          <% end %>
         </div>
       </div>
       <div class="oppo-map-container" id="map-container">

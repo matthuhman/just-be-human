@@ -13,7 +13,6 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/1
   # GET /opportunities/1.json
   def show
-    @requirements = @opportunity.requirements.sort_by(&:priority).sort_by(&:target_completion_date)
     if current_user
       @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
       @is_mod = current_user.is_mod?(@opportunity.id)
