@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0.0'
+gem 'rails', '6.0.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
@@ -67,7 +67,7 @@ gem 'better_errors'
 gem 'premailer'
 gem 'icalendar'
 
-gem "actiontext", "6.0.0"
+gem "actiontext", "6.0.2.1"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’
 # gem 'activerecord-postgresql-adapter', '~> 0.0.1'
 
