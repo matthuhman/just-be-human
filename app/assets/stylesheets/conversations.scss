@@ -1,6 +1,5 @@
 @import 'theme.scss';
-
-
+@import 'mixins.scss';
 
 //
 //
@@ -83,7 +82,7 @@
 	.message-meta {
 		margin-right: -3vw;
 	}
-	
+
 	.message-body {
 		margin-left: 10vw;
 		font-style: italic;
