@@ -1,185 +1,182 @@
 <div class="opportunity-show-page">
-	<div class="jbh-standard-title">
-		<%= @opportunity.title %>
-	</div>
-	<% if current_user&.is_follower?(@opportunity.id) %>
-		<div class="mobile-actions-container">
-			<div class="mobile-actions dropdown">
-				<button class="mobile-actions-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Actions
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	        <a class="mobile-action dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-	        	<div class="mobile-action-btn">
-	        		Unfollow
-	        	</div>
-	        </a>
-	        <a class="mobile-action dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
-	        	<div class="mobile-action-btn">
-	        		Volunteer List
-	        	</div>
-	        </a>
-	        <% if @is_mod %>
-	          <a class="mobile-action dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
-		        	<div class="mobile-action-btn">
-		        		Edit
-		        	</div>
-	          </a>
-	        <% end %>
-	        <% if @is_admin && @opportunity.defined %>
-	          <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
-	            <div class="mobile-action-btn">
-	        			Completed
-	        		</div>
-	          </a>
-	        <% elsif @is_admin && !@opportunity.defined %>
-	          <a class="mobile-action dropdown-item" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-	          	<div class="mobile-action-btn">
-		        		Planned
-		        	</div>
-	          </a>
-	        <% end %>
-				</div>
-			</div>
-		</div>
-	<% elsif current_user %>
-		<div class="mobile-follow-btn-container">
+  <div class="jbh-standard-title">
+    <%= @opportunity.title %>
+  </div>
+  <% if current_user&.is_follower?(@opportunity.id) %>
+    <div class="mobile-actions-container">
+      <div class="mobile-actions dropdown">
+        <button class="mobile-actions-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="mobile-action dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+            <div class="mobile-action-btn">
+              Unfollow
+            </div>
+          </a>
+          <a class="mobile-action dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
+            <div class="mobile-action-btn">
+              Volunteer List
+            </div>
+          </a>
+          <% if @is_mod %>
+            <a class="mobile-action dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
+              <div class="mobile-action-btn">
+                Edit
+              </div>
+            </a>
+          <% end %>
+          <% if @is_admin && @opportunity.defined %>
+            <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="mobile-action-btn">
+                Completed
+              </div>
+            </a>
+          <% elsif @is_admin && !@opportunity.defined %>
+            <a class="mobile-action dropdown-item" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+              <div class="mobile-action-btn">
+                Planned
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% elsif current_user %>
+    <div class="mobile-follow-btn-container">
       <a class="mobile-follow-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
         Follow
       </a>
     </div>
-	<% end %>
-	<div class="opportunity-show-main-grid">
-		<div class="desktop-left-div">
-			<div class="desktop-left-menu-bar desktop-menu-bar">
-				<div class="menu-bar-title">
-					Navigation
-				</div>
-				<a class="menu-bar-option">
-					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityInfo()">
-						Info
-					</div>
-				</a>
-				<a class="menu-bar-option">
-					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityPosts()">
-						Posts
-					</div>
-				</a>
-				<a class="menu-bar-option">
-					<div class="menu-bar-btn navigation-btn" onclick="showOpportunityMap()">
-						Map
-					</div>
-				</a>
-			</div>
-		</div>
-
-		<div class="desktop-right-div">
-		   <% if current_user&.is_follower?(@opportunity.id) %>
-		    <div class="desktop-right-menu-bar desktop-menu-bar">
-		    	<div class="menu-bar-title">
-		    		Options
-		    	</div>
-	        <a class="menu-bar-btn" href="/opportunities/followers?id=<%= @opportunity.id %>">
-	        	<div class="menu-bar-btn">
-	        		Volunteer List
-	        	</div>
-	        </a>
-	        <% if @is_mod %>
-	          <a class="menu-bar-btn" href="/opportunities/<%= @opportunity.id %>/edit">
-		        	<div class="menu-bar-btn">
-		        		Edit
-		        	</div>
-	          </a>
-	        <% end %>
-	        <% if @is_admin && @opportunity.defined %>
-	          <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
-	            <div class="menu-bar-btn">
-	        			Completed
-	        		</div>
-	          </a>
-	        <% elsif @is_admin && !@opportunity.defined %>
-	          <a class="menu-bar-btn" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-	          	<div class="menu-bar-btn">
-		        		Planned
-		        	</div>
-	          </a>
-	        <% end %>
-	        <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-	        	<div class="menu-bar-btn unfollow-btn">
-	        		Unfollow
-	        	</div>
-	        </a>
+  <% end %>
+  <div class="opportunity-show-main-grid">
+    <div class="desktop-left-div">
+      <div class="desktop-left-menu-bar desktop-menu-bar">
+        <div class="menu-bar-title">
+          Navigation
         </div>
-	    <% else %>
-		    <div class="desktop-menu-bar follow-oppo-menu-bar">
-		      <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
-		        Join
-		      </a>
-		    </div>
-	    <% end %>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityInfo()">
+            Info
+          </div>
+        </a>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityPosts()">
+            Posts
+          </div>
+        </a>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityMap()">
+            Map
+          </div>
+        </a>
+      </div>
+    </div>
 
-		</div>
+    <div class="desktop-right-div">
+       <% if current_user&.is_follower?(@opportunity.id) %>
+        <div class="desktop-right-menu-bar desktop-menu-bar">
+          <div class="menu-bar-title">
+            Options
+          </div>
+          <a class="menu-bar-btn" href="/opportunities/followers?id=<%= @opportunity.id %>">
+            <div class="menu-bar-btn">
+              Volunteer List
+            </div>
+          </a>
+          <% if @is_mod %>
+            <a class="menu-bar-btn" href="/opportunities/<%= @opportunity.id %>/edit">
+              <div class="menu-bar-btn">
+                Edit
+              </div>
+            </a>
+          <% end %>
+          <% if @is_admin && @opportunity.defined %>
+            <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="menu-bar-btn">
+                Completed
+              </div>
+            </a>
+          <% elsif @is_admin && !@opportunity.defined %>
+            <a class="menu-bar-btn" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
+              <div class="menu-bar-btn">
+                Planned
+              </div>
+            </a>
+          <% end %>
+          <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+            <div class="menu-bar-btn unfollow-btn">
+              Unfollow
+            </div>
+          </a>
+        </div>
+      <% else %>
+        <div class="desktop-menu-bar follow-oppo-menu-bar">
+          <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+            Join
+          </a>
+        </div>
+      <% end %>
+
+    </div>
 
 
-		<div class="desktop-center-div">
-			<div class="opportunity-info-container" id="info-container">
-				<div class="opportunity-center-title">
-					General Information
-				</div>
-	      <div class="opportunity-info-row">CATEGORY
-	        <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
-	      </div>
-	      <div class="opportunity-info-row"><%= @opportunity.defined ? 'MEETING TIME' : 'PLAN BY DATE' %>
-	        <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
-	      </div>
-	      <div class="opportunity-info-row">MEETING POINT
-	        <div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
-	      </div>
-	      <div class="opportunity-info-row">VOLUNTEERS
-	        <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
-	          <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
-	        </div>
-	      </div>
-	      <div class="oppo-description-container">
-	      	<div class="oppo-description">
-	      		<%= @opportunity.description %>
-	      	</div>
-	      </div>
-	      <div class="requirements-container">
-	        <div class="opportunity-center-title">
-	          Requirements
-	        </div>
-	        <% if @requirements.size > 0 %>
-	          <% @requirements.each do |requirement| %>
-	            <div class="requirement-row <%= requirement.leader == nil ? '' : 'req-has-volunteer' %>">
-	              <span class="requirement-row-title"><%= requirement.title %></span>
-	              <span class="requirement-row-status">
-	                <% if requirement.leader && requirement.leader != current_user %>
-	                  <span class="requirement-status-user"><%= requirement.leader.username %></span>
-	                <% elsif current_user && requirement.leader == current_user %>
-	                  <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
-	                <% elsif !requirement.leader && @role %>
-	                  <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
-	                <% elsif !current_user && !requirement.leader %>
-	                	<span class="requirement-status-user">Open</span>
-	                <% end %>
-	              </span>
-	            </div>
-	          <% end %>
-	        <% else %>
-	          <div class="no-requirements-container">
-	            The only requirement is to show up!
-	          </div>
-	        <% end %>
+    <div class="desktop-center-div">
+      <div class="opportunity-info-container" id="info-container">
+        <div class="opportunity-center-title">
+          General Information
+        </div>
+        <div class="opportunity-info-row"><%= @opportunity.defined ? 'MEETING TIME' : 'PLAN BY DATE' %>
+          <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+        </div>
+        <div class="opportunity-info-row">MEETING POINT
+          <div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
+        </div>
+        <div class="opportunity-info-row">VOLUNTEERS
+          <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
+            <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
+          </div>
+        </div>
+        <div class="oppo-description-container">
+          <div class="oppo-description">
+            <%= @opportunity.description %>
+          </div>
+        </div>
+        <div class="requirements-container">
+          <div class="opportunity-center-title">
+            Requirements
+          </div>
+          <% if @requirements.size > 0 %>
+            <% @requirements.each do |requirement| %>
+              <div class="requirement-row <%= requirement.leader == nil ? '' : 'req-has-volunteer' %>">
+                <span class="requirement-row-title"><%= requirement.title %></span>
+                <span class="requirement-row-status">
+                  <% if requirement.leader && requirement.leader != current_user %>
+                    <span class="requirement-status-user"><%= requirement.leader.username %></span>
+                  <% elsif current_user && requirement.leader == current_user %>
+                    <a href="/requirements/cancel?id=<%=requirement.id%>" class="requirement-btn req-cancel-btn">Cancel</a>
+                  <% elsif !requirement.leader && @role %>
+                    <a href="/requirements/participate?id=<%= requirement.id %>" class="requirement-btn req-volunteer-btn">Volunteer</a>
+                  <% elsif !current_user && !requirement.leader %>
+                    <span class="requirement-status-user">Open</span>
+                  <% end %>
+                </span>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="no-requirements-container">
+              The only requirement is to show up!
+            </div>
+          <% end %>
           <% if current_user&.is_mod?(@opportunity.id) %>
             <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
           <% end %>
-	      </div>
-	    </div>
-	    <div class="oppo-map-container" id="map-container">
-	    	<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
-	    </div>
-	    <div class="oppo-posts-container" id="posts-container">
+        </div>
+      </div>
+      <div class="oppo-map-container" id="map-container">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+      </div>
+      <div class="oppo-posts-container" id="posts-container">
         <div class="opportunity-center-title">
           Posts
         </div>
@@ -206,11 +203,11 @@
           </div>
           <% end %>
         </div>
-			</div>
+      </div>
       <% if @role %>
         <%= render 'rsvp', opportunity: @opportunity, role: @role %>
       <% end %>
 
-		</div>
-	</div>
+    </div>
+  </div>
 </div>

@@ -7,8 +7,6 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/new
   def new
-    # @categories = Category.req_titles
-    # @sub_categories = Category.req_subcats
     @requirement = Requirement.new
     if params[:requirement]
       @requirement.opportunity_id = params[:requirement][:opportunity_id]
@@ -31,9 +29,6 @@ class RequirementsController < ApplicationController
   # GET /requirements/1/edit
   def edit
     @opportunity = Opportunity.find(@requirement.opportunity_id)
-    @categories = Category.req_titles
-    @sub_categories = Category.req_subcats
-    @planned = @opportunity.defined
   end
 
   # POST /requirements

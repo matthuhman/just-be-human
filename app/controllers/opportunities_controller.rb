@@ -25,20 +25,17 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/new
   def new
     @opportunity = Opportunity.new()
-    @categories = Category.opportunity_titles
   end
 
   #
   # GET /opportunities/1/edit
   def edit
-    @categories = Category.opportunity_titles
   end
 
 
   # POST /opportunities
   # POST /opportunities.json
   def create
-    @categories = Category.opportunity_titles
     @opportunity = Opportunity.new(opportunity_params)
     @opportunity.user = current_user
 
@@ -78,7 +75,6 @@ class OpportunitiesController < ApplicationController
   # PATCH/PUT /opportunities/1
   # PATCH/PUT /opportunities/1.json
   def update
-    @categories = Category.opportunity_titles
     respond_to do |format|
       if @opportunity.update(opportunity_params)
         format.html { redirect_to @opportunity, notice: 'Opportunity was successfully updated.' }
@@ -315,7 +311,7 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :category, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :estimated_work, :status, :planned_by_date, :time_zone)
+    params.require(:opportunity).permit(:title, :description, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :status, :time_zone)
   end
 
   def promotion_params
@@ -330,6 +326,8 @@ class OpportunitiesController < ApplicationController
     @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
   end
 
+
+  # TODO: This needs to get sorted out, this is a huge pain in the ass
   def handle_old_token
     ReportedError.report('RSVP', "unexpected invalid authenticity token", 100)
     redirect_back fallback_location: @opportunity,
@@ -341,8 +339,4 @@ class OpportunitiesController < ApplicationController
 
 
   end
-  # def add_follower_role
-  #   role = Role.new
-  #   return role
-  # end
 end

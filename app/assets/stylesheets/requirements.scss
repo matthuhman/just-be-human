@@ -27,49 +27,6 @@
 	}
 }
 
-
-.requirement-info-category, .requirement-info-subcategory {
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  margin-left: 1vw;
-  margin-right: 1vw;
-}
-
-.requirement-info-categories {
-  float: right;
-  text-align: left;
-  border: 1px solid black;
-  border-radius: 10px;
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  background: white;
-  margin-right: 5vw;
-
-  @include respond-to(handhelds) {
-    padding: 0;
-    margin-right: 2vw;
-  }
-  // align-items: center;
-  font-size: 1.8em;
-}
-
-.req-return-to-oppo-btn {
-	font-size: 1.8em;
-
-	@include respond-to(handhelds) {
-		font-size: 1.2em;
-	}
-}
-
-.category-header {
-  font-size: .6em;
-  color: $darkgrey;
-}
-
 .needs-leader {
   color: red !important;
   border: 1px solid red;

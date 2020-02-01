@@ -9,8 +9,7 @@ let attributes = {
 let filters = {
   title: '',
   volunteers: false,
-  defined: false,
-  category: 'all'
+  defined: false
 }
 
 document.addEventListener('DOMContentLoaded', getProbs)
@@ -65,12 +64,6 @@ function handleCheckbox(e) {
   filterOpportunities()
 }
 
-function handleSelect(e) {
-  filters.category = e.target.value
-
-  filterOpportunities()
-}
-
 function filterOpportunities(){
   nearProbs.forEach(checkOpportunity)
   myProbs.forEach(checkOpportunity)
@@ -85,9 +78,6 @@ function checkOpportunity(opp) {
     opp.style.display = 'none';
   }
   if (filters.defined && opp.dataset.defined === "false") {
-    opp.style.display = 'none';
-  }
-  if (filters.category !== 'all' && opp.dataset.category !== filters.category) {
     opp.style.display = 'none';
   }
   if (!title.match(regFilter)) {

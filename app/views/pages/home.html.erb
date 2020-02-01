@@ -9,24 +9,10 @@
         <label for="opportunity_titles">Search Titles</label>
         <input type="text" class="form-control" id="opportunity_titles" oninput="handleTextInput(event)" aria-describedby="opportunity_titles" placeholder="Search by title">
       </div>
-      <div class="form-group">
-        <label for="opportunity_category">Select a category</label>
-        <select id="opportunity_category" class="custom-select" onchange="handleSelect(event)">
-          <option selected value="all">All</option>
-          <% Category.opportunity_titles.map do |title| %>
-            <option value="<%= title %>"><%= title %></option>
-          <% end %>
-        </select>
-      </div>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="opportunity_volunteers" onchange="handleCheckbox(event)" aria-describedby="opportunity_volunteers">
         <label for="opportunity_volunteers">Needs Volunteers</label>
       </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="opportunity_defined" onchange="handleCheckbox(event)" aria-describedby="opportunity_defined">
-        <label for="opportunity_defined">Defined</label>
-      </div>
-      <!-- need to have grab params and send them to home page to filter the opportunities -->
     </div>
   </div>
   <aside class="home-page-aside">
@@ -110,34 +96,17 @@
           <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
           <p id="marker-participants" class="marker-participants">Volunteer count: ${data.volunteer_count} / ${data.volunteers_required}</p>
           <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
-          <p id="marker-category" class="marker_category">Category: ${data.category_title}</p>
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
 
-      let overdue = data['overdue?'];
-      let defined = data['defined'];
-
       let marker;
 
-
-      if (defined)
-      {
-        marker = new google.maps.Marker({
-          position: LatLng,
-          map: map,
-          animation: google.maps.Animation.DROP,
-          icon: greenIcon
-        });
-      }
-      else
-      {
-        marker = new google.maps.Marker({
-          position: LatLng,
-          map: map,
-          animation: google.maps.Animation.DROP,
-          icon: yellowIcon
-        });
-      }
+      marker = new google.maps.Marker({
+        position: LatLng,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        icon: greenIcon
+      });
 
 
       (function (marker, data) {
@@ -157,7 +126,6 @@
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
 
       let overdue = data['overdue?'];
-      let defined = data['defined'];
 
       data.contentString =
         `<div id="marker-content">
@@ -165,7 +133,6 @@
           <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
           <div id="marker-participants" class="marker-participants">Volunteers: ${data.volunteer_count} / ${data.volunteers_required}</div>
           <div id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</div>
-          <div id="marker-category" class="marker_category">Category: ${data.category_title}</div>
           <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
          </div>`;
 
