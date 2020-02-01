@@ -8,7 +8,4 @@ class OpportunityRole < ApplicationRecord
   ## role level id 3 = VOLUNTEER
   ## role level id 4 = FOLLOWER
 
-
-
-
 end

@@ -21,12 +21,14 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  #
   # GET /opportunities/new
   def new
     @opportunity = Opportunity.new()
     @categories = Category.opportunity_titles
   end
 
+  #
   # GET /opportunities/1/edit
   def edit
     @categories = Category.opportunity_titles
@@ -140,6 +142,7 @@ class OpportunitiesController < ApplicationController
   def follow
     respond_to do |format|
       if Role.follow_opportunity(current_user.id, @opportunity.id)
+
         format.html { redirect_to @opportunity, notice: 'You have successfully followed this opportunity.' }
         format.json { render :show, status: :created, location: @opportunity }
       else
@@ -166,6 +169,7 @@ class OpportunitiesController < ApplicationController
 
   def rsvp
     role = OpportunityRole.find(params[:rsvp][:role_id])
+
     oppo = role.opportunity
     respond_to do |format|
       if role && role.user == current_user
@@ -330,6 +334,12 @@ class OpportunitiesController < ApplicationController
     ReportedError.report('RSVP', "unexpected invalid authenticity token", 100)
     redirect_back fallback_location: @opportunity,
       alert: 'Please refresh your page and try again'
+  end
+
+
+  def send_follow_email
+
+
   end
   # def add_follower_role
   #   role = Role.new

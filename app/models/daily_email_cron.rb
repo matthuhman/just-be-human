@@ -96,8 +96,5 @@ class DailyEmailCron
       NotificationMailer.notification_email(user, notifications, reminders).deliver_now
     end
 
-    puts "is user_notifications empty? #{user_notifications.size}"
-    puts "is user_reminders empty? #{user_reminders.size}"
-
   end
 end

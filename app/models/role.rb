@@ -12,6 +12,7 @@ class Role
 
     if follow_role.save
       Opportunity.increment_counter(:follower_count, opp_id)
+      OpportunityMailer.follow_email(User.find(u_id), Opportunity.find(opp_id))
       true
     else
       ReportedError.report("Role.follow", follow_role.errors, 1000)
