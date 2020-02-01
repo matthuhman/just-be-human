@@ -1,5 +1,4 @@
-<%= content_tag :div, class: "sub_categories", data: {sub_categories: @sub_categories} do %>
-<% end %>
+
 <%= simple_form_for(@opportunity) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -9,10 +8,6 @@
       <div class="title-selection">
         <%= f.input :title, placeholder: "60-character limit" %>
         <%= f.input :description, placeholder: "A good description will go a long way." %>
-        <div class="form-group">
-          <%= f.label :category, class: 'opportunity-form-category-label' %>
-          <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-        </div>
       </div>
     </div>
     <% if @opportunity.defined %>
@@ -29,16 +24,8 @@
       <div class="abstract-options-container" id="abstract-options" >
         <div class="difficulty-container" id="new-opportunity-step2">
           <h5 class="difficulty-subheader">How much help do you need?</h5>
-          <div class="difficulty-selection">
-            <%= f.label "How difficult do you expect the solution to be? (1 is easiest, 10 is hardest)" %>
-            <%= f.select :estimated_work, [1,2,3,4,5,6,7,8,9,10] %>
-          </div>
           <div class="volunteers-required-input">
             <%= f.input :volunteers_required %>
-          </div>
-          <div class="plan-by-selection">
-            <%= f.label "If you would like, you can set a date you want to have your Opportunity defined by." %>
-            <%= f.input :planned_by_date, order: [:month, :day, :year], id: "planned-by-date" %>
           </div>
           <div class="completion-date-selection">
             <%= f.label "This is when you would ideally have a solution figured out- don't worry, you can always change this later!" %>

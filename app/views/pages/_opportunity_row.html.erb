@@ -40,8 +40,6 @@
           <% end %>
           <div class="opportunity-row-data-header">Meeting Point: </div>
           <div class="opportunity-row-data-content"><%= opportunity.address %> </div>
-          <div class="opportunity-row-data-header">Category: </div>
-          <div class="opportunity-row-data-content"><%= opportunity.category_title %> </div>
           <% if @title_hash[opportunity.id] %>
             <div class="opportunity-row-data-header">Role: </div>
             <div class="opportunity-row-data-content"><%= @title_hash[opportunity.id] %> </div>

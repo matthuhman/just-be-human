@@ -1,5 +1,4 @@
-<%= content_tag :div, class: "sub_categories", data: {sub_categories: @sub_categories} do %>
-<% end %>
+
 <%= simple_form_for(@opportunity) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -9,10 +8,6 @@
       <div class="title-selection">
         <%= f.input :title, placeholder: "60-character limit" %>
         <%= f.input :description, placeholder: "A good description will go a long way." %>
-        <div class="form-group">
-          <%= f.label :category, class: 'opportunity-form-category-label' %>
-          <%= f.select :category, @categories.map.with_index {|cat, index| [cat, index] }, {}, class: "form-control" %>
-        </div>
       </div>
     </div>
       <div class="defined-options-container" id="defined-options">
@@ -30,7 +25,6 @@
         <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
       </div>
     </div>
-    <%= f.hidden_field :defined, value: true %>
   </div>
   <div class="submit-post-container">
     <%= f.button :submit, "Submit", class: 'submit-post-btn'%>

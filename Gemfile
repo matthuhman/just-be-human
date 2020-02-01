@@ -4,13 +4,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0.0'
+gem 'rails', '6.0.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '>= 4.3.1'
 # Use SCSS for stylesheets
-# gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -39,14 +38,14 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'bootstrap'
 gem 'jquery-rails'
-gem 'simple_form'
+gem 'simple_form', '>= 5.0.1'
 gem 'popper_js'
 gem 'tether-rails'
 gem 'country_select'
 gem 'responders', '3.0.0'
 gem 'pg'
 gem 'geocoder'
-gem 'chartkick'
+gem 'chartkick', '>= 3.3.0'
 gem 'groupdate'
 gem 'webpacker'
 gem 'railties'
@@ -67,7 +66,7 @@ gem 'better_errors'
 gem 'premailer'
 gem 'icalendar'
 
-gem "actiontext", "6.0.0"
+gem "actiontext", "6.0.2.1"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’
 # gem 'activerecord-postgresql-adapter', '~> 0.0.1'
 
@@ -77,7 +76,7 @@ gem 'aws-sdk-s3'
 gem 'react-rails'
 # gem 'introjs-rails'
 
-gem 'devise', '4.7.0'
+gem 'devise', '>= 4.7.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

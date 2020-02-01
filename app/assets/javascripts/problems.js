@@ -1,3 +1,6 @@
+
+
+// @mhuhman 20200201 - keeping this around for reference just in case
 // $(function(){
 //   // @arren reference on certain page only
 //   let category = $('#problem_category :selected').val();

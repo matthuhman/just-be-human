@@ -61,16 +61,16 @@ class Opportunity < ApplicationRecord
     end
   end
 
-  def can_define?
-    return if defined
+  # def can_define?
+  #   return if defined
 
-    requirements.each do |r|
-      if !r.defined
-        return false
-      end
-    end
-    true
-  end
+  #   requirements.each do |r|
+  #     if !r.defined
+  #       return false
+  #     end
+  #   end
+  #   true
+  # end
 
   def overdue?
     if defined
@@ -100,10 +100,6 @@ class Opportunity < ApplicationRecord
     description.size > 160 ? description[0,160] << "..." : description
   end
 
-  def category_title
-    Category.opportunity_titles[self.category.to_i]
-  end
-
   def volunteers_needed
     self.volunteers_required - self.volunteer_count
   end
@@ -120,27 +116,27 @@ class Opportunity < ApplicationRecord
   end
 
 
-  def pct_done
-    if self.planned?
-      return 0
-    end
+  # def pct_done
+  #   if self.planned?
+  #     return 0
+  #   end
 
-    est_work = self.estimated_work
-    work_done = 0.0
-    est_req_work = 0.0
-    self.requirements.each do |req|
-      work_done += (1 - (req.pct_done / 100)) * req.estimated_work
-      est_req_work += req.estimated_work
-    end
+  #   est_work = self.estimated_work
+  #   work_done = 0.0
+  #   est_req_work = 0.0
+  #   self.requirements.each do |req|
+  #     work_done += (1 - (req.pct_done / 100)) * req.estimated_work
+  #     est_req_work += req.estimated_work
+  #   end
 
-    if work_done == 0
-      100.0
-    elsif est_work > est_req_work
-      work_done / est_work * 100
-    else
-      work_done / est_req_work * 100
-    end
-  end
+  #   if work_done == 0
+  #     100.0
+  #   elsif est_work > est_req_work
+  #     work_done / est_work * 100
+  #   else
+  #     work_done / est_req_work * 100
+  #   end
+  # end
 
 
   def self.users_are_volunteers(u1_id, u2_id, p_id = nil)
@@ -177,7 +173,7 @@ class Opportunity < ApplicationRecord
     # just in case someone says as_json(nil) and bypasses
     # our default...
     super((options || { }).merge({
-                                   :methods => [:category_title, :overdue?, :pct_done]
+                                   :methods => [:overdue?]
     }))
   end
 
