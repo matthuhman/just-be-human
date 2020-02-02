@@ -46,19 +46,7 @@ class Opportunity < ApplicationRecord
 
 
   def can_complete?
-    return unless defined
-    at_completion_date = Time.now >= target_completion_date
-
-    if at_completion_date
-      requirements.each do |r|
-        if !r.defined
-          return false
-        end
-      end
-      true
-    else
-      false
-    end
+    Time.now >= target_completion_date
   end
 
   # def can_define?
@@ -73,23 +61,11 @@ class Opportunity < ApplicationRecord
   # end
 
   def overdue?
-    if defined
-      target_completion_date? && target_completion_date < Date.today
-    else
-      planned_by_date? && planned_by_date < Date.today
-    end
+    target_completion_date < Date.today
   end
 
   def display_date
-    if defined
-      target_completion_date.strftime('%m/%d/%Y - %l:%M%P')
-    else
-      if planned_by_date != nil
-        planned_by_date.strftime('%m/%d/%Y')
-      else
-        nil
-      end
-    end
+    target_completion_date.strftime('%m/%d/%Y - %l:%M%P')
   end
 
   def display_title

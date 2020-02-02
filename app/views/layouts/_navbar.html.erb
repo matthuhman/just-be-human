@@ -8,24 +8,22 @@
   <div class="desktop-nav" >
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link nav-donate-link" href="/donate">Donate</a>
+
       </li>
       <% if current_user %>
-        <li class="nav-item" id="home-step2">
-          <%= link_to 'New Opportunity', new_opportunity_path, class: 'nav-link' %>
-        </li>
+
         <li class="nav-item dropdown" data-behavior="notifications">
-          <a aria-expanded="false" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" onclick="markAsRead(<%= current_user.notifications.unread.empty? %>)">
+          <a aria-expanded="false" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button">
             <%= fa_icon 'bell' %>
             <span class="glyphicon glyphicon-bell"></span>
-            <span class="badge" data-behavior="unread-count"></span>
+            <span class="notifications-text">Notifications - <span class="badge" data-behavior="unread-count"></span></span>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" data-behavior="notification-items" id="notifications">
             <% if current_user.notifications.unread.empty? %>
               <li>
                 <div class="container-fluid">
-                  <p class="text-center small">No new notifications</p>
+                  <p class="text-center">No new notifications</p>
                 </div>
               </li>
             <% end %>
@@ -33,12 +31,14 @@
         </li>
         <li class="nav-item dropdown last-nav-item">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Options
+            Menu
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to 'Conversations', conversations_path, class: 'dropdown-item' %>
+            <%= link_to 'Create Cleanup', new_opportunity_path, class: 'dropdown-item' %>
+            <%= link_to 'Messages', conversations_path, class: 'dropdown-item' %>
             <a class="dropdown-item" href="/users/edit">Settings</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item nav-donate-link" href="/donate">Donate</a>
             <a class="dropdown-item" href="/users/sign_out" data-method="delete">Sign Out</a>
             <!-- <a class="dropdown-item" href="/users/sign_out">Sign Out</a> -->
           </div>
@@ -64,13 +64,13 @@
         </li>
         <% if current_user %>
           <li class="nav-item">
-            <%= link_to 'New Opportunity', new_opportunity_path, class: 'nav-link' %>
+            <%= link_to 'Create Cleanup', new_opportunity_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Conversations', conversations_path, class: 'nav-link' %>
+            <%= link_to 'Messages', conversations_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/edit">Edit Account</a>
+            <a class="nav-link" href="/users/edit">Settings</a>
           </li>
           <li class="nav-item">
             <div class="nav-link"><%= link_to 'Sign Out', '/users/sign_out', method: :delete %></div>

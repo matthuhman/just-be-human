@@ -26,16 +26,10 @@
               </div>
             </a>
           <% end %>
-          <% if @is_admin && @opportunity.defined %>
+          <% if @is_admin && @opportunity.can_complete? %>
             <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
               <div class="mobile-action-btn">
                 Completed
-              </div>
-            </a>
-          <% elsif @is_admin && !@opportunity.defined %>
-            <a class="mobile-action dropdown-item" href="/opportunities/define?id=<%= @opportunity.id %>" onclick="return confirm('Are you sure? This cannot be reversed.')">
-              <div class="mobile-action-btn">
-                Planned
               </div>
             </a>
           <% end %>
@@ -120,7 +114,7 @@
         <div class="opportunity-center-title">
           General Information
         </div>
-        <div class="opportunity-info-row"><%= @opportunity.defined ? 'MEETING TIME' : 'PLAN BY DATE' %>
+        <div class="opportunity-info-row">CLEANUP TIME
           <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
         </div>
         <div class="opportunity-info-row">MEETING POINT

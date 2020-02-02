@@ -1,7 +1,6 @@
 <div class="opportunity-row" id="home-step5"
-  data-category="<%= opportunity.category_title %>"
   data-volunteers="<%= opportunity.volunteers_required - opportunity.volunteer_count != 0 %>"
-  data-defined="<%= opportunity.defined %>">
+  >
   <div class="opportunity-row-info">
     <a href="/opportunities/<%= opportunity.id %>">
       <h5 class="opportunity-title">
@@ -28,7 +27,7 @@
       </h5>
       <div class="opportunity-meta">
         <div class="opportunity-row-data">
-          <div class="opportunity-row-data-header"><%= opportunity.defined? ? 'Meeting Time:' : 'Plan by date:' %> </div>
+          <div class="opportunity-row-data-header">Cleanup Time:</div>
           <% if opportunity.overdue? %>
             <div class="opportunity-row-data-content opportunity-row-overdue">
               <%= opportunity.display_date %> - behind schedule!
