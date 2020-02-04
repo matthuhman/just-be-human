@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
-
+  get '/home' => 'pages#home'
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
@@ -11,9 +11,6 @@ Rails.application.routes.draw do
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
-
-  get '/contact/request' => 'users#request_contact_info'
-  get '/contact/response' => 'users#respond_contact_info'
 
   get '/my_opportunities' => 'pages#my_opportunities'
 
@@ -27,22 +24,23 @@ Rails.application.routes.draw do
   get '/opportunities/uncomplete' => 'opportunities#uncomplete'
   post 'opportunities/rsvp' => 'opportunities#rsvp'
 
-  get '/requirements/participate' => 'requirements#participate'
-  get '/requirements/cancel' => 'requirements#cancel_participation'
-  get '/requirements/promote' => 'requirements#promote_leader'
-  get '/requirements/demote' => 'requirements#remove_leader'
-
-
-  get '/requirements/complete' => 'requirements#mark_complete'
-  get '/requirements/incomplete' => 'requirements#mark_incomplete'
-  get '/requirements/define' => 'requirements#mark_defined'
+# 20200203 - remove requirements from Detrashers
+  # get '/requirements/participate' => 'requirements#participate'
+  # get '/requirements/cancel' => 'requirements#cancel_participation'
+  # get '/requirements/promote' => 'requirements#promote_leader'
+  # get '/requirements/demote' => 'requirements#remove_leader'
+  # get '/requirements/complete' => 'requirements#mark_complete'
+  # get '/requirements/incomplete' => 'requirements#mark_incomplete'
+  # get '/requirements/define' => 'requirements#mark_defined'
 
   get '/notifications/mark_as_read' => 'notifications#mark_as_read'
+
+  post '/signatures/callbacks' => 'signatures#callbacks'
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
 
-  resources :opportunities, :comments, :posts, :requirements
+  resources :opportunities, :comments, :posts, :signatures
   resources :notifications, only: [:index, :mark_as_read]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
