@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
 
-  resources :opportunities, :comments, :posts, :signatures
+    #20200211 - punting on signatures for sure, that's just more work than I
+    # can take on right now
+  resources :opportunities, :comments, :posts     #, :signatures
   resources :notifications, only: [:index, :mark_as_read]
 
   devise_for :users, :controllers => { registrations: 'registrations' }

@@ -1,0 +1,13 @@
+
+
+
+Full Calendar implementation
+
+https://medium.com/@a01700666/fullcalendar-in-ruby-on-rails-f98816950039
+
+https://github.com/bokmann/fullcalendar-rails
+
+https://fullcalendar.io/docs
+
+
+

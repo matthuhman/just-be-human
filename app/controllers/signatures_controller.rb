@@ -10,7 +10,7 @@ class SignaturesController < ApplicationController
   private
 
   def create_embedded_request(opts = {})
-    HelloSign.create_embedded_signature_request(1,
+    HelloSign.create_embedded_signature_request(test_mode: 1,
       client_id: ENV['HELLOSIGN_CLIENT_ID'],
       subject: 'My first embedded signature request',
       message: 'Awesome, right?',
