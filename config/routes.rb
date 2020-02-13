@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'leaderboard/show'
+  get 'leaderboard/index'
   root to: 'pages#home'
 
   get '/landing' => 'pages#landing'
