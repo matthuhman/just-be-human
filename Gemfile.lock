@@ -78,6 +78,9 @@ GEM
     aws-sdk-costexplorer (1.29.0)
       aws-sdk-core (~> 3, >= 3.61.1)
       aws-sigv4 (~> 1.1)
+    aws-sdk-dynamodb (1.36.0)
+      aws-sdk-core (~> 3, >= 3.61.1)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.24.0)
       aws-sdk-core (~> 3, >= 3.61.1)
       aws-sigv4 (~> 1.1)
@@ -419,6 +422,7 @@ DEPENDENCIES
   actiontext (= 6.0.2.1)
   ahoy_matey
   aws-sdk-costexplorer (= 1.29.0)
+  aws-sdk-dynamodb
   aws-sdk-s3
   better_errors
   binding_of_caller
