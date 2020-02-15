@@ -39,13 +39,13 @@ class Role
       follow_role.destroy
 
 
-      Opportunity.find(opp_id).requirements.each do |req|
-        role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
-        if role
-          role.destroy
-          should_decrement_volunteer_count = true
-        end
-      end
+      # Opportunity.find(opp_id).requirements.each do |req|
+      #   role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
+      #   if role
+      #     role.destroy
+      #     should_decrement_volunteer_count = true
+      #   end
+      # end
 
 
 
@@ -89,28 +89,22 @@ class Role
         oppo.volunteer_count += role.additional_vols
       end
     else
-      # if this is not their first response, we're going to have to
-      # if they're now NOT coming, if they don't have any Requirement roles, knock
-      # their level back to Follower, level to 5, and remove them and their addl's
-      # from the volunteer count
+      # if this is not their first response, we're going to have to check whether they were
+      # already RSVP'd or not
+      # if they're now NOT coming, knock their level back to Follower, level to 5,
+      # and remove them and their addl's from the volunteer count
       if !role.is_coming && old_is_coming
-        if RequirementRole.where(user_id: user.id, opportunity_id: oppo.id).size == 0
           role.level = 5
           role.title = "Follower"
           oppo.volunteer_count -= (role.additional_vols + 1)
-        else
-          oppo.volunteer_count -= role.additional_vols
-        end
-        # if they now ARE coming and weren't before, cehck to see if they have any RR's
+
+
+        # if they now ARE coming and weren't before
         # if they do, just add addl vols, if they don't, level to 4, title to Volunteer
       elsif role.is_coming && !old_is_coming
-        if RequirementRole.where(user_id: user.id, opportunity_id: oppo.id).size == 0
           role.level = 4
           role.title = "Volunteer"
           oppo.volunteer_count += (role.additional_vols + 1)
-        else
-          oppo.volunteer_count += role.additional_vols
-        end
 
         # if they ARE coming and were before, just compare the number of addl vols and
         # add or subtract as necessary
@@ -136,60 +130,60 @@ class Role
   #
   # creates a RequirementRole for a given user/requirement
   # sets the OpportunityRole level/title to 3/Volunteer if it isn't already
-  def self.volunteer(u_id, req_id, opp_id)
-    return true if (RequirementRole.find_by(user_id: u_id, requirement_id: req_id))
-    req_role = RequirementRole.new(user_id: u_id, requirement_id: req_id)
-    opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
-    req_role.level = 2
-    req_role.title = "Volunteer"
-    req_role.requirement_id = req_id
+  # def self.volunteer(u_id, req_id, opp_id)
+  #   return true if (RequirementRole.find_by(user_id: u_id, requirement_id: req_id))
+  #   req_role = RequirementRole.new(user_id: u_id, requirement_id: req_id)
+  #   opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+  #   req_role.level = 2
+  #   req_role.title = "Volunteer"
+  #   req_role.requirement_id = req_id
 
-    # if the user is currently a "follower", set their status to "volunteer"
+  #   # if the user is currently a "follower", set their status to "volunteer"
 
-    if opp_role.level > 3
-      opp_role.level = 3
-      opp_role.title = "Volunteer+"
-      if !opp_role.save
-        ReportedError.report("Role.volunteer_prob", opp_role.errors, 1000)
-        return false
-      end
-      Opportunity.increment_counter(:volunteer_count, opp_id)
-    end
+  #   if opp_role.level > 3
+  #     opp_role.level = 3
+  #     opp_role.title = "Volunteer+"
+  #     if !opp_role.save
+  #       ReportedError.report("Role.volunteer_prob", opp_role.errors, 1000)
+  #       return false
+  #     end
+  #     Opportunity.increment_counter(:volunteer_count, opp_id)
+  #   end
 
-    if req_role.save
-      Requirement.find(req_id).add_volunteer
-    else
-      ReportedError.report("Role.volunteer_req", req_role.errors, 1000)
-      false
-    end
-  end
+  #   if req_role.save
+  #     Requirement.find(req_id).add_volunteer
+  #   else
+  #     ReportedError.report("Role.volunteer_req", req_role.errors, 1000)
+  #     false
+  #   end
+  # end
 
 
-  def self.cancel(u_id, req_id, opp_id)
-    req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
-    if req_role
-      req_role.destroy
-      Requirement.find(req_id).subtract_volunteer
-    else
-      ReportedError.report("Role.cancel", "trying to cancel role that doesn't exist?? Framework logic error!!!", 1000)
-      return false
-    end
+  # def self.cancel(u_id, req_id, opp_id)
+  #   req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
+  #   if req_role
+  #     req_role.destroy
+  #     Requirement.find(req_id).subtract_volunteer
+  #   else
+  #     ReportedError.report("Role.cancel", "trying to cancel role that doesn't exist?? Framework logic error!!!", 1000)
+  #     return false
+  #   end
 
-    if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
-      opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
-      if opp_role.level > 3
-        opp_role.level = 5
-        opp_role.title = "Follower"
-        if !opp_role.save
-          ReportedError.report("Role.cancel", opp_role.errors, 1000)
-          return false
-        end
-        Opportunity.decrement_counter(:volunteer_count, opp_id)
-      end
-    end
+  #   if RequirementRole.where(user_id: u_id, requirement_id: req_id).size == 0
+  #     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+  #     if opp_role.level > 3
+  #       opp_role.level = 5
+  #       opp_role.title = "Follower"
+  #       if !opp_role.save
+  #         ReportedError.report("Role.cancel", opp_role.errors, 1000)
+  #         return false
+  #       end
+  #       Opportunity.decrement_counter(:volunteer_count, opp_id)
+  #     end
+  #   end
 
-    true
-  end
+  #   true
+  # end
 
 
   def self.set_opp_leader(outgoing_id, incoming_id, oppo)
@@ -199,13 +193,8 @@ class Role
     incoming_role = OpportunityRole.find_by(user_id: incoming_id, opportunity_id: oppo)
 
     if outgoing_role.is_coming
-      if RequirementRole.where(user_id: outgoing_id, opportunity_id: oppo).size == 0
-        outgoing_role.level = 4
-        outgoing_role.title = "Volunteer"
-      else
-        outgoing_role.level = 3
-        outgoing_role.title = "Volunteer+"
-      end
+      outgoing_role.level = 4
+      outgoing_role.title = "Volunteer"
     else
       outgoing_role.level = 5
       outgoing_role.title = "Follower"
@@ -241,37 +230,8 @@ class Role
         false
       end
     else
-      ReportedError.report("Role.make_supervisor", "trying to promote opp_role that doesn't exist?? Framework logic error!!!", 1000)
+      ReportedError.report("Role.make_opp_supervisor", "trying to promote opp_role that doesn't exist?? Framework logic error!!!", 1000)
       false
-    end
-  end
-
-
-  def self.make_req_leader(u_id, req_id)
-    req_role = RequirementRole.find_by(user_id: u_id, requirement_id: req_id)
-
-    # can only have one leader per requirement- if one exists, do not appoint new one
-    if RequirementRole.find_by(requirement_id: req_id, level: 1)
-      return false
-    end
-
-    if req_role
-      req_role.level = 1
-      req_role.title = "Leader"
-
-      req_role.save
-    end
-  end
-
-
-  def self.remove_req_leader(req_id)
-    req_role = RequirementRole.find_by(requirement_id: req_id, level: 1)
-
-    if req_role
-      req_role.level = 2
-      req_role.title = "Volunteer"
-
-      req_role.save
     end
   end
 
@@ -280,14 +240,9 @@ class Role
     opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
 
     if opp_role
-      if RequirementRole.where(user_id: u_id, opportunity_id: opp_id).size == 0
-        opp_role.level = 5
-        opp_role.title = "Follower"
-        decrement_volunteer_counter = true
-      else
-        opp_role.level = 3
-        opp_role.title = "Volunteer+"
-      end
+      opp_role.level = 5
+      opp_role.title = "Follower"
+      decrement_volunteer_counter = true
 
       if opp_role.save
         if decrement_volunteer_counter
@@ -299,8 +254,45 @@ class Role
         false
       end
     else
-      ReportedError.report("Role.remove_supervisor", "framework logic error", 1000)
+      ReportedError.report("Role.remove_opp_supervisor", "framework logic error", 1000)
       false
     end
   end
+
+
+
+  def self.verify_self(u_id, opp_id, self_verification, is_leader_present)
+    opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+
+    if opp_role
+      opp_role.self_verified = self_verification
+      opp_role.self_verified_at = Time.new
+
+      if self_verification
+        opp_role.leader_was_present = is_leader_present
+      end
+
+      opp_role.save
+    else
+      ReportedError.report("Role.verify_self", "framework logic error!! trying to verify role that doesn't exist", 1000)
+      false
+    end
+  end
+
+
+
+  def self.verify_user(u_id, opp_id, leader_verification)
+    opp_role = OpportunityRole.find_by(user_id: u_id, opportunity_id: opp_id)
+
+    if opp_role
+      opp_role.leader_verified = leader_verification
+      opp_role.leader_verified_at = Time.new
+
+      opp_role.save
+    else
+      ReportedError.report("Role.verify_user", "framework logic error!! trying to verify role that doesn't exist", 1000)
+      false
+    end
+  end
+
 end

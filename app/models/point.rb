@@ -21,7 +21,7 @@ class Point
   def self.add_event(user, type)
     t = Time.new
     point = {
-      pk: "USER_#{user.username}",
+      pk: "USERPOINT_#{user.username}",
       sk: "#{type.upcase}-#{(t.to_f * 1000).to_i}",
       gsi1: "##{user.country}_#{user.region}"
     }
@@ -41,8 +41,10 @@ class Point
   end
 
 
-  private
 
+
+
+  private
 
     def self.table_name
       ENV["LEADERBOARD_DYNAMO_TABLE"]
