@@ -81,18 +81,18 @@ Rails 5.2
 TODO LIST - 20191021
 
   - still need to write some tests
-  - redesign opportunity page to be a single list with different types
+  - ~redesign opportunity page to be a single list with different types
     - requirements
     - posts
     - "ideas" - need a better name for this
-    - SCHEMA???
+    - SCHEMA???~
   - there are some styling things that need to be cleaned up
     - personal messages are pretty ugly
     - posts are too busy and are hard to read
     - opportunity metadata needs to be presented in a better way- meeting time and place?
-  - requirements need to be fixed so that Oppos can be marked complete
+  - ~requirements need to be fixed so that Oppos can be marked complete
     - just mark them all as complete, fuck it
-    - this is not an acceptable long-term solution though... lol
+    - this is not an acceptable long-term solution though... lol~
   - COMPLETION PAGE NEEDS TO BE DONE!!!
     - oppo#show controller checks to see if oppo is complete
     - if so, redirect to completion post for that oppo
