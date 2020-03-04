@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_024249) do
+ActiveRecord::Schema.define(version: 2020_03_04_021606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -136,6 +136,11 @@ ActiveRecord::Schema.define(version: 2020_02_13_024249) do
     t.boolean "dst_flag"
     t.string "coordinates"
     t.index ["zip"], name: "index_geopoints_on_zip"
+  end
+
+  create_table "leaderboards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -320,6 +325,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_024249) do
     t.datetime "locked_at"
     t.string "time_zone"
     t.boolean "allow_email", default: true
+    t.integer "points", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

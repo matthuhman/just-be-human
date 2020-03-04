@@ -51,6 +51,8 @@ class Role
   end
 
   def self.rsvp(user, role, params)
+    return false unless role
+
     oppo = role.opportunity
 
     first_response = !role.has_responded
@@ -108,7 +110,10 @@ class Role
 
     oppo.opportunity_roles.each do |r|
       if r.user != role.user
-        Notification.create(recipient: r.user, actor: role.user, action: "RSVP'd with #{role.additional_vols} people", notifiable: oppo)
+        created = Notification.create(recipient: r.user, actor: role.user, action: "RSVP'd with #{role.additional_vols} people", notifiable: oppo)
+        if !created
+          ReportedError.report("Role.rsvp.createNotification", "did not successfully create notification", 2000)
+        end
       end
     end
 
@@ -262,6 +267,8 @@ class Role
       end
 
       opp_role.save
+
+      Leaderboard.update(opp_role)
     else
       ReportedError.report("Role.verify_self", "framework logic error!! trying to verify role that doesn't exist", 1000)
       false
@@ -278,6 +285,8 @@ class Role
       opp_role.leader_verified_at = Time.new
 
       opp_role.save
+
+      Leaderboard.update(opp_role)
     else
       ReportedError.report("Role.verify_user", "framework logic error!! trying to verify role that doesn't exist", 1000)
       false
