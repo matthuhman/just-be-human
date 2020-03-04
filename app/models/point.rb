@@ -46,12 +46,18 @@ class Point
 
   private
 
+    @@dynamo_client = null
+
     def self.table_name
       ENV["LEADERBOARD_DYNAMO_TABLE"]
     end
 
     def self.client
-      Aws::DynamoDB::Client.new
+      if !@@dynamo_client
+        @@dynamo_client = Aws::DynamoDB::Client.new
+      end
+
+      @@dynamo_client
     end
 
     def self.get(pk)
