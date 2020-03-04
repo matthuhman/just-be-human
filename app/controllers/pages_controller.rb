@@ -10,6 +10,17 @@ class PagesController < ApplicationController
     end
   end
 
+
+  def calendar
+
+
+
+
+
+
+
+  end
+
   # This action represents the main interface for the application.
   # Uses the google maps JS integration to display @opportunities on the map
   # If there is no user, it redirects to the landing screen

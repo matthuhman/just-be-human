@@ -25,6 +25,11 @@
 //= require trix/dist/trix
 //= require conversations
 //= require ahoy
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/locale-all
+
+$('#calendar').fullCalendar({});
 
 let intro;
 

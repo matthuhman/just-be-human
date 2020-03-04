@@ -68,6 +68,8 @@ gem 'icalendar'
 gem 'hellosign-ruby-sdk'
 gem 'binding_of_caller'
 gem 'aws-sdk-dynamodb'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 gem "actiontext", "6.0.2.1"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’

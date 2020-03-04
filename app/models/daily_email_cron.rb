@@ -33,15 +33,13 @@ class DailyEmailCron
 
     current_opportunities = Opportunity.where('target_completion_date > ?', Time.current)
 
-    two_weeks_away = (Date.today + 2.weeks)
+    today = Date.today
 
     current_opportunities.each do |o|
-      tcd = o.target_completion_date
+      tcd = o.target_completion_date.to_date
 
-      tcd = tcd.to_date
-
-      if (tcd + 2.weeks) > two_weeks_away
-        user_reminders = DailyEmailCron.add_reminders(o, user_reminders, (tcd - Date.today).to_i)
+      if (tcd - 2.weeks) <= today
+        user_reminders = DailyEmailCron.add_reminders(o, user_reminders, (tcd - today).to_i)
       end
     end
 
