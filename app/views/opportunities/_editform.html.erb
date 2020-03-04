@@ -10,7 +10,6 @@
         <%= f.input :description, placeholder: "A good description will go a long way." %>
       </div>
     </div>
-    <% if @opportunity.defined %>
       <div class="defined-options-container" id="defined-options">
         <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
         <div class="completion-date-selection">
@@ -20,20 +19,6 @@
           <%= f.input :volunteers_required %>
         </div>
       </div>
-    <% else %>
-      <div class="abstract-options-container" id="abstract-options" >
-        <div class="difficulty-container" id="new-opportunity-step2">
-          <h5 class="difficulty-subheader">How much help do you need?</h5>
-          <div class="volunteers-required-input">
-            <%= f.input :volunteers_required %>
-          </div>
-          <div class="completion-date-selection">
-            <%= f.label "This is when you would ideally have a solution figured out- don't worry, you can always change this later!" %>
-            <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute] %>
-          </div>
-        </div>
-      </div>
-    <% end %>
     <div class="location-container" id="new-opportunity-step3">
       <h5 class="location-subheader">Where is your opportunity located?</h5>
       <div class="location-selection">

@@ -38,17 +38,6 @@ class Role
 
       follow_role.destroy
 
-
-      # Opportunity.find(opp_id).requirements.each do |req|
-      #   role = RequirementRole.find_by(user_id: u_id, requirement_id: req.id)
-      #   if role
-      #     role.destroy
-      #     should_decrement_volunteer_count = true
-      #   end
-      # end
-
-
-
       Opportunity.decrement_counter(:follower_count, opp_id)
       if should_decrement_volunteer_count
         oppo = Opportunity.find(opp_id)
