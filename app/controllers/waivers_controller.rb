@@ -1,16 +1,19 @@
 class WaiversController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_waiver
+  before_action :set_waiver, except: :new
 
   def create
+    #oppo = Opportunity.find(waiver_params[:opportunity_id])
+
     @waiver = Waiver.new(waiver_params)
     @waiver.user = current_user
+
     if @waiver.save
-      redirect_to @waiver.opportunity, notice: @waiver.fileName + ' has been uploaded successfully'
+      redirect_to @waiver, notice: @waiver.fileName + ' has been uploaded successfully'
     else
       ReportedError.report('WaiverController.create', @waiver.errors, 1000)
-      redirect_to @waiver.opportunity, alert: 'Waiver was not uploaded correctly. The error has been logged for investigation.'
+      redirect_to @waiver, alert: 'Waiver was not uploaded correctly. The error has been logged for investigation.'
     end
   end
 
