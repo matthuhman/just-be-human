@@ -48,13 +48,6 @@ Rails 5.2
 
 
 
-
-
-
-
-
-
-
 ### Ignore this stuff - I stole this from a rails dev's list of "most used gems"
 ### and am just using it for easy reference/a reminder to look into the rest of these in the future
 
