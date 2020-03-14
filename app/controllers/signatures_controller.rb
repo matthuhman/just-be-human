@@ -6,8 +6,7 @@ class SignaturesController < ApplicationController
     opportunity = Opportunity.find(params[:signature][:opportunity_id])
 
     if (!waiver || !opportunity)
-      # TODO: redirect to home page
-      binding.pry
+      redirect_to '/', alert: 'Waiver ID or Opportunity ID was invalid'
     end
 
     is_current_user = current_user.id == params[:signature][:user_id]
@@ -16,22 +15,18 @@ class SignaturesController < ApplicationController
     remote_ip = request.remote_ip
 
     if (!is_current_user || !is_follower || !remote_ip)
-      # TODO: redirect to opportunity page
-      binding.pry
+      redirect_to opportunity, alert: 'Signature did not have required information'
     end
 
     signature = Signature.new(waiver: waiver, user: current_user, opportunity: opportunity,#
      user_salt: user.authenticatable_salt, waiver_hash: waiver_hash, signer_ip: remote_ip)#
 
     if signature.create
-      # redirect to oppo page
-
+      redirect_to opportunity, notice: 'Waiver was signed successfully'
     else
-      # redirect to oppo page w/ error message
-
+      ReportedError.report('Signature.create', signature.errors, 100)
+      redirect_to opportunity, alert: 'Waiver was not signed successfully.'
     end
-
-
   end
 
 
