@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_04_021606) do
+ActiveRecord::Schema.define(version: 2020_03_14_212714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -199,6 +199,16 @@ ActiveRecord::Schema.define(version: 2020_03_04_021606) do
     t.index ["user_id"], name: "index_opportunity_roles_on_user_id"
   end
 
+  create_table "opportunity_waivers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "opportunity_id"
+    t.bigint "waiver_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["opportunity_id", "waiver_id"], name: "index_opportunity_waivers_on_opportunity_id_and_waiver_id", unique: true
+    t.index ["opportunity_id"], name: "index_opportunity_waivers_on_opportunity_id"
+    t.index ["waiver_id"], name: "index_opportunity_waivers_on_waiver_id"
+  end
+
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "city"
@@ -326,11 +336,42 @@ ActiveRecord::Schema.define(version: 2020_03_04_021606) do
     t.string "time_zone"
     t.boolean "allow_email", default: true
     t.integer "points", default: 0
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invitations_count"], name: "index_users_on_invitations_count"
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["username"], name: "index_users_on_username"
+  end
+
+  create_table "waivers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "file_hash"
+    t.string "title"
+    t.string "location"
+    t.string "description"
+    t.boolean "is_public", default: false
+    t.boolean "is_general_purpose", default: false
+    t.bigint "user_id"
+    t.bigint "opportunity_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "long", precision: 10, scale: 6
+    t.string "state_code"
+    t.uuid "parent_waiver_id"
+    t.index ["opportunity_id"], name: "index_waivers_on_opportunity_id"
+    t.index ["user_id"], name: "index_waivers_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

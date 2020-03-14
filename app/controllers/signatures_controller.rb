@@ -1,38 +1,44 @@
 class SignaturesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:callbacks]
+  before_action :authenticate_user!
 
   def create
-    embedded_request = create_embedded_request(name: params[:name], email: params[:email])
-    @sign_url = get_sign_url(embedded_request)
-    render :embedded_signature
+    waiver = Waiver.find(params[:signature][:waiver_id])
+    opportunity = Opportunity.find(params[:signature][:opportunity_id])
+
+    if (!waiver || !opportunity)
+      # TODO: redirect to home page
+      binding.pry
+    end
+
+    is_current_user = current_user.id == params[:signature][:user_id]
+    is_follower = current_user.is_follower?(opportunity.id)
+    waiver_hash = params[:signature][:waiver_hash]
+    remote_ip = request.remote_ip
+
+    if (!is_current_user || !is_follower || !remote_ip)
+      # TODO: redirect to opportunity page
+      binding.pry
+    end
+
+    signature = Signature.new(waiver: waiver, user: current_user, opportunity: opportunity,#
+     user_salt: user.authenticatable_salt, waiver_hash: waiver_hash, signer_ip: remote_ip)#
+
+    if signature.create
+      # redirect to oppo page
+
+    else
+      # redirect to oppo page w/ error message
+
+    end
+
+
   end
+
 
   private
 
-  def create_embedded_request(opts = {})
-    HelloSign.create_embedded_signature_request(test_mode: 1,
-      client_id: ENV['HELLOSIGN_CLIENT_ID'],
-      subject: 'My first embedded signature request',
-      message: 'Awesome, right?',
-      signers: [
-        {email_address: opts[:email],
-          name: opts[:name]}
-      ],
-      files: ['offer_letter.pdf']
-    )
-  end
+    def sign_params
+      params.require(:signature).permit(:waiver_id, :opportunity_id, :user_id, :waiver_hash)
+    end
 
-  def get_sign_url(embedded_request)
-    sign_id = get_first_signature_id(embedded_request)
-    HelloSign.get_embedded_sign_url(signature_id: sign_id).sign_url
-  end
-
-  def get_first_signature_id(embedded_request)
-    embedded_request.signatures[0].signature_id
-  end
-
-
-  def callbacks
-    render json: 'Hello API Event Received', status: 200
-  end
 end

@@ -6,7 +6,7 @@ class OpportunityMailer < ApplicationMailer
     @opportunity = opportunity
     @cal = build_ical_file(opportunity)
 
-    mail.attachments['opportunity.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
+    mail.attachments['cleanup.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
     mail(to: user.email, subject: "Add #{opportunity.title} to your calendar!")
   end
 
@@ -21,7 +21,7 @@ class OpportunityMailer < ApplicationMailer
         e.summary = oppo.title
         e.description = oppo.description
         e.location = oppo.address
-        e.url = "https://justbehuman.io/opportunities/#{oppo.id}"
+        e.url = "https://detrashers.org/opportunities/#{oppo.id}"
       end
     end
 end

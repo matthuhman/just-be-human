@@ -4,23 +4,28 @@ Ruby 2.6.2
 
 Rails 5.2
 
-# CURRENT DEPLOYMENT STATUS
-* deployed to EC2 t3a.large instance with postgres RDS db
+# CURRENT DEPLOYMENT NOTES
+* deployed to EC2 t2.micro instance with postgres RDS db
   * Ruby 2.6.2
   * Rails 6.0.2.1
   * rvm used for install
   * nginx and passenger
     * to start and stop, use `start-nginx` and `kill-nginx` commands as ec2-user
+    * nginx is installed at `/opt/nginx` and passenger is in $PATH
   * to redeploy platform:
     * run `assume-jbh-user` command as ec2-user
     * run `redeploy` as justbehuman
   * to regenerate SSL certs:
     * run `/etc/certbot-auto --debug -v --server https://acme-v02.api.letsencrypt.org/directory certonly -d detrashers.org`
+  * ClamAV is installed as an antivirus
+    * https://www.clamav.net/documents/installing-clamav for installation instructions
 
 
 # Technical Questions
 
-* none atm
+* So, what do we need to do to set up a Wiki that can be modified by any authenticated user simultaneously?
+* Websockets?? That would be really really cool...
+* I'm almost certain that Rails 5
 
 # Architectural/Design Questions
 
@@ -48,6 +53,10 @@ Rails 5.2
 
 
 
+
+
+### Ignore this stuff - I stole this from a rails dev's list of "most used gems"
+### and am just using it for easy reference/a reminder to look into the rest of these in the future
 
 
 I've definitely reduced the amount of gems I use compared to last year.
