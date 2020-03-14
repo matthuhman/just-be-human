@@ -302,6 +302,13 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+
+
+  def self_verify
+
+
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_opportunity

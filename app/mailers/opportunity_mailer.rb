@@ -7,6 +7,9 @@ class OpportunityMailer < ApplicationMailer
     @cal = build_ical_file(opportunity)
 
     mail.attachments['cleanup.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
+    @opportunity.waivers.each do |w|
+      mail.attachments[w.file_name] = { mime_type: w.file_type, content: w.waiver_file }
+    end
     mail(to: user.email, subject: "Add #{opportunity.title} to your calendar!")
   end
 

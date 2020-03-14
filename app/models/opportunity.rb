@@ -6,6 +6,8 @@ class Opportunity < ApplicationRecord
   has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements, :dependent => :destroy
   has_many :posts
+  has_many :waivers, through: :opportunity_waivers
+  has_many :signatures
 
   geocoded_by :address
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
