@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_212714) do
+ActiveRecord::Schema.define(version: 2020_03_14_212803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -296,6 +296,21 @@ ActiveRecord::Schema.define(version: 2020_03_14_212714) do
     t.index ["opportunity_id"], name: "index_requirements_on_opportunity_id"
   end
 
+  create_table "signatures", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "opportunity_id", null: false
+    t.uuid "waiver_id", null: false
+    t.string "user_salt"
+    t.string "signer_ip"
+    t.string "waiver_hash"
+    t.string "signature_sha256_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["opportunity_id"], name: "index_signatures_on_opportunity_id"
+    t.index ["user_id"], name: "index_signatures_on_user_id"
+    t.index ["waiver_id"], name: "index_signatures_on_waiver_id"
+  end
+
   create_table "user_organizations", force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "organization_id"
@@ -377,4 +392,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_212714) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "personal_messages", "conversations"
   add_foreign_key "personal_messages", "users"
+  add_foreign_key "signatures", "opportunities"
+  add_foreign_key "signatures", "users"
+  add_foreign_key "signatures", "waivers"
 end
