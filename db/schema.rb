@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_222441) do
+ActiveRecord::Schema.define(version: 2020_03_14_234526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -387,6 +387,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_222441) do
     t.uuid "parent_waiver_id"
     t.string "file_type"
     t.string "file_name"
+    t.boolean "is_official", default: false
     t.index ["opportunity_id"], name: "index_waivers_on_opportunity_id"
     t.index ["user_id"], name: "index_waivers_on_user_id"
   end

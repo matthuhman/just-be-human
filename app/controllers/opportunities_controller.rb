@@ -4,7 +4,7 @@ class OpportunitiesController < ApplicationController
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_old_token
 
 
-  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow]
+  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow, :sign]
   before_action :authenticate_user!, except: [:show]
 
   before_action :set_time_options, only: [:create, :edit, :new]

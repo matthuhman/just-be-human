@@ -24,7 +24,34 @@ Rails.application.routes.draw do
   get '/opportunities/followers' => 'opportunities#followers'
   get '/opportunities/complete' => 'opportunities#complete'
   get '/opportunities/uncomplete' => 'opportunities#uncomplete'
-  post 'opportunities/rsvp' => 'opportunities#rsvp'
+  get '/opportunities/:id/sign' => 'opportunties#sign'
+
+  post '/opportunities/rsvp' => 'opportunities#rsvp'
+
+
+  post '/signatures' => 'signatures#create'
+  post '/waivers' => 'waivers#create'
+
+
+  get '/notifications/mark_as_read' => 'notifications#mark_as_read'
+
+  resources :conversations, only: [:index, :show]
+  resources :personal_messages, only: [:new, :create]
+  resources :waivers, only: [:new, :edit, :show]
+    #20200211 - punting on signatures for sure, that's just more work than I
+    # can take on right now
+  resources :opportunities, :comments, :posts    #, :signatures
+  resources :notifications, only: [:index, :mark_as_read]
+
+  devise_for :users, :controllers => { registrations: 'registrations' }
+
+
+
+
+
+
+
+
 
 # 20200203 - remove requirements from Detrashers
   # get '/requirements/participate' => 'requirements#participate'
@@ -34,21 +61,5 @@ Rails.application.routes.draw do
   # get '/requirements/complete' => 'requirements#mark_complete'
   # get '/requirements/incomplete' => 'requirements#mark_incomplete'
   # get '/requirements/define' => 'requirements#mark_defined'
-
-  get '/notifications/mark_as_read' => 'notifications#mark_as_read'
-
-  post '/signatures/callbacks' => 'signatures#callbacks'
-
-  resources :conversations, only: [:index, :show]
-  resources :personal_messages, only: [:new, :create]
-
-    #20200211 - punting on signatures for sure, that's just more work than I
-    # can take on right now
-  resources :opportunities, :comments, :posts     #, :signatures
-  resources :notifications, only: [:index, :mark_as_read]
-
-  devise_for :users, :controllers => { registrations: 'registrations' }
-
-
 
 end

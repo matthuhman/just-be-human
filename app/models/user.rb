@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :opportunity_roles, :dependent => :destroy
   has_many :opportunities, through: :opportunity_roles
 
-  has_many :requirement_roles, :dependent => :destroy
-  has_many :requirements, through: :requirement_roles
+  # has_many :requirement_roles, :dependent => :destroy
+  # has_many :requirements, through: :requirement_roles
 
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
@@ -23,14 +23,15 @@ class User < ApplicationRecord
   has_many :personal_messages, :dependent => :destroy
   has_many :notifications, foreign_key: :recipient_id
 
+  has_many :waivers
+  has_many :signatures
+
   # profanity validations
   validates_uniqueness_of :username, message: 'is already taken.'
   validate :username_allowed
   validates :username, obscenity: true
   validates :first_name, obscenity: true
   validates :last_name, obscenity: true
-  validates :city, obscenity: true
-  validates :region, obscenity: true
 
 
   # before_save :validate

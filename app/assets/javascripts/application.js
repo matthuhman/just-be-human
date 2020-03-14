@@ -29,6 +29,8 @@
 //= require fullcalendar
 //= require fullcalendar/locale-all
 
+
+
 $('#calendar').fullCalendar({});
 
 let intro;

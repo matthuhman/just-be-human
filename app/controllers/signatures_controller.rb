@@ -19,7 +19,7 @@ class SignaturesController < ApplicationController
     end
 
     signature = Signature.new(waiver: waiver, user: current_user, opportunity: opportunity,#
-     user_salt: user.authenticatable_salt, waiver_hash: waiver_hash, signer_ip: remote_ip)#
+     user_salt: current_user.authenticatable_salt, waiver_hash: waiver_hash, signer_ip: remote_ip)#
 
     if signature.create
       redirect_to opportunity, notice: 'Waiver was signed successfully'

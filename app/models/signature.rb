@@ -3,6 +3,9 @@ class Signature < ApplicationRecord
   belongs_to :opportunity
   belongs_to :waiver
 
+  # TODO: add field validations to model
+  # validates_presence_of :
+
   after_create :generate_sha256_hash
 
   @@digest = nil
