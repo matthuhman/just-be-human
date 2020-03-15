@@ -8,25 +8,19 @@
 
 
 
-.new-cleanup-page {
+.new-cleanup-page,
+.edit-cleanup-page {
   height: 100%;
   padding-top: 5vh;
   overflow-y: auto;
 
-  .new_opportunity {
+  .new_opportunity,
+  .edit_opportunity {
     width: 80vw;
     margin: auto;
     background-color: rgba(255,255,255,.85);
     border-radius: 5px;
     border: 2px solid black;
-
-
-    .new-cleanup-form-title {
-      font-family: 'TwinMarker';
-      font-size: 4rem;
-      color: $darkgreen;
-      text-align: center;
-    }
 
     .form-group {
       max-width: 80%;
@@ -97,6 +91,8 @@
 }
 
 .opportunity-show-page {
+  background-color: white;
+  height: 100%;
   @include respond-to(handhelds) {
 
     .opportunity-tab-links {
