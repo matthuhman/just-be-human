@@ -304,8 +304,8 @@ class OpportunitiesController < ApplicationController
 
 
 
-  def self_verify
-
+  def sign
+    @waivers = @opporuntity.waivers
 
   end
 

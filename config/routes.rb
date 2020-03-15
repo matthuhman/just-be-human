@@ -2,10 +2,11 @@ Rails.application.routes.draw do
 
   get 'leaderboard/show'
   get 'leaderboard/index'
-  root to: 'pages#home'
+  root to: 'pages#calendar'
 
   get '/landing' => 'pages#landing'
-  get '/home' => 'pages#home'
+  get '/map' => 'pages#map'
+  get '/calendar' => 'pages#calendar'
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'

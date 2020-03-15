@@ -12,7 +12,20 @@ class PagesController < ApplicationController
 
 
   def calendar
+    if current_user
+      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.postal_code
+      @geopoint = Geopoint.find_by(zip: @zip)
 
+      if !@geopoint
+        @geopoint = Geopoint.find_by(zip: current_user.postal_code)
+        flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
+      end
+
+
+      @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.target_completion_date }
+      @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
+      @roles = current_user.opportunity_roles
 
 
 
@@ -24,7 +37,7 @@ class PagesController < ApplicationController
   # This action represents the main interface for the application.
   # Uses the google maps JS integration to display @opportunities on the map
   # If there is no user, it redirects to the landing screen
-  def home
+  def map
     if current_user
       @zip = location_params[:location_term] ? location_params[:location_term] : current_user.postal_code
       @geopoint = Geopoint.find_by(zip: @zip)
