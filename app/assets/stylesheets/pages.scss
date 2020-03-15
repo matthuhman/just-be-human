@@ -96,6 +96,108 @@
   }
 }
 
+.simple-calendar {
+
+  .table {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  .today-marker {
+    text-align: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+
+  .calendar-page-title {
+    color: $darkgreen;
+    font-weight: 700;
+    font-family: 'TwinMarker';
+    font-size: 8rem;
+    width: 100%;
+    text-align: center;
+    padding-top: 5vh;
+  }
+
+  width: 80vw;
+  height: 50vh;
+  margin: auto;
+
+  .calendar-title {
+    text-align: center;
+  }
+
+  .is-current-day-true {
+    background-color: rgba(255, 255, 153, .75) !important;
+  }
+
+  .day {
+    background-color: rgba(255,255,255,.75);
+    border: 1px solid $darkgreen;
+    overflow-y: auto;
+
+    .calendar-opportunity {
+      width: 100%;
+      text-align: center;
+      font-size: 1.1rem;
+      background-color: $darkgreen-hvy;
+      color: white;
+      padding: 5px;
+      border: 1px solid black;
+      border-radius: 3px;
+
+
+      .calendar-opportunity-title {
+        font-size: 1.8rem;
+
+      }
+
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+
+
+  }
+
+  .calendar-header {
+    font-size: 2rem;
+    background-color: $darkgreen-hvy;
+    color: white;
+    border: 1px solid $darkgreen;
+    text-align: center;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+  }
+
+  .calendar-heading {
+    font-size: 3.2rem;
+    color: black;
+    background-color: rgba(255,255,255,.5);
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid $darkgreen;
+  }
+
+  .calendar-nav-btn {
+    font-size: 4rem;
+    font-family: 'TwinMarker';
+    color: black;
+    font-weight: 700;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .calendar-footer {
+    text-align: center;
+    background-color: $darkgreen;
+    color: white;
+    font-size: 2rem;
+  }
+
+}
+
 
 
 

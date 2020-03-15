@@ -12,7 +12,7 @@ class PagesController < ApplicationController
 
 
   def calendar
-    offset = calendar_params[:week_offset] ? calendar_params[:week_offset].to_i : 0
+    # offset = calendar_params[:week_offset] ? calendar_params[:week_offset].to_i : 0
     if current_user
       @zip = calendar_params[:postcode] ? calendar_params[:postcode] : current_user.postal_code
       @geopoint = Geopoint.find_by(zip: @zip)
@@ -36,13 +36,14 @@ class PagesController < ApplicationController
     # binding.pry
 
     if @geopoint
-      week_start = Date.today.beginning_of_week
-      week_end = Date.today.end_of_week
+      # week_start = Date.today.beginning_of_week
+      # week_end = Date.today.end_of_week
 
 
-      @offset_end = week_end.next_day(7 * offset)
-      @offset_start = week_start.next_day(7 * offset)
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("target_completion_date >= ?", @offset_start)
+      # @offset_end = week_end.next_day(7 * offset)
+      # @offset_start = week_start.next_day(7 * offset)
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("cleanup_date >= ?", Date.today)
+      # binding.pry
     else
       @geopoint = nil
     end
@@ -61,15 +62,15 @@ class PagesController < ApplicationController
       end
 
 
-      @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.target_completion_date }
+      @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.cleanup_date }
       @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date >= ?", Date.today).sort_by { |p| p.cleanup_date } - @my_opportunities
       @roles = current_user.opportunity_roles
     else
       @my_opportunities = []
       @title_hash = {}
       @geopoint = Geopoint.find_by(zip: '80202')
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date }
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date >= ?", Date.today).sort_by { |p| p.cleanup_date }
       @roles = []
     end
   end
