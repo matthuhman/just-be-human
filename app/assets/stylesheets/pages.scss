@@ -343,6 +343,7 @@
   display: grid;
   grid-template-columns: 45% 55%;
   height: 90vh;
+  background-color: white;
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;

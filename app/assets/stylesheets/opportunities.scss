@@ -6,6 +6,96 @@
 @import 'mixins.scss';
 
 
+
+
+.new-cleanup-page {
+  height: 100%;
+  padding-top: 5vh;
+  overflow-y: auto;
+
+  .new_opportunity {
+    width: 80vw;
+    margin: auto;
+    background-color: rgba(255,255,255,.85);
+    border-radius: 5px;
+    border: 2px solid black;
+
+
+    .new-cleanup-form-title {
+      font-family: 'TwinMarker';
+      font-size: 4rem;
+      color: $darkgreen;
+      text-align: center;
+    }
+
+    .form-group {
+      max-width: 80%;
+      margin: auto;
+
+      label {
+        font-size: 1.4rem;
+        padding-top: 2.5vh;
+      }
+
+      textarea {
+        height: 10vh;
+      }
+
+      .rails-bootstrap-forms-date-select {
+        text-align: center;
+
+
+        .form-control {
+          font-size: 3rem;
+        }
+      }
+
+      #opportunity_cleanup_time {
+        width: 25vw;
+        margin: auto;
+        text-align: center;
+        font-size: 3rem;
+      }
+
+      #opportunity_cleanup_duration {
+        width: 20vw;
+        margin: auto;
+        text-align: center;
+        font-size: 3rem;
+      }
+
+      #opportunity_volunteers_required {
+        width: 20vw;
+        margin: auto;
+        text-align: center;
+        font-size: 3rem;
+      }
+    }
+
+    .create-cleanup-btn-wrapper {
+      text-align: center;
+      width: 100%;
+    }
+
+    .create-cleanup-btn {
+      width: 25vw;
+      margin: auto;
+      background-color: $darkgreen;
+      color: white;
+      font-family: 'TwinMarker';
+      font-size: 3rem;
+      padding-top: 1vh;
+      padding-bottom: 1vh;
+      margin-top: 1vh;
+      margin-bottom: 1vh;
+    }
+
+    .duration-and-volunteers-wrapper {
+      padding-bottom: 4vh;
+    }
+  }
+}
+
 .opportunity-show-page {
   @include respond-to(handhelds) {
 

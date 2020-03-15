@@ -13,7 +13,7 @@
       <tr>
         <% date_range.slice(0, 7).each do |day| %>
           <th class="calendar-header">
-            <a class="calendar-map-link" href="/map?cleanup_date=<%= day %>">
+            <a class="calendar-map-link" href="/map?cleanup_date=<%= day %>&location_term=<%= @zip %>">
               <%= t('date.abbr_day_names')[day.wday] + ' ' + day.strftime('%m/%d') %>
             </a>
           </th>
@@ -36,7 +36,7 @@
   </table>
     <div class="calendar-footer">
       <div class="calendar-footer-note">
-        You can click on a specific day to see a map view of that day's cleanups.
+        Click on a specific day to see a map view of that day's cleanups.
       </div>
     </div>
 </div>

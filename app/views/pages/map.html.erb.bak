@@ -1,0 +1,179 @@
+<div class="home-page">
+  <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
+    <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
+  </div>
+  <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)" >
+    <h3>Filters</h3>
+    <div class="filter-container">
+      <div class="form-group">
+        <label for="opportunity_titles">Search Titles</label>
+        <input type="text" class="form-control" id="opportunity_titles" oninput="handleTextInput(event)" aria-describedby="opportunity_titles" placeholder="Search by title">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="opportunity_volunteers" onchange="handleCheckbox(event)" aria-describedby="opportunity_volunteers">
+        <label for="opportunity_volunteers">Needs Volunteers</label>
+      </div>
+    </div>
+  </div>
+  <aside class="home-page-aside">
+    <div class="homepage-header" id="home-step4">
+      <div class="tab hp">
+        <button class="tablinks hp" onclick="openTab(event, 'opps-near-me')" id="defaultOpen">Open</button>
+        <button class="tablinks hp" onclick="openTab(event, 'my-opps')">Participating</button>
+      </div>
+    </div>
+    <div id="opps-near-me" class="tabcontent hp">
+      <% if @opportunities.size > 0 %>
+        <% @opportunities.each do |opportunity| %>
+          <%= render 'opportunity_row', opportunity: opportunity %>
+        <% end %>
+      <% else %>
+        <div class="no-open-opportunities">
+          It looks like there aren't any cleanups available in your neighborhood! Maybe you could create one?
+        </div>
+      <% end %>
+    </div>
+    <div id="my-opps" class="tabcontent hp">
+      <% if @my_opportunities.size > 0 %>
+        <% @my_opportunities.each do |opportunity| %>
+          <%= render 'opportunity_row', opportunity: opportunity %>
+        <% end %>
+      <% else %>
+        <div class="no-active-opportunities">
+          Cleanups you're participating in will show up here.
+        </div>
+      <% end %>
+    </div>
+  </aside>
+  <div id="map" class="map-div"></div>
+</div>
+<script>
+  let map;
+
+
+  function initMap()
+  {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
+      zoom: 13,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false
+    });
+
+    let oppos = <%= raw @opportunities.map.to_json {|o|}.html_safe %>;
+    let myOppos = <%= raw @my_opportunities.map.to_json {|o|}.html_safe %>;
+
+
+    let greenIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/green.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let blueIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/blue.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let redIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/red.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+    let yellowIcon = {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow.png",
+      scaledSize: new google.maps.Size(42,42)
+    };
+
+    let infoWindow = new google.maps.InfoWindow();
+
+    for (let i = 0, length = oppos.length; i < length; i++)
+    {
+      let data = oppos[i],
+        LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
+        // @MATT -- fix the parse float issue
+
+      data.contentString =
+        `<div id="marker-content">
+          <div id="siteNotice"></div>
+          <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
+          <p id="marker-participants" class="marker-participants">Volunteer count: ${data.volunteer_count} / ${data.volunteers_required}</p>
+          <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
+          <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
+         </div>`;
+
+      let marker;
+
+      marker = new google.maps.Marker({
+        position: LatLng,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        icon: greenIcon
+      });
+
+
+      (function (marker, data) {
+        google.maps.event.addListener(marker, "click", function (e) {
+          infoWindow.setContent(data.contentString);
+          infoWindow.open(map, marker);
+          event.stopPropagation(); // this prevents propagation of marker click to map click
+        });
+      })(marker, data);
+
+      //marker.addListener('click', assignListener(marker, infoWindow));
+    }
+
+    for (let i = 0, length = myOppos.length; i < length; i++)
+    {
+      let data = myOppos[i],
+        LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
+
+      let overdue = data['overdue?'];
+
+      data.contentString =
+        `<div id="marker-content">
+          <div id="siteNotice"></div>
+          <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
+          <div id="marker-participants" class="marker-participants">Volunteers: ${data.volunteer_count} / ${data.volunteers_required}</div>
+          <div id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</div>
+          <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
+         </div>`;
+
+      let marker;
+
+      if (!overdue)
+      {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: blueIcon
+        });
+      }
+      else
+      {
+        marker = new google.maps.Marker({
+          position: LatLng,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: redIcon
+        });
+      }
+
+
+
+
+      (function (marker, data) {
+        google.maps.event.addListener(marker, "click", function (e) {
+          infoWindow.setContent(data.contentString);
+          infoWindow.open(map, marker);
+          event.stopPropagation(); // this prevents propagation of marker click to map click
+        });
+      })(marker, data);
+
+      //marker.addListener('click', assignListener(marker, infoWindow));
+    }
+
+    map.addListener("click", function() {
+      infoWindow.close();
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap" async defer></script>

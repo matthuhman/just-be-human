@@ -53,26 +53,24 @@ class PagesController < ApplicationController
   # Uses the google maps JS integration to display @opportunities on the map
   # If there is no user, it redirects to the landing screen
   def map
+    @zip = map_params[:location_term]
+    date = map_params[:cleanup_date]
+    @cleanup_date = date ? date.to_date : Date.today
+    @geopoint = Geopoint.find_by(zip: @zip)
+    if !@geopoint
+      @geopoint = Geopoint.find_by(zip: current_user.postal_code)
+      flash.now[:alert] = "The zip code you searched for (#{map_params[:location_term]}) was not valid"
+    end
+
     if current_user
-      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.postal_code
-      @geopoint = Geopoint.find_by(zip: @zip)
-      if !@geopoint
-        @geopoint = Geopoint.find_by(zip: current_user.postal_code)
-        flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
-      end
-
-
-      @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.cleanup_date }
       @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date >= ?", Date.today).sort_by { |p| p.cleanup_date } - @my_opportunities
       @roles = current_user.opportunity_roles
     else
-      @my_opportunities = []
       @title_hash = {}
-      @geopoint = Geopoint.find_by(zip: '80202')
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date >= ?", Date.today).sort_by { |p| p.cleanup_date }
       @roles = []
     end
+
+    @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date = ?", @cleanup_date).sort_by { |p| p.cleanup_date }
   end
 
   # 20190815 - @mhuhman - this may not be necessary any more
@@ -111,8 +109,8 @@ class PagesController < ApplicationController
 
   private
 
-  def location_params
-    params.permit(:location_term)
+  def map_params
+    params.permit(:location_term, :cleanup_date)
   end
 
   def donation_params
