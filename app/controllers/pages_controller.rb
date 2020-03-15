@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:home, :landing, :costs, :help, :about_us, :donate, :donation_signup]
+  before_action :authenticate_user!, except: [:map, :calendar, :landing, :costs, :help, :about_us, :donate, :donation_signup]
 
   # The landing screen is for unauthenticated users and includes
   # a brief explanation of what the application does, how it works,
@@ -12,26 +12,40 @@ class PagesController < ApplicationController
 
 
   def calendar
+    offset = calendar_params[:week_offset] ? calendar_params[:week_offset] : 0
     if current_user
-      @zip = location_params[:location_term] ? location_params[:location_term] : current_user.postal_code
+      @zip = calendar_params[:postcode] ? calendar_params[:postcode] : current_user.postal_code
       @geopoint = Geopoint.find_by(zip: @zip)
 
       if !@geopoint
         @geopoint = Geopoint.find_by(zip: current_user.postal_code)
-        flash.now[:alert] = "The zip code you searched for (#{location_params[:location_term]}) was not valid"
+        flash.now[:alert] = "The zip code you searched for (#{calendar_params[:postcode]}) was not valid"
       end
+    elsif calendar_params[:postcode]
+      @zip = calendar_params[:postcode]
+      @geopoint = Geopoint.find_by(zip: @zip)
+
+      if !@geopoint
+        zip = @zip
+        @zip = nil
+        @geopoint = nil
+        flash.now[:alert] = "The zip code you entered (#{zip}) was not valid."
+      end
+    end
+
+    # binding.pry
+
+    if @geopoint
+      week_start = Date.today.beginning_of_week
+      week_end = Date.today.end_of_week
 
 
-      @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.target_completion_date }
-      @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND target_completion_date >= ?", Date.today).sort_by { |p| p.target_completion_date } - @my_opportunities
-      @roles = current_user.opportunity_roles
-
-
-
-
-
-
+      @offset_end = week_end.next_day(7 * offset)
+      @offset_start = week_start.next_day(7 * offset)
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("target_completion_date >= ? AND target_completion_date <= ?", @offset_start, @offset_end)
+    else
+      @geopoint = nil
+    end
   end
 
   # This action represents the main interface for the application.
@@ -106,6 +120,10 @@ class PagesController < ApplicationController
 
   def filter_params
     params.permit(:due_date)
+  end
+
+  def calendar_params
+    params.permit(:week_offset, :postcode)
   end
 
 end

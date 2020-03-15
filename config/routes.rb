@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
 
 
-
+  get '/' => 'pages#calendar'
 
 
 

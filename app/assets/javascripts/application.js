@@ -28,10 +28,24 @@
 //= require moment
 //= require fullcalendar
 //= require fullcalendar/locale-all
+//= require jstimezonedetect
 
 
 
 $('#calendar').fullCalendar({});
+
+function eventCalendar() {
+  return $('#calendar').fullCalendar({ });
+};
+function clearCalendar() {
+  $('#calendar').fullCalendar('delete');
+  $('#calendar').html('');
+};
+
+$(document).on('turbolinks:load', function(){
+  eventCalendar();
+});
+$(document).on('turbolinks:before-cache', clearCalendar);
 
 let intro;
 
@@ -50,101 +64,101 @@ document.addEventListener('click', function(e) {
 
 
 // and check for it when deciding whether to start.
-window.addEventListener('ready turbolinks:load', function() {
-  var path = window.location.pathname;
+// window.addEventListener('ready turbolinks:load', function() {
+//   var path = window.location.pathname;
 
-  // return if path doesn't have an intro or if we've already shown it
-  // on this browser
-  if (!hasIntro(path)) return;
-  //if (localStorage.getItem(path) === 'done') return;
+//   // return if path doesn't have an intro or if we've already shown it
+//   // on this browser
+//   if (!hasIntro(path)) return;
+//   //if (localStorage.getItem(path) === 'done') return;
 
-  intro = introJs();
+//   intro = introJs();
 
-  intro.setOptions(getSteps(path));
-  //add a flag when we're done
-  intro.oncomplete(function() {
-    localStorage.setItem(window.location.pathname, 'done');
-  });
+//   intro.setOptions(getSteps(path));
+//   //add a flag when we're done
+//   intro.oncomplete(function() {
+//     localStorage.setItem(window.location.pathname, 'done');
+//   });
 
-  // add a flag when we exit
-  intro.onexit(function() {
-     localStorage.setItem(window.location.pathname, 'done');
-  });
-
-
-  intro.start();
-});
+//   // add a flag when we exit
+//   intro.onexit(function() {
+//      localStorage.setItem(window.location.pathname, 'done');
+//   });
 
 
-function hasIntro(path)
-{
-  var shouldIntro = false;
-  switch (path) {
-    case "/":
-      return true;
-    case "/opportunities/new":
-      return true;
-    default:
-      return false;
-  }
-}
+//   intro.start();
+// });
 
 
-function getSteps(path)
-{
-  switch (path) {
-    case "/":
-      return
-      {
-        steps: [
-          {
-            intro: "Welcome to Just Be Human! This platform is designed to allow you to quickly and easily define volunteer opportunities in your local community!"
-          },
-          {
-            element: '#home-step1',
-            intro: 'You can click the logo at any time to return to this page.'
-          },
-          {
-            element: '#home-step2',
-            intro:"Have a new volunteer opportunity in mind? You can define it by clicking this button."
-          },
-          {
-            element: '#home-step3',
-            intro: "You can use this to change the postal code you're viewing opportunities for."
-          },
-          {
-            element: '#home-step4',
-            intro: "You can use these buttons to switch between the lists of opportunities near you and those you're already following or volunteering for."
-          },
-          {
-            element: document.querySelectorAll('#home-step5')[0],
-            intro: "Select an opportunity to learn more!"
-          }
-        ]
-      }
-      break;
-    case "/opportunities/new":
-      return
-      {
-        steps: [
-          {
-            intro: "This page lets you define a new volunteer opportunity!"
-          },
-          {
-            element: '#new-opportunity-step1',
-            intro: "Specify a title, description, and category here. A simple title and informative description will be very helpful for finding volunteers!"
-          },
-          {
-            element: '#new-opportunity-step2',
-            intro: "If you know exactly what your opportunity requires, select 'defined'. If you're still figuring it out, leave the checkbox blank."
-          },
-          {
-            element: '#new-opportunity-step3',
-            intro: "Using a street address is much better than a postal code. If you don't know an exact address, pick a public park or landmark nearby!"
-          }
-        ]
-      }
-    default:
-      return {};
-  }
-}
+// function hasIntro(path)
+// {
+//   var shouldIntro = false;
+//   switch (path) {
+//     case "/":
+//       return true;
+//     case "/opportunities/new":
+//       return true;
+//     default:
+//       return false;
+//   }
+// }
+
+
+// function getSteps(path)
+// {
+//   switch (path) {
+//     case "/":
+//       return
+//       {
+//         steps: [
+//           {
+//             intro: "Welcome to Just Be Human! This platform is designed to allow you to quickly and easily define volunteer opportunities in your local community!"
+//           },
+//           {
+//             element: '#home-step1',
+//             intro: 'You can click the logo at any time to return to this page.'
+//           },
+//           {
+//             element: '#home-step2',
+//             intro:"Have a new volunteer opportunity in mind? You can define it by clicking this button."
+//           },
+//           {
+//             element: '#home-step3',
+//             intro: "You can use this to change the postal code you're viewing opportunities for."
+//           },
+//           {
+//             element: '#home-step4',
+//             intro: "You can use these buttons to switch between the lists of opportunities near you and those you're already following or volunteering for."
+//           },
+//           {
+//             element: document.querySelectorAll('#home-step5')[0],
+//             intro: "Select an opportunity to learn more!"
+//           }
+//         ]
+//       }
+//       break;
+//     case "/opportunities/new":
+//       return
+//       {
+//         steps: [
+//           {
+//             intro: "This page lets you define a new volunteer opportunity!"
+//           },
+//           {
+//             element: '#new-opportunity-step1',
+//             intro: "Specify a title, description, and category here. A simple title and informative description will be very helpful for finding volunteers!"
+//           },
+//           {
+//             element: '#new-opportunity-step2',
+//             intro: "If you know exactly what your opportunity requires, select 'defined'. If you're still figuring it out, leave the checkbox blank."
+//           },
+//           {
+//             element: '#new-opportunity-step3',
+//             intro: "Using a street address is much better than a postal code. If you don't know an exact address, pick a public park or landmark nearby!"
+//           }
+//         ]
+//       }
+//     default:
+//       return {};
+//   }
+// }

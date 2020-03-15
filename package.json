@@ -10,6 +10,7 @@
     "ahoy.js": "^0.3.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "intro.js": "^2.9.3",
+    "jstimezonedetect": "^1.0.7",
     "postcss": "^7.0.18",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
