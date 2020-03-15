@@ -68,8 +68,6 @@ gem 'icalendar'
 gem 'hellosign-ruby-sdk'
 gem 'binding_of_caller'
 gem 'aws-sdk-dynamodb'
-gem 'fullcalendar-rails'
-gem 'momentjs-rails'
 gem 'devise_invitable'
 
 gem "actiontext", "6.0.2.1"

@@ -48,7 +48,7 @@ class Opportunity < ApplicationRecord
 
 
   def can_complete?
-    Time.now >= target_completion_date
+    Time.now >= cleanup_date
   end
 
   # def can_define?
@@ -63,11 +63,23 @@ class Opportunity < ApplicationRecord
   # end
 
   def overdue?
-    target_completion_date < Date.today
+    cleanup_date < Date.today
+  end
+
+  def day_id
+    cleanup_date.strftime('%Y%m%d').to_i
   end
 
   def display_date
-    target_completion_date.strftime('%m/%d/%Y - %l:%M%P')
+    cleanup_date.strftime('%m/%d/%Y')
+  end
+
+  def start_time
+    Time.new(self.cleanup_date.year, self.cleanup_date.month, self.cleanup_date.day, self.cleanup_time.hour, self.cleanup_time.min)
+  end
+
+  def end_time
+    self.start_time + self.cleanup_duration.hours
   end
 
   def display_title
@@ -87,8 +99,8 @@ class Opportunity < ApplicationRecord
   end
 
   def pct_time_remaining
-    total_time = self.target_completion_date.to_time.to_f - self.created_at.to_f
-    time_remaining = self.target_completion_date.to_time.to_f - Time.now.to_f
+    total_time = self.cleanup_date.to_time.to_f - self.created_at.to_f
+    time_remaining = self.cleanup_date.to_time.to_f - Time.now.to_f
 
     (time_remaining / total_time * 100).round
   end
@@ -157,8 +169,8 @@ class Opportunity < ApplicationRecord
 
   def to_cal_json
     Jbuilder.encode do |json|
-      json.start self.target_completion_date
-      json.end (self.target_completion_date + 2.hours)
+      json.start self.cleanup_date
+      json.end (self.cleanup_date + 2.hours)
       json.title self.title
     end
   end

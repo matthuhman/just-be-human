@@ -5,20 +5,96 @@
 @import 'mixins.scss';
 
 
-
-
-
-
-
-
 // CALENDAR PAGE
 
+.wrapper {
+  background: image-url('calendar-background.jpg') no-repeat center center fixed;
+  height: 100%;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  @include respond-to(handhelds) {
+
+  }
+}
+
+
+.location-select-div {
+  text-align:center;
+  padding-top: 30vh;
+  padding-left: 30vh;
+  padding-right: 30vh;
+
+  .form-inline {
+    display: inline-block;
+    width: 50vw;
+
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      margin: auto;
+      font-size: 4.5rem;
+      color: rgba(0,0,0,.35);
+    }
+    ::-moz-placeholder { /* Firefox 19+ */
+      font-size: 4.5rem;
+      color: rgba(0,0,0,.35);
+      margin: auto;
+    }
+    :-ms-input-placeholder { /* IE 10+ */
+      color: rgba(0,0,0,.35);
+      font-size: 4.5rem;
+      margin: auto;
+    }
+    :-moz-placeholder { /* Firefox 18- */
+      color: rgba(0,0,0,.35);
+      font-size: 4.5rem;
+      margin: auto;
+    }
+    ::placeholder {
+      color: rgba(0,0,0,.35);
+      font-size: 4.5rem;
+      margin: auto;
+    }
+  }
+
+  .location-select-outline {
+    background:rgba(255,255,255, 0.75);
+    padding-bottom: 3vh;
+    border-radius: 10px;
+    border: 2px solid black;
+  }
 
 
 
 
+  .location-select-title {
+    font-size: 5rem;
+    font-weight: 600;
+    font-family: 'TwinMarker';
 
 
+    width: auto;
+  }
+
+  .location-select-field {
+    text-align: center;
+    height: 10vh;
+    width: 50vw !important;
+    font-size: 7rem;
+    font-family: 'TwinMarker';
+  }
+
+  .location-select-btn {
+    margin-top: 2vh;
+    font-size: 4rem;
+    background-color: $darkgreen;
+    border-radius: 4px;
+    color: white;
+    font-family: 'TwinMarker';
+  }
+}
 
 
 

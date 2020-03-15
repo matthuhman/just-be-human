@@ -25,28 +25,11 @@
 //= require trix/dist/trix
 //= require conversations
 //= require ahoy
-//= require moment
-//= require fullcalendar
-//= require fullcalendar/locale-all
 //= require jstimezonedetect
 
-
-
-$('#calendar').fullCalendar({});
-
-function eventCalendar() {
-  return $('#calendar').fullCalendar({ });
-};
-function clearCalendar() {
-  $('#calendar').fullCalendar('delete');
-  $('#calendar').html('');
-};
-
 $(document).on('turbolinks:load', function(){
-  eventCalendar();
   getTimeZone();
 });
-$(document).on('turbolinks:before-cache', clearCalendar);
 
 let intro;
 

@@ -28,7 +28,7 @@
         <div class="requirements-container-header">
           <span class="requirements-container-title">Requirements</span>
           <% if current_user&.is_mod?(@opportunity.id) %>
-            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.target_completion_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
+            <%= link_to 'Add A Req', new_requirement_path(:requirement => {:opportunity_id => @opportunity.id, :defined => @opportunity.defined, :target_date => @opportunity.defined ? @opportunity.cleanup_date : @opportunity.planned_by_date }), class: 'add-req-btn' %>
           <% end %>
         </div>
         <% if @requirements.size > 0 %>

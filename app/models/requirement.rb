@@ -29,7 +29,7 @@ class Requirement < ApplicationRecord
   end
 
   def display_date
-    target_completion_date.to_date
+    cleanup_date.to_date
   end
 
   def pct_done_display
@@ -37,7 +37,7 @@ class Requirement < ApplicationRecord
   end
 
   def overdue?
-    target_completion_date < Date.today && !complete
+    cleanup_date < Date.today && !complete
   end
 
   def can_complete?
@@ -133,8 +133,8 @@ class Requirement < ApplicationRecord
   end
 
   def completion_date_limit
-    if target_completion_date > opportunity.target_completion_date
-      errors.add(:target_completion_date, "cannot be after the Opportunity's target completion date.")
+    if cleanup_date > opportunity.cleanup_date
+      errors.add(:cleanup_date, "cannot be after the Opportunity's target completion date.")
     end
   end
 

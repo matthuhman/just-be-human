@@ -42,8 +42,7 @@ class PagesController < ApplicationController
 
       @offset_end = week_end.next_day(7 * offset)
       @offset_start = week_start.next_day(7 * offset)
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("target_completion_date >= ? AND target_completion_date <= ?", @offset_start, @offset_end)
-      @json = to_json @opportunities
+      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("target_completion_date >= ?", @offset_start)
     else
       @geopoint = nil
     end
@@ -129,7 +128,6 @@ class PagesController < ApplicationController
 
   def to_json(opp_list)
     json = []
-    binding.pry
     opp_list.each do |opp|
       json << opp.to_cal_json
     end
