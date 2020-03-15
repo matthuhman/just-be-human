@@ -8,6 +8,7 @@ class WaiversController < ApplicationController
 
     @waiver = Waiver.new(waiver_params)
     @waiver.user = current_user
+    @waiver.state_code = current_user.region
 
     if @waiver.save
       redirect_to @waiver, notice: @waiver.fileName + ' has been uploaded successfully'

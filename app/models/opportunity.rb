@@ -155,6 +155,14 @@ class Opportunity < ApplicationRecord
     }))
   end
 
+  def to_cal_json
+    Jbuilder.encode do |json|
+      json.start self.target_completion_date
+      json.end (self.target_completion_date + 2.hours)
+      json.title self.title
+    end
+  end
+
   private
   def title_length
     if title.size > 60

@@ -5,7 +5,5 @@ class Waiver < ApplicationRecord
   has_many :opportunities, through: :opportunity_waivers
   belongs_to :signatures, dependent: :destroy
   has_one_attached :waiver_file
-  geocoded_by :location
-  after_validation :geocode, if: -> (obj) { obj.location.present? and obj.location_changed? }
 
 end

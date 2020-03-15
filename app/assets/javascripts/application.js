@@ -44,6 +44,7 @@ function clearCalendar() {
 
 $(document).on('turbolinks:load', function(){
   eventCalendar();
+  getTimeZone();
 });
 $(document).on('turbolinks:before-cache', clearCalendar);
 
@@ -62,6 +63,19 @@ document.addEventListener('click', function(e) {
  }
 });
 
+
+
+
+
+function getTimeZone() {
+  if (!localStorage.getItem('detrashers-time-zone')) {
+    var zone = jstz.determine().name();
+    localStorage.setItem('detrashers-time-zone', zone);
+    return zone;
+  } else {
+    return localStorage.getItem('detrashers-time-zone');
+  }
+}
 
 // and check for it when deciding whether to start.
 // window.addEventListener('ready turbolinks:load', function() {

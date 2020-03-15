@@ -12,7 +12,7 @@ class PagesController < ApplicationController
 
 
   def calendar
-    offset = calendar_params[:week_offset] ? calendar_params[:week_offset] : 0
+    offset = calendar_params[:week_offset] ? calendar_params[:week_offset].to_i : 0
     if current_user
       @zip = calendar_params[:postcode] ? calendar_params[:postcode] : current_user.postal_code
       @geopoint = Geopoint.find_by(zip: @zip)
@@ -43,6 +43,7 @@ class PagesController < ApplicationController
       @offset_end = week_end.next_day(7 * offset)
       @offset_start = week_start.next_day(7 * offset)
       @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("target_completion_date >= ? AND target_completion_date <= ?", @offset_start, @offset_end)
+      @json = to_json @opportunities
     else
       @geopoint = nil
     end
@@ -124,6 +125,15 @@ class PagesController < ApplicationController
 
   def calendar_params
     params.permit(:week_offset, :postcode)
+  end
+
+  def to_json(opp_list)
+    json = []
+    binding.pry
+    opp_list.each do |opp|
+      json << opp.to_cal_json
+    end
+    json
   end
 
 end
