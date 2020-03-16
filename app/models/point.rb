@@ -46,7 +46,7 @@ class Point
 
   private
 
-    @@dynamo_client = null
+    @@dynamo_client = nil
 
     def self.table_name
       ENV["LEADERBOARD_DYNAMO_TABLE"]
