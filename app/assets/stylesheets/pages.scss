@@ -28,6 +28,12 @@
   padding-left: 30vh;
   padding-right: 30vh;
 
+  @include respond-to(handhelds) {
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
   .form-inline {
     display: inline-block;
     width: 50vw;
@@ -36,26 +42,46 @@
       margin: auto;
       font-size: 4.5rem;
       color: rgba(0,0,0,.35);
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
     ::-moz-placeholder { /* Firefox 19+ */
       font-size: 4.5rem;
       color: rgba(0,0,0,.35);
       margin: auto;
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
     :-ms-input-placeholder { /* IE 10+ */
       color: rgba(0,0,0,.35);
       font-size: 4.5rem;
       margin: auto;
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
     :-moz-placeholder { /* Firefox 18- */
       color: rgba(0,0,0,.35);
       font-size: 4.5rem;
       margin: auto;
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
     ::placeholder {
       color: rgba(0,0,0,.35);
       font-size: 4.5rem;
       margin: auto;
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
   }
 
@@ -64,9 +90,18 @@
     padding-bottom: 3vh;
     border-radius: 10px;
     border: 2px solid black;
+
+    @include respond-to(handhelds) {
+      margin-top: 10vh;
+      border-radius: 5px;
+    }
   }
 
-
+  .form-inline {
+    @include respond-to(handhelds) {
+      width: 100%;
+    }
+  }
 
 
   .location-select-title {
@@ -74,8 +109,12 @@
     font-weight: 600;
     font-family: 'TwinMarker';
 
-
     width: auto;
+
+
+    @include respond-to(handhelds) {
+      font-size: 2.5rem;
+    }
   }
 
   .location-select-field {
@@ -84,6 +123,12 @@
     width: 50vw !important;
     font-size: 7rem;
     font-family: 'TwinMarker';
+
+    @include respond-to(handhelds) {
+      width: 80vw !important;
+      font-size: 3.5rem;
+      margin: auto;
+    }
   }
 
   .location-select-btn {
@@ -93,10 +138,53 @@
     border-radius: 4px;
     color: white;
     font-family: 'TwinMarker';
+
+    @include respond-to(handhelds) {
+      font-size: 2rem;
+    }
   }
 }
 
 .simple-calendar {
+
+  .mobile-day-header {
+    display: none;
+  }
+
+  @include respond-to(handhelds) {
+    overflow-y: auto;
+    height: 80vh;
+
+    .mobile-day-header {
+      display: inline;
+      font-size: 1.2rem;
+      a {
+        color: $darkblue;
+      }
+    }
+
+    .calendar-page-title {
+      font-size: .8rem;
+    }
+
+    .calendar-title {
+      display:none;
+    }
+
+    table {
+      width:100%;
+    }
+
+    thead {
+      display: none;
+    }
+
+    tbody td {
+       display: block;
+       text-align:center;
+       width: 100%;
+    }
+  }
 
   .table {
     height: 100%;
@@ -107,6 +195,10 @@
     text-align: center;
     font-size: 2rem;
     text-transform: uppercase;
+
+    @include respond-to(handhelds) {
+      font-size: 1rem;
+    }
   }
 
   .calendar-page-title {
@@ -117,6 +209,10 @@
     width: 100%;
     text-align: center;
     padding-top: 5vh;
+
+    @include respond-to(handhelds) {
+      font-size: 2rem;
+    }
   }
 
   width: 80vw;
@@ -136,6 +232,10 @@
     border: 1px solid $darkgreen;
     overflow-y: auto;
 
+    @include respond-to(handhelds) {
+      height: 20vh !important;
+    }
+
     .calendar-opportunity {
       width: 100%;
       text-align: center;
@@ -146,10 +246,16 @@
       border: 1px solid black;
       border-radius: 3px;
 
-
       .calendar-opportunity-title {
         font-size: 1.8rem;
 
+        @include respond-to(handhelds) {
+          font-size: 1.1rem;
+        }
+      }
+
+      @include respond-to(handhelds) {
+        font-size: .8rem;
       }
 
       a {
@@ -157,8 +263,6 @@
         color: white;
       }
     }
-
-
   }
 
   .calendar-header {
@@ -187,6 +291,10 @@
     font-weight: 700;
     padding-left: 2vw;
     padding-right: 2vw;
+
+    @include respond-to(handhelds) {
+      font-size: 2rem;
+    }
   }
 
   .calendar-footer {
@@ -194,6 +302,11 @@
     background-color: $darkgreen;
     color: white;
     font-size: 2rem;
+
+    @include respond-to(handhelds) {
+      display: inline-block;
+      font-size: 1rem;
+    }
   }
 
 }
@@ -202,11 +315,7 @@
 
 
 
-//
-//
-//
-//
-//
+
 //
 //
 //
@@ -610,6 +719,12 @@
 //
 // ========DONATE PAGE STYLING========
 
+
+.donation-info-container {
+  background-color: white;
+  height: 100%;
+  overflow-y: auto;
+}
 
 .donation-explanation {
   margin-left: 15vw;
