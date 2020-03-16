@@ -70,7 +70,7 @@ The worst fucking part about programming, I know
 
 
 
-### Fun Rails shit
+## Fun Rails shit
 
 * so, Rails is super powerful, and the Rails CLI is part of what makes developing Rails so much fun
 * a good Rails developer (not something I consider myself) lives on the command line
