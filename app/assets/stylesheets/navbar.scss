@@ -28,6 +28,8 @@
   font-size: 2.2em;
   margin-right: auto;
   display: flex !important;
+
+
 }
 
 .desktop-nav {
@@ -42,7 +44,7 @@
   max-width: 4vw;
   height: auto;
   @include respond-to(handhelds) {
-    max-width: 150px;
+    max-width: 10vw;
   };
 }
 
@@ -52,6 +54,9 @@
   font-family: 'TwinMarker';
   font-size: 4rem;
   color: $darkgreen;
+  @include respond-to(handhelds) {
+    font-size: 1.8rem;
+  }
 }
 
 .nav-item {

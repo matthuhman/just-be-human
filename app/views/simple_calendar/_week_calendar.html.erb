@@ -14,7 +14,7 @@
         <% date_range.slice(0, 7).each do |day| %>
           <th class="calendar-header">
             <a class="calendar-map-link" href="/map?cleanup_date=<%= day %>&location_term=<%= @zip %>">
-              <%= t('date.abbr_day_names')[day.wday] + ' ' + day.strftime('%m/%d') %>
+              <%= "#{t('date.abbr_day_names')[day.wday]} #{day.strftime('%m/%d')}" %>
             </a>
           </th>
         <% end %>

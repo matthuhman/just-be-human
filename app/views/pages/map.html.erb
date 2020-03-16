@@ -15,12 +15,14 @@
         <% end %>
       <% else %>
         <div class="no-open-opportunities">
-          It looks like there aren't any cleanups available in your neighborhood! You should create one!
-          <a class="new-cleanup-link" href="/opportunities/new">
-            <div class="new-cleanup-link-text">
-              Create a cleanup
-            </div>
-          </a>
+          It looks like there aren't any cleanups near you on <%= @cleanup_date.strftime("%m/%d") %>-  you should start one!
+          <% if current_user %>
+            <a class="new-cleanup-link" href="/opportunities/new">
+              <div class="new-cleanup-link-text">
+                Create a cleanup
+              </div>
+            </a>
+          <% end %>
         </div>
       <% end %>
     </div>

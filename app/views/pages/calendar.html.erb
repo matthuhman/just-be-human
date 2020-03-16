@@ -3,11 +3,12 @@
   <% if @geopoint %>
     <div id="calendar">
       <%= week_calendar events: @opportunities do |date| %>
-        <% if date.to_date == Date.today %>
-          <div class="today-marker">
-            Today
-          </div>
-        <% end %>
+        <div class="mobile-day-header">
+          <a class="calendar-map-link" href="/map?cleanup_date=<%= date %>&location_term=<%= @zip %>">
+            <%= t('date.abbr_day_names')[date.wday] + ' ' + date.strftime('%m/%d') %>
+          </a>
+        </div>
+        <% oppo_count = 0 %>
         <% @opportunities.each do |opp| %>
           <% if opp.cleanup_date == date.to_date %>
             <div class="calendar-opportunity">
@@ -20,7 +21,13 @@
                 </div>
               </a>
             </div>
+            <% oppo_count += 1 %>
           <% end %>
+        <% end %>
+        <% if oppo_count == 0 %>
+          <div class="no-cleanups">
+            No cleanups scheduled
+          </div>
         <% end %>
       <% end %>
     </div>
@@ -31,7 +38,7 @@
           Welcome to Detrashers.org!
         </div>
         <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
-          <input class="form-control location-select-field" type="search" id="postcode" placeholder="Enter postal code here" aria-label="Change Location" name="postcode">
+          <input class="form-control location-select-field" type="search" id="postcode" placeholder="Enter postal code" aria-label="Change Location" name="postcode">
           <br>
           <button class="location-select-btn" type="submit" href="/" value="postcode">Get Started</button>
         </form>
