@@ -1,32 +1,22 @@
+<%= bootstrap_form_for(@opportunity) do |f| %>
+  <div class="create-cleanup-btn-wrapper">
+    <%= f.submit 'Create A Cleanup', class: "create-cleanup-btn" %>
+  </div>
+  <%= f.text_field :title, label: "Come up with a short, descriptive title for your cleanup." %>
+  <%= f.text_area :description, label: "Put a few words here to describe your cleanup. Maybe you're going to provide equipment or food, or perhaps the cleanup has some special information that you need to share." %>
+  <%= f.text_field :address, label: "Where is the meeting point for your cleanup?" %>
+  <div class="space-saver">
+    <div class="date-and-time-wrapper">
+      <%= f.date_select :cleanup_date, label: "What day do you want to do a cleanup?" %>
+      <%= f.time_field :cleanup_time, label: "What time of day do you want to start?" %>
+    </div>
+    <div class="duration-and-volunteers-wrapper">
+      <%= f.number_field :cleanup_duration, label: "How many hours is your cleanup going to last?" %>
+      <%= f.number_field :volunteers_required, label: "How many people are you trying to find?" %>
+    </div>
+  </div>
+  <div class="create-cleanup-btn-wrapper">
+    <%= f.submit 'Create A Cleanup', class: "create-cleanup-btn" %>
+  </div>
 
-<%= simple_form_for(@opportunity) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="form-inputs">
-    <div class="basic-info-container" id="new-opportunity-step1">
-      <h5 class="title-subheader">What are the basics?</h5>
-      <div class="title-selection">
-        <%= f.input :title, placeholder: "60-character limit" %>
-        <%= f.input :description, placeholder: "A good description will go a long way." %>
-      </div>
-    </div>
-      <div class="defined-options-container" id="defined-options">
-        <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
-        <div class="completion-date-selection">
-          <%= f.input :target_completion_date, order: [:month, :day, :year, :hour, :minute] %>
-        </div>
-        <div class="volunteers-required-input">
-          <%= f.input :volunteers_required %>
-        </div>
-      </div>
-    <div class="location-container" id="new-opportunity-step3">
-      <h5 class="location-subheader">Where is your opportunity located?</h5>
-      <div class="location-selection">
-        <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
-      </div>
-    </div>
-  </div>
-  <div class="submit-post-container">
-    <%= f.button :submit, "Submit", class: 'submit-post-btn'%>
-  </div>
 <% end %>

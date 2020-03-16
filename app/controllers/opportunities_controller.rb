@@ -4,7 +4,7 @@ class OpportunitiesController < ApplicationController
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_old_token
 
 
-  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow]
+  before_action :set_opportunity, only: [:show, :edit, :update, :destroy, :followers, :complete, :uncomplete, :follow, :unfollow, :sign]
   before_action :authenticate_user!, except: [:show]
 
   before_action :set_time_options, only: [:create, :edit, :new]
@@ -13,7 +13,6 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/1
   # GET /opportunities/1.json
   def show
-    @requirements = @opportunity.requirements.sort_by(&:priority).sort_by(&:target_completion_date)
     if current_user
       @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
       @is_mod = current_user.is_mod?(@opportunity.id)
@@ -303,6 +302,13 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+
+
+  def sign
+    @waivers = @opporuntity.waivers
+
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_opportunity
@@ -311,7 +317,7 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :defined, :address, :target_completion_date, :postal_code, :country, :volunteers_required, :status, :time_zone)
+    params.require(:opportunity).permit(:title, :description, :defined, :address, :cleanup_date, :cleanup_time, :cleanup_duration, :postal_code, :country, :volunteers_required, :status, :time_zone)
   end
 
   def promotion_params

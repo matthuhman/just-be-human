@@ -115,3 +115,55 @@
     </div>
   <% end %>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BACKUP NUMERO DOS
+
+
+
+
+<%= simple_form_for(@opportunity) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <div class="basic-info-container" id="new-opportunity-step1">
+      <h5 class="title-subheader">What are the basics?</h5>
+      <div class="title-selection">
+        <%= f.input :title, placeholder: "60-character limit" %>
+        <%= f.input :description, placeholder: "A good description will go a long way." %>
+      </div>
+    </div>
+      <div class="defined-options-container" id="defined-options">
+        <h5 class="defined-options-subheader">When is it and how many people do you need?</h5>
+        <div class="completion-date-selection">
+          <%= f.input :cleanup_date, order: [:month, :day, :year, :hour, :minute] %>
+        </div>
+        <div class="volunteers-required-input">
+          <%= f.input :volunteers_required %>
+        </div>
+      </div>
+    <div class="location-container" id="new-opportunity-step3">
+      <h5 class="location-subheader">Where is your opportunity located?</h5>
+      <div class="location-selection">
+        <%= f.input :address, placeholder: "If possible, please enter a specific location; an address, intersection, or public place is perfect!" %>
+      </div>
+    </div>
+  </div>
+  <div class="submit-post-container">
+    <%= f.button :submit, "Submit", class: 'submit-post-btn'%>
+  </div>
+<% end %>
+

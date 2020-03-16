@@ -1,0 +1,42 @@
+<div class="simple-calendar">
+  <div class="calendar-page-title">
+    Upcoming Cleanups
+  </div>
+  <div class="calendar-heading">
+    <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view, class: 'calendar-prev-week-btn calendar-nav-btn' %>
+    <span class="calendar-title"><%= calendar.date_range.first.strftime('%m/%d/%Y') + ' - ' +  calendar.date_range.last.strftime('%m/%d/%Y')%></span>
+    <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view, class: 'calendar-next-week-btn calendar-nav-btn' %>
+  </div>
+
+  <table class="table table-striped">
+    <thead class="calendar-header">
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th class="calendar-header">
+            <a class="calendar-map-link" href="/map?cleanup_date=<%= day %>&location_term=<%= @zip %>">
+              <%= t('date.abbr_day_names')[day.wday] + ' ' + day.strftime('%m/%d') %>
+            </a>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: "day is-current-day-#{day.to_date == Date.today}" do %>
+              <% block.call day, sorted_events.fetch(day, []) %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+    <div class="calendar-footer">
+      <div class="calendar-footer-note">
+        Click on the date header to see that day's cleanups on a map!
+      </div>
+    </div>
+</div>

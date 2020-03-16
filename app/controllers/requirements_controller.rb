@@ -229,11 +229,11 @@ class RequirementsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def requirement_params
-    params.require(:requirement).permit(:title, :description, :status, :complete, :opportunity_id, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :creator_id, :priority, :pct_done, :estimated_work)
+    params.require(:requirement).permit(:title, :description, :status, :complete, :opportunity_id, :address, :volunteers_required, :cleanup_date, :category, :subcategory, :defined, :creator_id, :priority, :pct_done, :estimated_work)
   end
 
   def update_params
-    params.require(:requirement).permit(:title, :description, :status, :complete, :address, :volunteers_required, :target_completion_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
+    params.require(:requirement).permit(:title, :description, :status, :complete, :address, :volunteers_required, :cleanup_date, :category, :subcategory, :defined, :user_id, :priority, :pct_done, :estimated_work)
   end
 
   def promote_params

@@ -27,7 +27,7 @@
 .navbar-brand {
   font-size: 2.2em;
   margin-right: auto;
-
+  display: flex !important;
 }
 
 .desktop-nav {
@@ -39,11 +39,19 @@
 
 .navbar-logo {
   width: auto;
-  max-width: 22vw;
-
+  max-width: 4vw;
+  height: auto;
   @include respond-to(handhelds) {
-    max-width: 65vw;
+    max-width: 150px;
   };
+}
+
+
+
+.navbar-title {
+  font-family: 'TwinMarker';
+  font-size: 4rem;
+  color: $darkgreen;
 }
 
 .nav-item {

@@ -6,6 +6,8 @@ class Opportunity < ApplicationRecord
   has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements, :dependent => :destroy
   has_many :posts
+  has_many :waivers, through: :opportunity_waivers
+  has_many :signatures
 
   geocoded_by :address
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
@@ -46,19 +48,7 @@ class Opportunity < ApplicationRecord
 
 
   def can_complete?
-    return unless defined
-    at_completion_date = Time.now >= target_completion_date
-
-    if at_completion_date
-      requirements.each do |r|
-        if !r.defined
-          return false
-        end
-      end
-      true
-    else
-      false
-    end
+    Time.now >= cleanup_date
   end
 
   # def can_define?
@@ -73,23 +63,23 @@ class Opportunity < ApplicationRecord
   # end
 
   def overdue?
-    if defined
-      target_completion_date? && target_completion_date < Date.today
-    else
-      planned_by_date? && planned_by_date < Date.today
-    end
+    cleanup_date < Date.today
+  end
+
+  def day_id
+    cleanup_date.strftime('%Y%m%d').to_i
   end
 
   def display_date
-    if defined
-      target_completion_date.strftime('%m/%d/%Y - %l:%M%P')
-    else
-      if planned_by_date != nil
-        planned_by_date.strftime('%m/%d/%Y')
-      else
-        nil
-      end
-    end
+    cleanup_date.strftime('%m/%d/%Y')
+  end
+
+  def start_time
+    Time.new(self.cleanup_date.year, self.cleanup_date.month, self.cleanup_date.day, self.cleanup_time.hour, self.cleanup_time.min)
+  end
+
+  def end_time
+    self.start_time + self.cleanup_duration.hours
   end
 
   def display_title
@@ -109,8 +99,8 @@ class Opportunity < ApplicationRecord
   end
 
   def pct_time_remaining
-    total_time = self.target_completion_date.to_time.to_f - self.created_at.to_f
-    time_remaining = self.target_completion_date.to_time.to_f - Time.now.to_f
+    total_time = self.cleanup_date.to_time.to_f - self.created_at.to_f
+    time_remaining = self.cleanup_date.to_time.to_f - Time.now.to_f
 
     (time_remaining / total_time * 100).round
   end
@@ -175,6 +165,14 @@ class Opportunity < ApplicationRecord
     super((options || { }).merge({
                                    :methods => [:overdue?]
     }))
+  end
+
+  def to_cal_json
+    Jbuilder.encode do |json|
+      json.start self.cleanup_date
+      json.end (self.cleanup_date + 2.hours)
+      json.title self.title
+    end
   end
 
   private

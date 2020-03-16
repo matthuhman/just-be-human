@@ -1,0 +1,41 @@
+
+<div class="calendar-background">
+  <% if @geopoint %>
+    <div id="calendar">
+      <%= week_calendar events: @opportunities do |date| %>
+        <% if date.to_date == Date.today %>
+          <div class="today-marker">
+            Today
+          </div>
+        <% end %>
+        <% @opportunities.each do |opp| %>
+          <% if opp.cleanup_date == date.to_date %>
+            <div class="calendar-opportunity">
+              <a href="/opportunities/<%= opp.id %>">
+                <div class="calendar-opportunity-title">
+                  <%= opp.title %>
+                </div>
+                <div class="calendar-opportunity-time">
+                  <%= opp.start_time.strftime('%H:%M %p') + ' - ' + opp.end_time.strftime('%H:%M %p') %>
+                </div>
+              </a>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="location-select-div">
+      <div class="location-select-outline">
+        <div class="location-select-title">
+          Welcome to Detrashers.org!
+        </div>
+        <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
+          <input class="form-control location-select-field" type="search" id="postcode" placeholder="Enter postal code here" aria-label="Change Location" name="postcode">
+          <br>
+          <button class="location-select-btn" type="submit" href="/" value="postcode">Get Started</button>
+        </form>
+      </div>
+    </div>
+  <% end %>
+</div>

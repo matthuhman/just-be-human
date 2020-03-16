@@ -2,7 +2,7 @@ require 'yaml'
 require 'obscenity/active_model'
 
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :confirmable,
     :lockable, :timeoutable, :trackable
 
@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :opportunity_roles, :dependent => :destroy
   has_many :opportunities, through: :opportunity_roles
 
-  has_many :requirement_roles, :dependent => :destroy
-  has_many :requirements, through: :requirement_roles
+  # has_many :requirement_roles, :dependent => :destroy
+  # has_many :requirements, through: :requirement_roles
 
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
@@ -23,14 +23,15 @@ class User < ApplicationRecord
   has_many :personal_messages, :dependent => :destroy
   has_many :notifications, foreign_key: :recipient_id
 
+  has_many :waivers
+  has_many :signatures
+
   # profanity validations
   validates_uniqueness_of :username, message: 'is already taken.'
   validate :username_allowed
   validates :username, obscenity: true
   validates :first_name, obscenity: true
   validates :last_name, obscenity: true
-  validates :city, obscenity: true
-  validates :region, obscenity: true
 
 
   # before_save :validate
@@ -62,9 +63,9 @@ class User < ApplicationRecord
     role && role.level <= 3
   end
 
-  def is_req_volunteer?(req_id)
-    !requirement_roles.find_by(requirement_id: req_id).nil?
-  end
+  # def is_req_volunteer?(req_id)
+  #   !requirement_roles.find_by(requirement_id: req_id).nil?
+  # end
 
   def is_confirmed?(oppo_id)
     role = opportunity_roles.find_by(opportunity_id: oppo_id)

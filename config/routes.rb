@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
 
-  root to: 'pages#home'
+  get 'leaderboard/show'
+  get 'leaderboard/index'
+  root to: 'pages#calendar'
 
   get '/landing' => 'pages#landing'
-
+  get '/map' => 'pages#map'
+  get '/calendar' => 'pages#calendar'
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
   get '/donate' => 'pages#donate'
@@ -11,9 +14,6 @@ Rails.application.routes.draw do
 
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
-
-  get '/contact/request' => 'users#request_contact_info'
-  get '/contact/response' => 'users#respond_contact_info'
 
   get '/my_opportunities' => 'pages#my_opportunities'
 
@@ -25,28 +25,42 @@ Rails.application.routes.draw do
   get '/opportunities/followers' => 'opportunities#followers'
   get '/opportunities/complete' => 'opportunities#complete'
   get '/opportunities/uncomplete' => 'opportunities#uncomplete'
-  post 'opportunities/rsvp' => 'opportunities#rsvp'
+  get '/opportunities/:id/sign' => 'opportunties#sign'
 
-  get '/requirements/participate' => 'requirements#participate'
-  get '/requirements/cancel' => 'requirements#cancel_participation'
-  get '/requirements/promote' => 'requirements#promote_leader'
-  get '/requirements/demote' => 'requirements#remove_leader'
+  post '/opportunities/rsvp' => 'opportunities#rsvp'
 
 
-  get '/requirements/complete' => 'requirements#mark_complete'
-  get '/requirements/incomplete' => 'requirements#mark_incomplete'
-  get '/requirements/define' => 'requirements#mark_defined'
+  post '/signatures' => 'signatures#create'
+  post '/waivers' => 'waivers#create'
+
 
   get '/notifications/mark_as_read' => 'notifications#mark_as_read'
 
   resources :conversations, only: [:index, :show]
   resources :personal_messages, only: [:new, :create]
-
-  resources :opportunities, :comments, :posts, :requirements
+  resources :waivers, only: [:new, :edit, :show]
+    #20200211 - punting on signatures for sure, that's just more work than I
+    # can take on right now
+  resources :opportunities, :comments, :posts    #, :signatures
   resources :notifications, only: [:index, :mark_as_read]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
 
 
+
+  get '/' => 'pages#calendar'
+
+
+
+
+
+# 20200203 - remove requirements from Detrashers
+  # get '/requirements/participate' => 'requirements#participate'
+  # get '/requirements/cancel' => 'requirements#cancel_participation'
+  # get '/requirements/promote' => 'requirements#promote_leader'
+  # get '/requirements/demote' => 'requirements#remove_leader'
+  # get '/requirements/complete' => 'requirements#mark_complete'
+  # get '/requirements/incomplete' => 'requirements#mark_incomplete'
+  # get '/requirements/define' => 'requirements#mark_defined'
 
 end

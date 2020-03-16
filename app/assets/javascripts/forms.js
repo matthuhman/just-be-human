@@ -120,7 +120,7 @@ function clearOutAbstractOptions()
     el.value = '';
   }
 
-  dateElements = document.querySelectorAll('[id^=opportunity_target_completion_date]');
+  dateElements = document.querySelectorAll('[id^=opportunity_cleanup_date]');
   for (var i=0; i < dateElements.length; i++)
   {
     var el = dateElements.item(i);
@@ -137,20 +137,20 @@ function showOrHideTimeOptions()
 
   if (checkbox.checked)
   {
-    document.getElementById('opportunity_target_completion_date_4i').style.display = "block";
-    document.getElementById('opportunity_target_completion_date_5i').style.display = "block";
+    document.getElementById('opportunity_cleanup_date_4i').style.display = "block";
+    document.getElementById('opportunity_cleanup_date_5i').style.display = "block";
   }
   else
   {
     clearHourAndMinute();
-    document.getElementById('opportunity_target_completion_date_4i').style.display = "none";
-    document.getElementById('opportunity_target_completion_date_5i').style.display = "none";
+    document.getElementById('opportunity_cleanup_date_4i').style.display = "none";
+    document.getElementById('opportunity_cleanup_date_5i').style.display = "none";
   }
 }
 
 
 function clearHourAndMinute()
 {
-  document.getElementById('opportunity_target_completion_date_4i').value = '12';
-  document.getElementById('opportunity_target_completion_date_5i').value = '00';
+  document.getElementById('opportunity_cleanup_date_4i').value = '12';
+  document.getElementById('opportunity_cleanup_date_5i').value = '00';
 }
