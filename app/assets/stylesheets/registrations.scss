@@ -4,10 +4,21 @@
 
 @import 'theme.scss';
 @import 'mixins.scss';
-
+@import 'generic-form.scss';
 
 .register-link {
   min-width: 10vw;
+}
+
+
+.registration-page {
+  background: image-url('registration-background.jpg') no-repeat center center fixed;
+  height: 100%;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 
