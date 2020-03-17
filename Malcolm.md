@@ -54,6 +54,7 @@ The worst fucking part about programming, I know
   * no longer used, I just kept them around for reference
   * honestly I should just delete them, they're still in source control. Maybe I'll do that this week
   * in the past, Opportunities had Requirements that had to be completed before the Opportunity itself could be completed
+  * requirements could be volunteered for by one or more users, had independent due dates, their own categorization system, and more... it's kinda crazy how much code I've removed from this system since I first launched
   * basically I built out a complicated task management system and then lit it all on fire and got rid of it.....
 
 ## Basic repository structure breakdown:
