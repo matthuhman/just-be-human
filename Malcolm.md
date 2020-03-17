@@ -18,6 +18,40 @@ The worst fucking part about programming, I know
   * this should get handled for you once you get ruby happy and can run the project
 
 
+## Logical breakdown (corresponds with Models)
+* User
+  * self-explanatory
+  * authentication is handled via a gem called `devise`
+* Opportunity
+  * the meat and potatoes of the software
+  * represents a cleanup (the code was written to be more generic originally)
+  * these are 'geocoded' meaning that their lat/long are known and can be used for geofencing
+* OpportunityRole
+  * join object for users and opportunities, also handles some of its own logic
+  * contains info like the role level of the user, whether that user has RSVP'd, etc
+* Waiver
+  * user-uploadable waiver objects
+  * "OpportunityWaiver" joins Opportunities and Waivers but is an entirely theoretical "model"
+    * only exists as a join table and as a theoretical construct, does not have a file on disk
+  * referenced by Signatures
+*  Signature
+  * represents a user's signature of a waiver
+  * not all cleanups will require waivers, but if there is a waiver, it must be signed
+  * one signature per waiver
+  * 'Authenticity' is marked by including a ton of info into a SHA256 hash at signature creation time
+  * I'm honestly not sure if my system will hold up legally but I needed something cheap and easy and if it becomes a problem then I'll redo it
+  * Waivers and Signatures are not complete yet - the back end for them *should* be done but the front end hasn't been hooked up yet
+* Post and Comment
+  * posts belong to opportunities, comments belong to posts
+  * must be authenticated to see
+* Conversation and Message
+  * private messaging system, desperately needs front-end love
+  * must be volunteers for the same cleanup to start a conversation with another user
+* Requirement and RequirementRole
+  * no longer used, I just kept them around for reference
+  * honestly I should just delete them, they're still in source control. Maybe I'll do that this week
+  * in the past, Opportunities had Requirements that had to be completed before the Opportunity itself could be completed
+  * basically I built out a complicated task management system and then lit it all on fire and got rid of it.....
 
 ## Basic repository structure breakdown:
 
