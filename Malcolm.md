@@ -34,7 +34,7 @@ The worst fucking part about programming, I know
   * "OpportunityWaiver" joins Opportunities and Waivers but is an entirely theoretical "model"
     * only exists as a join table and as a theoretical construct, does not have a file on disk
   * referenced by Signatures
-*  Signature
+* Signature
   * represents a user's signature of a waiver
   * not all cleanups will require waivers, but if there is a waiver, it must be signed
   * one signature per waiver
