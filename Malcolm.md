@@ -29,10 +29,9 @@ The worst fucking part about programming, I know
 * OpportunityRole
   * join object for users and opportunities, also handles some of its own logic
   * contains info like the role level of the user, whether that user has RSVP'd, etc
-* Waiver
+* Waiver and OpportunityWaiver
   * user-uploadable waiver objects
-  * "OpportunityWaiver" joins Opportunities and Waivers but is an entirely theoretical "model"
-    * only exists as a join table and as a theoretical construct, does not have a file on disk
+  * OpportunityWaiver joins Opportunities and Waivers
   * referenced by Signatures
 * Signature
   * represents a user's signature of a waiver
