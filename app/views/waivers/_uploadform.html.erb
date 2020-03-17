@@ -1,0 +1,14 @@
+
+
+<%= bootstrap_form_for(@waiver) do |f| %>
+  <%= f.file_field :waiver_file, hide_label: true, label: "file-name" %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+  <%= f.text_field :location %>
+  <%= f.check_box :is_public %>
+  <%= f.check_box :is_general_purpose %>
+  <%= f.check_box :is_official %>
+  <%= f.hidden_field :opportunity_id %>
+  <%= f.submit 'Upload waiver' %>
+
+<% end %>

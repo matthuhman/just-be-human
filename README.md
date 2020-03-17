@@ -23,14 +23,14 @@ Rails 5.2
 
 # Technical Questions
 
-* So, what do we need to do to set up a Wiki that can be modified by any authenticated user simultaneously?
-* Websockets?? That would be really really cool...
-* I'm almost certain that Rails 5
+
 
 # Architectural/Design Questions
 
 
-* none atm
+* So, what do we need to do to set up a Wiki that can be modified by any authenticated user simultaneously?
+* Websockets?? That would be really really cool...
+* I'm almost certain that Rails 5 added support for websockets
 
 
 
@@ -41,7 +41,9 @@ Rails 5.2
   * completed:
   * checkin- 20200314 - still not done
 
-
+* get document signing/uploading running
+  * added: 20200315
+  * completed:
 
 
 
@@ -50,6 +52,10 @@ Rails 5.2
 
 ### Ignore this stuff - I stole this from a rails dev's list of "most used gems"
 ### and am just using it for easy reference/a reminder to look into the rest of these in the future
+
+
+Security audit tools:
+https://github.com/hardhatdigital/rails-security-audit
 
 
 I've definitely reduced the amount of gems I use compared to last year.

@@ -6,6 +6,7 @@ class Opportunity < ApplicationRecord
   has_many :opportunity_roles, :dependent => :destroy
   has_many :requirements, :dependent => :destroy
   has_many :posts
+  has_many :opportunity_waivers
   has_many :waivers, through: :opportunity_waivers
   has_many :signatures
 

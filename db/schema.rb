@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_175440) do
+ActiveRecord::Schema.define(version: 2020_03_17_022345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -202,13 +202,10 @@ ActiveRecord::Schema.define(version: 2020_03_15_175440) do
   end
 
   create_table "opportunity_waivers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "opportunity_id"
-    t.bigint "waiver_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["opportunity_id", "waiver_id"], name: "index_opportunity_waivers_on_opportunity_id_and_waiver_id", unique: true
-    t.index ["opportunity_id"], name: "index_opportunity_waivers_on_opportunity_id"
-    t.index ["waiver_id"], name: "index_opportunity_waivers_on_waiver_id"
+    t.uuid "opportunity_id"
+    t.uuid "waiver_id"
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -380,7 +377,6 @@ ActiveRecord::Schema.define(version: 2020_03_15_175440) do
     t.boolean "is_public", default: false
     t.boolean "is_general_purpose", default: false
     t.bigint "user_id"
-    t.bigint "opportunity_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "lat", precision: 10, scale: 6
@@ -390,7 +386,6 @@ ActiveRecord::Schema.define(version: 2020_03_15_175440) do
     t.string "file_type"
     t.string "file_name"
     t.boolean "is_official", default: false
-    t.index ["opportunity_id"], name: "index_waivers_on_opportunity_id"
     t.index ["user_id"], name: "index_waivers_on_user_id"
   end
 
