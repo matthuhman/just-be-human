@@ -47,6 +47,9 @@ The worst fucking part about programming, I know
 * Conversation and Message
   * private messaging system, desperately needs front-end love
   * must be volunteers for the same cleanup to start a conversation with another user
+* Leaderboard and Point
+  * these are not finished yet and are on the list - I want to gamify the entire platform
+  * right now I have Points being stored on Dynamo just because I love dynamo and I wanted an excuse to use it
 * Requirement and RequirementRole
   * no longer used, I just kept them around for reference
   * honestly I should just delete them, they're still in source control. Maybe I'll do that this week
