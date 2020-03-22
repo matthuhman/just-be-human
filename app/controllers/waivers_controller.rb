@@ -1,7 +1,7 @@
 class WaiversController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_waiver, except: :new
+  before_action :set_waiver, except: [:new, :create]
 
   def create
     #oppo = Opportunity.find(waiver_params[:opportunity_id])
@@ -9,17 +9,44 @@ class WaiversController < ApplicationController
     @waiver = Waiver.new(waiver_params)
     @waiver.user = current_user
     @waiver.state_code = current_user.region
+    file = waiver_params[:waiver_file]
 
-    if @waiver.save
-      redirect_to @waiver, notice: @waiver.fileName + ' has been uploaded successfully'
+    oppo_id = waiver_params[:opportunity_id]
+
+    @waiver.file_name = file.original_filename
+    @waiver.file_type = file.content_type
+
+    if @waiver.file_type != 'application/pdf'
+      redirect_to new_waiver_path, alert: "Waivers must be in PDF form"
     else
-      ReportedError.report('WaiverController.create', @waiver.errors, 1000)
-      redirect_to @waiver, alert: 'Waiver was not uploaded correctly. The error has been logged for investigation.'
+      if @waiver.save
+        if oppo_id && !oppo_id.empty?
+          oppo = Opportunity.find(oppo_id)
+          if oppo
+            oppo_waiver = OpportunityWaiver.new(waiver: @waiver, opportunity: oppo)
+            if oppo_waiver.save
+              redirect_to oppo, notice: "Waiver uploaded successfully and associated with your cleanup!"
+            else
+              @waiver.destroy
+              ReportedError.report("OppoWaiver.create", oppo_waiver.errors, 100)
+              redirect_to new_waiver_path, alert: "There was an error while associating your waiver."
+            end
+          else
+            redirect_to '/', notice: @waiver.file_name + ' has been uploaded successfully'
+          end
+        else
+          redirect_to '/', notice: @waiver.file_name + ' has been uploaded successfully.'
+        end
+      else
+        ReportedError.report('WaiverController.create', @waiver.errors, 1000)
+        redirect_to new_waiver_path(@waiver), alert: 'Waiver was not uploaded correctly. The error has been logged for investigation.'
+      end
     end
   end
 
   def new
-    @waiver = Waiver.new
+    @opp_id = new_waiver_param[:opportunity_id]
+    @waiver = Waiver.new()
   end
 
   def show
@@ -53,5 +80,9 @@ class WaiversController < ApplicationController
       params.require(:waiver).permit(:parent_waiver_id, #
         :opportunity_id, :location, :waiver_file, :is_public, :is_general_purpose, #
         :is_official, :title, :description)
+    end
+
+    def new_waiver_param
+      params.permit(:opportunity_id)
     end
 end

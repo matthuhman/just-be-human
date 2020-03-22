@@ -4,10 +4,70 @@
 
 @import 'theme.scss';
 @import 'mixins.scss';
-
+@import 'generic-form.scss';
 
 .register-link {
   min-width: 10vw;
+}
+
+
+.registration-page {
+  background: image-url('registration-background.jpg') no-repeat center center fixed;
+  height: 100%;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  form {
+    width: 80vw;
+    height: 75vh;
+    margin: auto;
+    background: rgba(255,255,255,.85);
+    border-radius: 5px;
+    border: 1px solid $darkgreen;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    padding-top: 3vh;
+
+    .birth-date-group {
+      text-align: center;
+
+      .birth-date-label {
+        font-size: 2.5rem;
+        padding-top: 1vh;
+        margin-bottom: -1.5vh;
+
+        @include respond-to(handhelds) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .form-group {
+      text-align: center;
+      width: 50vw;
+      margin: auto;
+
+      label {
+        display: none;
+      }
+
+      .form-control {
+        font-size: 2.5rem;
+        margin-top: 1vh;
+
+        @include respond-to(handhelds) {
+          font-size: 1.2rem;
+        }
+      }
+
+      .country-buffer {
+        height: 1vh;
+      }
+    }
+  }
 }
 
 

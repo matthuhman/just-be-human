@@ -64,6 +64,11 @@
             Map
           </div>
         </a>
+        <a class="menu-bar-option" href="/waivers/new?opportunity_id=<%= @opportunity.id %>">
+          <div class="menu-bar-btn navigation-btn">
+            Upload a waiver
+          </div>
+        </a>
       </div>
     </div>
 
@@ -133,6 +138,19 @@
       </div>
       <div class="oppo-map-container" id="map-container">
         <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+      </div>
+      <div class="oppo-waivers-container" id="waivers-container">
+        <% if @opportunity.waivers.size > 0 %>
+          <% @opportunity.waivers.each do |w| %>
+            <%= render 'waiver', waiver: w %>
+          <% end %>
+        <% end %>
+        <%= @opportunity.waivers.size %>
+
+
+
+
+
       </div>
       <div class="oppo-posts-container" id="posts-container">
         <div class="opportunity-center-title">

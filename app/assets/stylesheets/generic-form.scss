@@ -1,0 +1,74 @@
+@import 'theme.scss';
+@import 'mixins.scss';
+
+
+.new-generic-page,
+.edit-generic-page {
+  height: 100%;
+  padding-top: 5vh;
+  overflow-y: auto;
+
+  .new-generic-form,
+  .edit-generic-form {
+    width: 80vw;
+    margin: auto;
+    background-color: rgba(255,255,255,.85);
+    border-radius: 5px;
+    border: 2px solid black;
+
+    .form-group {
+      max-width: 80%;
+      margin: auto;
+
+      label {
+        font-size: 1.4rem;
+        padding-top: 2.5vh;
+      }
+
+      textarea {
+        height: 10vh;
+      }
+
+      .rails-bootstrap-forms-date-select {
+        text-align: center;
+
+
+        .form-control {
+          font-size: 3rem;
+        }
+      }
+
+      .generic-time-select {
+        width: 25vw;
+        margin: auto;
+        text-align: center;
+        font-size: 3rem;
+      }
+
+      .generic-integer-select {
+        width: 20vw;
+        margin: auto;
+        text-align: center;
+        font-size: 3rem;
+      }
+    }
+
+    .create-object-btn-wrapper {
+      text-align: center;
+      width: 100%;
+    }
+
+    .create-object-btn {
+      width: 25vw;
+      margin: auto;
+      background-color: $darkgreen;
+      color: white;
+      font-family: 'TwinMarker';
+      font-size: 3rem;
+      padding-top: 1vh;
+      padding-bottom: 1vh;
+      margin-top: 1vh;
+      margin-bottom: 1vh;
+    }
+  }
+}

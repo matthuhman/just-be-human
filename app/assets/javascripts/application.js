@@ -47,9 +47,6 @@ document.addEventListener('click', function(e) {
 });
 
 
-
-
-
 function getTimeZone() {
   if (!localStorage.getItem('detrashers-time-zone')) {
     var zone = jstz.determine().name();

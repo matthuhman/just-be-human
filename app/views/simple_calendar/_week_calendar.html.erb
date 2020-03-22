@@ -25,7 +25,7 @@
       <% date_range.each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <%= content_tag :td, class: "day is-current-day-#{day.to_date == Date.today}" do %>
+            <%= content_tag :td, class: "day is-current-day-#{day.to_date == Date.current}" do %>
               <% block.call day, sorted_events.fetch(day, []) %>
             <% end %>
           <% end %>
@@ -36,7 +36,7 @@
   </table>
     <div class="calendar-footer">
       <div class="calendar-footer-note">
-        Click on the date header to see that day's cleanups on a map!
+        Click on the date to see that day's cleanups on a map!
       </div>
     </div>
 </div>

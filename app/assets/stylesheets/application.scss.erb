@@ -104,6 +104,7 @@ h1 {
   margin-bottom: 3vh;
   padding-top: 2vh;
   color: $darkgrey;
+  font-family: 'TwinMarker';
   //border-bottom: 2px solid $lightgrey;
   @include respond-to(handhelds) {
     font-size: 2em;
@@ -145,8 +146,76 @@ h1 {
 }
 
 
+.form-buffer {
+  padding: 5vh;
+
+  @include respond-to(handhelds) {
+    padding: 2vh;
+  }
+}
+
+form {
+  overflow: auto;
+
+  label {
+    padding-left: 2vw;
+    font-size: 2rem;
+
+
+    @include respond-to(handhelds) {
+      padding-left: 5vw;
+    }
+  }
+
+  .form-standard-title {
+    font-family: 'TwinMarker';
+    font-size: 2.8rem;
+
+    @include respond-to(handhelds) {
+      font-size: 1.9rem;
+      text-align: center;
+    }
+  }
+
+  .form-standard-emalfield {
+
+  }
+
+  .form-standard-texfield {
+
+  }
+
+  select {
+    font-size: 2.5rem;
+
+    @include respond-to(handhelds) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .form-standard-submit-wrapper {
+    text-align: center;
+    padding-top: 2vh;
+  }
+
+  .form-standard-submit {
+    font-size: 3rem;
+    background-color: $darkgreen;
+    width: 40vw;
+    margin: auto;
+    font-family: 'TwinMarker';
+    color: white;
+    margin-bottom: 2vh;
+
+    @include respond-to(handhelds) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+
 .btn-success {
-  background-color: $limegreen !important;
+  background-color: $darkgreen !important;
 }
 
 .main {

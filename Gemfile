@@ -70,6 +70,7 @@ gem 'binding_of_caller'
 gem 'aws-sdk-dynamodb'
 gem 'devise_invitable'
 gem 'bootstrap_form'
+gem 'poppler'
 
 gem "actiontext", "6.0.2.1"
 gem 'image_processing', '~> 1.2' #uncomment from Gemfilegem ‘webpacker’
@@ -99,6 +100,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'brakeman'
 end
 
 group :test do
