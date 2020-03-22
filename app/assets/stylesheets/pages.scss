@@ -9,7 +9,7 @@
 
 .wrapper {
   background: image-url('calendar-background.jpg') no-repeat center center fixed;
-  height: 100%;
+  height: 90%;
   width: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -21,10 +21,103 @@
   }
 }
 
+.calendar-aboutus {
+  height: 15vw;
+  margin-top: 3vh;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 33% 33% 33%;
+
+  border-radius: 5px;
+  border: 2px solid black;
+  background-color: rgba(255,255,255,.85);
+
+  @include respond-to(handhelds) {
+    grid-template-columns: 100%;
+    height: auto;
+  }
+
+  .help-out-links {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-family: 'TwinMarker';
+
+    a {
+      color: $darkgreen;
+    }
+  }
+
+  .aboutus-div-title {
+    font-size: 3.5rem;
+    font-family: 'TwinMarker';
+
+
+    @include respond-to(handhelds) {
+      font-size: 2.1rem;
+    }
+  }
+
+  .aboutus-content {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    font-size: 1.6rem;
+
+    @include respond-to(handhelds) {
+      font-size: .8rem;
+    }
+  }
+
+  .aboutus-left {
+    grid-column: 1;
+    text-align: center;
+    border-right: 1px solid black;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-center {
+    grid-column: 2;
+    text-align: center;
+    border-right: 1px solid black;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-right {
+    grid-column: 3;
+    text-align: center;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-mobile {
+    display: none;
+    text-align: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+
+
+    @include respond-to(handhelds) {
+      display: block;
+      grid-column: 1;
+    }
+  }
+}
+
 
 .location-select-div {
   text-align:center;
-  padding-top: 30vh;
+  padding-top: 15vh;
   padding-left: 30vh;
   padding-right: 30vh;
 
@@ -113,16 +206,15 @@
 
 
     @include respond-to(handhelds) {
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
   }
 
   .location-select-field {
     text-align: center;
     height: 10vh;
-    width: 50vw !important;
+    width: auto !important;
     font-size: 7rem;
-    font-family: 'TwinMarker';
 
     @include respond-to(handhelds) {
       width: 80vw !important;
