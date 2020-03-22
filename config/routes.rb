@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   get '/' => 'pages#calendar'
 
-
+  match '*path', via: :all, to: redirect('/')
 
 
 
