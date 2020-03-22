@@ -71,6 +71,25 @@
 }
 
 
+.edit-user-page {
+  height: 95vh;
+  background: white;
+
+  #user_time_zone {
+    @include respond-to(handhelds) {
+      margin: -15vw;
+      width: 85vw;
+      margin-bottom: 3vh;
+    }
+  }
+
+  label {
+    @include respond-to(handhelds) {
+      font-size: 1.2rem;
+    }
+  }
+}
+
 .user-edit-form-inputs {
   padding-left: 10vw;
   padding-right: 10vw;

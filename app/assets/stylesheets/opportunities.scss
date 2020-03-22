@@ -26,6 +26,14 @@
       max-width: 80%;
       margin: auto;
 
+      #opportunity_title {
+        font-size: 3rem;
+
+        @include respond-to(handhelds) {
+          font-size: 1.8rem;
+        }
+      }
+
       label {
         font-size: 1.4rem;
         padding-top: 2.5vh;
@@ -33,6 +41,7 @@
 
       textarea {
         height: 10vh;
+        font-size: 1.2rem;
       }
 
       .rails-bootstrap-forms-date-select {
@@ -44,8 +53,10 @@
         }
       }
 
+
+
       #opportunity_cleanup_time {
-        width: 25vw;
+        width: auto;
         margin: auto;
         text-align: center;
         font-size: 3rem;
