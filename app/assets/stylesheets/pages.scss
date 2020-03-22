@@ -45,9 +45,15 @@
     flex-direction: row;
     justify-content: space-around;
     font-family: 'TwinMarker';
+    margin-left: -3vw;
+    margin-right: -3vw;
 
     a {
       color: $darkgreen;
+    }
+
+    @include respond-to(handhelds) {
+      font-size: 1.2rem;
     }
   }
 
