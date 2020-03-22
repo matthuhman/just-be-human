@@ -20,7 +20,7 @@ class OpportunityMailer < ApplicationMailer
       cal = Icalendar::Calendar.new
 
       cal.event do |e|
-        e.dtstart = oppo.target_completion_date
+        e.dtstart = oppo.cleanup_date
         e.summary = oppo.title
         e.description = oppo.description
         e.location = oppo.address

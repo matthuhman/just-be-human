@@ -31,12 +31,12 @@ class DailyEmailCron
     puts "user notifications count: #{user_notifications.size}"
 
 
-    current_opportunities = Opportunity.where('target_completion_date > ?', Time.current)
+    current_opportunities = Opportunity.where('cleanup_date > ?', Time.current)
 
     today = Date.today
 
     current_opportunities.each do |o|
-      tcd = o.target_completion_date.to_date
+      tcd = o.cleanup_date.to_date
 
       if (tcd - 2.weeks) <= today
         user_reminders = DailyEmailCron.add_reminders(o, user_reminders, (tcd - today).to_i)

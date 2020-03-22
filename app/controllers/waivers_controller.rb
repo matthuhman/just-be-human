@@ -45,8 +45,8 @@ class WaiversController < ApplicationController
   end
 
   def new
-    @waiver = Waiver.new(new_waiver_param)
-    binding.pry
+    @opp_id = new_waiver_param[:opportunity_id]
+    @waiver = Waiver.new()
   end
 
   def show
