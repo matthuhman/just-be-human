@@ -21,104 +21,7 @@
   }
 }
 
-.calendar-aboutus {
-  height: 15vw;
-  margin-top: 3vh;
-  margin-left: 3vw;
-  margin-right: 3vw;
-  display: grid;
-  grid-template-rows: 1;
-  grid-template-columns: 33% 33% 33%;
 
-  border-radius: 5px;
-  border: 2px solid black;
-  background-color: rgba(255,255,255,.85);
-
-  @include respond-to(handhelds) {
-    grid-template-columns: 100%;
-    height: auto;
-  }
-
-  .help-out-links {
-    padding-top: 2vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    font-family: 'TwinMarker';
-    margin-left: -3vw;
-    margin-right: -3vw;
-
-    a {
-      color: $darkgreen;
-    }
-
-    @include respond-to(handhelds) {
-      font-size: 1.2rem;
-    }
-  }
-
-  .aboutus-div-title {
-    font-size: 3.5rem;
-    font-family: 'TwinMarker';
-
-
-    @include respond-to(handhelds) {
-      font-size: 2.1rem;
-    }
-  }
-
-  .aboutus-content {
-    padding-left: 5vw;
-    padding-right: 5vw;
-    font-size: 1.6rem;
-
-    @include respond-to(handhelds) {
-      font-size: .8rem;
-    }
-  }
-
-  .aboutus-left {
-    grid-column: 1;
-    text-align: center;
-    border-right: 1px solid black;
-
-    @include respond-to(handhelds) {
-      display: none;
-    }
-  }
-
-  .aboutus-center {
-    grid-column: 2;
-    text-align: center;
-    border-right: 1px solid black;
-
-    @include respond-to(handhelds) {
-      display: none;
-    }
-  }
-
-  .aboutus-right {
-    grid-column: 3;
-    text-align: center;
-
-    @include respond-to(handhelds) {
-      display: none;
-    }
-  }
-
-  .aboutus-mobile {
-    display: none;
-    text-align: center;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-
-
-    @include respond-to(handhelds) {
-      display: block;
-      grid-column: 1;
-    }
-  }
-}
 
 
 .location-select-div {
@@ -243,6 +146,14 @@
   }
 }
 
+#calendar {
+  min-height: 70vw;
+}
+
+.wrapper {
+  overflow-y: scroll;
+}
+
 .simple-calendar {
 
   .mobile-day-header {
@@ -285,7 +196,7 @@
   }
 
   .table {
-    height: 100%;
+    height: 80%;
     margin-bottom: 0 !important;
   }
 
@@ -410,7 +321,110 @@
 }
 
 
+.calendar-aboutus {
+  height: 15vw;
+  margin-top: 3vh;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 33% 33% 33%;
 
+  border-radius: 5px;
+  border: 2px solid black;
+  background-color: rgba(255,255,255,.85);
+
+  @include respond-to(handhelds) {
+    grid-template-columns: 100%;
+    height: auto;
+    margin-bottom: 3vh;
+  }
+
+  .help-out-links {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-family: 'TwinMarker';
+    margin-left: -3vw;
+    margin-right: -3vw;
+
+    a {
+      color: $darkgreen;
+    }
+
+    @include respond-to(handhelds) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .aboutus-div-title {
+    font-size: 3.5rem;
+    font-family: 'TwinMarker';
+
+
+    @include respond-to(handhelds) {
+      font-size: 2.1rem;
+    }
+  }
+
+  .aboutus-content {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    font-size: 1.6rem;
+
+    @include respond-to(handhelds) {
+      font-size: .8rem;
+    }
+  }
+
+  .aboutus-left {
+    grid-column: 1;
+    text-align: center;
+    border-right: 1px solid black;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-center {
+    grid-column: 2;
+    text-align: center;
+    border-right: 1px solid black;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-right {
+    grid-column: 3;
+    text-align: center;
+
+    @include respond-to(handhelds) {
+      display: none;
+    }
+  }
+
+  .aboutus-mobile {
+    display: none;
+    text-align: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+
+    @include respond-to(handhelds) {
+      display: block;
+      grid-column: 1;
+    }
+
+    .aboutus-content {
+      font-size: .9rem;
+    }
+  }
+
+
+}
 
 
 
