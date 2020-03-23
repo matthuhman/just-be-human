@@ -1,9 +1,10 @@
 
 <div class="calendar-background">
   <% if @geopoint %>
+    <div id="geopoint-is-present"/>
     <div id="calendar">
       <%= week_calendar events: @opportunities do |date| %>
-        <div class="mobile-day-header">
+        <div id="mobile-day-header" class="mobile-day-header">
           <a class="calendar-map-link" href="/map?cleanup_date=<%= date %>&location_term=<%= @zip %>">
             <%= t('date.abbr_day_names')[date.wday] + ' ' + date.strftime('%m/%d') %>
           </a>
@@ -49,7 +50,7 @@
     </div>
   <% end %>
 
-  <div class="calendar-aboutus">
+  <div class="calendar-aboutus" id="calendar-aboutus">
     <div class="aboutus-left">
       <div class="aboutus-div-title">
         About us

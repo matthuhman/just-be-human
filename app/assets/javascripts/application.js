@@ -29,6 +29,7 @@
 
 $(document).on('turbolinks:load', function(){
   getTimeZone();
+  hideAboutUsIfNecessary();
 });
 
 let intro;
@@ -56,6 +57,15 @@ function getTimeZone() {
     return localStorage.getItem('detrashers-time-zone');
   }
 }
+
+function hideAboutUsIfNecessary() {
+  var els = $('#geopoint-is-present');
+  if (els.length > 0) {
+    $('#calendar-aboutus').hide();
+  }
+}
+
+
 
 // and check for it when deciding whether to start.
 // window.addEventListener('ready turbolinks:load', function() {

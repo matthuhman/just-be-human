@@ -147,7 +147,14 @@
 }
 
 #calendar {
-  min-height: 70vw;
+
+  min-height: 50vw;
+  max-height: 600px !important;
+
+  @include respond-to(handhelds) {
+    min-height: 70vw;
+  }
+
 }
 
 .wrapper {
