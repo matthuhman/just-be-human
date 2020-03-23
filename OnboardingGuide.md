@@ -16,6 +16,24 @@ The worst fucking part about programming, I know
   * I don't remember how I installed it. Brew, maybe? idk
 * Rails 6.0.2.1
   * this should get handled for you once you get ruby happy and can run the project
+* Yarn 1.22.4
+ * `brew install yarn`
+* Install gems and whatever yarn does
+  * `bundle install`
+  * `yarn install`
+
+### Database Setup
+
+You'll need to start postgres and create the user and DBs before you can run the application.
+* `brew services start postgres`
+* `createuser -P -d justbehuman`
+  * Provide it a password
+  * Also save this password as the environment variable `JBH_DEV_PASSWORD` so the database.yml file will pick it up
+* `rails db:create`
+* `rails db:migrate`
+  * You may need to manually create any extensions needed by the migration
+    * `rails -d justbehumandev`
+    * `CREATE EXTENSION "{extension}";`
 
 
 ## Logical breakdown (corresponds with Models)
@@ -101,10 +119,6 @@ The worst fucking part about programming, I know
   * `./config/environments` contains ruby file that allows for environment-specific configuration (dev, test, prod, etc)
   * `./config/initializers` has configuration for ruby "gems" - the ruby name for their package repository/management system
   * I don't know that I've really touched the `locales` or `webpack` directories - they both scare me hahaha
-
-
-
-
 
 
 ## Fun Rails shit
