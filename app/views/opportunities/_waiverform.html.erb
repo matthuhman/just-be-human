@@ -1,14 +1,14 @@
+<div class="cleanup-waiver-upload-form">
 
+  <%= bootstrap_form_for(waiver) do |f| %>
+    <%= f.file_field :waiver_file, hide_label: true %>
+    <%= f.text_field :title %>
+    <%= f.text_field :description %>
+    <%= f.text_field :location %>
+    <%= f.check_box :is_public %>
+    <%= f.check_box :is_general_purpose %>
+    <%= f.check_box :is_official %>
+    <%= f.submit 'Upload waiver' %>
+  <% end %>
 
-<%= bootstrap_form_for(waiver) do |f| %>
-  <%= f.file_field :waiver_file, hide_label: true %>
-  <%= f.text_field :title %>
-  <%= f.text_field :description %>
-  <%= f.text_field :location %>
-  <%= f.check_box :is_public %>
-  <%= f.check_box :is_general_purpose %>
-  <%= f.check_box :is_official %>
-  <%= f.submit 'Upload waiver' %>
-
-<% end %>
-<%=
+</div>

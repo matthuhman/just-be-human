@@ -1,14 +1,22 @@
+<div class="new-waiver-upload-form">
+  <div class="new-waiver-upload-title">
+    Upload a new waiver
+  </div>
+  <input type="hidden" id="waiver-oppo-id" name="waiver[opportunity_id]" value="<%= @opp_id %>">
 
+  <%= bootstrap_form_for(@waiver) do |f| %>
+    <div class="file-upload-group">
+      <%= f.file_field :waiver_file, hide_label: true, label: "file-name" %>
+    </div>
+    <%= f.text_field :title, placeholder: 'Human-readable title, ex: "Denver Parks and Rec Waiver"' %>
+    <%= f.text_area :description, placeholder: 'Extra information about the use of this waiver.' %>
+    <%= f.text_field :location, placeholder: '"City, ST" ex: Denver, CO' %>
+    <%= f.check_box :is_public %>
+    <%= f.check_box :is_general_purpose %>
+    <%= f.check_box :is_official %>
 
-<%= bootstrap_form_for(@waiver) do |f| %>
-  <%= f.file_field :waiver_file, hide_label: true, label: "file-name" %>
-  <%= f.text_field :title %>
-  <%= f.text_field :description %>
-  <%= f.text_field :location %>
-  <%= f.check_box :is_public %>
-  <%= f.check_box :is_general_purpose %>
-  <%= f.check_box :is_official %>
+    <%= f.submit 'Upload waiver' %>
 
-  <%= f.submit 'Upload waiver' %>
+  <% end %>
 
-<% end %>
+</div>
