@@ -2,6 +2,9 @@
   <div class="calendar-page-title">
     Upcoming Cleanups
   </div>
+  <div class="calendar-map-link-reminder">
+    Click any day to see a map view of that day's cleanups
+  </div>
   <div class="calendar-heading">
     <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view, class: 'calendar-prev-week-btn calendar-nav-btn' %>
     <span class="calendar-title"><%= calendar.date_range.first.strftime('%m/%d/%Y') + ' - ' +  calendar.date_range.last.strftime('%m/%d/%Y')%></span>
@@ -25,9 +28,12 @@
       <% date_range.each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <%= content_tag :td, class: "day is-current-day-#{day.to_date == Date.current}" do %>
-              <% block.call day, sorted_events.fetch(day, []) %>
-            <% end %>
+              <%= content_tag :td, class: "day is-current-day-#{day.to_date == Date.current}" do %>
+                  <a class="calendar-map-link" href="/map?cleanup_date=<%= day %>&location_term=<%= @zip %>">
+                    <% block.call day, sorted_events.fetch(day, []) %>
+                  </a>
+              <% end %>
+
           <% end %>
         </tr>
       <% end %>
@@ -36,7 +42,7 @@
   </table>
     <div class="calendar-footer">
       <div class="calendar-footer-note">
-        Click on the date to see that day's cleanups on a map!
+        Click the date to see a map - Scroll down for more info!
       </div>
     </div>
 </div>

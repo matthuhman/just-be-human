@@ -27,6 +27,9 @@
 //= require ahoy
 //= require jstimezonedetect
 
+require("waivers")
+require("pages")
+
 $(document).on('turbolinks:load', function(){
   setTimeZone();
   hideAboutUsIfNecessary();

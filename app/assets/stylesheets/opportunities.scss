@@ -47,9 +47,17 @@
       .rails-bootstrap-forms-date-select {
         text-align: center;
 
+        select {
+          text-align: center;
+        }
 
         .form-control {
           font-size: 3rem;
+
+
+          @include respond-to(handhelds) {
+            font-size: 1.9rem;
+          }
         }
       }
 
@@ -60,6 +68,10 @@
         margin: auto;
         text-align: center;
         font-size: 3rem;
+
+        @include respond-to(handhelds) {
+          font-size: 1.9rem;
+        }
       }
 
       #opportunity_cleanup_duration {
@@ -67,6 +79,10 @@
         margin: auto;
         text-align: center;
         font-size: 3rem;
+
+        @include respond-to(handhelds) {
+          font-size: 1.9rem;
+        }
       }
 
       #opportunity_volunteers_required {
@@ -74,6 +90,10 @@
         margin: auto;
         text-align: center;
         font-size: 3rem;
+
+        @include respond-to(handhelds) {
+          font-size: 1.9rem;
+        }
       }
     }
 
@@ -92,6 +112,10 @@
       padding-bottom: 1vh;
       margin-top: 1vh;
       margin-bottom: 1vh;
+
+      @include respond-to(handhelds) {
+        font-size: 2rem;
+      }
     }
 
     .duration-and-volunteers-wrapper {
