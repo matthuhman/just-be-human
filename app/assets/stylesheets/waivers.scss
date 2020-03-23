@@ -1,0 +1,47 @@
+
+
+@import 'theme.scss';
+@import 'mixins.scss';
+
+
+
+.new-waiver-upload-page {
+
+  .new-waiver-upload-title {
+    font-family: 'TwinMarker';
+    font-size: 2.5rem;
+    color: $darkgreen;
+    text-align: center;
+    padding-bottom: 4vh;
+  }
+
+  .new-waiver-upload-form {
+    background: $white-hvy;
+    padding: 10vh 5vw 10vh 5vw;
+    margin: 5vh 10vw 0 10vw;
+
+    textarea {
+      height: 15vh;
+    }
+
+    @include respond-to(handhelds) {
+      padding: 2vh 2vw 2vh 2vw;
+      margin: 5vh 5vw 5vh 5vw;
+    }
+
+    .file-upload-group {
+      margin-bottom: 6vh;
+    }
+
+/*    label {
+      padding-top: 2vh;
+    }
+
+    .custom-file-label {
+      padding-top: 0 !important;
+    }*/
+
+
+  }
+
+}

@@ -22,7 +22,18 @@
 }
 
 
+.calendar-background {
+  display: grid;
+  grid-template-rows: 85% 15%;
+}
 
+.calendar-row-1 {
+  grid-row: 1;
+}
+
+.calendar-row-2 {
+  grid-row: 2;
+}
 
 .location-select-div {
   text-align:center;
@@ -147,8 +158,23 @@
 }
 
 #calendar {
-  min-height: 70vw;
+
+  min-height: 50vw;
+  max-height: 600px !important;
+
+  @include respond-to(handhelds) {
+    min-height: 70vw;
+  }
+
 }
+
+.calendar-map-link-reminder {
+  text-align: center;
+  font-size: 1.5vh;
+  background: black;
+  color: white;
+}
+
 
 .wrapper {
   overflow-y: scroll;
@@ -167,9 +193,6 @@
     .mobile-day-header {
       display: inline;
       font-size: 1.2rem;
-      a {
-        color: $darkblue;
-      }
     }
 
     .calendar-page-title {
@@ -182,6 +205,7 @@
 
     table {
       width:100%;
+      border: 1px solid $darkgreen;
     }
 
     thead {
@@ -196,8 +220,13 @@
   }
 
   .table {
-    height: 80%;
+    height: 80vh;
+    max-height: 400px;
     margin-bottom: 0 !important;
+
+    @include respond-to(handhelds) {
+      height: 60vh !important;
+    }
   }
 
   .today-marker {
@@ -239,6 +268,7 @@
   .day {
     background-color: rgba(255,255,255,.75);
     border: 1px solid $darkgreen;
+
     overflow-y: auto;
 
     @include respond-to(handhelds) {
@@ -278,19 +308,21 @@
     font-size: 2rem;
     background-color: $darkgreen-hvy;
     color: white;
-    border: 1px solid $darkgreen;
+    border: 1px solid black;
     text-align: center;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-  }
+
+}
 
   .calendar-heading {
+    text-transform: none !important;
     font-size: 3.2rem;
     color: black;
     background-color: rgba(255,255,255,.5);
     display: flex;
     justify-content: space-between;
-    border: 2px solid $darkgreen;
+    border-width: 0px 2px 0px 2px;
+    border-style: solid;
+    border-color: $darkgreen;
   }
 
   .calendar-nav-btn {
@@ -318,11 +350,14 @@
     }
   }
 
+  .calendar-page-bottom-buffer {
+    height: 5vh;
+  }
 }
 
 
 .calendar-aboutus {
-  height: 15vw;
+  height: auto;
   margin-top: 3vh;
   margin-left: 3vw;
   margin-right: 3vw;
@@ -330,14 +365,14 @@
   grid-template-rows: 1;
   grid-template-columns: 33% 33% 33%;
 
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   border: 2px solid black;
+  border-bottom: 0;
   background-color: rgba(255,255,255,.85);
 
   @include respond-to(handhelds) {
     grid-template-columns: 100%;
     height: auto;
-    margin-bottom: 3vh;
   }
 
   .help-out-links {
@@ -372,9 +407,12 @@
     padding-left: 5vw;
     padding-right: 5vw;
     font-size: 1.6rem;
+    height: auto;
+    margin-bottom: 5vh;
 
     @include respond-to(handhelds) {
       font-size: .8rem;
+      margin-bottom: 0;
     }
   }
 
@@ -585,6 +623,7 @@
   @include respond-to(handhelds) {
     grid-column: 1;
     grid-row: 2;
+    border-top: 1px solid $darkgreen;
   }
 }
 
@@ -737,6 +776,14 @@
   padding-right: 10vw;
   text-align: center;
   font-size: 1.8em;
+
+
+  .new-cleanup-link-text {
+    padding-top: 15vh;
+    color: $darkgreen;
+    font-family: 'TwinMarker';
+    font-size: 2.2rem;
+  }
 }
 
 .opportunity-title {

@@ -13,7 +13,6 @@ function handleSuccess(notifications) {
   items = $.map(notifications, function(notification) {
     return addClassName(notification.url);
   });
-  console.log(items);
   $("[data-behavior='unread-count']").text(items.length);
   return $("[data-behavior='notification-items']").append(items);
 };
