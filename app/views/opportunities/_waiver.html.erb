@@ -1,12 +1,6 @@
 <div class="oppo-waiver-wrapper">
-  <iframe src="<%= waiver_url %>" width="600" height="780" style="border: none;"> </iframe>
-
-
-
-
-
-
-
-
-
+  <a href="/waivers/sign?id=<%= waiver.id %>" class="sign-waiver-link">
+    <iframe src="<%= url_for waiver %>" width="100%" height="auto" style="border: none;">
+    </iframe>
+  </a>
 </div>

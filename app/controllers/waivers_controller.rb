@@ -7,7 +7,6 @@ class WaiversController < ApplicationController
     #oppo = Opportunity.find(waiver_params[:opportunity_id])
     oppo_id = waiver_params.delete :opportunity_id
     params = waiver_params.except :opportunity_id
-    binding.pry
 
     @waiver = Waiver.new(params)
     @waiver.user = current_user
@@ -51,6 +50,12 @@ class WaiversController < ApplicationController
   end
 
   def show
+    response.headers["Content-Type"] = @waiver.waiver_file.content_type
+    response.headers["Content-Disposition"] = "inline; #{@waiver.waiver_file.filename}"
+
+    @waiver.waiver_file.download do |chunk|
+      response.stream.write(chunk)
+    end
   end
 
   def edit

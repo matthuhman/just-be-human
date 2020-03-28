@@ -61,8 +61,11 @@ Rails 5.2
 Security audit tools:
 https://github.com/hardhatdigital/rails-security-audit
 
-Active Storage permanent URL's
+Active Storage permanent URL's:
 https://vitobotta.com/2019/11/17/rails-active-storage-permanent-urls-with-no-redirects-digital-ocean-spaces-cloudflare/
+
+Invisible Captcha to catch bots:
+https://github.com/markets/invisible_captcha
 
 
 I've definitely reduced the amount of gems I use compared to last year.
