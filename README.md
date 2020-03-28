@@ -19,6 +19,7 @@ Rails 5.2
     * run `/etc/certbot-auto --debug -v --server https://acme-v02.api.letsencrypt.org/directory certonly -d detrashers.org`
   * ClamAV is installed as an antivirus
     * https://www.clamav.net/documents/installing-clamav for installation instructions
+    * note - this is not up and running yet
 
 
 # Technical Questions
@@ -34,7 +35,7 @@ Rails 5.2
 
 
 
-# BIG TASKS STILL OUTSTANDING
+# TO DO
 
 * identify and test all permissions requirements
   * added: 20190811
@@ -42,8 +43,11 @@ Rails 5.2
   * checkin- 20200314 - still not done
 
 * get document signing/uploading running
-  * added: 20200315
-  * completed:
+  * subtasks:
+    * upload: DONE 20200328
+    * display: IN PROGRESS 20200328
+    * sign
+    * email
 
 
 
@@ -57,54 +61,62 @@ Rails 5.2
 Security audit tools:
 https://github.com/hardhatdigital/rails-security-audit
 
+Active Storage permanent URL's
+https://vitobotta.com/2019/11/17/rails-active-storage-permanent-urls-with-no-redirects-digital-ocean-spaces-cloudflare/
+
 
 I've definitely reduced the amount of gems I use compared to last year.
 
-Base rails
-
+####Base rails
 dotenv-rails
 puma
 webpacker
 turbolinks
-Users
 
+
+####Users
 devise
 omniauth
 pundit
 valid_email2
-ActiveStorage
 
+
+####ActiveStorage
 aws-sdk-s3
 vips (Instead of the default image_processing gem)
 ActiveJob
-
 sidekiq
 sidekiq-cron
-Logging and exception tracking
 
+####Logging and exception tracking
 lograge
 sentry-raven
-Making SEO easier
 
+
+####Making SEO easier
 meta-tags
 friendly_id
-Encouraging I18n usage.
 
+
+####Encouraging I18n usage.
 http_accept_language
-Cleaner views
 
+
+####Cleaner views
 draper
 simple_form
 premailer-rails
-For Development
 
+
+####For Development
 powder
 puma-dev - Not really a gem, but I love using it to turn on my rails projects.
 puma-ngrok-tunnel
 rubocop
 rack-mini-profiler
-For Testing
 
+
+####For Testing
 rspec-rails
 factory_bot_rails
 faker
@@ -112,6 +124,7 @@ webmock
 simplecov
 pig-ci-rails
 formulaic
-Admin tools
 
+
+####Admin tools
 ActiveAdmin

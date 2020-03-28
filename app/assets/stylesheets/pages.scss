@@ -133,7 +133,7 @@
   .location-select-field {
     text-align: center;
     height: 10vh;
-    width: auto !important;
+    width: 40vw !important;
     font-size: 7rem;
 
     @include respond-to(handhelds) {

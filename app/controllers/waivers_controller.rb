@@ -5,13 +5,14 @@ class WaiversController < ApplicationController
 
   def create
     #oppo = Opportunity.find(waiver_params[:opportunity_id])
+    oppo_id = waiver_params.delete :opportunity_id
+    params = waiver_params.except :opportunity_id
+    binding.pry
 
-    @waiver = Waiver.new(waiver_params)
+    @waiver = Waiver.new(params)
     @waiver.user = current_user
     @waiver.state_code = current_user.region
     file = waiver_params[:waiver_file]
-
-    oppo_id = waiver_params[:opportunity_id]
 
     @waiver.file_name = file.original_filename
     @waiver.file_type = file.content_type

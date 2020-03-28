@@ -2,9 +2,10 @@
   <div class="new-waiver-upload-title">
     Upload a new waiver
   </div>
-  <input type="hidden" id="waiver-oppo-id" name="waiver[opportunity_id]" value="<%= @opp_id %>">
+
 
   <%= bootstrap_form_for(@waiver) do |f| %>
+    <input type="hidden" id="waiver-oppo-id" name="waiver[opportunity_id]" value="<%= @opp_id %>">
     <div class="file-upload-group">
       <%= f.file_field :waiver_file, hide_label: true, label: "file-name" %>
     </div>

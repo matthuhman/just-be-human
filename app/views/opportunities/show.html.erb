@@ -142,7 +142,7 @@
       <div class="oppo-waivers-container" id="waivers-container">
         <% if @opportunity.waivers.size > 0 %>
           <% @opportunity.waivers.each do |w| %>
-            <%= render 'waiver', waiver: w %>
+            <%= render 'waiver', waiver_url: url_for(w.waiver_file) %>
           <% end %>
         <% end %>
         <%= @opportunity.waivers.size %>
