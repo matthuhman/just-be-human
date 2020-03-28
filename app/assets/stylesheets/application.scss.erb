@@ -250,3 +250,57 @@ form {
 abbr[title], abbr[data-original-title] {
   text-decoration: none;
 }
+
+
+
+
+.lazy-form {
+  text-align: center;
+  background-color: $white-hvy;
+  width: 80vw;
+  margin-top: 15vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5vh 5vw 5vh 5vw;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  .form-inputs {
+
+    margin: auto !important;
+
+    .form-group {
+      label {
+        display: none;
+      }
+    }
+  }
+
+  .form-actions {
+    .btn {
+      font-size: 2.5rem;
+
+      @include respond-to(handhelds) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  #user_email {
+    width: 60vw;
+    margin: auto;
+    font-size: 3.5rem;
+
+    @include respond-to(handhelds) {
+      width: 70vw;
+      margin-left: auto;
+      font-size: 1.6rem;
+    }
+  }
+
+  @include respond-to(handhelds) {
+    padding: 2vh 2vw 2vh 2vw;
+  }
+
+
+}
