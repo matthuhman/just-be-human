@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_17_022345) do
+ActiveRecord::Schema.define(version: 2020_03_28_225034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2020_03_17_022345) do
     t.uuid "organization_id"
     t.time "cleanup_time"
     t.integer "cleanup_duration", default: 2
+    t.boolean "bring_your_own", default: false
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
   end
