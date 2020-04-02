@@ -67,6 +67,8 @@ https://vitobotta.com/2019/11/17/rails-active-storage-permanent-urls-with-no-red
 Invisible Captcha to catch bots:
 https://github.com/markets/invisible_captcha
 
+Displaying PDF's:
+https://nts.strzibny.name/displaying-downloading-streaming-files-with-active-storage/
 
 I've definitely reduced the amount of gems I use compared to last year.
 

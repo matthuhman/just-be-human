@@ -184,6 +184,52 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  def noauth_rsvp
+    email = noauth_rsvp_params[:rsvp][:email]
+    password = noauth_rsvp_params[:rsvp][:password]
+    opportunity_id = noauth_rsvp_params[:rsvp][:opportunity_id]
+    respond_to do |format|
+      if !password
+        first_name = noauth_rsvp_params[:rsvp][:first_name]
+        last_name = noauth_rsvp_params[:rsvp][:last_name]
+        user = User.invite!(email: email, first_name: first_name, last_name: last_name)
+        if user
+          if Role.follow_opportunity(user.id, opportunity_id)
+            role = OpportunityRole.find_by(user_id: user.id, opportunity_id: opportunity_id)
+            if Role.rsvp(user, role, {role_id: role.id, additional_vols: noauth_rsvp_params[:rsvp][:additional_vols]})
+              format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully and an invitation to finish registration has been sent to you." }
+              format.json { render :show, status: :ok, location: role.opportunity }
+            else
+              format.html { redirect_to role.opportunity, alert: "RSVP was not successful" }
+              format.json { render :show, status: :unprocessable_entity, location: role.opportunity }
+            end
+          else
+            format.html { redirect_to Opportunity.find(opportunity_id), alert: "Did not follow opportunity successfully." }
+            format.json { render :show, status: :unprocessable_entity, location: Opportunity.find(opportunity_id) }
+          end
+        else
+          format.html { redirect_to Opportunity.find(opportunity_id), alert: "Could not create user" }
+          format.json { render :show, status: :unprocessable_entity, location: Opportunity.find(opportunity_id) }
+        end
+      else
+        user = User.find_by(email: email)
+        if Role.follow_opportunity(user.id, opportunity_id)
+          role = OpportunityRole.find_by(user_id: user.id, opportunity_id: opportunity_id)
+          if Role.rsvp(user, role, {role_id: role.id, additional_vols: noauth_rsvp_params[:rsvp][:additional_vols]})
+            format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully and an invitation to finish registration has been sent to you." }
+            format.json { render :show, status: :ok, location: role.opportunity }
+          else
+            format.html { redirect_to role.opportunity, alert: "RSVP was not successful" }
+            format.json { render :show, status: :unprocessable_entity, location: role.opportunity }
+          end
+        else
+          format.html { redirect_to Opportunity.find(opportunity_id), alert: "Did not follow opportunity successfully." }
+          format.json { render :show, status: :unprocessable_entity, location: Opportunity.find(opportunity_id) }
+        end
+      end
+    end
+  end
+
   #
   # GET /opportunities/leader
   # takes opportunity_id and target_user_id query params
@@ -310,39 +356,52 @@ class OpportunitiesController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_opportunity
-    @opportunity = Opportunity.find(params[:id])
-  end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :defined, :address, :cleanup_date, :cleanup_time, :cleanup_duration, :postal_code, :country, :volunteers_required, :status, :time_zone)
-  end
-
-  def promotion_params
-    params.permit(:opportunity_id, :target_user_id)
-  end
-
-  def rsvp_params
-    params.require(:rsvp).permit(:role_id, :additional_vols)
-  end
-
-  def set_time_options
-    @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
-  end
+    def set_opportunity
+      @opportunity = Opportunity.find(params[:id])
+    end
 
 
-  # TODO: This needs to get sorted out, this is a huge pain in the ass
-  def handle_old_token
-    ReportedError.report('RSVP', "unexpected invalid authenticity token", 100)
-    redirect_back fallback_location: @opportunity,
-      alert: 'Please refresh your page and try again'
-  end
+    def opportunity_params
+      params.require(:opportunity).permit(:title, :description, :defined, :address, :cleanup_date, :cleanup_time, :cleanup_duration, :postal_code, :country, :volunteers_required, :status, :time_zone, :estimated_size, :bring_your_own)
+    end
 
 
-  def send_follow_email
+    def promotion_params
+      params.permit(:opportunity_id, :target_user_id)
+    end
 
 
-  end
+    def rsvp_params
+      params.require(:rsvp).permit(:role_id, :additional_vols)
+    end
+
+
+    def noauth_rsvp_params
+      params.require(:rsvp).permit(:opportunity_id, :email, :first_name, :last_name, :password, :additional_vols)
+    end
+
+
+    def set_time_options
+      @time_options = ["Weekly", "Bi-weekly", "Monthly", "Annually"]
+    end
+
+    def handle_old_token
+      ReportedError.report('RSVP', "unexpected invalid authenticity token", 100)
+      redirect_back fallback_location: @opportunity,
+        alert: 'Please refresh your page and try again'
+    end
+
+
+    def send_follow_email
+
+
+    end
+
+
+    def send_noauth_rsvp_email
+
+
+
+    end
 end

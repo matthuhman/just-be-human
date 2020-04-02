@@ -1,0 +1,184 @@
+<div class="opportunity-show-page">
+  <div class="jbh-standard-title">
+    <%= @opportunity.title %>
+  </div>
+  <% if current_user&.is_follower?(@opportunity.id) %>
+    <div class="mobile-actions-container">
+      <div class="mobile-actions dropdown">
+        <button class="mobile-actions-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="mobile-action dropdown-item" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+            <div class="mobile-action-btn">
+              Unfollow
+            </div>
+          </a>
+          <a class="mobile-action dropdown-item" href="/opportunities/followers?id=<%= @opportunity.id %>">
+            <div class="mobile-action-btn">
+              Volunteer List
+            </div>
+          </a>
+          <% if @is_mod %>
+            <a class="mobile-action dropdown-item" href="/opportunities/<%= @opportunity.id %>/edit">
+              <div class="mobile-action-btn">
+                Edit
+              </div>
+            </a>
+          <% end %>
+          <% if @is_admin && @opportunity.can_complete? %>
+            <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="mobile-action-btn">
+                Completed
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% elsif current_user %>
+    <div class="mobile-follow-btn-container">
+      <a class="mobile-follow-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+        Follow
+      </a>
+    </div>
+  <% end %>
+  <div class="opportunity-show-main-grid">
+    <div class="desktop-left-div">
+      <div class="desktop-left-menu-bar desktop-menu-bar">
+        <div class="menu-bar-title">
+          Navigation
+        </div>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityInfo()">
+            Info
+          </div>
+        </a>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityPosts()">
+            Posts
+          </div>
+        </a>
+        <a class="menu-bar-option">
+          <div class="menu-bar-btn navigation-btn" onclick="showOpportunityMap()">
+            Map
+          </div>
+        </a>
+        <a class="menu-bar-option" href="/waivers/new?opportunity_id=<%= @opportunity.id %>">
+          <div class="menu-bar-btn navigation-btn">
+            Upload a waiver
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="desktop-right-div">
+       <% if current_user&.is_follower?(@opportunity.id) %>
+        <div class="desktop-right-menu-bar desktop-menu-bar">
+          <div class="menu-bar-title">
+            Options
+          </div>
+          <a class="menu-bar-btn" href="/opportunities/followers?id=<%= @opportunity.id %>">
+            <div class="menu-bar-btn">
+              Volunteer List
+            </div>
+          </a>
+          <% if @is_mod %>
+            <a class="menu-bar-btn" href="/opportunities/<%= @opportunity.id %>/edit">
+              <div class="menu-bar-btn">
+                Edit
+              </div>
+            </a>
+          <% end %>
+          <% if @is_admin && !@opportunity.completed? %>
+            <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="menu-bar-btn">
+                Complete
+              </div>
+            </a>
+          <% end %>
+          <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+            <div class="menu-bar-btn unfollow-btn">
+              Unfollow
+            </div>
+          </a>
+        </div>
+      <% else %>
+        <div class="desktop-menu-bar follow-oppo-menu-bar">
+          <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
+            Join
+          </a>
+        </div>
+      <% end %>
+
+    </div>
+
+
+    <div class="desktop-center-div">
+      <div class="opportunity-info-container" id="info-container">
+        <div class="opportunity-center-title">
+          General Information
+        </div>
+        <div class="opportunity-info-row">CLEANUP TIME
+          <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
+        </div>
+        <div class="opportunity-info-row">MEETING POINT
+          <div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
+        </div>
+        <div class="opportunity-info-row">VOLUNTEERS
+          <div class="opportunity-info-row-data info opportunity-info-volunteers-count">
+            <%= @opportunity.volunteer_count %> / <%= @opportunity.volunteers_required %>
+          </div>
+        </div>
+        <div class="oppo-description-container">
+          <div class="oppo-description">
+            <%= @opportunity.description %>
+          </div>
+        </div>
+      </div>
+      <div class="oppo-map-container" id="map-container">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+      </div>
+      <div class="oppo-waivers-container" id="waivers-container">
+        <% if @opportunity.waivers.size > 0 %>
+          <% @opportunity.waivers.each do |w| %>
+            <%= render 'waiver', waiver: w %>
+          <% end %>
+        <% end %>
+
+      </div>
+      <div class="oppo-posts-container" id="posts-container">
+        <div class="opportunity-center-title">
+          Posts
+        </div>
+        <div class="post-list">
+          <% if @opportunity.posts.size > 0 %>
+            <% @opportunity.posts.each do |post| %>
+              <% post_user = User.find(post.user_id) %>
+              <div class="post-listitem <%= post.completion_post ? 'completion-post' : '' %>">
+                <a href="/posts/<%= post.id %>" class="post-link">
+                  <span class="post-title"><%= post.display_title %> </span> -
+                  <span class="post-author"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></span>
+                  <div class="post-author-mobile"><%= post_user.username %><span> on <%= post.created_at.strftime('%m/%d/%Y') %></span></div>
+                </a>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="no-posts-container">
+              There is currently no discussion about this volunteer opportunity. If you have a comment or question, add it!
+            </div>
+          <% end %>
+          <% if current_user && @role %>
+          <div class="add-post-btn-container">
+            <%= link_to 'Add A Post', new_post_path(:opportunity => {:id => @opportunity.id}), class: "add-post-btn"%>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <% if @role %>
+        <%= render 'rsvp', opportunity: @opportunity, role: @role %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -7,6 +7,79 @@
 
 
 
+.cleanup-show-page {
+
+  .cleanup-desktop-grid {
+    display: grid;
+    grid-template-columns: 25vw 75vw;
+    grid-template-rows: 100%;
+    height: 90vh;
+
+
+    #rsvp-modal {
+      display: none;
+    }
+
+
+    .cleanup-desktop-grid-left {
+      grid-column: 1;
+      text-align: center;
+      background-color: white;
+      border-right: 1px solid $darkgreen;
+    }
+
+    .cleanup-desktop-grid-right {
+      background: white;
+      grid-column: 2;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: hidden !important;
+
+      .desktop-grid-map {
+        position: relative;
+        height: 90vh;
+
+        .desktop-grid-title {
+          position: absolute;
+          background-color: $white-hvy;
+          padding: 1vh 2vw 1vh 2vw;
+          border-radius: 5px;
+          border: 1px solid $darkgreen;
+          top: 3vh;
+          left: 2vw;
+          font-size: 4vh;
+        }
+
+        .cleanup-map-image {
+          width: 100% !important;
+        }
+
+        .opportunity-address-marker {
+          font-size: 2.5rem;
+        }
+      }
+
+
+      .stack-top {
+        z-index: 10;
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
 
 .new-cleanup-page,
 .edit-cleanup-page {

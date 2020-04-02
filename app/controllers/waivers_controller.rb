@@ -1,6 +1,6 @@
 class WaiversController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :show
   before_action :set_waiver, except: [:new, :create]
 
   def create
