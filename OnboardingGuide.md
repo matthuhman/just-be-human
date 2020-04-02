@@ -1,7 +1,3 @@
-
-Yo!!! So glad to finally be getting your eyes on this stuff!
-
-
 ## Environment Setup
 
 The worst fucking part about programming, I know
