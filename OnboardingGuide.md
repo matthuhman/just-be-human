@@ -95,6 +95,14 @@ You'll need to start postgres and create the user and DBs before you can run the
   * all views are server-side rendered (it doesn't have to be this way, but embedded ruby is pretty dope)
   * files with the `.erb` file extension allow the execution of ruby code in the view
     * embedded ruby code is wrapped in `<% tags without an = are invisible %>` or `<%= "tags with = print to the view" %>`
+  * *OTHER FRONT END STUFFS*
+    * styling files (`.scss`) are located in `/app/assets/stylesheets`
+      * styling files are more or less named based on the controller whose views they style
+      * `theme.scss` has the color scheme (which also needs some cleaning)
+      * `mixins.scss` is responsible for responsive mixins
+    * javascript files are located in `/app/assets/javascripts`
+      * most of these are empty or almost empty. Basically just raw JS.
+      * pulling in JS libraries can be really hit or miss with the rails asset pipeline so a lot of times I just avoid it entirely.
 * controller files are in `./app/controllers`
   * you know what controllers do :laugh:
   * Rails tries desperately to enforce serious use of HTTP methods, and by and large if you let it do its thing it will do it automatically
