@@ -115,3 +115,7 @@ formulaic
 Admin tools
 
 ActiveAdmin
+
+
+
+Certbot reminder: https://medium.com/@mohan08p/install-and-renew-lets-encrypt-ssl-on-amazon-ami-6d3e0a61693
