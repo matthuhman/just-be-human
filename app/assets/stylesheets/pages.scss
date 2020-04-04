@@ -12,122 +12,187 @@
 //
 //
 //
-// LANDING PAGE STYLE
+// ========LANDING PAGE STYLE===========
 
 
-.landing-title {
-  font-size: 3.5em;
+.landing-page-container {
+  .landing-title {
+    font-size: 3.5em;
+    text-align: center;
+    @include respond-to(handhelds) {
+      font-size: 1.9em;
+    }
+    color: $darkgrey;
+
+    margin-top: 3vh;
+  }
+
+  .landing-logo {
+    max-width: 60vw;
+    @include respond-to(handhelds) {
+      max-width: 80vw;
+    }
+    padding-top: 5vh;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .landing-explanation {
+    border-top: 2px solid $lightgrey;
+    margin-top: 3vh;
+    text-align: center;
+    padding-top: 3vh;
+    font-size: 2vh;
+    @include respond-to(handhelds) {
+      margin-left: 10vw;
+      margin-right: 10vw;
+    }
+
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+
+  .landing-explanation-basic {
+    font-size: 1.2em;
+    margin-top: 2vh;
+    // @include respond-to(handhelds) {
+    //   font-size: 0.6em;
+    // }
+  }
+
+  .landing-explanation-detail {
+    @include respond-to(handhelds) {
+      font-size: 0.7em;
+    }
+
+    font-size: 0.8em;
+    margin-top: 1vh;
+  }
+
+  .landing-explanation-padding {
+    margin-top: 5vh;
+    margin-left: 10vh;
+    margin-right: 10vh;
+    margin-bottom: 5vh;
+    border-bottom: 2px solid $lightgrey;
+  }
+
+  .landing-padding-middle {
+    margin-top: 5vh;
+    margin-left: 40vh;
+    margin-right: 40vh;
+    margin-bottom: 5vh;
+    border-bottom: 2px solid $lightgrey;
+
+    @include respond-to(handhelds) {
+      margin-left: 20vh;
+      margin-right: 20vh;
+    }
+  }
+
+  .landing-page-actions {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
+
+    text-align: center;
+    margin-top: 2vh;
+
+    a {
+      color: white !important;
+    }
+
+    .landing-page-action-btn {
+      text-align: center;
+      margin: 3vh auto 0vh auto;
+      padding: 1vh 0vw 1vh 0vw;
+      font-size: 3vh;
+      font-weight: 600;
+      border-radius: 5px;
+      border: 1px solid $darkgrey;
+      width: 80vw;
+
+      @include respond-to(handhelds) {
+        font-size: 2.2vh;
+        width: 90vw;
+      }
+    }
+
+    .create-new-oppo-div {
+      grid-row: 2;
+      background-color: $limegreen;
+      width: 60vw !important;
+      @include respond-to(handhelds) {
+        width: 80vw !important;
+      }
+    }
+
+    .select-oppo-type-div {
+      grid-row: 1;
+      background-color: $limegreen;
+
+      @include respond-to(handhelds) {
+
+      }
+    }
+
+  }
+}
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// ====SELECT PAGE STYLES=====
+
+.select-categories-page {
+  margin: 1vh 1vw 1vh 1vw;
+  padding: 1vh 1vw 1vh 1vw;
+
   text-align: center;
-  @include respond-to(handhelds) {
-    font-size: 1.9em;
-  }
-  color: $darkgrey;
 
-  margin-top: 3vh;
-}
 
-// .landing-title-2 {
-//   font-size: 4em;
-//   font-weight: 700;
-//   text-align: center;
-//   color: $darkgrey;
-//   @include respond-to(handhelds) {
-//     font-size: 2.4em;
-//     margin-left: 10vw;
-//     margin-right: 10vw;
-//   }
-//   border-bottom: 2px solid $lightgrey;
-//   margin-left: 20vw;
-//   margin-right: 20vw;
-// }
+  .select-categories-btns {
 
-.landing-logo {
-  max-width: 60vw;
-  @include respond-to(handhelds) {
-    max-width: 80vw;
-  }
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+    .category-btn-group {
 
-.landing-explanation {
-  border-top: 2px solid $lightgrey;
-  margin-top: 3vh;
-  text-align: center;
-  @include respond-to(handhelds) {
-    margin-left: 10vw;
-    margin-right: 10vw;
+      padding: 2vh 2vw 2vh 2vw;
+      margin: 2vh 2vw 2vh 2vw;
+
+      border: 1px solid black;
+
+      .category-btn-name {
+        font-size: 3vh;
+        text-transform: none;
+      }
+
+      .category-btn-text {
+        text-transform: none;
+      }
+    }
+
   }
 
-  margin-left: 20vw;
-  margin-right: 20vw;
-}
-
-.landing-explanation-basic {
-  font-size: 1.2em;
-  margin-top: 2vh;
-  // @include respond-to(handhelds) {
-  //   font-size: 0.6em;
-  // }
-}
-
-.landing-explanation-detail {
-  @include respond-to(handhelds) {
-    font-size: 0.7em;
-  }
-
-  font-size: 0.8em;
-  margin-top: 1vh;
-}
-
-.landing-explanation-padding {
-  margin-top: 5vh;
-  margin-left: 10vh;
-  margin-right: 10vh;
-  margin-bottom: 5vh;
-  border-bottom: 2px solid $lightgrey;
-}
-
-.landing-padding-middle {
-  margin-top: 5vh;
-  margin-left: 40vh;
-  margin-right: 40vh;
-  margin-bottom: 5vh;
-  border-bottom: 2px solid $lightgrey;
-
-  @include respond-to(handhelds) {
-    margin-left: 20vh;
-    margin-right: 20vh;
-  }
 }
 
 
-.beta-disclaimer {
-  padding-left: 2vw;
-  margin-top: 6vh;
-  margin-bottom: 2vh;
-  @include respond-to(handhelds) {
-    padding: 2vh 6vw;
-  }
-}
 
-.landing-list {
-  margin-top: 2vh;
-}
 
-.start-volunteering-container {
-  margin-bottom: 5vh;
-}
 
-.start-volunteering-btn {
-  width: 100%;
-  height: 100%;
 
-  .jbh-btn-text {
-    text-transform: none !important;
-  }
-}
+
+
+
+
+
+
 
 
 //

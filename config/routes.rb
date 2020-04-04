@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
-  root to: 'pages#home'
+  root to: 'pages#landing'
 
+  get '/select' => 'pages#select'
   get '/landing' => 'pages#landing'
+  get '/map' => 'pages#map'
 
   get '/costs' => 'costs#display'
   get '/aboutus' => 'pages#about_us'
@@ -14,8 +16,6 @@ Rails.application.routes.draw do
 
   get '/contact/request' => 'users#request_contact_info'
   get '/contact/response' => 'users#respond_contact_info'
-
-  get '/my_opportunities' => 'pages#my_opportunities'
 
   get '/opportunities/follow' => 'opportunities#follow'
   get '/opportunities/unfollow' => 'opportunities#unfollow'

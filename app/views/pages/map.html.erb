@@ -2,33 +2,9 @@
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
   </div>
-  <div class="d-flex flex-column filter floater" data-open="false" onclick="toggleFilter(event)" >
-    <h3>Filters</h3>
-    <div class="filter-container">
-      <div class="form-group">
-        <label for="opportunity_titles">Search Titles</label>
-        <input type="text" class="form-control" id="opportunity_titles" oninput="handleTextInput(event)" aria-describedby="opportunity_titles" placeholder="Search by title">
-      </div>
-      <div class="form-group">
-        <label for="opportunity_category">Select a category</label>
-        <select id="opportunity_category" class="custom-select" onchange="handleSelect(event)">
-          <option selected value="all">All</option>
-          <% Category.opportunity_titles.map do |title| %>
-            <option value="<%= title %>"><%= title %></option>
-          <% end %>
-        </select>
-      </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="opportunity_volunteers" onchange="handleCheckbox(event)" aria-describedby="opportunity_volunteers">
-        <label for="opportunity_volunteers">Needs Volunteers</label>
-      </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="opportunity_defined" onchange="handleCheckbox(event)" aria-describedby="opportunity_defined">
-        <label for="opportunity_defined">Defined</label>
-      </div>
-      <!-- need to have grab params and send them to home page to filter the opportunities -->
-    </div>
-  </div>
+  <a class="d-flex flex-column filter floater" href="/select" >
+    Change Category Filter
+  </a>
   <aside class="home-page-aside">
     <div class="homepage-header" id="home-step4">
       <div class="tab hp">
@@ -43,7 +19,11 @@
         <% end %>
       <% else %>
         <div class="no-open-opportunities">
-          It looks like there aren't any more open opportunities near you right now. Keep an eye out for volunteer opportunities in your neighborhood!
+          <% if @category_name %>
+            There are no <%= @category_name %> Opportunities available near you.
+          <% else %>
+            You should create an Outreach opportunity for your community!
+          <% end %>
         </div>
       <% end %>
     </div>
@@ -69,7 +49,7 @@
   {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
-      zoom: 13,
+      zoom: 12,
       streetViewControl: false,
       mapTypeControl: false,
       fullscreenControl: false

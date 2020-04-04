@@ -14,6 +14,10 @@ class Category
     opportunity_cats
   end
 
+  def self.opportunity_title_by_id(id)
+    title = opportunity_cats[id][:title]
+    title
+  end
   # #
   # # get all subcategory titles for a given category id
   # def self.opportunity_subcat_titles(cat_id)
@@ -59,9 +63,9 @@ class Category
   def self.opportunity_cats
     [
       # the index is the category ID- ORDER IS IMPORTANT!
+      { title: "Outreach", desc: "Spread the word about something important to you." },
       { title: "Cleanup", desc: "Clean up in your community- examples include trash pickups, park cleanups, beautification projects, etc." },
       { title: "Fundraising", desc: "Organize people to help fundraise for an individual, cause, or organization." },
-      { title: "Outreach", desc: "Spread the word about something important to you." },
       { title: "Goods", desc: "Organize a food/clothing/goods collection in your community." },
       { title: "Caregiving", desc: "Organize help for specific individuals or groups in your neighborhood who need it." }
     ]
