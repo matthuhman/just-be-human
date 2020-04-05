@@ -8,7 +8,7 @@
   <aside class="home-page-aside">
     <div class="homepage-header" id="home-step4">
       <div class="tab hp">
-        <button class="tablinks hp" onclick="openTab(event, 'opps-near-me')" id="defaultOpen">Open</button>
+        <button class="tablinks hp" onclick="openTab(event, 'opps-near-me')" id="defaultOpen">Nearby</button>
         <button class="tablinks hp" onclick="openTab(event, 'my-opps')">Participating</button>
       </div>
     </div>
@@ -21,6 +21,9 @@
         <div class="no-open-opportunities">
           <% if @category_name %>
             There are no <%= @category_name %> Opportunities available near you.
+            <br>
+            <br>
+            <a href="/map" class="no-open-oppos-link">Click here to show all nearby opportunities!</a>
           <% else %>
             You should create an Outreach opportunity for your community!
           <% end %>
@@ -42,7 +45,7 @@
   <div id="map" class="map-div"></div>
 </div>
 <script>
-  let map;
+  var map;
 
 
   function initMap()

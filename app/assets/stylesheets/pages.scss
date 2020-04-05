@@ -163,28 +163,28 @@
 
     .category-btn-group {
 
-      padding: 2vh 2vw 2vh 2vw;
-      margin: 2vh 2vw 2vh 2vw;
+      padding: 2vh;
+      margin: 2vh auto 2vh auto;
 
       width: 40vw;
 
       border: 1px solid black;
 
       @include respond-to(handhelds) {
+        padding: 2vh 2vw 2vh 2vw;
         margin: 2vh 2vw 2vh 2vw;
         width: auto;
       }
 
       .category-btn-name {
-
+        color: black;
         font-size: 4vh;
+        font-weight: 600;
         text-transform: none;
 
         @include respond-to(handhelds) {
           font-size: 3vh;
         }
-
-
       }
 
       .category-btn-text {
