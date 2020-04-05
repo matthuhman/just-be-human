@@ -37,9 +37,9 @@ class PagesController < ApplicationController
       @my_opportunities = current_user.opportunities.where("completed = false").sort_by { |o| o.target_completion_date }
       @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
       if @category
-        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("category = ?", @category) - @my_opportunities
+        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 30).where("category = ?", @category) - @my_opportunities
       else
-        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20) - @my_opportunities
+        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 30) - @my_opportunities
       end
 
       @roles = current_user.opportunity_roles
@@ -53,9 +53,9 @@ class PagesController < ApplicationController
       @title_hash = {}
       @geopoint = Geopoint.find_by(zip: postcode)
       if @category
-        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("category = ?", @category)
+        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 30).where("category = ?", @category)
       else
-        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20)
+        @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 30)
       end
       @roles = []
     end

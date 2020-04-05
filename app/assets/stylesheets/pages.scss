@@ -111,20 +111,20 @@
       font-weight: 600;
       border-radius: 5px;
       border: 1px solid $darkgrey;
-      width: 80vw;
+      width: 60vw;
 
       @include respond-to(handhelds) {
         font-size: 2.2vh;
-        width: 90vw;
+        width: 80vw;
       }
     }
 
     .create-new-oppo-div {
       grid-row: 2;
       background-color: $limegreen;
-      width: 60vw !important;
+      width: 40vw !important;
       @include respond-to(handhelds) {
-        width: 80vw !important;
+        width: 60vw !important;
       }
     }
 

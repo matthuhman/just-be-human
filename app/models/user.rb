@@ -27,10 +27,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :username, message: 'is already taken.'
   validate :username_allowed
   validates :username, obscenity: true
-  validates :first_name, obscenity: true
-  validates :last_name, obscenity: true
-  validates :city, obscenity: true
-  validates :region, obscenity: true
+  validates_presence_of :username, :first_name, :last_name, :email, :postal_code
 
 
   # before_save :validate

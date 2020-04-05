@@ -7,6 +7,8 @@ class NotificationMailer < ApplicationMailer
 
     puts "Is this sending??"
 
-    mail(to: user.email, subject: "Your Daily Volunteering Update")
+    if user.allow_email
+      mail(to: user.email, subject: "Your Daily Volunteering Update")
+    end
   end
 end
