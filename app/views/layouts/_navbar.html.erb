@@ -15,7 +15,7 @@
           <%= link_to 'New Opportunity', new_opportunity_path, class: 'nav-link' %>
         </li>
         <li class="nav-item dropdown" data-behavior="notifications">
-          <a aria-expanded="false" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" onclick="markAsRead(<%= current_user.notifications.unread.empty? %>)">
+          <a aria-expanded="false" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button">
             <%= fa_icon 'bell' %>
             <span class="glyphicon glyphicon-bell"></span>
             <span class="badge" data-behavior="unread-count"></span>

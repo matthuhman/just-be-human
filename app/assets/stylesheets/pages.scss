@@ -166,11 +166,25 @@
       padding: 2vh 2vw 2vh 2vw;
       margin: 2vh 2vw 2vh 2vw;
 
+      width: 40vw;
+
       border: 1px solid black;
 
+      @include respond-to(handhelds) {
+        margin: 2vh 2vw 2vh 2vw;
+        width: auto;
+      }
+
       .category-btn-name {
-        font-size: 3vh;
+
+        font-size: 4vh;
         text-transform: none;
+
+        @include respond-to(handhelds) {
+          font-size: 3vh;
+        }
+
+
       }
 
       .category-btn-text {
