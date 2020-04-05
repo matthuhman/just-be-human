@@ -103,6 +103,9 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
+    bootstrap_form (4.4.0)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     builder (3.2.4)
     byebug (11.0.1)
     capybara (3.27.0)
@@ -407,6 +410,7 @@ DEPENDENCIES
   better_errors
   bootsnap (>= 1.1.0)
   bootstrap
+  bootstrap_form
   byebug
   capybara (>= 2.15)
   chartkick
