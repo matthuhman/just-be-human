@@ -26,6 +26,13 @@
               </div>
             </a>
           <% end %>
+          <% if @is_admin && @opportunity.can_complete? %>
+            <a class="mobile-action dropdown-item" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="mobile-action-btn">
+                Completed
+              </div>
+            </a>
+          <% end %>
         </div>
       </div>
     </div>
@@ -57,6 +64,11 @@
             Map
           </div>
         </a>
+        <a class="menu-bar-option" href="/waivers/new?opportunity_id=<%= @opportunity.id %>">
+          <div class="menu-bar-btn navigation-btn">
+            Upload a waiver
+          </div>
+        </a>
       </div>
     </div>
 
@@ -78,18 +90,23 @@
               </div>
             </a>
           <% end %>
-          <% if !@is_admin %>
-            <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
-              <div class="menu-bar-btn unfollow-btn">
-                Unfollow
+          <% if @is_admin && !@opportunity.completed? %>
+            <a class="menu-bar-btn" href="/opportunities/complete?id=<%= @opportunity.id %>">
+              <div class="menu-bar-btn">
+                Complete
               </div>
             </a>
           <% end %>
+          <a class="menu-bar-option" href="/opportunities/unfollow?id=<%= @opportunity.id %>">
+            <div class="menu-bar-btn unfollow-btn">
+              Unfollow
+            </div>
+          </a>
         </div>
       <% else %>
         <div class="desktop-menu-bar follow-oppo-menu-bar">
           <a class="menu-bar-btn follow-oppo-btn" href="/opportunities/follow?id=<%=@opportunity.id%>">
-            Follow
+            Join
           </a>
         </div>
       <% end %>
@@ -102,10 +119,10 @@
         <div class="opportunity-center-title">
           General Information
         </div>
-        <div class="opportunity-info-row">Category
-          <div class="opportunity-info-row-data black"><%= @opportunity.category_title %></div>
+        <div class="opportunity-info-row">CLEANUP TIME
+          <div class="opportunity-info-row-data">  <%= @opportunity.display_date %></div>
         </div>
-        <div class="opportunity-info-row">Location
+        <div class="opportunity-info-row">MEETING POINT
           <div class="opportunity-info-row-data"> <%= @opportunity.address %></div>
         </div>
         <div class="opportunity-info-row">VOLUNTEERS
@@ -121,6 +138,14 @@
       </div>
       <div class="oppo-map-container" id="map-container">
         <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @opportunity.latitude%>,<%= @opportunity.longitude %>&zoom=14&size=400x400&key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&markers=color:blue%7Clabel:O%7C<%= @opportunity.latitude%>,<%= @opportunity.longitude%>" class="opportunity-mapimage">
+      </div>
+      <div class="oppo-waivers-container" id="waivers-container">
+        <% if @opportunity.waivers.size > 0 %>
+          <% @opportunity.waivers.each do |w| %>
+            <%= render 'waiver', waiver: w %>
+          <% end %>
+        <% end %>
+
       </div>
       <div class="oppo-posts-container" id="posts-container">
         <div class="opportunity-center-title">
