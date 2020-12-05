@@ -14,24 +14,6 @@
 
       </li>
       <% if current_user %>
-
-        <li class="nav-item dropdown" data-behavior="notifications">
-          <a aria-expanded="false" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button">
-            <%= fa_icon 'bell' %>
-            <span class="glyphicon glyphicon-bell"></span>
-            <span class="notifications-text">Notifications - <span class="badge" data-behavior="unread-count"></span></span>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" data-behavior="notification-items" id="notifications">
-            <% if current_user.notifications.unread.empty? %>
-              <li>
-                <div class="container-fluid">
-                  <p class="text-center">No new notifications</p>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </li>
         <li class="nav-item dropdown last-nav-item">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Menu

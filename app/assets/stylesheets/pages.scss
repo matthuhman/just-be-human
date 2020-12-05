@@ -599,15 +599,8 @@
 // ====HOME PAGE STYLES=====
 
 .home-page {
-  display: grid;
-  grid-template-columns: 45% 55%;
   height: 90vh;
   background-color: white;
-
-  @include respond-to(handhelds) {
-    grid-template-columns: 100%;
-    grid-template-rows: 30% 70%;
-  }
 }
 
 .home-page-aside {

@@ -3,12 +3,20 @@ require 'obscenity/active_model'
 
 class Opportunity < ApplicationRecord
   belongs_to :user
+
   has_many :opportunity_roles, :dependent => :destroy
-  has_many :requirements, :dependent => :destroy
+  has_many :coordinates, :dependent => :destroy
   has_many :posts
+
+
+  ####### 20201204 - @mhuhman - these are no longer relevant for the rework
+  has_many :requirements, :dependent => :destroy
   has_many :opportunity_waivers
   has_many :waivers, through: :opportunity_waivers
   has_many :signatures
+  #######
+
+
 
   geocoded_by :address
   after_validation :geocode, if: -> (obj) { obj.address.present? and obj.address_changed? }
@@ -155,10 +163,10 @@ class Opportunity < ApplicationRecord
     ['Planning', 'In Progress', 'Stuck', 'Expertise Needed', 'Ready']
   end
 
-
-  def coordinates
-    [self.latitude, self.longitude]
-  end
+  # 20201204 @mhuhman commented out
+  # def coordinates
+  #   [self.latitude, self.longitude]
+  # end
 
   def as_json(options = { })
     # just in case someone says as_json(nil) and bypasses

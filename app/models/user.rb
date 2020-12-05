@@ -3,28 +3,32 @@ require 'obscenity/active_model'
 
 class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :validatable, :confirmable,
-    :lockable, :timeoutable, :trackable
+    :recoverable, :rememberable, :confirmable,
+    :lockable, :timeoutable, :trackable #:validatable,
 
   # has_many :visits, class_name: "Ahoy::Visit"
 
   has_many :opportunity_roles, :dependent => :destroy
   has_many :opportunities, through: :opportunity_roles
 
-  # has_many :requirement_roles, :dependent => :destroy
-  # has_many :requirements, through: :requirement_roles
-
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
-  has_many :authored_conversations, class_name: 'Conversation', foreign_key: 'author_id'
-  has_many :received_conversations, class_name: 'Conversation', foreign_key: 'received_id'
 
-  has_many :personal_messages, :dependent => :destroy
   has_many :notifications, foreign_key: :recipient_id
 
-  has_many :waivers
-  has_many :signatures
+
+
+  # has_many :requirement_roles, :dependent => :destroy
+  # has_many :requirements, through: :requirement_roles
+
+  # has_many :authored_conversations, class_name: 'Conversation', foreign_key: 'author_id'
+  # has_many :received_conversations, class_name: 'Conversation', foreign_key: 'received_id'
+
+  # has_many :personal_messages, :dependent => :destroy
+
+  # has_many :waivers
+  # has_many :signatures
 
   # profanity validations
   validates_uniqueness_of :username, message: 'is already taken.'
@@ -88,7 +92,7 @@ class User < ApplicationRecord
 
 
   def username_allowed
-    forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator", #
+    forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator",  #
                  "leader", "matthuhman", "owner", "founder", "root", "employee", "test", "tester"]
     if forbidden.include? username.downcase
       errors.add(:username, 'is forbidden.')

@@ -23,7 +23,16 @@ class OpportunitiesController < ApplicationController
   #
   # GET /opportunities/new
   def new
-    @opportunity = Opportunity.new()
+    coord_string = params[:coordinates]
+    raw_coords = JSON.parse coord_string
+    coords = []
+    raw_coords.each do |coord|
+      coords.push Coordinate.new(lat: coord['lat'], lng: coord['lng'])
+    end
+
+    binding.pry
+    @opportunity = Opportunity.new(coordinates: coords)
+    binding.pry
   end
 
   #
@@ -38,6 +47,7 @@ class OpportunitiesController < ApplicationController
     @opportunity = Opportunity.new(opportunity_params)
     @opportunity.user = current_user
 
+    binding.pry
     if !@opportunity.postal_code
       geopoint = Geopoint.find_by(zip: @opportunity.postal_code)
       if geopoint
@@ -317,7 +327,7 @@ class OpportunitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def opportunity_params
-    params.require(:opportunity).permit(:title, :description, :defined, :address, :cleanup_date, :cleanup_time, :cleanup_duration, :postal_code, :country, :volunteers_required, :status, :time_zone)
+    params.require(:opportunity).permit(:title, :description, :defined, :address, :coordinates, :cleanup_date, :cleanup_time, :cleanup_duration, :postal_code, :country, :volunteers_required, :status, :time_zone)
   end
 
   def promotion_params

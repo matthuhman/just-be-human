@@ -1,35 +1,8 @@
 <div class="home-page">
-  <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
-    <h3>
-      <span class="zip-floater">Zip: </span><%= @geopoint.zip %>
-    </h3>
-    <h3>
-      <span class="date-floater">Date: </span><%= @cleanup_date.strftime("%m-%d-%Y") %>
-    </h3>
-  </div>
-  <aside class="home-page-aside">
-    <div id="opps-near-me">
-      <% if @opportunities.size > 0 %>
-        <% @opportunities.each do |opportunity| %>
-          <%= render 'opportunity_row', opportunity: opportunity %>
-        <% end %>
-      <% else %>
-        <div class="no-open-opportunities">
-          It looks like there aren't any cleanups near you on <%= @cleanup_date.strftime("%m/%d") %>-  you should start one!
-          <% if current_user %>
-            <a class="new-cleanup-link" href="/opportunities/new">
-              <div class="new-cleanup-link-text">
-                Create a cleanup
-              </div>
-            </a>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  </aside>
   <div id="map" class="map-div"></div>
+  <div id="submit-zone-btn">Submit Zone</div>
 </div>
 
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap" async defer></script> -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&libraries=geometry" async defer></script>
 
 

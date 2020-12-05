@@ -27,8 +27,9 @@
 //= require ahoy
 //= require jstimezonedetect
 
-require("waivers")
-require("pages")
+// 20201204 @muhman - Not sure why I ever put these here? they definitely aren't working. lol
+// require("waivers")
+// require("pages")
 
 $(document).on('turbolinks:load', function(){
   setTimeZone();
