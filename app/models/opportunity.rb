@@ -10,10 +10,10 @@ class Opportunity < ApplicationRecord
 
 
   ####### 20201204 - @mhuhman - these are no longer relevant for the rework
-  has_many :requirements, :dependent => :destroy
-  has_many :opportunity_waivers
-  has_many :waivers, through: :opportunity_waivers
-  has_many :signatures
+  # has_many :requirements, :dependent => :destroy
+  # has_many :opportunity_waivers
+  # has_many :waivers, through: :opportunity_waivers
+  # has_many :signatures
   #######
 
 

@@ -3,8 +3,8 @@ require 'obscenity/active_model'
 
 class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :confirmable,
-    :lockable, :timeoutable, :trackable #:validatable,
+    :recoverable, :rememberable,# :confirmable,
+    :lockable, :timeoutable, :trackable, :validatable
 
   # has_many :visits, class_name: "Ahoy::Visit"
 

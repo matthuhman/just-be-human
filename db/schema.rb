@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_05_050306) do
+ActiveRecord::Schema.define(version: 2020_12_05_164148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -168,23 +168,11 @@ ActiveRecord::Schema.define(version: 2020_12_05_050306) do
     t.text "description"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.date "cleanup_date"
-    t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
-    t.boolean "completed", default: false
-    t.string "address"
-    t.string "postal_code"
-    t.integer "follower_count", default: 1
+    t.integer "participants", default: 1
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "recurring", default: false
-    t.string "status"
     t.uuid "last_edited_by"
-    t.string "time_zone"
-    t.uuid "organization_id"
-    t.time "cleanup_time"
-    t.integer "cleanup_duration", default: 2
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
   end
