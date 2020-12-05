@@ -1,7 +1,3 @@
-require(@google/google-maps-services-js);
-
-
-
 $(document).ready(function () {
     var map = new google.maps.Map(document.getElementById('map'), { center: new google.maps.LatLng(21.17, -86.66), zoom: 9, mapTypeId: google.maps.MapTypeId.HYBRID, scaleControl: true });
     var isClosed = false;
@@ -28,11 +24,3 @@ $(document).ready(function () {
         poly.getPath().push(clickEvent.latLng);
     });
 });
-
-
-function hideAboutUsIfNecessary() {
-  var els = $('#geopoint-is-present');
-  if (els.length > 0) {
-    $('#calendar-aboutus').hide();
-  }
-}
