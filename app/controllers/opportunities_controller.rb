@@ -54,31 +54,30 @@ class OpportunitiesController < ApplicationController
     @opportunity.latitude = coords.first.lat
     @opportunity.longitude = coords.first.lng
 
-    @role = OpportunityRole.create
-    @role.user_id = current_user.id
-    @role.level = 1
-    @role.title = "Leader"
+
+
+    ################# 20201205 - we're going to get rid of roles, actually. You just have a "home zone"
+
+    # @role = OpportunityRole.create
+    # @role.user_id = current_user.id
+    # @role.level = 1
+    # @role.title = "Leader"
+
 
     respond_to do |format|
       if @opportunity.save
-        @role.opportunity_id = @opportunity.id
-        if @role.save
-          coords.each do |c|
-            c.opportunity_id = @opportunity.id
-            if !c.save
-              format.html {render :new }
-              format.json { render json: @role.errors, status: :unprocessable_entity}
-            end
+        coords.each do |c|
+          c.opportunity_id = @opportunity.id
+          if !c.save
+            format.html {render :new }
+            format.json { render json: @role.errors, status: :unprocessable_entity}
           end
-          format.html { redirect_to @opportunity, notice: 'Opportunity and role was successfully created.' }
-          format.json { render :show, status: :created, location: @opportunity }
-        else
-          format.html {render :new }
-          format.json { render json: @role.errors, status: :unprocessable_entity}
         end
+        format.html { redirect_to @opportunity, notice: 'Opportunity and role was successfully created.' }
+        format.json { render :show, status: :created, location: @opportunity }
       else
-        format.html { render :new }
-        format.json { render json: @opportunity.errors, status: :unprocessable_entity }
+        format.html {render :new }
+        format.json { render json: @role.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -102,38 +101,10 @@ class OpportunitiesController < ApplicationController
   # DELETE /opportunities/1
   # DELETE /opportunities/1.json
   def destroy
-    respond_to do |format|
-      if @opportunity.opportunity_roles.size > 1
-        sorted_roles = @opportunity.opportunity_roles.sort_by { |r| [r.level, r.created_at] }
-        curr_leader = sorted_roles.first
-
-        sorted_roles.delete_at(0)
-
-        new_leader = sorted_roles.first
-
-        new_leader.level = 1
-        new_leader.title = "Leader"
-        new_leader.save
-
-        @opportunity.user_id = new_leader.user_id
-        @opportunity.save
-
-        curr_leader.level = 3
-        curr_leader.title = "Volunteer"
-        curr_leader.save
-
-        format.html { redirect_to @opportunity, alert: "You are no longer the leader of this Opportunity." }
-        format.json { render :show, status: :ok, location: @opportunity }
-      else
-        @opportunity.destroy
-        format.html { redirect_to "/", alert: "You were the only user, the Opportunity has been deleted." }
+      respond_to do |format|
+        format.html { redirect_to opportunities_url, notice: 'Your cleanup zone was successfully deleted.' }
+        format.json { head :no_content }
       end
-      # @opportunity.destroy
-      # respond_to do |format|
-      #   format.html { redirect_to opportunities_url, notice: 'Opportunity was successfully destroyed.' }
-      #   format.json { head :no_content }
-      # end
-    end
   end
 
 
@@ -159,7 +130,59 @@ class OpportunitiesController < ApplicationController
 
 
 
+    ################# 20201205 - we're going to get rid of roles, actually. You just have a "home zone"
+    ################# this is the old version of the respond_to in the create method
+    # respond_to do |format|
+    #   if @opportunity.save
+    #     @role.opportunity_id = @opportunity.id
+    #     if @role.save
+    #       coords.each do |c|
+    #         c.opportunity_id = @opportunity.id
+    #         if !c.save
+    #           format.html {render :new }
+    #           format.json { render json: @role.errors, status: :unprocessable_entity}
+    #         end
+    #       end
+    #       format.html { redirect_to @opportunity, notice: 'Opportunity and role was successfully created.' }
+    #       format.json { render :show, status: :created, location: @opportunity }
+    #     else
+    #       format.html {render :new }
+    #       format.json { render json: @role.errors, status: :unprocessable_entity}
+    #     end
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @opportunity.errors, status: :unprocessable_entity }
+    #   end
+    # end
 
+    ################# 20201205 - we're going to get rid of roles, actually. You just have a "home zone"
+    ################# this is the old version of the destroy method
+      # if @opportunity.opportunity_roles.size > 1
+      #   # sorted_roles = @opportunity.opportunity_roles.sort_by { |r| [r.level, r.created_at] }
+      #   # curr_leader = sorted_roles.first
+
+      #   # sorted_roles.delete_at(0)
+
+      #   # new_leader = sorted_roles.first
+
+      #   # new_leader.level = 1
+      #   # new_leader.title = "Leader"
+      #   # new_leader.save
+
+      #   # @opportunity.user_id = new_leader.user_id
+      #   # @opportunity.save
+
+      #   # curr_leader.level = 3
+      #   # curr_leader.title = "Volunteer"
+      #   # curr_leader.save
+
+      #   format.html { redirect_to @opportunity, alert: "You are no longer the leader of this Opportunity." }
+      #   format.json { render :show, status: :ok, location: @opportunity }
+      # else
+      #   @opportunity.destroy
+      #   format.html { redirect_to "/", alert: "You were the only user, the Opportunity has been deleted." }
+      # end
+      # @opportunity.destroy
 
 
   # def followers

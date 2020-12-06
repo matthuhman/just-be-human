@@ -6,38 +6,35 @@ class User < ApplicationRecord
     :recoverable, :rememberable,# :confirmable,
     :lockable, :timeoutable, :trackable, :validatable
 
-  # has_many :visits, class_name: "Ahoy::Visit"
 
-  ############# 20201205 TODO: I think we need to change this relationship to be 1:1,
-  ############# => at least for now, however, I think it will technically work in its current state
-  ############# => so we're just going to leave this alone for right now
-  has_many :opportunity_roles, :dependent => :destroy
-  has_many :opportunities, through: :opportunity_roles
-
-  has_many :posts, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
-
-
-  has_many :notifications, foreign_key: :recipient_id
-
-
-
-                # has_many :requirement_roles, :dependent => :destroy
-                # has_many :requirements, through: :requirement_roles
-
-                # has_many :authored_conversations, class_name: 'Conversation', foreign_key: 'author_id'
-                # has_many :received_conversations, class_name: 'Conversation', foreign_key: 'received_id'
-
-                # has_many :personal_messages, :dependent => :destroy
-
-                # has_many :waivers
-                # has_many :signatures
-
-                # profanity validations
 
   validate :username_allowed
   validates :username, obscenity: true
-  validates :first_name, obscenity: true
+  # validates :first_name, obscenity: true
+
+
+  has_many :cleanups
+
+
+
+  def as_json(options = {})
+    options[:except] ||= [:last_name, :email, :phone_number, :birth_date]
+    super(options)
+  end
+
+
+  def username_allowed
+    forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator",  #
+                 "leader", "matthuhman", "owner", "founder", "root", "employee", "test", "tester"]
+    if forbidden.include? username.downcase
+      errors.add(:username, 'is forbidden.')
+    end
+  end
+
+end
+
+
+
 
 
 ##################### 20201205 - commented out because we're removing the idea of roles almost entirely
@@ -87,18 +84,32 @@ class User < ApplicationRecord
                         # end
 
 
-  def as_json(options = {})
-    options[:except] ||= [:last_name, :email, :phone_number, :birth_date]
-    super(options)
-  end
+
+  # has_many :visits, class_name: "Ahoy::Visit"
+
+  ############# 20201205 TODO: I think we need to change this relationship to be 1:1,
+  ############# => at least for now, however, I think it will technically work in its current state
+  ############# => so we're just going to leave this alone for right now
+  # has_many :opportunity_roles, :dependent => :destroy
+  # has_many :opportunities, through: :opportunity_roles
+
+  # has_many :posts, :dependent => :destroy
+  # has_many :comments, :dependent => :destroy
 
 
-  def username_allowed
-    forbidden = ["admin", "adm1n", "4dm1n", "4dmin", "administrator", "mod", "moderator",  #
-                 "leader", "matthuhman", "owner", "founder", "root", "employee", "test", "tester"]
-    if forbidden.include? username.downcase
-      errors.add(:username, 'is forbidden.')
-    end
-  end
+  # has_many :notifications, foreign_key: :recipient_id
 
-end
+
+
+                # has_many :requirement_roles, :dependent => :destroy
+                # has_many :requirements, through: :requirement_roles
+
+                # has_many :authored_conversations, class_name: 'Conversation', foreign_key: 'author_id'
+                # has_many :received_conversations, class_name: 'Conversation', foreign_key: 'received_id'
+
+                # has_many :personal_messages, :dependent => :destroy
+
+                # has_many :waivers
+                # has_many :signatures
+
+                # profanity validations

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_031353) do
+ActiveRecord::Schema.define(version: 2020_12_06_053641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -89,6 +89,20 @@ ActiveRecord::Schema.define(version: 2020_12_06_031353) do
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end
 
+  create_table "cleanups", force: :cascade do |t|
+    t.uuid "user_id"
+    t.integer "small_bags", default: 0
+    t.integer "buckets", default: 0
+    t.integer "medium_bags", default: 0
+    t.integer "large_bags", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lng", precision: 10, scale: 6
+    t.string "description"
+    t.index ["lat", "lng"], name: "index_cleanups_on_lat_and_lng"
+  end
+
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.datetime "created_at", null: false
@@ -110,12 +124,12 @@ ActiveRecord::Schema.define(version: 2020_12_06_031353) do
   end
 
   create_table "coordinates", force: :cascade do |t|
-    t.bigint "opportunity_id"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "lng", precision: 10, scale: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["opportunity_id"], name: "index_coordinates_on_opportunity_id"
+    t.bigint "cleanup_id"
+    t.index ["cleanup_id"], name: "index_coordinates_on_cleanup_id"
   end
 
   create_table "costs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

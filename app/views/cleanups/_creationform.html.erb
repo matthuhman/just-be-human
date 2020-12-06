@@ -1,0 +1,12 @@
+<%= bootstrap_form_for(@cleanup) do |f| %>
+  <div class="new-oppo-buffer"></div>
+  <%= f.text_area :description %>
+  <%= f.number_field :small_bags %>
+  <%= f.number_field :buckets %>
+  <%= f.number_field :medium_bags %>
+  <%= f.number_field :large_bags %>
+  <%= f.hidden_field :coordinates, :value => coords %>
+  <div class="create-cleanup-btn-wrapper">
+    <%= f.submit "Let's clean up some trash!", class: "create-cleanup-btn" %>
+  </div>
+<% end %>

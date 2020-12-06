@@ -7,12 +7,7 @@
     <div class="form-standard-body">
       <%= f.text_field :username, placeholder: 'Username' %>
       <%= f.email_field :email, placeholder: 'Email Address', class: 'form-standard-emailfield' %>
-      <%= f.text_field :first_name, placeholder: 'First Name', class: 'form-standard-textfield' %>
       <%= f.text_field :postal_code, placeholder: 'Postal/Zip Code', class: 'form-standard-textfield' %>
-      <div class="form-group">
-        <div class="country-buffer"></div>
-        <%= f.country_select :country, selected: 'US', class: 'form-standard-countryselect' %>
-      </div>
       <%= f.password_field :password, placeholder: 'Password', class: 'form-standard-password' %>
       <%= f.password_field :password_confirmation, placeholder: 'Password Confirmation' %>
       <div class="form-standard-submit-wrapper">

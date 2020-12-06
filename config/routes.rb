@@ -8,9 +8,8 @@ Rails.application.routes.draw do
   get 'registrations/sign_up_params'
   get 'registrations/account_update_params'
 
-  resources :opportunities                 #,  :comments, :posts    #, :signatures
-
-    devise_for :users, :controllers => { registrations: 'registrations' }
+  resources :cleanups                 #,  :comments, :posts    #, :signatures
+  devise_for :users, :controllers => { registrations: 'registrations' }
 
 
 

@@ -46,11 +46,17 @@ class Opportunity < ApplicationRecord
 
 
   private
-  def title_length
-    if title.size > 60
-      errors.add(:title, "must be less than 60 characters")
+
+    def title_length
+      if title.size > 60
+        errors.add(:title, "must be less than 60 characters")
+      end
     end
-  end
+
+      # Use callbacks to share common setup or constraints between actions.
+    def set_opportunity
+      @opportunity = Opportunity.find(params[:id])
+    end
 end
 
 
