@@ -6,17 +6,14 @@
   * nginx and passenger
     * to start and stop, use `start-nginx` and `kill-nginx` commands as ec2-user
     * nginx is installed at `/opt/nginx` and passenger is in $PATH
-  * to redeploy platform:
+  * important macros:
     * run `assume-jbh-user` command as ec2-user
-    * run `redeploy` as justbehuman
-  * to regenerate SSL certs:
-    * run `/etc/certbot-auto --debug -v --server https://acme-v02.api.letsencrypt.org/directory certonly -d detrashers.org`
+    * run `redeploy` to redeploy the server from `detrashers-master` branch
+    * run `less ~/.zshrc` for important commands and creds
+    * run `/etc/certbot-auto --debug -v --server https://acme-v02.api.letsencrypt.org/directory certonly -d detrashers.org` to regen SSL certs
   * ClamAV is installed as an antivirus
     * https://www.clamav.net/documents/installing-clamav for installation instructions
     * 20201205 - I'm not sure I ever got this running
-  * to get important info/creds
-    * as jbh-user, run `less ~/.zshrc`
-
 
 
 ### Rework Goals
