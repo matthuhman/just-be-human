@@ -26,7 +26,8 @@
   * Links
     * Certbot reminder: https://medium.com/@mohan08p/install-and-renew-lets-encrypt-ssl-on-amazon-ami-6d3e0a61693
   * Future Reading
-    * https://blog.echobind.com/optimal-ruby-on-rails-setup-for-2020-db8ea2b2c798
+    * How to build a Rails app in 2020 (shoulda read this, huh?) https://blog.echobind.com/optimal-ruby-on-rails-setup-for-2020-db8ea2b2c798
+    * Migration from asset pipeline to webpacker https://makandracards.com/makandra/69135-migration-from-the-asset-pipeline-to-webpacker
 
 
 
