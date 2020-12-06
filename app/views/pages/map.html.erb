@@ -1,22 +1,15 @@
 <div class="home-page">
   <div id="map" class="map-div"></div>
-  <div id="submit-zone-btn">Submit Zone</div>
 </div>
 <script>
   $(document).ready(function () {
-    buildMap();
+    showMapWithLocation();
   });
 
-
-  function buildMap() {
-    if (navigator.geolocation) {
-      return navigator.geolocation.getCurrentPosition(showMapWithLocation);
-    }
-  }
-
-  function showMapWithLocation(location) {
+  function showMapWithLocation() {
     var color = 'green';
     var map = new google.maps.Map(document.getElementById('map'), { center: new google.maps.LatLng(<%= @geopoint.latitude %>, <%= @geopoint.longitude %>), zoom: 15, mapTypeId: google.maps.MapTypeId.ROAD_MAP, scaleControl: true });
+    map.setOptions({ styles: styles["hide"] });
     var isClosed = false;
     var poly = new google.maps.Polyline({ map: map, path: [], strokeColor: color, strokeOpacity: 1.0, strokeWeight: 2 });
     google.maps.event.addListener(map, 'click', function (clickEvent) {
@@ -38,8 +31,8 @@
                 for (i = 0; i < path.length; i++) {
                   polygonCoordinates.push(path.getAt(i));
                 }
-                // document.location.href = '/opportunities/new?authenticity_token=' + gon.auth_token + '&coordinates=' + JSON.stringify(polygonCoordinates);
-                document.location.href = '/map?location_term=80205';
+                document.location.href = '/opportunities/new?authenticity_token=' + gon.auth_token + '&coordinates=' + JSON.stringify(polygonCoordinates);
+                // document.location.href = '/map?location_term=80205';
             });
         }
         google.maps.event.addListener(marker, 'drag', function (dragEvent) {
@@ -47,7 +40,21 @@
         });
         poly.getPath().push(clickEvent.latLng);
     });
-  }
+  };
+  const styles = {
+  default: [],
+  hide: [
+    {
+      featureType: "poi.business",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
+};
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&libraries=geometry" async defer></script>
 

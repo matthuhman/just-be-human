@@ -8,17 +8,27 @@
 // CALENDAR PAGE
 
 .wrapper {
-  background: image-url('calendar-background.jpg') no-repeat center center fixed;
   height: 90%;
   width: 100%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  position: relative;
 
   @include respond-to(handhelds) {
 
   }
+}
+
+.bg-image {
+  position: absolute;
+  background: image-url('calendar-background.jpg') no-repeat center center fixed;
+  height: 90%;
+  width: 100%;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index: -1;
 }
 
 
@@ -120,7 +130,7 @@
   .location-select-title {
     font-size: 5rem;
     font-weight: 600;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
     width: auto;
 
@@ -133,7 +143,7 @@
   .location-select-field {
     text-align: center;
     height: 10vh;
-    width: auto !important;
+    width: 100% !important;
     font-size: 7rem;
 
     @include respond-to(handhelds) {
@@ -149,7 +159,7 @@
     background-color: $darkgreen;
     border-radius: 4px;
     color: white;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
     @include respond-to(handhelds) {
       font-size: 2rem;
@@ -242,7 +252,7 @@
   .calendar-page-title {
     color: $darkgreen;
     font-weight: 700;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     font-size: 8rem;
     width: 100%;
     text-align: center;
@@ -327,7 +337,7 @@
 
   .calendar-nav-btn {
     font-size: 4rem;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     color: black;
     font-weight: 700;
     padding-left: 2vw;
@@ -380,7 +390,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     margin-left: -3vw;
     margin-right: -3vw;
 
@@ -395,7 +405,7 @@
 
   .aboutus-div-title {
     font-size: 3.5rem;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
 
     @include respond-to(handhelds) {
@@ -774,7 +784,7 @@
   .new-cleanup-link-text {
     padding-top: 15vh;
     color: $darkgreen;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     font-size: 2.2rem;
   }
 }

@@ -6,6 +6,21 @@ class Notification < ApplicationRecord
   scope :unread, -> { where(read_at: nil) }
 
 
+
+##################################################
+#####################
+#####################
+#####################
+#####################
+##################### =>  20201205 abandoned
+#####################
+#####################
+#####################
+#####################
+#####################
+##################################################
+
+
   def stringify
     if notifiable.class.name == "Post"
       "#{actor.username} #{action} a post in #{notifiable.opportunity.display_title}"

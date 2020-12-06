@@ -13,40 +13,40 @@ class PagesController < ApplicationController
 
   def calendar
     # offset = calendar_params[:week_offset] ? calendar_params[:week_offset].to_i : 0
-    if current_user
-      @zip = calendar_params[:postcode] ? calendar_params[:postcode] : current_user.postal_code
-      @geopoint = Geopoint.find_by(zip: @zip)
+    # if current_user
+    #   @zip = calendar_params[:postcode] ? calendar_params[:postcode] : current_user.postal_code
+    #   @geopoint = Geopoint.find_by(zip: @zip)
 
-      if !@geopoint
-        @geopoint = Geopoint.find_by(zip: current_user.postal_code)
-        flash.now[:alert] = "The zip code you searched for (#{calendar_params[:postcode]}) was not valid"
-      end
-    elsif calendar_params[:postcode]
-      @zip = calendar_params[:postcode]
-      @geopoint = Geopoint.find_by(zip: @zip)
+    #   if !@geopoint
+    #     @geopoint = Geopoint.find_by(zip: current_user.postal_code)
+    #     flash.now[:alert] = "The zip code you searched for (#{calendar_params[:postcode]}) was not valid"
+    #   end
+    # elsif calendar_params[:postcode]
+    #   @zip = calendar_params[:postcode]
+    #   @geopoint = Geopoint.find_by(zip: @zip)
 
-      if !@geopoint
-        zip = @zip
-        @zip = nil
-        @geopoint = nil
-        flash.now[:alert] = "The zip code you entered (#{zip}) was not valid."
-      end
-    end
+    #   if !@geopoint
+    #     zip = @zip
+    #     @zip = nil
+    #     @geopoint = nil
+    #     flash.now[:alert] = "The zip code you entered (#{zip}) was not valid."
+    #   end
+    # end
 
-    # binding.pry
+    # # binding.pry
 
-    if @geopoint
-      # week_start = Date.today.beginning_of_week
-      # week_end = Date.today.end_of_week
+    # if @geopoint
+    #   # week_start = Date.today.beginning_of_week
+    #   # week_end = Date.today.end_of_week
 
 
-      # @offset_end = week_end.next_day(7 * offset)
-      # @offset_start = week_start.next_day(7 * offset)
-      @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("cleanup_date >= ?", Date.today)
-      # binding.pry
-    else
-      @geopoint = nil
-    end
+    #   # @offset_end = week_end.next_day(7 * offset)
+    #   # @offset_start = week_start.next_day(7 * offset)
+    #   @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 25).where("cleanup_date >= ?", Date.today)
+    #   # binding.pry
+    # else
+    #   @geopoint = nil
+    # end
   end
 
   # This action represents the main interface for the application.
@@ -59,7 +59,8 @@ class PagesController < ApplicationController
     @geopoint = Geopoint.find_by(zip: @zip)
     if !@geopoint
       @geopoint = Geopoint.find_by(zip: current_user.postal_code)
-      flash.now[:alert] = "The zip code you searched for (#{map_params[:location_term]}) was not valid"
+      flash.now[:alert] = "The zip code you searched for (#{map_params[:location_term]}) was not in our system."
+      redirect_back fallback_location: '/'
     end
 
     if current_user
@@ -70,7 +71,7 @@ class PagesController < ApplicationController
       @roles = []
     end
 
-    @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20).where("completed = false AND cleanup_date = ?", @cleanup_date).sort_by { |p| p.cleanup_date }
+    @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20)
   end
 
   # 20190815 - @mhuhman - this may not be necessary any more

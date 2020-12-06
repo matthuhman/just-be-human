@@ -33,7 +33,7 @@
 
 $(document).on('turbolinks:load', function(){
   setTimeZone();
-  hideAboutUsIfNecessary();
+  // hideAboutUsIfNecessary();
 });
 
 let intro;

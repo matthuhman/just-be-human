@@ -23,16 +23,13 @@ class OpportunitiesController < ApplicationController
   #
   # GET /opportunities/new
   def new
-    coord_string = params[:coordinates]
-    raw_coords = JSON.parse coord_string
+    @coord_string = params[:coordinates]
+    raw_coords = JSON.parse @coord_string
     coords = []
     raw_coords.each do |coord|
       coords.push Coordinate.new(lat: coord['lat'], lng: coord['lng'])
     end
-
-    binding.pry
     @opportunity = Opportunity.new(coordinates: coords)
-    binding.pry
   end
 
   #
@@ -44,19 +41,18 @@ class OpportunitiesController < ApplicationController
   # POST /opportunities
   # POST /opportunities.json
   def create
-    @opportunity = Opportunity.new(opportunity_params)
+    coord_string = opportunity_params.extract! :coordinates
+    raw_coords = JSON.parse coord_string[:coordinates]
+    coords = []
+    raw_coords.each do |coord|
+      coords.push Coordinate.new(lat: coord['lat'], lng: coord['lng'])
+    end
+    @opportunity = Opportunity.new(opportunity_params.except(:coordinates))
     @opportunity.user = current_user
 
-    binding.pry
-    if !@opportunity.postal_code
-      geopoint = Geopoint.find_by(zip: @opportunity.postal_code)
-      if geopoint
-        @opportunity.latitude = geopoint.latitude
-        @opportunity.longitude = geopoint.longitude
-      else
-        puts "GEOPOINT NOT FOUND FOR POSTCODE: #{@opportunity.postal_code}"
-      end
-    end
+
+    @opportunity.latitude = coords.first.lat
+    @opportunity.longitude = coords.first.lng
 
     @role = OpportunityRole.create
     @role.user_id = current_user.id
@@ -67,6 +63,13 @@ class OpportunitiesController < ApplicationController
       if @opportunity.save
         @role.opportunity_id = @opportunity.id
         if @role.save
+          coords.each do |c|
+            c.opportunity_id = @opportunity.id
+            if !c.save
+              format.html {render :new }
+              format.json { render json: @role.errors, status: :unprocessable_entity}
+            end
+          end
           format.html { redirect_to @opportunity, notice: 'Opportunity and role was successfully created.' }
           format.json { render :show, status: :created, location: @opportunity }
         else

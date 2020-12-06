@@ -10,23 +10,12 @@
   </button>
   <div class="desktop-nav" >
     <ul class="navbar-nav">
-      <li class="nav-item">
-
-      </li>
       <% if current_user %>
-        <li class="nav-item dropdown last-nav-item">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Menu
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to 'Create Cleanup', new_opportunity_path, class: 'dropdown-item' %>
-            <%= link_to 'Messages', conversations_path, class: 'dropdown-item' %>
-            <a class="dropdown-item" href="/users/edit">Settings</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item nav-donate-link" href="/donate">Donate</a>
-            <a class="dropdown-item" href="/users/sign_out" data-method="delete">Sign Out</a>
-            <!-- <a class="dropdown-item" href="/users/sign_out">Sign Out</a> -->
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/edit">Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/sign_out" data-method="delete">Sign Out</a>
         </li>
       <% else %>
         <li class="nav-item">
@@ -34,12 +23,6 @@
         </li>
       <% end %>
     </ul>
-    <% if current_user && current_page?('/') %>
-      <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get" id="home-step3">
-        <input class="form-control mr-sm-2" type="search" id="location_term" placeholder="Enter a postal code" aria-label="Change Location" name="postcode">
-        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" href="/" value="postcode">Change Location</button>
-      </form>
-    <% end %>
   </div>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <div class="mobile-nav">

@@ -1,54 +1,17 @@
 
 <div class="calendar-background">
-  <% if @geopoint %>
-    <div id="geopoint-is-present"></div>
-    <div class="calendar-row-1">
-      <div id="calendar">
-        <%= week_calendar events: @opportunities do |date| %>
-          <div id="mobile-day-header" class="mobile-day-header">
-              <%= t('date.abbr_day_names')[date.wday] + ' ' + date.strftime('%m/%d') %>
-          </div>
-          <% oppo_count = 0 %>
-          <% @opportunities.each do |opp| %>
-            <% if opp.cleanup_date == date.to_date %>
-              <div class="calendar-opportunity">
-                <a href="/opportunities/<%= opp.id %>">
-                  <div class="calendar-opportunity-title">
-                    <%= opp.title %>
-                  </div>
-                  <div class="calendar-opportunity-time">
-                    <%= opp.start_time.strftime('%H:%M %p') + ' - ' + opp.end_time.strftime('%H:%M %p') %>
-                  </div>
-                </a>
-              </div>
-              <% oppo_count += 1 %>
-            <% end %>
-          <% end %>
-          <% if oppo_count == 0 %>
-            <div class="no-cleanups">
-              No cleanups scheduled
-            </div>
-          <% end %>
-        <% end %>
+  <div class="location-select-div">
+    <div class="location-select-outline">
+      <div class="location-select-title">
+        Enter your zip code to get started!
       </div>
+      <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/map" method="get">
+        <input class="form-control location-select-field" type="search" id="postcode" aria-label="Change Location" name="location_term">
+        <br>
+        <button class="location-select-btn" type="submit" href="/map" value="location_term">Show me the map!</button>
+      </form>
     </div>
-  <% else %>
-    <div class="location-select-div">
-      <div class="location-select-outline">
-        <div class="location-select-title">
-          Welcome to Detrashers.org!
-        </div>
-        <form class="form-inline my-2 my-lg-0" accept-charset="UTF-8" action="/" method="get">
-          <input class="form-control location-select-field" type="search" id="postcode" placeholder="Enter postal code" aria-label="Change Location" name="postcode">
-          <br>
-          <button class="location-select-btn" type="submit" href="/" value="postcode">Get Started</button>
-          <div class="explanation">
-            Enter your postal code to see a calendar view of cleanup opportunities in your community!
-          </div>
-        </form>
-      </div>
-    </div>
-  <% end %>
+  </div>
 
   <div class="calendar-row-2">
     <div class="calendar-aboutus" id="calendar-aboutus">
@@ -57,7 +20,7 @@
           About us
         </div>
         <div class="aboutus-content">
-          Detrashers.org is a donation-funded, advertising-free platform built around making it easy to organize and find trash cleanups in your community.
+          Detrashers.org is a donation-funded, advertising-free platform built around making it easy to keep your community clean.
         </div>
       </div>
 
@@ -87,11 +50,11 @@
 
       <div class="aboutus-mobile">
         <div class="aboutus-content">
-          Enter your postal code to see a calendar with cleanup opportunities in your area!
+          Enter your postal code to see the Detrashing Zones in your neighborhood!
           <br>
           -
           <br>
-          Detrashers.org is a donation-funded platform built around making it easy to organize and participate in trash cleanups in your community. Every pound of trash picked up by detrashers is one less pound in our streets, waterways, and oceans!
+          Detrashers.org is a donation-funded platform built around making it easy to keep your neighborhood clean. Every pound of trash picked up by detrashers is one less pound in our streets, waterways, and oceans!
           <br>
           -
           <br>
@@ -106,5 +69,4 @@
     </div>
     <div class="calendar-page-bottom-buffer"></div>
   </div>
-
 </div>
