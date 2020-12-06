@@ -1,10 +1,4 @@
-# README
-
-Ruby 2.6.2
-
-Rails 5.2
-
-# CURRENT DEPLOYMENT NOTES
+## CURRENT DEPLOYMENT NOTES
 * deployed to EC2 t2.micro instance with postgres RDS db
   * Ruby 2.6.2
   * Rails 6.0.2.1
@@ -19,31 +13,23 @@ Rails 5.2
     * run `/etc/certbot-auto --debug -v --server https://acme-v02.api.letsencrypt.org/directory certonly -d detrashers.org`
   * ClamAV is installed as an antivirus
     * https://www.clamav.net/documents/installing-clamav for installation instructions
-
-
-# Technical Questions
-
-
-
-# Architectural/Design Questions
-
-
-* So, what do we need to do to set up a Wiki that can be modified by any authenticated user simultaneously?
-* Websockets?? That would be really really cool...
-* I'm almost certain that Rails 5 added support for websockets
+    * 20201205 - I'm not sure I ever got this running
+  * to get important info/creds
+    * as jbh-user, run `less ~/.zshrc`
 
 
 
-# BIG TASKS STILL OUTSTANDING
+### Rework Goals
+  * 20201205
+    * build out `Cleanup` object to track # of cleanups done and litter collected
+    * actually write some tests once you figure out what the new framework needs to look like
 
-* identify and test all permissions requirements
-  * added: 20190811
-  * completed:
-  * checkin- 20200314 - still not done
 
-* get document signing/uploading running
-  * added: 20200315
-  * completed:
+### Useful Links/Future Reading
+  * Links
+    * Certbot reminder: https://medium.com/@mohan08p/install-and-renew-lets-encrypt-ssl-on-amazon-ami-6d3e0a61693
+  * Future Reading
+    * https://blog.echobind.com/optimal-ruby-on-rails-setup-for-2020-db8ea2b2c798
 
 
 
@@ -118,4 +104,4 @@ ActiveAdmin
 
 
 
-Certbot reminder: https://medium.com/@mohan08p/install-and-renew-lets-encrypt-ssl-on-amazon-ami-6d3e0a61693
+
