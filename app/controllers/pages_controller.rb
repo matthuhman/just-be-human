@@ -60,7 +60,6 @@ class PagesController < ApplicationController
     if !@geopoint
       @geopoint = Geopoint.find_by(zip: current_user.postal_code)
       flash.now[:alert] = "The zip code you searched for (#{map_params[:location_term]}) was not in our system."
-      redirect_back fallback_location: '/'
     end
 
     if current_user

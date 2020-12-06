@@ -136,191 +136,211 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  def followers
-    @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
-    @is_admin = current_user.is_admin?(@opportunity.id)
-    @is_volunteer = current_user.is_volunteer?(@opportunity.id)
-    @is_follower = current_user.is_follower?(@opportunity.id)
-  end
-
-
-  #
-  # GET /opportunities/follow
-  # takes opportunity_id query param
-  def follow
-    respond_to do |format|
-      if Role.follow_opportunity(current_user.id, @opportunity.id)
-
-        format.html { redirect_to @opportunity, notice: 'You have successfully followed this opportunity.' }
-        format.json { render :show, status: :created, location: @opportunity }
-      else
-        format.html { redirect_to @opportunity, notice: 'You have not followed this opportunity successfully' }
-        format.json { render :show, status: :unprocessable_entity, location: @opportunity }
-      end
-    end
-  end
-
-  #
-  # GET /opportunities/unfollow
-  # takes opportunity_id query param
-  def unfollow
-    respond_to do |format|
-      if Role.unfollow_opportunity(current_user.id, @opportunity.id)
-        format.html { redirect_to @opportunity, notice: "You have unfollowed this opportunity" }
-        format.json { render :show, status: :ok, location: @opportunity}
-      else
-        format.html { redirect_to @opportunity, alert: "You cannot unfollow a opportunity without a role."}
-        format.json { render :show, status: :unprocessable_entity, location: @opportunity}
-      end
-    end
-  end
-
-  def rsvp
-    role = OpportunityRole.find(params[:rsvp][:role_id])
-
-    oppo = role.opportunity
-    respond_to do |format|
-      if role && role.user == current_user
-        rsvp = params[:rsvp]
-
-        if Role.rsvp(current_user, role, rsvp)
-          format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully!" }
-          format.json { render :show, status: :ok, location: role.opportunity }
-        else
-          format.html { redirect_to role.opportunity, alert: "An unexpected error occurred." }
-          format.json { render :show, status: :unprocessable_entity, location: role.opportunity }
-        end
-      else
-        format.html { redirect_to role.opportunity, alert: "That role does not exist or you cannot edit it." }
-        format.json { render :show, status: :bad_request, location: role.opportunity }
-      end
-    end
-  end
-
-  #
-  # GET /opportunities/leader
-  # takes opportunity_id and target_user_id query params
-  def leader
-    @opportunity = Opportunity.find(promotion_params[:opportunity_id])
-    respond_to do |format|
-      if (current_user == @opportunity.user)
-        if Role.set_opp_leader(current_user.id, params[:target_user_id], @opportunity.id)
-          format.html { redirect_to @opportunity, notice: "User promoted to Leader." }
-          format.json { render :show, status: :ok, location: @opportunity}
-        else
-          format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
-          format.json { render :show, status: :unprocessable_entity, location: @opportunity}
-        end
-      else
-        format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
-        format.json { render :show, status: :forbidden, location: @opportunity }
-      end
-    end
-  end
-
-
-  #
-  # GET /opportunities/promote
-  # takes opportunity_id and target_user_id query params
-  def promote_user
-    @opportunity = Opportunity.find(promotion_params[:opportunity_id])
-    respond_to do |format|
-      if (current_user == @opportunity.user)
-        if Role.make_opp_supervisor(params[:target_user_id], @opportunity.id)
-          format.html { redirect_to @opportunity, notice: "User promoted to Supervisor." }
-          format.json { render :show, status: :ok, location: @opportunity}
-        else
-          format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
-          format.json { render :show, status: :unprocessable_entity, location: @opportunity}
-        end
-      else
-        format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
-        format.json { render :show, status: :forbidden, location: @opportunity }
-      end
-    end
-  end
-
-  #
-  # GET /opportunities/demote
-  # takes in a
-  def demote_user
-    @opportunity = Opportunity.find(promotion_params[:opportunity_id])
-    target_user_id = promotion_params[:target_user_id]
-
-    respond_to do |format|
-      if (current_user == @opportunity.user || current_user == target_user_id)
-        ## remove the target user as a supervisor
-        if Role.remove_opp_supervisor(target_user_id, @opportunity.id)
-          if (target_user_id != current_user.id)
-            format.html { redirect_to @opportunity, notice: "User is no longer a Supervisor." }
-            format.json { render :show, status: :ok, location: @opportunity}
-          else
-            format.html { redirect_to @opportunity, notice: "You have stepped down as a Supervisor." }
-            format.json { render :show, status: :ok, location: @opportunity}
-          end
-        else
-          format.html { redirect_to @opportunity, alert: "User was not demoted due to an internal error. It has been logged for investigation." }
-          format.json { render :show, status: :unprocessable_entity, location: @opportunity }
-        end
-      else
-        format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
-        format.json { render :show, status: :forbidden, location: @opportunity }
-      end
-    end
-  end
-
-  def complete
-    completion_post = Post.new(opportunity_id: @opportunity.id, completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
-    respond_to do |format|
-      if current_user.is_admin?(@opportunity.id)
-        if @opportunity.can_complete?
-          if @opportunity.mark_complete
-            completion_post.save
-            format.html { redirect_to edit_post_path(completion_post) }
-            format.json { render :new, status: :ok, location: completion_post }
-          else
-            format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
-            format.json { render :show, status: :unprocessable_entity, location: @opportunity }
-          end
-        else
-          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
-          format.json { render :show, status: :bad_request, location: @opportunity }
-        end
-      else
-        format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
-        format.json { render :show, status: :forbidden, location: @opportunity }
-      end
-    end
-  end
-
-  def uncomplete
-    respond_to do |format|
-      if current_user.is_admin?(@opportunity.id)
-        if !@opportunity.completed
-          if @opportunity.mark_uncompleted
-            format.html { redirect_to @opportunity, notice: "This opportunity is open again." }
-            format.json { render :new, status: :ok, location: @opportunity }
-          else
-            format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
-            format.json { render :show, status: :unprocessable_entity, location: @opportunity }
-          end
-        else
-          format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
-          format.json { render :show, status: :bad_request, location: @opportunity }
-        end
-      else
-        format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
-        format.json { render :show, status: :forbidden, location: @opportunity }
-      end
-    end
-  end
 
 
 
-  def sign
-    @waivers = @opporuntity.waivers
 
-  end
+
+
+
+
+##################################################
+#####################
+#####################
+#####################
+#####################
+##################### =>  20201205 abandoned
+#####################
+#####################
+#####################
+#####################
+#####################
+##################################################
+
+
+
+
+
+
+  # def followers
+  #   @role = OpportunityRole.find_by(user_id: current_user.id, opportunity_id: @opportunity.id)
+  #   @is_admin = current_user.is_admin?(@opportunity.id)
+  #   @is_volunteer = current_user.is_volunteer?(@opportunity.id)
+  #   @is_follower = current_user.is_follower?(@opportunity.id)
+  # end
+
+
+  # #
+  # # GET /opportunities/follow
+  # # takes opportunity_id query param
+  # def follow
+  #   respond_to do |format|
+  #     if Role.follow_opportunity(current_user.id, @opportunity.id)
+
+  #       format.html { redirect_to @opportunity, notice: 'You have successfully followed this opportunity.' }
+  #       format.json { render :show, status: :created, location: @opportunity }
+  #     else
+  #       format.html { redirect_to @opportunity, notice: 'You have not followed this opportunity successfully' }
+  #       format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+  #     end
+  #   end
+  # end
+
+  # #
+  # # GET /opportunities/unfollow
+  # # takes opportunity_id query param
+  # def unfollow
+  #   respond_to do |format|
+  #     if Role.unfollow_opportunity(current_user.id, @opportunity.id)
+  #       format.html { redirect_to @opportunity, notice: "You have unfollowed this opportunity" }
+  #       format.json { render :show, status: :ok, location: @opportunity}
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You cannot unfollow a opportunity without a role."}
+  #       format.json { render :show, status: :unprocessable_entity, location: @opportunity}
+  #     end
+  #   end
+  # end
+
+  # def rsvp
+  #   role = OpportunityRole.find(params[:rsvp][:role_id])
+
+  #   oppo = role.opportunity
+  #   respond_to do |format|
+  #     if role && role.user == current_user
+  #       rsvp = params[:rsvp]
+
+  #       if Role.rsvp(current_user, role, rsvp)
+  #         format.html { redirect_to role.opportunity, notice: "You have RSVP'd successfully!" }
+  #         format.json { render :show, status: :ok, location: role.opportunity }
+  #       else
+  #         format.html { redirect_to role.opportunity, alert: "An unexpected error occurred." }
+  #         format.json { render :show, status: :unprocessable_entity, location: role.opportunity }
+  #       end
+  #     else
+  #       format.html { redirect_to role.opportunity, alert: "That role does not exist or you cannot edit it." }
+  #       format.json { render :show, status: :bad_request, location: role.opportunity }
+  #     end
+  #   end
+  # end
+
+  # #
+  # # GET /opportunities/leader
+  # # takes opportunity_id and target_user_id query params
+  # def leader
+  #   @opportunity = Opportunity.find(promotion_params[:opportunity_id])
+  #   respond_to do |format|
+  #     if (current_user == @opportunity.user)
+  #       if Role.set_opp_leader(current_user.id, params[:target_user_id], @opportunity.id)
+  #         format.html { redirect_to @opportunity, notice: "User promoted to Leader." }
+  #         format.json { render :show, status: :ok, location: @opportunity}
+  #       else
+  #         format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
+  #         format.json { render :show, status: :unprocessable_entity, location: @opportunity}
+  #       end
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
+  #       format.json { render :show, status: :forbidden, location: @opportunity }
+  #     end
+  #   end
+  # end
+
+
+  # #
+  # # GET /opportunities/promote
+  # # takes opportunity_id and target_user_id query params
+  # def promote_user
+  #   @opportunity = Opportunity.find(promotion_params[:opportunity_id])
+  #   respond_to do |format|
+  #     if (current_user == @opportunity.user)
+  #       if Role.make_opp_supervisor(params[:target_user_id], @opportunity.id)
+  #         format.html { redirect_to @opportunity, notice: "User promoted to Supervisor." }
+  #         format.json { render :show, status: :ok, location: @opportunity}
+  #       else
+  #         format.html { redirect_to @opportunity, notice: "User was not promoted due to an internal error. It has been logged for investigation." }
+  #         format.json { render :show, status: :unprocessable_entity, location: @opportunity}
+  #       end
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
+  #       format.json { render :show, status: :forbidden, location: @opportunity }
+  #     end
+  #   end
+  # end
+
+  # #
+  # # GET /opportunities/demote
+  # # takes in a
+  # def demote_user
+  #   @opportunity = Opportunity.find(promotion_params[:opportunity_id])
+  #   target_user_id = promotion_params[:target_user_id]
+
+  #   respond_to do |format|
+  #     if (current_user == @opportunity.user || current_user == target_user_id)
+  #       ## remove the target user as a supervisor
+  #       if Role.remove_opp_supervisor(target_user_id, @opportunity.id)
+  #         if (target_user_id != current_user.id)
+  #           format.html { redirect_to @opportunity, notice: "User is no longer a Supervisor." }
+  #           format.json { render :show, status: :ok, location: @opportunity}
+  #         else
+  #           format.html { redirect_to @opportunity, notice: "You have stepped down as a Supervisor." }
+  #           format.json { render :show, status: :ok, location: @opportunity}
+  #         end
+  #       else
+  #         format.html { redirect_to @opportunity, alert: "User was not demoted due to an internal error. It has been logged for investigation." }
+  #         format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+  #       end
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You do not have administrative permissions for this opportunity."}
+  #       format.json { render :show, status: :forbidden, location: @opportunity }
+  #     end
+  #   end
+  # end
+
+  # def complete
+  #   completion_post = Post.new(opportunity_id: @opportunity.id, completion_post: true, title: "We did it!", content: "Put some cool pictures of what you did in here!", user_id: current_user.id)
+  #   respond_to do |format|
+  #     if current_user.is_admin?(@opportunity.id)
+  #       if @opportunity.can_complete?
+  #         if @opportunity.mark_complete
+  #           completion_post.save
+  #           format.html { redirect_to edit_post_path(completion_post) }
+  #           format.json { render :new, status: :ok, location: completion_post }
+  #         else
+  #           format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
+  #           format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+  #         end
+  #       else
+  #         format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
+  #         format.json { render :show, status: :bad_request, location: @opportunity }
+  #       end
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
+  #       format.json { render :show, status: :forbidden, location: @opportunity }
+  #     end
+  #   end
+  # end
+
+  # def uncomplete
+  #   respond_to do |format|
+  #     if current_user.is_admin?(@opportunity.id)
+  #       if !@opportunity.completed
+  #         if @opportunity.mark_uncompleted
+  #           format.html { redirect_to @opportunity, notice: "This opportunity is open again." }
+  #           format.json { render :new, status: :ok, location: @opportunity }
+  #         else
+  #           format.html { redirect_to @opportunity, alert: "An unexpected error occurred." }
+  #           format.json { render :show, status: :unprocessable_entity, location: @opportunity }
+  #         end
+  #       else
+  #         format.html { redirect_to @opportunity, alert: "This opportunity cannot be completed yet. Make sure all Requirements are complete!" }
+  #         format.json { render :show, status: :bad_request, location: @opportunity }
+  #       end
+  #     else
+  #       format.html { redirect_to @opportunity, alert: "You do not have permission to do this." }
+  #       format.json { render :show, status: :forbidden, location: @opportunity }
+  #     end
+  #   end
+  # end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

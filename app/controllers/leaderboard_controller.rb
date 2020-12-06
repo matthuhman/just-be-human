@@ -1,14 +1,26 @@
 class LeaderboardController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_points, only: [:show, :index]
+  # before_action :authenticate_user!
+  # before_action :set_points, only: [:show, :index]
 
-  client = Aws::DynamoDB::Client.new
+  # client = Aws::DynamoDB::Client.new
 
-  table_name = ENV["LEADERBOARD_DYNAMO_TABLE"]
+  # table_name = ENV["LEADERBOARD_DYNAMO_TABLE"]
 
-  def show
-  end
+  # def show
+  # end
 
+##################################################
+#####################
+#####################
+#####################
+#####################
+##################### =>  20201205 abandoned
+#####################
+#####################
+#####################
+#####################
+#####################
+##################################################
 
 
 
