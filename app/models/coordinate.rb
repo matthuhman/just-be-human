@@ -1,6 +1,6 @@
 class Coordinate < ApplicationRecord
 
-  belongs_to :opportunity
+  belongs_to :cleanup
 
 
   def latLng

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_053641) do
+ActiveRecord::Schema.define(version: 2020_12_06_170953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -97,10 +97,11 @@ ActiveRecord::Schema.define(version: 2020_12_06_053641) do
     t.integer "large_bags", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.decimal "lat", precision: 10, scale: 6
-    t.decimal "lng", precision: 10, scale: 6
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.string "description"
-    t.index ["lat", "lng"], name: "index_cleanups_on_lat_and_lng"
+    t.integer "participants", default: 1
+    t.index ["latitude", "longitude"], name: "index_cleanups_on_latitude_and_longitude"
   end
 
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

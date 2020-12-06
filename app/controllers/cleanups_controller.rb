@@ -12,7 +12,6 @@ class CleanupsController < ApplicationController
 
 
   def create
-
     coord_string = cleanup_params.extract! :coordinates
     raw_coords = JSON.parse coord_string[:coordinates]
     coords = []
@@ -20,14 +19,15 @@ class CleanupsController < ApplicationController
       coords.push Coordinate.new(lat: coord['lat'], lng: coord['lng'])
     end
     @cleanup = Cleanup.new(cleanup_params.except(:coordinates))
-    @cleanup.user = current_user ? current_user : null
+    @cleanup.user = current_user ? current_user : nil
     @cleanup.latitude = coords.first.lat
     @cleanup.longitude = coords.first.lng
 
     respond_to do |format|
+      binding.pry
       if @cleanup.save
         coords.each do |c|
-          c.opportunity_id = @cleanup.id
+          c.cleanup = @cleanup
           if !c.save
             format.html {render :new }
             format.json { render json: @role.errors, status: :unprocessable_entity}
@@ -56,10 +56,6 @@ class CleanupsController < ApplicationController
 
       # Never trust parameters from the scary internet, only allow the white list through.
     def cleanup_params
-      params.require(:cleanup).permit(:description, :coordinates, :small_bags, :buckets, :medium_bags, :large_bags)
+      params.require(:cleanup).permit(:description, :coordinates, :small_bags, :buckets, :medium_bags, :large_bags, :participants)
     end
-
-
-
-
 end

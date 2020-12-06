@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:map, :calendar, :landing, :costs, :help, :about_us, :donate, :donation_signup]
+  # before_action :authenticate_user!, except: [:map, :home]
 
   # # The landing screen is for unauthenticated users and includes
   # # a brief explanation of what the application does, how it works,
@@ -34,7 +34,7 @@ class PagesController < ApplicationController
       @roles = []
     end
 
-    @opportunities = Opportunity.near([@geopoint.latitude, @geopoint.longitude], 20)
+    @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20)
   end
 
 

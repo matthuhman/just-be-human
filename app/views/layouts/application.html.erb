@@ -9,8 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&libraries=geometry' %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
+    <%= yield(:head_tags) %>
   </head>
   <body>
     <% if !(params[:action] == 'landing') %>

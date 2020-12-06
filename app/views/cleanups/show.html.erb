@@ -1,1 +1,21 @@
-show.html.erb
+<div class="cleanup-show-page">
+  <div class="cleanup-description">
+    <%= @cleanup.description %>
+  </div>
+
+  <div class="cleanup-stats">
+    Grocery bags: <%= @cleanup.small_bags %>
+    Buckets: <%= @cleanup.buckets %>
+    Kitchen bags: <%= @cleanup.medium_bags %>
+    Contractor bags: <%= @cleanup.large_bags %>
+    Participants: <%= @cleanup.participants %>
+  </div>
+
+  <div class="cleanup-coordinates">
+    <% @cleanup.coordinates.each do |c| %>
+      <div class="cleanup-latlng">
+        <%= c.latLng %>
+      </div>
+    <% end %>
+  </div>
+</div>
