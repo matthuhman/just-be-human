@@ -57,6 +57,10 @@
   @include respond-to(handhelds) {
     font-size: 1.8rem;
   }
+
+  .navbar-version {
+    font-size:1.6rem;
+  }
 }
 
 .nav-item {
