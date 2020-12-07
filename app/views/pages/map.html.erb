@@ -3,20 +3,48 @@
   <meta name='turbolinks-visit-control' content='reload'>
   <script>
     document.addEventListener("DOMContentLoaded", function(){
-        showMapWithLocation(<%=@geopoint.latitude%>, <%=@geopoint.longitude%>)
+      <% if @geopoint %>
+        showMapWithCleanups(<%=@geopoint.latitude%>, <%=@geopoint.longitude%>, <%=@cleanup_json%>)
+      <% elsif @latLng %>
+        showMapWithCleanups(<%=@latLng[0]%>, <%=@latLng[1]%>, <%=@cleanup_json%>)
+      <% else %>
+        showMapWithCleanups(<%=@location[0]%>, <%=@location[1]%>, <%=@cleanup_json%>)
+      <% end %>
     });
   </script>
 <% end %>
 
 <div class="home-page">
+  <div id="cleanup-multiuse-hover-container" class="cleanup-multiuse-hover-container">
+    <button onclick="enableEditMode()" id="enable-edit-mode-btn" class="enable-edit-mode-btn">
+      <div class="btn-content">
+        Add your cleanup
+      </div>
+    </button>
+    <button onclick="submitNewCleanup()" id="submit-new-cleanup-btn" class="submit-new-cleanup- btn">
+      <div class="btn-content">
+        Submit
+      </div>
+    </button>
+    <button onclick="disableEditMode()" id="disable-edit-mode-btn" class="disable-edit-mode-btn">
+      <div class="btn-content">
+        Cancel
+      </div>
+    </button>
+  </div>
+  <div id="create-account-modal" class="create-account-modal">
+    <button id="hide-create-account-modal" onclick="hideCreateAccountModal()">
+      <div class="create-account-modal-content">
+        If you create an account, you'll be able to track your stats over time!
+      </div>
+    </button>
+  </div>
+  <div id="edit-mode-modal" class="edit-mode-modal">
+    <button id="hide-edit-mode-modal" onclick="hideEditModeModal()">
+      <div class="hide-edit-mode-modal-content">
+        Click to draw a box around the area that you cleaned up. Click "Cancel" at any time to
   <div id="map" class="map-div"></div>
 </div>
-<script>
-
-  let map;
-
-
-</script>
 
 
 

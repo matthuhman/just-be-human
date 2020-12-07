@@ -611,6 +611,27 @@
 .home-page {
   height: 90vh;
   background-color: white;
+
+
+
+  .cleanup-multiuse-hover-container {
+    position: absolute;
+    margin-left: 10vw;
+    margin-top: 10vh;
+    z-index: 1000;
+  }
+
+
+  .create-account-modal {
+    position: absolute;
+    margin-left: 10vw;
+    margin-top: 5vh;
+    z-index: 10000;
+    display: none;
+  }
+
+
+
 }
 
 .home-page-aside {

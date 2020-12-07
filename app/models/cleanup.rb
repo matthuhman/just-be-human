@@ -9,7 +9,7 @@ class Cleanup < ApplicationRecord
   # after_validation :geocode, if: -> (obj) { (obj.lat.present? and obj.lat_changed?) or (obj.lng.present? and obj.lng_changed?) }
 
   def latLng
-    [self.lat, self.lng]
+    [self.latitude, self.longitude]
   end
 
   def age
@@ -23,5 +23,24 @@ class Cleanup < ApplicationRecord
     else
       return 'green'
     end
+  end
+
+
+  def as_json(options = {})
+    return {
+      latitude: latitude,
+      longitude: longitude,
+      age: age,
+      small_bags: small_bags,
+      buckets: buckets,
+      medium_bags: medium_bags,
+      large_bags: large_bags,
+      participants: participants,
+      coordinates: coordinates
+    }
+  end
+
+  def to_json(*options)
+    as_json(*options).to_json(*options)
   end
 end

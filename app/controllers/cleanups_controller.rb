@@ -24,20 +24,19 @@ class CleanupsController < ApplicationController
     @cleanup.longitude = coords.first.lng
 
     respond_to do |format|
-      binding.pry
       if @cleanup.save
         coords.each do |c|
           c.cleanup = @cleanup
           if !c.save
             format.html {render :new }
-            format.json { render json: @role.errors, status: :unprocessable_entity}
+            format.json { render json: c.errors, status: :unprocessable_entity}
           end
         end
-        format.html { redirect_to @cleanup, notice: 'Thanks for cleaning up after all of us!' }
+        format.html { redirect_to '/map?lat=' + @cleanup.latitude.to_s + '&lng=' + @cleanup.longitude.to_s, notice: 'Thanks for cleaning up after all of us!' }
         format.json { render :show, status: :created, location: @cleanup }
       else
         format.html {render :new }
-        format.json { render json: @role.errors, status: :unprocessable_entity}
+        format.json { render json: @cleanup.errors, status: :unprocessable_entity}
       end
     end
   end

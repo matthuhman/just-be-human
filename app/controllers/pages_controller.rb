@@ -17,24 +17,26 @@ class PagesController < ApplicationController
 
 
   def map
-    @zip = map_params[:location_term]
-    date = map_params[:cleanup_date]
-    @cleanup_date = date ? date.to_date : Date.today
-    @geopoint = Geopoint.find_by(zip: @zip)
-    if !@geopoint
-      @geopoint = Geopoint.find_by(zip: current_user.postal_code)
-      flash.now[:alert] = "The zip code you searched for (#{map_params[:location_term]}) was not in our system."
-    end
+    @location_term = map_params[:location_term]
 
-    if current_user
-      @title_hash = current_user.opportunity_roles.map{ |r| [r.opportunity_id, r.title] }.to_h
-      @roles = current_user.opportunity_roles
+    @latLng = nil
+    if (map_params[:lat] && map_params[:lng])
+      @latLng = [map_params[:lat], map_params[:lng]]
+    end
+    @geopoint = Geopoint.find_by(zip: @location_term)
+    @cleanups = nil
+
+    if @geopoint
+      @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20)
+    elsif @location_term
+      results = Geocoder.search(@location_term)
+      @location = results.first.coordinates
+      @cleanups = Cleanup.near(@location_term, 20)
     else
-      @title_hash = {}
-      @roles = []
+      @cleanups = Cleanup.near([@latLng[0], @latLng[1]], 20)
     end
 
-    @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20)
+    @cleanup_json = @cleanups.to_json.html_safe
   end
 
 
@@ -44,7 +46,7 @@ class PagesController < ApplicationController
   private
 
   def map_params
-    params.permit(:location_term, :cleanup_date)
+    params.permit(:location_term, :cleanup_date, :lat, :lng)
   end
 
   def donation_params

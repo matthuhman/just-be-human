@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   validate :username_allowed
   validates :username, obscenity: true
+  validates_uniqueness_of :username
   # validates :first_name, obscenity: true
 
 
