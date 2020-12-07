@@ -33,7 +33,7 @@ function showEditModeMap(latLng) {
   showSubmitButton(false);
   showCancelButton(true);
   showEditModeButton(false);
-
+  showEditModeModal();
   pageMode = 'edit';
   coordinatesJson = null;
   var color = 'green';
@@ -61,10 +61,12 @@ function showEditModeMap(latLng) {
               for (i = 0; i < path.length; i++) {
                 polygonCoordinates.push(path.getAt(i));
               }
+              var area = google.maps.geometry.spherical.computeArea(path)
+              if (((area/1000) > 2500) || path.length > 20) {
+                showEditModeMap(map.getCenter());
+              }
               coordinatesJson = JSON.stringify(polygonCoordinates);
               showSubmitButton(true);
-              // document.location.href = '/cleanups/new?authenticity_token=' + gon.auth_token + '&coordinates=' + JSON.stringify(polygonCoordinates);
-              // document.location.href = '/map?location_term=80205';
           });
       }
       google.maps.event.addListener(marker, 'drag', function (dragEvent) {
@@ -86,20 +88,12 @@ function showMapsWithCleanups(latLng) {
   for (i = 0; i < cleanups.length; i++) {
      var path = []
      var cleanup = cleanups[i];
-     cleanup.contentString =
-        `<div id="marker-content">
-              <div id="siteNotice"></div>
-              <h4 id="marker-title" class="marker-title">Participants: ${cleanup.participants}</h4>
-              <div id="marker-participants" class="marker-participants">Small bags collected: ${cleanup.small_bags}</div>
-              <div id="marker-followers" class="marker-followers">Buckets collected: ${cleanup.buckets}</div>
-         </div>`;
+     cleanup.contentString = buildInfowindowContent(cleanup);
      var coordinates = cleanup['coordinates'];
      for (j = 0; j < coordinates.length; j++) {
         path.push({lat: parseFloat(coordinates[j][0]), lng: parseFloat(coordinates[j][1])})
      }
      var poly = new google.maps.Polygon({ map: map, path: path, strokeColor: cleanup['age'], fillColor: cleanup['age'], fillOpacity: 0.75, strokeOpacity: 1.0, strokeWeight: 2 });
-
-
 
       (function (poly, cleanup) {
         google.maps.event.addListener(poly, "click", function (e) {
@@ -108,18 +102,34 @@ function showMapsWithCleanups(latLng) {
           infoWindow.setPosition(e.latLng);
         });
       })(poly, cleanup);
-
-      //marker.addListener('click', assignListener(marker, infoWindow));
-
-     // google.maps.event.addListener(poly, "click", function (event) {
-     //      infoWindow.setContent(cleanup.contentString);
-     //      infoWindow.setPosition(event.latLng);
-     //      infoWindow.open(map);
-     //    });
   }
-  // map.addListener("click", function() {
-  //   infoWindow.close();
-  // });
+  map.addListener("click", function() {
+    infoWindow.close();
+  });
+}
+
+function buildInfowindowContent(cleanup) {
+  var content = `<div id="cleanup-infowindow">`;
+  if (cleanup.user != null) {
+    content = content.concat(`<h4 id="cleanup-username" class="cleanup-username">Detrasher: ${cleanup.user}</h4>`);
+  }
+  content = content.concat(`<h5 id="cleanup-date" class="cleanup-date">Date: ${cleanup.created_at}</h5>`);
+  content = content.concat(`<div class="cleanup-stats">`);
+  if (parseInt(cleanup.small_bags) > 0) {
+    content = content.concat(`<div id="cleanup-stat-row" class="cleanup-stat-row"><b>Grocery bags: ${cleanup.small_bags}</b></div>`);
+  }
+  if (parseInt(cleanup.buckets) > 0) {
+    content = content.concat(`<div id="cleanup-stat-row" class="cleanup-stat-row"><b>5-gal buckets: ${cleanup.buckets}</b></div>`);
+  }
+  if (parseInt(cleanup.medium_bags) > 0) {
+   content = content.concat(`<div id="cleanup-stat-row" class="cleanup-stat-row"><b>Kitchen bags: ${cleanup.medium_bags}</b></div>`);
+  }
+  if (parseInt(cleanup.large_bags) > 0) {
+   content = content.concat(`<div id="cleanup-stat-row" class="cleanup-stat-row"><b>Contractor bags: ${cleanup.large_bags}</b></div>`);
+  }
+  content = content.concat(`<div id="cleanup-stat-row" class="cleanup-stat-row"><i>Participants: ${cleanup.participants}</i></div>`);
+  content = content.concat(`</div>`);
+  return content;
 }
 
 
@@ -134,7 +144,6 @@ function showMapWithCleanups(latitude, longitude, cleanupsJson) {
 
 function showCreateAccountModal() {
   var times = parseInt(window.localStorage.getItem('shownCreateAccountModal'));
-  console.log('times shown:' + times);
   if (times && times < 10) {
     window.localStorage.setItem('shownCreateAccountModal', times + 1);
     return;
@@ -143,6 +152,23 @@ function showCreateAccountModal() {
     modal.style.display = "block";
     window.localStorage.setItem('shownCreateAccountModal', 1);
   }
+}
+
+function showEditModeModal() {
+  var dismissed = window.localStorage.getItem('shownEditModeModal');
+  if (dismissed) {
+    return;
+  } else {
+    var modal = document.getElementById("edit-mode-modal");
+    modal.style.display = "block";
+    window.localStorage.setItem('shownEditModeModal', 1);
+  }
+}
+
+function hideEditModeModal() {
+  var modal = document.getElementById("edit-mode-modal");
+  modal.style.display = "none";
+  window.localStorage.setItem('shownEditModeModal', 1);
 }
 
 function hideCreateAccountModal() {

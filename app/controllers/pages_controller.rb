@@ -1,18 +1,10 @@
 class PagesController < ApplicationController
-  # before_action :authenticate_user!, except: [:map, :home]
-
-  # # The landing screen is for unauthenticated users and includes
-  # # a brief explanation of what the application does, how it works,
-  # # and why it was built.
-  # def landing
-  #   if current_user
-  #     redirect_to :action => 'home'
-  #   end
-  # end
-
 
   def home
     ############# 20201205 - commented out code from what was the "calendar" method is at bottom of file
+    if current_user && current_user.postal_code
+      redirect_to '/map?location_term=' + current_user.postal_code
+    end
   end
 
 
@@ -25,23 +17,20 @@ class PagesController < ApplicationController
     end
     @geopoint = Geopoint.find_by(zip: @location_term)
     @cleanups = nil
-
+    sixty_days_ago = Date.today - 60.days
     if @geopoint
-      @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20)
+      @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20).where("created_at > :date", date: sixty_days_ago)
     elsif @location_term
       results = Geocoder.search(@location_term)
       @location = results.first.coordinates
-      @cleanups = Cleanup.near(@location_term, 20)
+
+      @cleanups = Cleanup.near(@location_term, 20).where("created_at > :date", date: sixty_days_ago)
     else
-      @cleanups = Cleanup.near([@latLng[0], @latLng[1]], 20)
+      @cleanups = Cleanup.near([@latLng[0], @latLng[1]], 20).where("created_at > :date", date: sixty_days_ago)
     end
 
     @cleanup_json = @cleanups.to_json.html_safe
   end
-
-
-
-
 
   private
 

@@ -10,7 +10,6 @@ class CleanupsController < ApplicationController
   end
 
 
-
   def create
     coord_string = cleanup_params.extract! :coordinates
     raw_coords = JSON.parse coord_string[:coordinates]
@@ -35,7 +34,7 @@ class CleanupsController < ApplicationController
         format.html { redirect_to '/map?lat=' + @cleanup.latitude.to_s + '&lng=' + @cleanup.longitude.to_s, notice: 'Thanks for cleaning up after all of us!' }
         format.json { render :show, status: :created, location: @cleanup }
       else
-        format.html {render :new }
+        format.html { render :new, params[:coordinates] => coord_string }
         format.json { render json: @cleanup.errors, status: :unprocessable_entity}
       end
     end
