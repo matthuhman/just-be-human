@@ -51,11 +51,15 @@
 
 
 .navbar-title {
-  font-family: 'TwinMarker';
+  font-family: 'Ubuntu';
   font-size: 4rem;
   color: $darkgreen;
   @include respond-to(handhelds) {
     font-size: 1.8rem;
+  }
+
+  .navbar-version {
+    font-size:1.6rem;
   }
 }
 

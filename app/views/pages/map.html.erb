@@ -1,109 +1,66 @@
-<div class="home-page">
-  <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
-    <h3>
-      <span class="zip-floater">Zip: </span><%= @geopoint.zip %>
-    </h3>
-    <h3>
-      <span class="date-floater">Date: </span><%= @cleanup_date.strftime("%m-%d-%Y") %>
-    </h3>
-  </div>
-  <aside class="home-page-aside">
-    <div id="opps-near-me">
-      <% if @opportunities.size > 0 %>
-        <% @opportunities.each do |opportunity| %>
-          <%= render 'opportunity_row', opportunity: opportunity %>
-        <% end %>
+
+<% provide :head_tags do %>
+  <meta name='turbolinks-visit-control' content='reload'>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      <% if @geopoint %>
+        showMapWithCleanups(<%=@geopoint.latitude%>, <%=@geopoint.longitude%>, <%=@cleanup_json%>)
+      <% elsif @latLng %>
+        showMapWithCleanups(<%=@latLng[0]%>, <%=@latLng[1]%>, <%=@cleanup_json%>)
       <% else %>
-        <div class="no-open-opportunities">
-          It looks like there aren't any cleanups near you on <%= @cleanup_date.strftime("%m/%d") %>-  you should start one!
-          <% if current_user %>
-            <a class="new-cleanup-link" href="/opportunities/new">
-              <div class="new-cleanup-link-text">
-                Create a cleanup
-              </div>
-            </a>
-          <% end %>
-        </div>
+        showMapWithCleanups(<%=@location[0]%>, <%=@location[1]%>, <%=@cleanup_json%>)
       <% end %>
-    </div>
-  </aside>
+    });
+  </script>
+<% end %>
+
+<div class="home-page">
+  <div id="cleanup-multiuse-hover-container" class="cleanup-multiuse-hover-container">
+    <button onclick="enableEditMode()" id="enable-edit-mode-btn" class="enable-edit-mode-btn">
+      <div class="btn-content">
+        Add a Cleanup
+      </div>
+    </button>
+    <button onclick="submitNewCleanup()" id="submit-new-cleanup-btn" class="submit-new-cleanup-btn">
+      <div class="btn-content">
+        Submit Cleanup Area
+      </div>
+    </button>
+    <button onclick="disableEditMode()" id="disable-edit-mode-btn" class="disable-edit-mode-btn">
+      <div class="btn-content">
+        Cancel
+      </div>
+    </button>
+  </div>
+  <div id="create-account-modal" class="create-account-modal">
+    <button id="hide-create-account-modal" onclick="hideCreateAccountModal()">
+      <div class="create-account-modal-content">
+        If you create an account, you'll be able to track your stats over time!
+        <br>
+        <i>It's free, easy, and we will <b>never</b> sell your information!</i>
+        <br>
+        <span class="small-text">Click this box to dismiss</span>
+      </div>
+    </button>
+  </div>
+  <div id="edit-mode-modal" class="edit-mode-modal">
+    <button id="hide-edit-mode-modal-btn" onclick="hideEditModeModal()">
+      <div class="hide-edit-mode-modal-content">
+        Click to draw a box around the area that you cleaned up- it doesn't have to be exact!
+        <br>
+        <br>
+        Click the start point to complete your cleanup area.
+        <br>
+        <br>
+        Don't worry if a pin isn't exactly in the right spot- you can drag them once you finish your polygon!
+        <br>
+        <br>
+        <span class="small-text">Click this box to make the helper text go away.</span>
+      </div>
+    </button>
+  </div>
   <div id="map" class="map-div"></div>
 </div>
-<script>
-  let map;
 
 
-  function initMap()
-  {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: <%= @geopoint.latitude %>, lng: <%= @geopoint.longitude %>},
-      zoom: 13,
-      streetViewControl: false,
-      mapTypeControl: false,
-      fullscreenControl: false
-    });
 
-    let oppos = <%= raw @opportunities.map.to_json {|o|}.html_safe %>;
-
-
-    let greenIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/green.png",
-      scaledSize: new google.maps.Size(42,42)
-    };
-    let blueIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/blue.png",
-      scaledSize: new google.maps.Size(42,42)
-    };
-    let redIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/red.png",
-      scaledSize: new google.maps.Size(42,42)
-    };
-    let yellowIcon = {
-      url: "http://maps.google.com/mapfiles/ms/icons/yellow.png",
-      scaledSize: new google.maps.Size(42,42)
-    };
-
-    let infoWindow = new google.maps.InfoWindow();
-
-    for (let i = 0, length = oppos.length; i < length; i++)
-    {
-      let data = oppos[i],
-        LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
-        // @MATT -- fix the parse float issue
-
-      data.contentString =
-        `<div id="marker-content">
-          <div id="siteNotice"></div>
-          <h4 id="marker-title" class="marker-title"> ${data.title}</h4>
-          <p id="marker-participants" class="marker-participants">Volunteer count: ${data.volunteer_count} / ${data.volunteers_required}</p>
-          <p id="marker-followers" class="marker-followers">Followers: ${data.follower_count}</p>
-          <a href="/opportunities/${data.id}" id="marker-link" class="marker-link">See Opportunity Details</a>
-         </div>`;
-
-      let marker;
-
-      marker = new google.maps.Marker({
-        position: LatLng,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        icon: greenIcon
-      });
-
-
-      (function (marker, data) {
-        google.maps.event.addListener(marker, "click", function (e) {
-          infoWindow.setContent(data.contentString);
-          infoWindow.open(map, marker);
-          event.stopPropagation(); // this prevents propagation of marker click to map click
-        });
-      })(marker, data);
-
-      //marker.addListener('click', assignListener(marker, infoWindow));
-    }
-
-    map.addListener("click", function() {
-      infoWindow.close();
-    });
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvo5jgtwJAlgCwAA9_5v_pUgphXxe9ntY&callback=initMap" async defer></script>

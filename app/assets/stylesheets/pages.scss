@@ -8,17 +8,27 @@
 // CALENDAR PAGE
 
 .wrapper {
-  background: image-url('calendar-background.jpg') no-repeat center center fixed;
   height: 90%;
   width: 100%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  position: relative;
 
   @include respond-to(handhelds) {
 
   }
+}
+
+.bg-image {
+  position: absolute;
+  background: image-url('calendar-background.jpg') no-repeat center center fixed;
+  height: 90%;
+  width: 100%;
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index: -1;
 }
 
 
@@ -120,7 +130,7 @@
   .location-select-title {
     font-size: 5rem;
     font-weight: 600;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
     width: auto;
 
@@ -133,7 +143,7 @@
   .location-select-field {
     text-align: center;
     height: 10vh;
-    width: auto !important;
+    width: 100% !important;
     font-size: 7rem;
 
     @include respond-to(handhelds) {
@@ -149,7 +159,7 @@
     background-color: $darkgreen;
     border-radius: 4px;
     color: white;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
     @include respond-to(handhelds) {
       font-size: 2rem;
@@ -242,7 +252,7 @@
   .calendar-page-title {
     color: $darkgreen;
     font-weight: 700;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     font-size: 8rem;
     width: 100%;
     text-align: center;
@@ -327,7 +337,7 @@
 
   .calendar-nav-btn {
     font-size: 4rem;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     color: black;
     font-weight: 700;
     padding-left: 2vw;
@@ -380,7 +390,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     margin-left: -3vw;
     margin-right: -3vw;
 
@@ -395,7 +405,7 @@
 
   .aboutus-div-title {
     font-size: 3.5rem;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
 
 
     @include respond-to(handhelds) {
@@ -599,15 +609,141 @@
 // ====HOME PAGE STYLES=====
 
 .home-page {
-  display: grid;
-  grid-template-columns: 45% 55%;
   height: 90vh;
   background-color: white;
+  font-family: 'Ubuntu';
 
-  @include respond-to(handhelds) {
-    grid-template-columns: 100%;
-    grid-template-rows: 30% 70%;
+
+  .cleanup-multiuse-hover-container {
+    position: absolute;
+    z-index: 1000;
   }
+
+  .create-account-modal {
+    position: absolute;
+    margin-left: 20vw;
+    margin-top: 5vh;
+    width: 60vw;
+    height: 15vh;
+    font-size: 2.5rem;
+    z-index: 10000;
+    display: none;
+
+
+    @include respond-to(handhelds) {
+      margin-left: 6vw;
+      margin-top: 3vh;
+      width: 88vw;
+      font-size: 1.2rem;
+    }
+
+    .small-text {
+
+      font-size:1.7rem;
+
+      @include respond-to(handhelds) {
+        font-size: .8rem;
+      }
+    }
+  }
+
+  .enable-edit-mode-btn {
+    position: absolute;
+    margin-left: 30vw;
+    margin-top: 73vh;
+    width: 40vw;
+    height: 10vh;
+    font-family: 'Ubuntu';
+    font-size: 4rem;
+    color: white;
+    background: $darkgreen;
+    opacity: .9;
+
+    @include respond-to(handhelds) {
+      margin-left: 10vw;
+      width: 80vw;
+      height: 10vh;
+      font-size: 2.5rem;
+    }
+  }
+
+  .disable-edit-mode-btn {
+    position: absolute;
+    margin-left: 35vw;
+    margin-top: 80vh;
+    width: 30vw;
+    height: 8vh;
+    font-family: 'Ubuntu';
+    font-size: 4rem;
+    color: white;
+    background: $darkgreen;
+    opacity: .8;
+
+    @include respond-to(handhelds) {
+      margin-left: 10vw;
+      margin-top: 81vh;
+      width: 80vw;
+      height: 6vh;
+      font-size: 2.2rem;
+    }
+  }
+
+  .submit-new-cleanup-btn {
+    position: absolute;
+    display: none;
+    color: white;
+    background-color: $darkgreen;
+    opacity: .9;
+
+    margin-left: 25vw;
+    margin-top: 68vh;
+    width: 50vw;
+    height: 10vh;
+
+    font-size: 4.5rem;
+
+    @include respond-to(handhelds) {
+      margin-left: 2vw;
+      margin-right: 2vw;
+      font-size: 2.4rem;
+      width: 96vw;
+    }
+  }
+
+  .edit-mode-modal {
+    display: none;
+    position: absolute;
+    margin-left: 10vw;
+    margin-top: 10vh;
+    width: 25vw;
+    height: 60vh;
+    z-index: 1000;
+    font-size: 2rem;
+
+    @include respond-to(handhelds) {
+      margin-left: 2vw;
+      margin-top: 2vh;
+      width: 96vw;
+      height: 30vh;
+      font-size: 1.2rem;
+    }
+
+    #hide-edit-mode-modal-btn {
+      background-color: $darkgreen;
+      color: white;
+      opacity: .8;
+    }
+
+    .small-text {
+        font-size: 1.3rem;
+
+        @include respond-to(handhelds) {
+          font-size: .8rem;
+        }
+      }
+  }
+
+
 }
 
 .home-page-aside {
@@ -781,7 +917,7 @@
   .new-cleanup-link-text {
     padding-top: 15vh;
     color: $darkgreen;
-    font-family: 'TwinMarker';
+    font-family: 'Ubuntu';
     font-size: 2.2rem;
   }
 }

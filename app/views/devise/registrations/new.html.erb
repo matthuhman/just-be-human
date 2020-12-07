@@ -7,22 +7,7 @@
     <div class="form-standard-body">
       <%= f.text_field :username, placeholder: 'Username' %>
       <%= f.email_field :email, placeholder: 'Email Address', class: 'form-standard-emailfield' %>
-      <%= f.text_field :first_name, placeholder: 'First Name', class: 'form-standard-textfield' %>
-      <%= f.text_field :last_name, placeholder: 'Last Name', class: 'form-standard-textfield' %>
-      <div class="birth-date-group">
-        <div class="birth-date-label">Birthday</div>
-        <%= f.date_select :birth_date, start_year: 1930, end_year: Date.today.year - 10, selected: Date.today.year - 18, class: 'form-standard-dateselect'  %>
-        <div class="birth-date-explanation">
-          This information is not publicly visible and is only used for internal purposes.
-        </div>
-      </div>
-      <%= f.text_field :city, placeholder: 'City', class: 'form-standard-textfield' %>
-      <%= f.text_field :region, placeholder: 'State', class: 'form-standard-textfield' %>
-      <%= f.text_field :postal_code, placeholder: 'Postal code', class: 'form-standard-textfield' %>
-      <div class="form-group">
-        <div class="country-buffer"></div>
-        <%= f.country_select :country, selected: 'US', class: 'form-standard-countryselect' %>
-      </div>
+      <%= f.text_field :postal_code, placeholder: 'Postal/Zip Code', class: 'form-standard-textfield' %>
       <%= f.password_field :password, placeholder: 'Password', class: 'form-standard-password' %>
       <%= f.password_field :password_confirmation, placeholder: 'Password Confirmation' %>
       <div class="form-standard-submit-wrapper">

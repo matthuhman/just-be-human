@@ -1,3 +1,22 @@
+
+
+
+
+
+
+
+
+
+showMapWithLocation(<%=@geopoint.latitude%>, <%=@geopoint.longitude%>);
+
+
+
+
+
+
+
+
+
 <div class="home-page">
   <div class="d-flex flex-column align-items-center justify-content-center current-zip floater">
     <h3><span class="zip-floater">Active Zip: </span><%= @geopoint.zip %></h3>
@@ -88,7 +107,6 @@
     {
       let data = oppos[i],
         LatLng = {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)};
-        // @MATT -- fix the parse float issue
 
       data.contentString =
         `<div id="marker-content">

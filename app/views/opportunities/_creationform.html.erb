@@ -1,22 +1,8 @@
 <%= bootstrap_form_for(@opportunity) do |f| %>
+  <div class="new-oppo-buffer"></div>
+  <%= f.text_field :title, placeholder: 'Name your zone', hide_label: true %>
+  <%= f.hidden_field :coordinates, :value => coords %>
   <div class="create-cleanup-btn-wrapper">
-    <%= f.submit 'Create A Cleanup', class: "create-cleanup-btn" %>
+    <%= f.submit "Let's clean up some trash!", class: "create-cleanup-btn" %>
   </div>
-  <%= f.text_field :title, placeholder: 'Title', label: "Come up with a short, descriptive title for your cleanup." %>
-  <%= f.text_area :description, placeholder: 'Description', label: "Put a few words here to describe your cleanup. Maybe you're going to provide equipment or food, or perhaps the cleanup has some special information that you need to share." %>
-  <%= f.text_field :address, placeholder: 'Ex: 32nd and Larimer, Denver, CO', label: "Where do you want to begin your cleanup? You can put whatever you want here: an intersection, an address, or a specific location." %>
-  <div class="space-saver">
-    <div class="date-and-time-wrapper">
-      <%= f.date_select :cleanup_date, label: "What date do you want to do the cleanup on?" %>
-      <%= f.time_field :cleanup_time, label: "What time of day do you want to start?" %>
-    </div>
-    <div class="duration-and-volunteers-wrapper">
-      <%= f.number_field :cleanup_duration, label: "How many hours is your cleanup going to last?" %>
-      <%= f.number_field :volunteers_required, label: "How many people are you trying to find?" %>
-    </div>
-  </div>
-  <div class="create-cleanup-btn-wrapper">
-    <%= f.submit 'Create A Cleanup', class: "create-cleanup-btn" %>
-  </div>
-
 <% end %>

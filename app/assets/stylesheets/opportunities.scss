@@ -6,6 +6,9 @@
 @import 'mixins.scss';
 
 
+.new-oppo-buffer {
+  height: 5vh;
+}
 
 
 .new-cleanup-page,
@@ -106,11 +109,11 @@
       margin: auto;
       background-color: $darkgreen;
       color: white;
-      font-family: 'TwinMarker';
+      font-family: 'Ubuntu';
       font-size: 3rem;
       padding-top: 1vh;
       padding-bottom: 1vh;
-      margin-top: 1vh;
+      margin-top: 3vh;
       margin-bottom: 1vh;
 
       @include respond-to(handhelds) {

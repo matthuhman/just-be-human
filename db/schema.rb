@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_17_022345) do
+ActiveRecord::Schema.define(version: 2020_12_06_170953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -89,6 +89,21 @@ ActiveRecord::Schema.define(version: 2020_03_17_022345) do
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end
 
+  create_table "cleanups", force: :cascade do |t|
+    t.uuid "user_id"
+    t.integer "small_bags", default: 0
+    t.integer "buckets", default: 0
+    t.integer "medium_bags", default: 0
+    t.integer "large_bags", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.string "description"
+    t.integer "participants", default: 1
+    t.index ["latitude", "longitude"], name: "index_cleanups_on_latitude_and_longitude"
+  end
+
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.datetime "created_at", null: false
@@ -107,6 +122,15 @@ ActiveRecord::Schema.define(version: 2020_03_17_022345) do
     t.index ["author_id", "receiver_id"], name: "index_conversations_on_author_id_and_receiver_id", unique: true
     t.index ["author_id"], name: "index_conversations_on_author_id"
     t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
+  end
+
+  create_table "coordinates", force: :cascade do |t|
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lng", precision: 10, scale: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cleanup_id"
+    t.index ["cleanup_id"], name: "index_coordinates_on_cleanup_id"
   end
 
   create_table "costs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -159,23 +183,12 @@ ActiveRecord::Schema.define(version: 2020_03_17_022345) do
     t.text "description"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.date "cleanup_date"
-    t.integer "volunteers_required", default: 1
-    t.integer "volunteer_count", default: 1
-    t.boolean "completed", default: false
-    t.string "address"
-    t.string "postal_code"
-    t.integer "follower_count", default: 1
+    t.integer "participants", default: 1
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "recurring", default: false
-    t.string "status"
     t.uuid "last_edited_by"
-    t.string "time_zone"
-    t.uuid "organization_id"
-    t.time "cleanup_time"
-    t.integer "cleanup_duration", default: 2
+    t.datetime "last_cleanup_time", default: "2020-12-06 03:17:38"
     t.index ["latitude", "longitude"], name: "index_opportunities_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_opportunities_on_user_id"
   end
