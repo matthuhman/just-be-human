@@ -1,7 +1,6 @@
 class Cleanup < ApplicationRecord
 
   belongs_to :user, optional: true
-  has_many :coordinates, dependent: :destroy
 
   # validate :trash_was_picked_up
   ############### 20201206 - not sure if we need to geocode since we're just saving the lat/lng, I think that means we've basically already done it
@@ -38,8 +37,7 @@ class Cleanup < ApplicationRecord
       buckets: buckets,
       medium_bags: medium_bags,
       large_bags: large_bags,
-      participants: participants,
-      coordinates: coordinates
+      participants: participants
     }
   end
 

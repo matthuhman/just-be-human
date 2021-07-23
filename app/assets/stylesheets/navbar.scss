@@ -43,12 +43,12 @@
   width: auto;
   max-width: 4vw;
   height: auto;
-  @include respond-to(handhelds) {
+  @include respond-to(medium) {
     max-width: 25vw;
   };
 
   @include respond-to(medium) {
-    max-width: 25vw;
+    max-width: 10vw;
   }
 }
 
@@ -58,15 +58,15 @@
   font-family: 'Ubuntu';
   font-size: 4rem;
   color: $darkgreen;
-  @include respond-to(handhelds) {
-    font-size: 1.8rem;
+  @include respond-to(medium) {
+    font-size: 6rem;
   }
 
   .navbar-version {
     font-size:1.6rem;
 
-    @include respond-to(handhelds) {
-      font-size: 1rem;
+    @include respond-to(medium) {
+      font-size: 2rem;
     }
   }
 }
@@ -107,7 +107,7 @@
     display: block;
   }
 
-  @include respond-to(handhelds) {
+  @include respond-to(medium) {
     display: block;
   }
 }
@@ -125,7 +125,7 @@
     display: none;
   }
 
-  @include respond-to(handhelds) {
+  @include respond-to(medium) {
     display: none;
   }
 }
