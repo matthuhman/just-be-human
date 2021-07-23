@@ -1,0 +1,2 @@
+class CleanupZone < ApplicationRecord
+end
