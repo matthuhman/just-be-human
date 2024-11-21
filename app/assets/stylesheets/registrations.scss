@@ -39,7 +39,7 @@
         padding-top: 1vh;
         margin-bottom: -1.5vh;
 
-        @include respond-to(handhelds) {
+        @include respond-to(medium) {
           font-size: 1.2rem;
         }
       }
@@ -58,7 +58,7 @@
         font-size: 2.5rem;
         margin-top: 1vh;
 
-        @include respond-to(handhelds) {
+        @include respond-to(medium) {
           font-size: 1.2rem;
         }
       }
@@ -76,7 +76,7 @@
   background: white;
 
   #user_time_zone {
-    @include respond-to(handhelds) {
+    @include respond-to(medium) {
       margin: -15vw;
       width: 85vw;
       margin-bottom: 3vh;
@@ -84,7 +84,7 @@
   }
 
   label {
-    @include respond-to(handhelds) {
+    @include respond-to(medium) {
       font-size: 1.2rem;
     }
   }

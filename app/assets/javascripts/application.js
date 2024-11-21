@@ -21,7 +21,6 @@
 //= require chartkick
 //= require Chart.bundle
 //= require local-time
-//= require introjs
 //= require trix/dist/trix
 //= require conversations
 //= require ahoy

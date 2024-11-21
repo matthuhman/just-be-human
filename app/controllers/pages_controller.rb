@@ -19,14 +19,14 @@ class PagesController < ApplicationController
     @cleanups = nil
     sixty_days_ago = Date.today - 60.days
     if @geopoint
-      @cleanups = Cleanup.near([@geopoint.latitude, @geopoint.longitude], 20).where("created_at > :date", date: sixty_days_ago)
+      @cleanups = CleanupZone.near([@geopoint.latitude, @geopoint.longitude], 20).where("created_at > :date", date: sixty_days_ago)
     elsif @location_term
       results = Geocoder.search(@location_term)
       @location = results.first.coordinates
 
-      @cleanups = Cleanup.near(@location_term, 20).where("created_at > :date", date: sixty_days_ago)
+      @cleanups = CleanupZone.near(@location_term, 20).where("created_at > :date", date: sixty_days_ago)
     else
-      @cleanups = Cleanup.near([@latLng[0], @latLng[1]], 20).where("created_at > :date", date: sixty_days_ago)
+      @cleanups = CleanupZone.near([@latLng[0], @latLng[1]], 20).where("created_at > :date", date: sixty_days_ago)
     end
 
     @cleanup_json = @cleanups.to_json.html_safe

@@ -61,7 +61,7 @@
       font-style: normal;
     }
 
-    @include respond-to(handhelds){
+    @include respond-to(medium){
       width: 48%;
       font-size: 1em;
     };

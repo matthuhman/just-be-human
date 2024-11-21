@@ -8,6 +8,8 @@ Rails.application.configure do
 
   routes.default_url_options[:host] = 'localhost:3000'
 
+  config.hosts << "817916c978cf.ngrok.io"
+
   # Do not eager load code on boot.
   config.eager_load = false
 

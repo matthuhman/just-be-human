@@ -47,8 +47,8 @@
 
 
 // NOTE!!!
-// This button is hidden because attachments don't seem to be working correctly. 
-// Images can be pasted into the post and will work correctly but they CANNOT be 
+// This button is hidden because attachments don't seem to be working correctly.
+// Images can be pasted into the post and will work correctly but they CANNOT be
 // attached directly. I don't understand why, but for now this is good enough.
 .trix-button--icon-attach {
   display: none !important;
@@ -57,7 +57,7 @@
 .trix-button {
   font-size: 1.5em !important;
 
-  @include respond-to(handhelds) {
+  @include respond-to(medium) {
     font-size: 1em !important;
   }
 }
